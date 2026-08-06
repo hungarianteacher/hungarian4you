@@ -224,25 +224,38 @@ function speakFallback(text){
 }
 
 // Elsődlegesen a saját mp3 fájlt játssza le (audio/<szó>.mp3).
-// Ha a fájl nem található, automatikusan visszaesik a böngésző beszédszintézisére.
-function speak(text, {onEnd} = {}){
-  return new Promise(resolve => {
-    const audio = new Audio(`audio/${encodeURIComponent(text)}.mp3`);
+// Mac gépeken feltöltött ékezetes fájlnevek gyakran más Unicode-formában
+// (felbontott, NFD) tárolódnak, mint amit a kód alapból várna (összevont, NFC) —
+// ezért mindkét változatot megpróbáljuk, mielőtt a beszédszintézisre esnénk vissza.
+function tryPlayUrl(url){
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
     let settled = false;
-    const finish = () => { if(!settled){ settled = true; if(onEnd) onEnd(); resolve(); } };
-    audio.addEventListener('ended', finish);
-    audio.addEventListener('error', async () => {
-      if(settled) return;
-      document.getElementById('audioNote').classList.add('show');
-      await speakFallback(text);
-      finish();
-    });
-    audio.play().catch(async () => {
-      document.getElementById('audioNote').classList.add('show');
-      await speakFallback(text);
-      finish();
-    });
+    const finish = (ok) => { if(!settled){ settled = true; resolve(ok); } };
+    audio.addEventListener('ended', () => finish(true));
+    audio.addEventListener('error', () => finish(false));
+    audio.play().then(() => {
+      // play() sikeres indítás — de a fájl csak akkor "jó", ha ténylegesen lejátszódik (ended esemény)
+    }).catch(() => finish(false));
   });
+}
+
+async function speak(text, {onEnd} = {}){
+  const candidates = [
+    text,
+    typeof text.normalize === 'function' ? text.normalize('NFC') : text,
+    typeof text.normalize === 'function' ? text.normalize('NFD') : text,
+  ].filter((v, i, arr) => arr.indexOf(v) === i); // duplikátumok kiszűrése
+
+  for (const candidate of candidates) {
+    const ok = await tryPlayUrl(`audio/${encodeURIComponent(candidate)}.mp3`);
+    if (ok) { if (onEnd) onEnd(); return; }
+  }
+
+  // Egyik fájlváltozat sem található — beszédszintézisre váltunk
+  document.getElementById('audioNote').classList.add('show');
+  await speakFallback(text);
+  if (onEnd) onEnd();
 }
 
 /* ---------------- felépítés ---------------- */
