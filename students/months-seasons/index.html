@@ -319,8 +319,10 @@ async function playSequence(items, {highlight} = {}){
 document.getElementById('playAllMonths').addEventListener('click', async (e) => {
   const btn = e.currentTarget;
   btn.disabled = true;
-  const monthCards = Array.from(document.querySelectorAll('.month-card'));
-  await playSequence(monthCards, { highlight: (card, on) => card.classList.toggle('playing', on) });
+  const monthButtons = Array.from(document.querySelectorAll('.month-speak'));
+  await playSequence(monthButtons, {
+    highlight: (b, on) => b.closest('.month-card').classList.toggle('playing', on)
+  });
   btn.disabled = false;
 });
 
