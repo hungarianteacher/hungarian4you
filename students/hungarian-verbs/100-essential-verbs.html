@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Essential Verbs in Hungarian</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F4EF; --surface: #FFFFFF; --surface2: #F0ECE5; --text: #1A1410; --text2: #5C4F3D; --text3: #9B8B78;
+    --accent: #1B6E5C; --accent2: #7FC9B5; --accent-light: #E8F5F1;
+    --present: #1B4F72; --present-light: #EBF5FB; --past: #7D3C98; --past-light: #F4ECF7;
+    --future: #B7950B; --future-light: #FEF9E7; --done: #1D6F42; --done-light: #EAFAF1;
+    --border: rgba(20,60,50,0.12); --shadow: 0 2px 16px rgba(20,60,50,0.1); --radius: 10px;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; min-height: 100vh; }
+  .hero { background: var(--text); color: #F7F4EF; padding: 3.5rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before {
+    content: "vagyok viszek adok kezdek értem küldök"; position: absolute; top: 0; left: 0; right: 0;
+    font-family: 'Crimson Pro', serif; font-size: clamp(40px, 9vw, 92px); font-weight: 300; color: rgba(27,110,92,0.14);
+    letter-spacing: 0.06em; pointer-events: none; white-space: nowrap; overflow: hidden; line-height: 1; padding-top: 0.2em;
+  }
+  .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1rem; }
+  .hero h1 { font-family: 'Crimson Pro', serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 300; line-height: 1.15; margin-bottom: 1rem; position: relative; }
+  .hero h1 em { color: var(--accent2); font-style: italic; }
+  .hero-sub { font-size: 15px; color: rgba(247,244,239,0.65); max-width: 580px; margin: 0 auto; position: relative; }
+  .hero-progress { max-width: 420px; margin: 2rem auto 0; position: relative; background: rgba(27,110,92,0.16); border: 0.5px solid rgba(127,201,181,0.3); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .hero-progress-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--accent2); margin-bottom: 0.6rem; }
+  .hero-progress-track { width: 100%; height: 6px; border-radius: 20px; background: rgba(247,244,239,0.12); overflow: hidden; }
+  .hero-progress-fill { height: 100%; width: 0%; background: var(--accent2); border-radius: 20px; transition: width 0.4s ease; }
+  .main { max-width: 1020px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+  .intro-note { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.25rem; margin-bottom: 2rem; font-size: 14px; color: var(--text); }
+  .intro-note strong { color: var(--accent); }
+  .legend { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 2.5rem; }
+  .legend h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
+  .legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 6px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-pron { font-family: 'Crimson Pro', serif; font-size: 1.1rem; color: var(--accent); min-width: 36px; font-weight: 400; }
+  .legend-en { color: var(--text2); }
+  .search-wrap { position: relative; margin-bottom: 1.5rem; }
+  .search-wrap input { width: 100%; padding: 11px 16px 11px 40px; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.15s; }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 15px; }
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
+  .filter-bar span { font-size: 12px; color: var(--text3); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 4px; }
+  .filter-btn { background: var(--surface); border: 0.5px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text2); transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+  .verb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 3rem; }
+  .verb-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 0.9rem 0.85rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; position: relative; }
+  .verb-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .verb-card.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(27,110,92,0.15); }
+  .verb-card.hidden { display: none; }
+  .verb-card.done { border-color: var(--done); }
+  .vc-num { font-size: 10px; color: var(--text3); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .vc-check { color: var(--done); font-weight: 700; }
+  .vc-hu { font-family: 'Crimson Pro', serif; font-size: 1.6rem; font-weight: 300; color: var(--accent); line-height: 1.1; margin-bottom: 3px; }
+  .vc-arrow { position: absolute; bottom: 8px; right: 10px; font-size: 11px; color: var(--text3); transition: color 0.15s, transform 0.15s; }
+  .verb-card.active .vc-arrow, .verb-card:hover .vc-arrow { color: var(--accent); transform: rotate(90deg); }
+  .conj-panel { display: none; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); margin-bottom: 3rem; overflow: hidden; animation: slideIn 0.2s ease; }
+  .conj-panel.open { display: block; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .conj-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 0.5px solid var(--border); background: var(--surface2); flex-wrap: wrap; gap: 0.75rem; }
+  .conj-title-block { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .conj-title-block h2 { font-family: 'Crimson Pro', serif; font-size: 2rem; font-weight: 300; color: var(--accent); line-height: 1; }
+  .reveal-btn { background: var(--surface); border: 0.5px solid var(--border); border-radius: 20px; padding: 5px 13px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .reveal-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .reveal-btn.revealed { background: var(--accent-light); color: var(--accent); border-color: var(--accent); cursor: default; }
+  #cp-en { font-size: 13px; color: var(--text2); margin-top: 2px; padding: 0 1.5rem; margin-top: -0.5rem; }
+  #cp-en.masked { color: var(--text3); font-style: italic; }
+  .conj-close { background: none; border: 0.5px solid var(--border); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 16px; color: var(--text3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .conj-close:hover { background: var(--surface); color: var(--text); }
+  .conj-body { padding: 1.5rem; }
+  .tense-tabs { display: flex; gap: 6px; padding: 1rem 1.5rem 0; flex-wrap: wrap; }
+  .tense-tab { flex: 1; min-width: 110px; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; padding: 8px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; color: var(--text3); transition: all 0.15s; text-align: center; }
+  .tense-tab:hover { color: var(--text); }
+  .tense-tab.active[data-tense="present"] { background: var(--present-light); color: var(--present); border-color: var(--present); }
+  .tense-tab.active[data-tense="past"] { background: var(--past-light); color: var(--past); border-color: var(--past); }
+  .tense-tab.active[data-tense="future"] { background: var(--future-light); color: var(--future); border-color: var(--future); }
+  .conj-table-wrap { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 1.5rem; }
+  .conj-table-head { padding: 8px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: var(--present-light); color: var(--present); transition: background 0.15s, color 0.15s; }
+  .conj-table-head.past { background: var(--past-light); color: var(--past); }
+  .conj-table-head.future { background: var(--future-light); color: var(--future); }
+  .conj-table { width: 100%; border-collapse: collapse; }
+  .conj-table tr { border-bottom: 0.5px solid var(--border); }
+  .conj-table tr:last-child { border-bottom: none; }
+  .conj-table td { padding: 9px 14px; font-size: 14px; vertical-align: middle; }
+  .conj-table td:first-child { color: var(--text3); font-size: 12px; font-weight: 500; white-space: nowrap; width: 60px; }
+  .conj-form-wrap { display: flex; align-items: center; gap: 8px; }
+  .conj-form { font-family: 'Crimson Pro', serif; font-size: 1.15rem; font-weight: 400; color: var(--text); }
+  .speak-btn { background: var(--surface2); border: 0.5px solid var(--border); border-radius: 50%; width: 26px; height: 26px; min-width: 26px; cursor: pointer; font-size: 12px; color: var(--text2); display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+  .speak-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+  .speak-btn.speaking { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .speak-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
+  .no-speech-note { font-size: 12px; color: var(--text3); margin-top: 0.5rem; display: none; }
+  .no-speech-note.show { display: block; }
+  .practice-block { border-top: 0.5px solid var(--border); padding-top: 1.25rem; }
+  .practice-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); display: block; margin-bottom: 0.6rem; }
+  .practice-input { width: 100%; padding: 10px 14px; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; resize: none; transition: border-color 0.15s; }
+  .practice-input:focus { border-color: var(--accent); }
+  .practice-hint { font-size: 11px; color: var(--text3); margin-top: 6px; }
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--text3); border-top: 0.5px solid var(--border); margin-top: 1rem; }
+  @media (max-width: 600px) { .verb-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } .main { padding: 1.5rem 1rem; } .conj-body { padding: 1rem; } .tense-tabs { padding: 0.85rem 1rem 0; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="hero-eyebrow">Hungarian for English speakers · Volume Two</p>
+  <h1>100 Essential<br><em>Verbs in Hungarian</em></h1>
+  <p class="hero-sub">Click any verb to see its conjugation in the present, past, and future indefinite tenses across all six persons. Reveal the English meaning when you're ready to check yourself, listen to each form, then write your own sentence to lock it in. This set has no overlap with the 50-verb list — every-day, conversational verbs only.</p>
+  <div class="hero-progress">
+    <div class="hero-progress-row"><span id="progress-text">0 / 100 verbs practiced</span><span id="progress-percent">0%</span></div>
+    <div class="hero-progress-track"><div class="hero-progress-fill" id="progress-fill"></div></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="intro-note"><strong>How to use this list:</strong> each card holds one verb's conjugation in three indefinite tenses — present (jelen idő), past (múlt idő), and future (jövő idő), all used with no specific object in mind. Open a card, switch tabs, try to recall the six forms before revealing the English meaning, then write a short sentence in the practice box to make it stick.</div>
+
+  <div class="legend">
+    <h3>Personal pronouns</h3>
+    <div class="legend-grid">
+      <div class="legend-row"><span class="legend-pron">én</span><span class="legend-en">I (1st sg.)</span></div>
+      <div class="legend-row"><span class="legend-pron">te</span><span class="legend-en">you (2nd sg.)</span></div>
+      <div class="legend-row"><span class="legend-pron">ő</span><span class="legend-en">he / she / it (3rd sg.)</span></div>
+      <div class="legend-row"><span class="legend-pron">mi</span><span class="legend-en">we (1st pl.)</span></div>
+      <div class="legend-row"><span class="legend-pron">ti</span><span class="legend-en">you (2nd pl.)</span></div>
+      <div class="legend-row"><span class="legend-pron">ők</span><span class="legend-en">they (3rd pl.)</span></div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span>Filter:</span>
+    <button class="filter-btn active" data-filter="all">All 100</button>
+    <button class="filter-btn" data-filter="done">Practiced</button>
+    <button class="filter-btn" data-filter="todo">Not yet</button>
+  </div>
+
+  <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" id="search-input" placeholder="Search by Hungarian verb…" autocomplete="off"></div>
+
+  <div class="verb-grid" id="verb-grid"></div>
+
+  <div class="conj-panel" id="conj-panel">
+    <div class="conj-header">
+      <div class="conj-title-block"><h2 id="cp-hu"></h2><button class="reveal-btn" id="reveal-btn">Show meaning</button></div>
+      <button class="conj-close" id="conj-close" title="Close">✕</button>
+    </div>
+    <p id="cp-en" class="masked"></p>
+    <div class="tense-tabs" id="tense-tabs">
+      <button class="tense-tab active" data-tense="present">Jelen idő<br>Present</button>
+      <button class="tense-tab" data-tense="past">Múlt idő<br>Past</button>
+      <button class="tense-tab" data-tense="future">Jövő idő<br>Future</button>
+    </div>
+    <div class="conj-body">
+      <div class="conj-table-wrap"><div class="conj-table-head" id="conj-table-head">Jelen idő — Present tense</div><table class="conj-table" id="conj-table"></table></div>
+      <p class="no-speech-note" id="no-speech-note">Your browser doesn't support spoken audio, so the speaker icons are disabled here.</p>
+      <div class="practice-block">
+        <label class="practice-label" for="practice-input">Write your own sentence</label>
+        <textarea id="practice-input" class="practice-input" rows="2" placeholder="Írj egy mondatot ezzel az igével…"></textarea>
+        <p class="practice-hint">Your progress is tracked for this session.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Magyar igék · 100 alapvető ige a mindennapi beszélgetéshez · Jelen, múlt és jövő idő</footer>
+
+<script>
+const pronouns = ["én","te","ő","mi","ti","ők"];
+const fogConj = ["fogok","fogsz","fog","fogunk","fogtok","fognak"];
+
+const verbs = [
+  { hu: "lenni", en: "to be", present: ["vagyok","vagy","van","vagyunk","vagytok","vannak"], past: ["voltam","voltál","volt","voltunk","voltatok","voltak"] },
+  { hu: "venni", en: "to take / buy", present: ["veszek","veszel","vesz","veszünk","vesztek","vesznek"], past: ["vettem","vettél","vett","vettünk","vettetek","vettek"] },
+  { hu: "adni", en: "to give", present: ["adok","adsz","ad","adunk","adtok","adnak"], past: ["adtam","adtál","adott","adtunk","adtatok","adtak"] },
+  { hu: "tenni", en: "to put / do", present: ["teszek","teszel","tesz","teszünk","tesztek","tesznek"], past: ["tettem","tettél","tett","tettünk","tettetek","tettek"] },
+  { hu: "csinálni", en: "to do / make", present: ["csinálok","csinálsz","csinál","csinálunk","csináltok","csinálnak"], past: ["csináltam","csináltál","csinált","csináltunk","csináltatok","csináltak"] },
+  { hu: "dolgozni", en: "to work", present: ["dolgozom","dolgozol","dolgozik","dolgozunk","dolgoztok","dolgoznak"], past: ["dolgoztam","dolgoztál","dolgozott","dolgoztunk","dolgoztatok","dolgoztak"] },
+  { hu: "lakni", en: "to live / reside", present: ["lakom","laksz","lakik","lakunk","laktok","laknak"], past: ["laktam","laktál","lakott","laktunk","laktatok","laktak"] },
+  { hu: "ülni", en: "to sit", present: ["ülök","ülsz","ül","ülünk","ültök","ülnek"], past: ["ültem","ültél","ült","ültünk","ültetek","ültek"] },
+  { hu: "állni", en: "to stand", present: ["állok","állsz","áll","állunk","álltok","állnak"], past: ["álltam","álltál","állt","álltunk","álltatok","álltak"] },
+  { hu: "feküdni", en: "to lie down", present: ["fekszem","fekszel","fekszik","fekszünk","fekszetek","fekszenek"], past: ["feküdtem","feküdtél","feküdt","feküdtünk","feküdtetek","feküdtek"] },
+  { hu: "nézni", en: "to watch / look", present: ["nézek","nézel","néz","nézünk","néztek","néznek"], past: ["néztem","néztél","nézett","néztünk","néztetek","néztek"] },
+  { hu: "figyelni", en: "to pay attention", present: ["figyelek","figyelsz","figyel","figyelünk","figyeltek","figyelnek"], past: ["figyeltem","figyeltél","figyelt","figyeltünk","figyeltetek","figyeltek"] },
+  { hu: "keresni", en: "to look for / search", present: ["keresek","keresel","keres","keresünk","kerestek","keresnek"], past: ["kerestem","kerestél","keresett","kerestünk","kerestetek","kerestek"] },
+  { hu: "találni", en: "to find", present: ["találok","találsz","talál","találunk","találtok","találnak"], past: ["találtam","találtál","talált","találtunk","találtatok","találtak"] },
+  { hu: "veszíteni", en: "to lose", present: ["veszítek","veszítesz","veszít","veszítünk","veszítetek","veszítenek"], past: ["veszítettem","veszítettél","veszített","veszítettünk","veszítettetek","veszítettek"] },
+  { hu: "nyerni", en: "to win", present: ["nyerek","nyersz","nyer","nyerünk","nyertek","nyernek"], past: ["nyertem","nyertél","nyert","nyertünk","nyertetek","nyertek"] },
+  { hu: "kezdeni", en: "to start", present: ["kezdek","kezdesz","kezd","kezdünk","kezdtek","kezdenek"], past: ["kezdtem","kezdtél","kezdett","kezdtünk","kezdtetek","kezdtek"] },
+  { hu: "maradni", en: "to stay", present: ["maradok","maradsz","marad","maradunk","maradtok","maradnak"], past: ["maradtam","maradtál","maradt","maradtunk","maradtatok","maradtak"] },
+  { hu: "változni", en: "to change (become different)", present: ["változom","változol","változik","változunk","változtok","változnak"], past: ["változtam","változtál","változott","változtunk","változtatok","változtak"] },
+  { hu: "mozogni", en: "to move", present: ["mozgok","mozogsz","mozog","mozgunk","mozogtok","mozognak"], past: ["mozogtam","mozogtál","mozgott","mozogtunk","mozogtatok","mozogtak"] },
+  { hu: "utazni", en: "to travel", present: ["utazom","utazol","utazik","utazunk","utaztok","utaznak"], past: ["utaztam","utaztál","utazott","utaztunk","utaztatok","utaztak"] },
+  { hu: "repülni", en: "to fly", present: ["repülök","repülsz","repül","repülünk","repültök","repülnek"], past: ["repültem","repültél","repült","repültünk","repültetek","repültek"] },
+  { hu: "vezetni", en: "to drive / lead", present: ["vezetek","vezetsz","vezet","vezetünk","vezettek","vezetnek"], past: ["vezettem","vezettél","vezetett","vezettünk","vezettetek","vezettek"] },
+  { hu: "sietni", en: "to hurry", present: ["sietek","sietsz","siet","sietünk","siettek","sietnek"], past: ["siettem","siettél","sietett","siettünk","siettetek","siettek"] },
+  { hu: "késni", en: "to be late", present: ["kések","késel","késik","késünk","késtek","késnek"], past: ["késtem","késtél","késett","késtünk","késtetek","késtek"] },
+  { hu: "indulni", en: "to depart / set off", present: ["indulok","indulsz","indul","indulunk","indultok","indulnak"], past: ["indultam","indultál","indult","indultunk","indultatok","indultak"] },
+  { hu: "vigyázni", en: "to be careful / watch out", present: ["vigyázok","vigyázol","vigyáz","vigyázunk","vigyáztok","vigyáznak"], past: ["vigyáztam","vigyáztál","vigyázott","vigyáztunk","vigyáztatok","vigyáztak"] },
+  { hu: "tanítani", en: "to teach", present: ["tanítok","tanítasz","tanít","tanítunk","tanítotok","tanítanak"], past: ["tanítottam","tanítottál","tanított","tanítottunk","tanítottatok","tanítottak"] },
+  { hu: "javasolni", en: "to suggest", present: ["javasolok","javasolsz","javasol","javasolunk","javasoltok","javasolnak"], past: ["javasoltam","javasoltál","javasolt","javasoltunk","javasoltatok","javasoltak"] },
+  { hu: "dönteni", en: "to decide", present: ["döntök","döntesz","dönt","döntünk","döntötök","döntenek"], past: ["döntöttem","döntöttél","döntött","döntöttünk","döntöttetek","döntöttek"] },
+  { hu: "gondolkodni", en: "to think / ponder", present: ["gondolkodom","gondolkodsz","gondolkodik","gondolkodunk","gondolkodtok","gondolkodnak"], past: ["gondolkodtam","gondolkodtál","gondolkodott","gondolkodtunk","gondolkodtatok","gondolkodtak"] },
+  { hu: "emlékezni", en: "to remember", present: ["emlékszem","emlékszel","emlékszik","emlékszünk","emlékeztek","emlékeznek"], past: ["emlékeztem","emlékeztél","emlékezett","emlékeztünk","emlékeztetek","emlékeztek"] },
+  { hu: "felejteni", en: "to forget", present: ["felejtek","felejtesz","felejt","felejtünk","felejtetek","felejtenek"], past: ["felejtettem","felejtettél","felejtett","felejtettünk","felejtettetek","felejtettek"] },
+  { hu: "ismerni", en: "to know (someone / something)", present: ["ismerek","ismersz","ismer","ismerünk","ismertek","ismernek"], past: ["ismertem","ismertél","ismert","ismertünk","ismertetek","ismertek"] },
+  { hu: "érteni", en: "to understand", present: ["értek","értesz","ért","értünk","értetek","értenek"], past: ["értettem","értettél","értett","értettünk","értettetek","értettek"] },
+  { hu: "magyarázni", en: "to explain", present: ["magyarázok","magyarázol","magyaráz","magyarázunk","magyaráztok","magyaráznak"], past: ["magyaráztam","magyaráztál","magyarázott","magyaráztunk","magyaráztatok","magyaráztak"] },
+  { hu: "fordítani", en: "to translate", present: ["fordítok","fordítasz","fordít","fordítunk","fordítotok","fordítanak"], past: ["fordítottam","fordítottál","fordított","fordítottunk","fordítottatok","fordítottak"] },
+  { hu: "pihenni", en: "to rest", present: ["pihenek","pihensz","pihen","pihenünk","pihentek","pihennek"], past: ["pihentem","pihentél","pihent","pihentünk","pihentetek","pihentek"] },
+  { hu: "ébredni", en: "to wake up", present: ["ébredek","ébredsz","ébred","ébredünk","ébredtek","ébrednek"], past: ["ébredtem","ébredtél","ébredt","ébredtünk","ébredtetek","ébredtek"] },
+  { hu: "felkelni", en: "to get up", present: ["felkelek","felkelsz","felkel","felkelünk","felkeltek","felkelnek"], past: ["felkeltem","felkeltél","felkelt","felkeltünk","felkeltetek","felkeltek"] },
+  { hu: "lefeküdni", en: "to go to bed", present: ["lefekszem","lefekszel","lefekszik","lefekszünk","lefekszetek","lefekszenek"], past: ["lefeküdtem","lefeküdtél","lefeküdt","lefeküdtünk","lefeküdtetek","lefeküdtek"] },
+  { hu: "zuhanyozni", en: "to shower", present: ["zuhanyozom","zuhanyozol","zuhanyozik","zuhanyozunk","zuhanyoztok","zuhanyoznak"], past: ["zuhanyoztam","zuhanyoztál","zuhanyozott","zuhanyoztunk","zuhanyoztatok","zuhanyoztak"] },
+  { hu: "mosakodni", en: "to wash oneself", present: ["mosakodom","mosakodol","mosakodik","mosakodunk","mosakodtok","mosakodnak"], past: ["mosakodtam","mosakodtál","mosakodott","mosakodtunk","mosakodtatok","mosakodtak"] },
+  { hu: "fürdeni", en: "to bathe", present: ["fürdöm","fürdesz","fürdik","fürdünk","fürödtök","fürdenek"], past: ["fürödtem","fürödtél","fürdött","fürödtünk","fürödtetek","fürödtek"] },
+  { hu: "öltözni", en: "to get dressed", present: ["öltözöm","öltözöl","öltözik","öltözünk","öltöztök","öltöznek"], past: ["öltöztem","öltöztél","öltözött","öltöztünk","öltöztetek","öltöztek"] },
+  { hu: "vetkőzni", en: "to undress", present: ["vetkőzöm","vetkőzöl","vetkőzik","vetkőzünk","vetkőztök","vetkőznek"], past: ["vetkőztem","vetkőztél","vetkőzött","vetkőztünk","vetkőztetek","vetkőztek"] },
+  { hu: "mosogatni", en: "to wash the dishes", present: ["mosogatok","mosogatsz","mosogat","mosogatunk","mosogattok","mosogatnak"], past: ["mosogattam","mosogattál","mosogatott","mosogattunk","mosogattatok","mosogattak"] },
+  { hu: "söpörni", en: "to sweep", present: ["söpörök","söpörsz","söpör","söprünk","söpörtök","söpörnek"], past: ["söpörtem","söpörtél","söpört","söpörtünk","söpörtetek","söpörtek"] },
+  { hu: "vasalni", en: "to iron", present: ["vasalok","vasalsz","vasal","vasalunk","vasaltok","vasalnak"], past: ["vasaltam","vasaltál","vasalt","vasaltunk","vasaltatok","vasaltak"] },
+  { hu: "varrni", en: "to sew", present: ["varrok","varrsz","varr","varrunk","varrtok","varrnak"], past: ["varrtam","varrtál","varrt","varrtunk","varrtatok","varrtak"] },
+  { hu: "javítani", en: "to fix / repair", present: ["javítok","javítasz","javít","javítunk","javítotok","javítanak"], past: ["javítottam","javítottál","javított","javítottunk","javítottatok","javítottak"] },
+  { hu: "törni", en: "to break", present: ["török","törsz","tör","törünk","törtök","törnek"], past: ["törtem","törtél","tört","törtünk","törtetek","törtek"] },
+  { hu: "nyitni", en: "to open", present: ["nyitok","nyitsz","nyit","nyitunk","nyittok","nyitnak"], past: ["nyitottam","nyitottál","nyitott","nyitottunk","nyitottatok","nyitottak"] },
+  { hu: "zárni", en: "to close", present: ["zárok","zársz","zár","zárunk","zártok","zárnak"], past: ["zártam","zártál","zárt","zártunk","zártatok","zártak"] },
+  { hu: "kapcsolni", en: "to switch / connect", present: ["kapcsolok","kapcsolsz","kapcsol","kapcsolunk","kapcsoltok","kapcsolnak"], past: ["kapcsoltam","kapcsoltál","kapcsolt","kapcsoltunk","kapcsoltatok","kapcsoltak"] },
+  { hu: "tölteni", en: "to charge / spend (time) / fill", present: ["töltök","töltesz","tölt","töltünk","töltötök","töltenek"], past: ["töltöttem","töltöttél","töltött","töltöttünk","töltöttetek","töltöttek"] },
+  { hu: "fizetni", en: "to pay", present: ["fizetek","fizetsz","fizet","fizetünk","fizettek","fizetnek"], past: ["fizettem","fizettél","fizetett","fizettünk","fizettetek","fizettek"] },
+  { hu: "költeni", en: "to spend (money)", present: ["költök","költesz","költ","költünk","költötök","költenek"], past: ["költöttem","költöttél","költött","költöttünk","költöttetek","költöttek"] },
+  { hu: "spórolni", en: "to save (money)", present: ["spórolok","spórolsz","spórol","spórolunk","spóroltok","spórolnak"], past: ["spóroltam","spóroltál","spórolt","spóroltunk","spóroltatok","spóroltak"] },
+  { hu: "eladni", en: "to sell", present: ["eladok","eladsz","elad","eladunk","eladtok","eladnak"], past: ["eladtam","eladtál","eladott","eladtunk","eladtatok","eladtak"] },
+  { hu: "cserélni", en: "to exchange", present: ["cserélek","cserélsz","cserél","cserélünk","cseréltek","cserélnek"], past: ["cseréltem","cseréltél","cserélt","cseréltünk","cseréltetek","cseréltek"] },
+  { hu: "beszélgetni", en: "to chat / converse", present: ["beszélgetek","beszélgetsz","beszélget","beszélgetünk","beszélgettek","beszélgetnek"], past: ["beszélgettem","beszélgettél","beszélgetett","beszélgettünk","beszélgettetek","beszélgettek"] },
+  { hu: "küldeni", en: "to send", present: ["küldök","küldesz","küld","küldünk","küldtök","küldenek"], past: ["küldtem","küldtél","küldött","küldtünk","küldtetek","küldtek"] },
+  { hu: "kapni", en: "to receive / get", present: ["kapok","kapsz","kap","kapunk","kaptok","kapnak"], past: ["kaptam","kaptál","kapott","kaptunk","kaptatok","kaptak"] },
+  { hu: "hozni", en: "to bring", present: ["hozok","hozol","hoz","hozunk","hoztok","hoznak"], past: ["hoztam","hoztál","hozott","hoztunk","hoztatok","hoztak"] },
+  { hu: "vinni", en: "to carry / take (along)", present: ["viszek","viszel","visz","viszünk","visztek","visznek"], past: ["vittem","vittél","vitt","vittünk","vittetek","vittek"] },
+  { hu: "csomagolni", en: "to pack", present: ["csomagolok","csomagolsz","csomagol","csomagolunk","csomagoltok","csomagolnak"], past: ["csomagoltam","csomagoltál","csomagolt","csomagoltunk","csomagoltatok","csomagoltak"] },
+  { hu: "rakni", en: "to put / place", present: ["rakok","raksz","rak","rakunk","raktok","raknak"], past: ["raktam","raktál","rakott","raktunk","raktatok","raktak"] },
+  { hu: "felvenni", en: "to pick up / put on", present: ["felveszek","felveszel","felvesz","felveszünk","felvesztek","felvesznek"], past: ["felvettem","felvettél","felvett","felvettünk","felvettetek","felvettek"] },
+  { hu: "leülni", en: "to sit down", present: ["leülök","leülsz","leül","leülünk","leültök","leülnek"], past: ["leültem","leültél","leült","leültünk","leültetek","leültek"] },
+  { hu: "felállni", en: "to stand up", present: ["felállok","felállsz","feláll","felállunk","felálltok","felállnak"], past: ["felálltam","felálltál","felállt","felálltunk","felálltatok","felálltak"] },
+  { hu: "mosolyogni", en: "to smile", present: ["mosolygok","mosolyogsz","mosolyog","mosolygunk","mosolyogtok","mosolyognak"], past: ["mosolyogtam","mosolyogtál","mosolygott","mosolyogtunk","mosolyogtatok","mosolyogtak"] },
+  { hu: "kiabálni", en: "to shout", present: ["kiabálok","kiabálsz","kiabál","kiabálunk","kiabáltok","kiabálnak"], past: ["kiabáltam","kiabáltál","kiabált","kiabáltunk","kiabáltatok","kiabáltak"] },
+  { hu: "suttogni", en: "to whisper", present: ["suttogok","suttogsz","suttog","suttogunk","suttogtok","suttognak"], past: ["suttogtam","suttogtál","suttogott","suttogtunk","suttogtatok","suttogtak"] },
+  { hu: "panaszkodni", en: "to complain", present: ["panaszkodom","panaszkodol","panaszkodik","panaszkodunk","panaszkodtok","panaszkodnak"], past: ["panaszkodtam","panaszkodtál","panaszkodott","panaszkodtunk","panaszkodtatok","panaszkodtak"] },
+  { hu: "dicsérni", en: "to praise", present: ["dicsérek","dicsérsz","dicsér","dicsérünk","dicsértek","dicsérnek"], past: ["dicsértem","dicsértél","dicsért","dicsértünk","dicsértetek","dicsértek"] },
+  { hu: "köszönni", en: "to greet / thank", present: ["köszönök","köszönsz","köszön","köszönünk","köszöntök","köszönnek"], past: ["köszöntem","köszöntél","köszönt","köszöntünk","köszöntetek","köszöntek"] },
+  { hu: "gratulálni", en: "to congratulate", present: ["gratulálok","gratulálsz","gratulál","gratulálunk","gratuláltok","gratulálnak"], past: ["gratuláltam","gratuláltál","gratulált","gratuláltunk","gratuláltatok","gratuláltak"] },
+  { hu: "meghívni", en: "to invite", present: ["meghívok","meghívsz","meghív","meghívunk","meghívtok","meghívnak"], past: ["meghívtam","meghívtál","meghívott","meghívtunk","meghívtatok","meghívtak"] },
+  { hu: "látogatni", en: "to visit", present: ["látogatok","látogatsz","látogat","látogatunk","látogattok","látogatnak"], past: ["látogattam","látogattál","látogatott","látogattunk","látogattatok","látogattak"] },
+  { hu: "találkozni", en: "to meet", present: ["találkozom","találkozol","találkozik","találkozunk","találkoztok","találkoznak"], past: ["találkoztam","találkoztál","találkozott","találkoztunk","találkoztatok","találkoztak"] },
+  { hu: "ismerkedni", en: "to get acquainted", present: ["ismerkedem","ismerkedsz","ismerkedik","ismerkedünk","ismerkedtek","ismerkednek"], past: ["ismerkedtem","ismerkedtél","ismerkedett","ismerkedtünk","ismerkedtetek","ismerkedtek"] },
+  { hu: "utálni", en: "to hate / dislike", present: ["utálok","utálsz","utál","utálunk","utáltok","utálnak"], past: ["utáltam","utáltál","utált","utáltunk","utáltatok","utáltak"] },
+  { hu: "kedvelni", en: "to like / be fond of", present: ["kedvelek","kedvelsz","kedvel","kedvelünk","kedveltek","kedvelnek"], past: ["kedveltem","kedveltél","kedvelt","kedveltünk","kedveltetek","kedveltek"] },
+  { hu: "csodálni", en: "to admire", present: ["csodálok","csodálsz","csodál","csodálunk","csodáltok","csodálnak"], past: ["csodáltam","csodáltál","csodált","csodáltunk","csodáltatok","csodáltak"] },
+  { hu: "félni", en: "to be afraid", present: ["félek","félsz","fél","félünk","féltek","félnek"], past: ["féltem","féltél","félt","féltünk","féltetek","féltek"] },
+  { hu: "aggódni", en: "to worry", present: ["aggódom","aggódsz","aggódik","aggódunk","aggódtok","aggódnak"], past: ["aggódtam","aggódtál","aggódott","aggódtunk","aggódtatok","aggódtak"] },
+  { hu: "örülni", en: "to be glad", present: ["örülök","örülsz","örül","örülünk","örültök","örülnek"], past: ["örültem","örültél","örült","örültünk","örültetek","örültek"] },
+  { hu: "sajnálni", en: "to be sorry / regret", present: ["sajnálok","sajnálsz","sajnál","sajnálunk","sajnáltok","sajnálnak"], past: ["sajnáltam","sajnáltál","sajnált","sajnáltunk","sajnáltatok","sajnáltak"] },
+  { hu: "remélni", en: "to hope", present: ["remélek","remélsz","remél","remélünk","reméltek","remélnek"], past: ["reméltem","reméltél","remélt","reméltünk","reméltetek","reméltek"] },
+  { hu: "kívánni", en: "to wish", present: ["kívánok","kívánsz","kíván","kívánunk","kívántok","kívánnak"], past: ["kívántam","kívántál","kívánt","kívántunk","kívántatok","kívántak"] },
+  { hu: "akarni", en: "to want", present: ["akarok","akarsz","akar","akarunk","akartok","akarnak"], past: ["akartam","akartál","akart","akartunk","akartatok","akartak"] },
+  { hu: "unatkozni", en: "to be bored", present: ["unatkozom","unatkozol","unatkozik","unatkozunk","unatkoztok","unatkoznak"], past: ["unatkoztam","unatkoztál","unatkozott","unatkoztunk","unatkoztatok","unatkoztak"] },
+  { hu: "bírni", en: "to be able to / manage", present: ["bírok","bírsz","bír","bírunk","bírtok","bírnak"], past: ["bírtam","bírtál","bírt","bírtunk","bírtatok","bírtak"] },
+  { hu: "próbálni", en: "to try", present: ["próbálok","próbálsz","próbál","próbálunk","próbáltok","próbálnak"], past: ["próbáltam","próbáltál","próbált","próbáltunk","próbáltatok","próbáltak"] },
+  { hu: "gyakorolni", en: "to practice", present: ["gyakorolok","gyakorolsz","gyakorol","gyakorolunk","gyakoroltok","gyakorolnak"], past: ["gyakoroltam","gyakoroltál","gyakorolt","gyakoroltunk","gyakoroltatok","gyakoroltak"] },
+  { hu: "ismételni", en: "to repeat", present: ["ismétlek","ismételsz","ismétel","ismétlünk","ismételtek","ismételnek"], past: ["ismételtem","ismételtél","ismételt","ismételtünk","ismételtetek","ismételtek"] },
+  { hu: "folytatni", en: "to continue", present: ["folytatok","folytatsz","folytat","folytatunk","folytattok","folytatnak"], past: ["folytattam","folytattál","folytatott","folytattunk","folytattatok","folytattak"] },
+  { hu: "abbahagyni", en: "to stop (doing something)", present: ["abbahagyok","abbahagysz","abbahagy","abbahagyunk","abbahagytok","abbahagynak"], past: ["abbahagytam","abbahagytál","abbahagyott","abbahagytunk","abbahagytatok","abbahagytak"] },
+  { hu: "sportolni", en: "to do sports", present: ["sportolok","sportolsz","sportol","sportolunk","sportoltok","sportolnak"], past: ["sportoltam","sportoltál","sportolt","sportoltunk","sportoltatok","sportoltak"] }
+];
+
+verbs.forEach(v => { v.future = fogConj.map(f => `${f} ${v.hu}`); });
+
+const tenseLabels = { present: "Jelen idő — Present tense", past: "Múlt idő — Past tense", future: "Jövő idő — Future tense" };
+
+let currentVerb = null;
+let currentTense = 'present';
+let meaningRevealed = false;
+let activeFilter = 'all';
+const practiceSentences = {};
+
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice() {
+  if (!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if (speechSupported) { pickHungarianVoice(); window.speechSynthesis.onvoiceschanged = pickHungarianVoice; }
+function speak(text, btn) {
+  if (!speechSupported) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'hu-HU';
+  if (huVoice) utter.voice = huVoice;
+  utter.rate = 0.9;
+  if (btn) {
+    document.querySelectorAll('.speak-btn.speaking').forEach(b => b.classList.remove('speaking'));
+    btn.classList.add('speaking');
+    utter.onend = () => btn.classList.remove('speaking');
+    utter.onerror = () => btn.classList.remove('speaking');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+function updateProgress() {
+  const done = Object.values(practiceSentences).filter(t => t && t.trim().length > 0).length;
+  const percent = Math.round((done / verbs.length) * 100);
+  document.getElementById('progress-text').textContent = `${done} / ${verbs.length} verbs practiced`;
+  document.getElementById('progress-percent').textContent = `${percent}%`;
+  document.getElementById('progress-fill').style.width = `${percent}%`;
+}
+
+function buildGrid() {
+  const grid = document.getElementById('verb-grid');
+  grid.innerHTML = '';
+  verbs.forEach((v, i) => {
+    const isDone = !!(practiceSentences[i] && practiceSentences[i].trim().length > 0);
+    const card = document.createElement('div');
+    card.className = 'verb-card' + (isDone ? ' done' : '');
+    card.dataset.index = i;
+    card.dataset.hu = v.hu.toLowerCase();
+    card.dataset.done = isDone ? 'done' : 'todo';
+    card.innerHTML = `
+      <div class="vc-num"><span>${String(i+1).padStart(3,'0')}</span>${isDone ? '<span class="vc-check">✓</span>' : ''}</div>
+      <div class="vc-hu">${v.hu}</div>
+      <span class="vc-arrow">▼</span>
+    `;
+    card.addEventListener('click', () => toggleVerb(i, card));
+    grid.appendChild(card);
+  });
+}
+
+function toggleVerb(idx, card) {
+  const panel = document.getElementById('conj-panel');
+  if (currentVerb === idx && panel.classList.contains('open')) {
+    panel.classList.remove('open');
+    card.classList.remove('active');
+    currentVerb = null;
+    return;
+  }
+  document.querySelectorAll('.verb-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  currentVerb = idx;
+  meaningRevealed = false;
+  currentTense = 'present';
+  openPanel(idx);
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+function openPanel(idx) {
+  const v = verbs[idx];
+  const panel = document.getElementById('conj-panel');
+  document.getElementById('cp-hu').textContent = v.hu;
+  renderMeaning(v);
+  setActiveTab(currentTense);
+  renderConjugation(idx, currentTense);
+  document.getElementById('no-speech-note').classList.toggle('show', !speechSupported);
+
+  const input = document.getElementById('practice-input');
+  input.value = practiceSentences[idx] || '';
+  input.oninput = (e) => {
+    practiceSentences[idx] = e.target.value;
+    updateProgress();
+    const card = document.querySelector(`.verb-card[data-index="${idx}"]`);
+    if (card) {
+      const isDone = e.target.value.trim().length > 0;
+      card.classList.toggle('done', isDone);
+      card.dataset.done = isDone ? 'done' : 'todo';
+      const check = card.querySelector('.vc-check');
+      if (isDone && !check) {
+        card.querySelector('.vc-num').insertAdjacentHTML('beforeend', '<span class="vc-check">✓</span>');
+      } else if (!isDone && check) { check.remove(); }
+    }
+  };
+
+  panel.classList.add('open');
+}
+
+function renderMeaning(v) {
+  const cpEn = document.getElementById('cp-en');
+  const btn = document.getElementById('reveal-btn');
+  if (meaningRevealed) {
+    cpEn.textContent = v.en; cpEn.classList.remove('masked');
+    btn.textContent = 'Meaning shown'; btn.classList.add('revealed');
+  } else {
+    cpEn.textContent = 'Meaning hidden — test yourself first'; cpEn.classList.add('masked');
+    btn.textContent = 'Show meaning'; btn.classList.remove('revealed');
+  }
+}
+
+document.getElementById('reveal-btn').addEventListener('click', () => {
+  if (currentVerb === null) return;
+  meaningRevealed = true;
+  renderMeaning(verbs[currentVerb]);
+});
+
+function setActiveTab(tense) {
+  document.querySelectorAll('.tense-tab').forEach(t => t.classList.toggle('active', t.dataset.tense === tense));
+  const head = document.getElementById('conj-table-head');
+  head.textContent = tenseLabels[tense];
+  head.classList.remove('past', 'future');
+  if (tense === 'past') head.classList.add('past');
+  if (tense === 'future') head.classList.add('future');
+}
+
+document.getElementById('tense-tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tense-tab');
+  if (!btn || currentVerb === null) return;
+  currentTense = btn.dataset.tense;
+  setActiveTab(currentTense);
+  renderConjugation(currentVerb, currentTense);
+});
+
+function renderConjugation(idx, tense) {
+  const v = verbs[idx];
+  const forms = v[tense];
+  const table = document.getElementById('conj-table');
+  let rows = '';
+  pronouns.forEach((p, i) => {
+    const form = forms[i];
+    rows += `<tr><td>${p}</td><td><div class="conj-form-wrap"><button class="speak-btn" ${!speechSupported ? 'disabled' : ''} data-text="${form.replace(/"/g,'&quot;')}" title="Listen">🔊</button><span class="conj-form">${form}</span></div></td></tr>`;
+  });
+  table.innerHTML = rows;
+  table.querySelectorAll('.speak-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); speak(btn.dataset.text, btn); });
+  });
+}
+
+document.getElementById('conj-close').addEventListener('click', () => {
+  document.getElementById('conj-panel').classList.remove('open');
+  document.querySelectorAll('.verb-card').forEach(c => c.classList.remove('active'));
+  if (speechSupported) window.speechSynthesis.cancel();
+  currentVerb = null;
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    applyFilter();
+  });
+});
+
+document.getElementById('search-input').addEventListener('input', applyFilter);
+
+function applyFilter() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  document.querySelectorAll('.verb-card').forEach(card => {
+    const doneMatch = activeFilter === 'all' || card.dataset.done === activeFilter;
+    const searchMatch = !q || card.dataset.hu.includes(q);
+    card.classList.toggle('hidden', !(doneMatch && searchMatch));
+  });
+}
+
+buildGrid();
+updateProgress();
+</script>
+</body>
+</html>
