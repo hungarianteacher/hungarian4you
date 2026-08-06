@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizenship Interview — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #FAF4E6;
+    --paper-deep: #F0E9D6;
+    --card: #FFFDF8;
+    --ink: #2B241D;
+    --ink-soft: #6B6155;
+    --red: #B6371F;
+    --red-deep: #7E2513;
+    --green: #2F6E4F;
+    --green-deep: #1E4A34;
+    --line: #E4D9BF;
+    --line-soft: #F0E9D6;
+    --focus: #2F6E4F;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse at top left, rgba(255,255,255,0.35), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    opacity:0.05;
+    background-image:
+      repeating-linear-gradient(0deg, #000 0px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90deg, #000 0px, transparent 1px, transparent 3px);
+    mix-blend-mode:multiply;
+  }
+
+  .breadcrumb { max-width: 1180px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--ink-soft); }
+  .breadcrumb a { color: var(--red); text-decoration: none; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:20px 24px 80px;
+  }
+
+  /* ---------- HEADER : dossier cover ---------- */
+  header.cover{
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 24px -18px rgba(30,20,10,0.5);
+    padding:26px 28px 22px;
+    position:relative;
+    margin-bottom:22px;
+  }
+  header.cover::after{
+    content:"";
+    position:absolute; left:0; right:0; top:0; height:6px;
+    background: linear-gradient(90deg, var(--red) 0 33.33%, #f4f1e6 33.33% 66.66%, var(--green) 66.66% 100%);
+    opacity:0.85;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:0 0 8px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(26px,4vw,38px);
+    line-height:1.08;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  h1 .bi-en{
+    display:block;
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin-top:8px;
+  }
+  .cover-sub{
+    font-size:15px;
+    color:var(--ink-soft);
+    max-width:70ch;
+    line-height:1.55;
+    margin:14px 0 0;
+    padding-top:14px;
+    border-top:1px dashed var(--line);
+  }
+  .cover-sub .bi-en{display:block; margin-top:6px; font-style:italic; font-size:13.5px;}
+  .cover-sub strong{color:var(--ink);}
+
+  /* ---------- MOTTO / STAMP CALLOUT ---------- */
+  .motto-box{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:6px solid var(--red);
+    padding:20px 26px;
+    border-radius:2px;
+    text-align:center;
+    margin-bottom:22px;
+    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
+    position:relative;
+  }
+  .motto-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .motto-hu{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.5rem;
+    color:var(--red-deep);
+    margin:0.2rem 0;
+  }
+  .motto-en{
+    font-size:1.05rem;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin:0.2rem 0;
+  }
+
+  /* ---------- GENERIC CARD ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:24px 26px;
+    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
+    margin-bottom:22px;
+  }
+  h2{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--ink);
+    font-size:1.4rem;
+    margin-top:0;
+    margin-bottom:1rem;
+    border-bottom:1px solid var(--line-soft);
+    padding-bottom:0.5rem;
+  }
+  h2 .bi-en{display:block; font-family:'Work Sans', sans-serif; font-style:italic; font-weight:400; font-size:13px; color:var(--ink-soft); margin-top:4px;}
+
+  /* ---------- CHECKLIST : need vs mistakes ---------- */
+  .needs-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-bottom:22px;
+  }
+  @media (min-width:720px){
+    .needs-grid{grid-template-columns:1fr 1fr;}
+  }
+  .check-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:22px 24px;
+    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
+  }
+  .check-card.good{border-top:4px solid var(--green);}
+  .check-card.bad{border-top:4px solid var(--red);}
+  .check-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 4px;
+  }
+  .check-title .bi-en{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:400;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+  .check-card.good .check-title{color:var(--green-deep);}
+  .check-card.bad .check-title{color:var(--red-deep);}
+  .check-mark{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px;
+    border-radius:50%;
+    font-size:14px;
+    flex-shrink:0;
+  }
+  .check-card.good .check-mark{background:rgba(47,110,79,0.12); color:var(--green-deep); border:1.3px solid var(--green);}
+  .check-card.bad .check-mark{background:rgba(182,55,31,0.1); color:var(--red-deep); border:1.3px solid var(--red);}
+  .check-list{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+  }
+  .check-list li{
+    padding:10px 0;
+    border-top:1px dashed var(--line-soft);
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .check-list li:first-child{border-top:none;}
+  .check-list .bullet{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    flex-shrink:0;
+    margin-top:2px;
+  }
+  .check-card.good .bullet{color:var(--green-deep);}
+  .check-card.bad .bullet{color:var(--red-deep);}
+  .check-list .item-hu{display:block; font-weight:600; color:var(--ink); font-size:14.5px;}
+  .check-list .item-en{display:block; font-size:12.5px; font-style:italic; color:var(--ink-soft); margin-top:2px;}
+
+  /* ---------- TAB INDEX (folder tabs) ---------- */
+  .tabs-container{margin-bottom:0;}
+  .tab-switchers{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin-bottom:0;
+    position:relative; z-index:1;
+  }
+  input[type="radio"].tab-input{display:none;}
+  .tab-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:.03em;
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-bottom:none;
+    padding:12px 20px 13px;
+    cursor:pointer;
+    color:var(--ink-soft);
+    border-radius:6px 6px 0 0;
+    transform:translateY(4px);
+    transition:transform .12s ease, background .12s ease, color .12s ease;
+    font-weight:600;
+  }
+  .tab-label:hover{transform:translateY(0px); color:var(--ink);}
+  .tab-content{display:none;}
+  #tab-ancestry:checked ~ .tab-switchers .label-ancestry,
+  #tab-marriage:checked ~ .tab-switchers .label-marriage{
+    background:var(--card); color:var(--ink);
+    transform:translateY(0px);
+    box-shadow:0 -2px 0 var(--red) inset;
+  }
+  #tab-ancestry:checked ~ #content-ancestry,
+  #tab-marriage:checked ~ #content-marriage{display:block;}
+
+  main.folder{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:28px;
+    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
+    margin-bottom:22px;
+  }
+
+  .important-note{
+    background:#fdf3d9;
+    border:1px solid #e4c661;
+    border-left:5px solid #c99a1f;
+    padding:1.1rem 1.3rem;
+    margin:0 0 1.8rem 0;
+    border-radius:2px;
+    font-weight:600;
+    font-size:14.5px;
+  }
+  .important-note .bi-en{
+    display:block; font-weight:400; font-style:italic; font-size:13px;
+    margin-top:6px; color:#6b551b;
+  }
+
+  /* ---------- category headers ---------- */
+  .qa-category-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.25rem;
+    color:var(--ink);
+    margin-top:2.4rem;
+    margin-bottom:1rem;
+    padding-bottom:0.4rem;
+    border-bottom:2px solid var(--green);
+    display:block;
+  }
+  .qa-category-title:first-of-type{margin-top:0;}
+  .qa-category-title small{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    font-weight:normal;
+    display:block;
+    margin-top:4px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Q&A cards, index-card style ---------- */
+  .qa-group{
+    background: repeating-linear-gradient(var(--card), var(--card) 27px, #eee6d2 28px);
+    border:1px solid var(--line);
+    padding:18px 20px;
+    margin-bottom:16px;
+  }
+  .question-variants{
+    list-style:none;
+    padding-left:0;
+    margin:0 0 12px 0;
+  }
+  .question-variants li{
+    position:relative;
+    padding-left:1.4rem;
+    margin-bottom:0.7rem;
+  }
+  .question-variants li::before{
+    content:"•";
+    position:absolute; left:0; top:-2px;
+    color:var(--red);
+    font-size:1.2rem;
+  }
+  .question-variants .hu-q{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+    display:block;
+  }
+  .question-variants .en-q{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    font-style:italic;
+    display:block;
+    margin-top:2px;
+  }
+  .answer-box{
+    background:#f3f0e2;
+    padding:0.9rem 1.1rem;
+    border-radius:2px;
+    border-left:3px solid var(--green);
+    margin-top:0.4rem;
+    font-size:14px;
+  }
+  .answer-box strong{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--green-deep);
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ---------- STEP sequence ---------- */
+  .steps-section{margin-bottom:22px;}
+  .steps-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  @media (min-width:760px){
+    .steps-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  .step-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:20px 22px;
+    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
+    position:relative;
+    overflow:hidden;
+  }
+  .step-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    color:var(--red-deep);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:6px;
+  }
+  .step-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:var(--ink);
+    margin:0 0 2px;
+  }
+  .step-title .bi-en{
+    display:block;
+    font-family:'Work Sans', sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .step-body{
+    font-size:14px;
+    color:var(--ink);
+    margin-top:10px;
+    line-height:1.5;
+  }
+  .step-body .bi-en{
+    display:block;
+    margin-top:6px;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:12.5px;
+  }
+  .step-card::after{
+    content:attr(data-n);
+    position:absolute;
+    right:10px; top:-6px;
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:64px;
+    color:var(--line-soft);
+    opacity:0.6;
+    line-height:1;
+    pointer-events:none;
+  }
+  .closing-line{
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px dashed var(--line);
+  }
+  .closing-line .bi-en{display:block; margin-top:6px; font-size:12.5px;}
+
+  .page-footnote{
+    max-width:1180px;
+    margin:26px auto 0;
+    padding:0 24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  .page-footnote .bi-en{display:block; margin-top:8px; font-style:italic; opacity:.85;}
+
+  @media (max-width:640px){
+    .tab-label{padding:10px 14px 11px; font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / Citizenship Interview
+</nav>
+
+<div class="wrap">
+
+  <header class="cover">
+    <p class="eyebrow">Honosítási interjú &nbsp;·&nbsp; Kérdés–válasz gyakorlókönyv<span></span></p>
+    <h1>Kérdések és válaszok a honosítási interjúhoz<span class="bi-en">Hungarian Citizenship Interview — Complete Preparation Guide (Ancestry &amp; Marriage Pathways)</span></h1>
+    <p class="cover-sub">A magyar állampolgársági interjú általában sokkal inkább beszélgetés jellegű, mint amire az emberek számítanak. Nem kell tökéletesen beszélnie magyarul, de szüksége van a megfelelő felkészülésre, a helyes tényekre, és arra, hogy természetesen tudjon beszélni a saját ügyéről. <strong>Valóság:</strong> azok a kérelmezők boldogulnak a legjobban, akik magabiztosnak, felkészültnek és a saját irataikkal személyesen összekapcsolódottnak tűnnek.
+      <span class="bi-en">The Hungarian citizenship interview is usually more conversational than people expect. You do not need perfect Hungarian, but you do need the right kind of preparation, the right facts, and the ability to speak naturally about your specific file. <strong>Reality check:</strong> the applicants who tend to do best are the ones who sound grounded, prepared, and personally connected to their paperwork.</span>
+    </p>
+  </header>
+
+  <!-- MANDATORY GOLDEN MOTTO -->
+  <div class="motto-box">
+    <div class="motto-title">A legfontosabb mondat, amit meg kell tanulni · The most important phrase to learn</div>
+    <p class="motto-hu">„Elnézést, kérem megismételné?”</p>
+    <p class="motto-en">"I am sorry, can you repeat, please?"</p>
+  </div>
+
+  <!-- WHAT YOU NEED / MISTAKES -->
+  <div class="needs-grid">
+    <div class="check-card good">
+      <p class="check-title"><span class="check-mark">✓</span>Amire valóban szüksége lesz<span class="bi-en">What you actually need</span></p>
+      <ul class="check-list">
+        <li><span class="bullet">✓</span><span><span class="item-hu">Magas szintű szóbeli magyar szövegértés</span><span class="item-en">Advanced comprehension of spoken Hungarian</span></span></li>
+        <li><span class="bullet">✓</span><span><span class="item-hu">Egyszerű, világos válaszok — nem bemagolt szöveg</span><span class="item-en">Simple, clear answers — not a memorised speech</span></span></li>
+        <li><span class="bullet">✓</span><span><span class="item-hu">Természetes magabiztosság, amikor a származásáról vagy a házasságáról beszél</span><span class="item-en">Genuine comfort discussing your ancestry or marriage</span></span></li>
+        <li><span class="bullet">✓</span><span><span class="item-hu">Elég nyelvi biztonság ahhoz, hogy egy hibából természetesen kilábaljon</span><span class="item-en">Enough control to recover naturally from a mistake</span></span></li>
+      </ul>
+    </div>
+    <div class="check-card bad">
+      <p class="check-title"><span class="check-mark">✕</span>Hibák, amelyek árthatnak a kérelmezőknek<span class="bi-en">Mistakes that hurt applicants</span></p>
+      <ul class="check-list">
+        <li><span class="bullet">✕</span><span><span class="item-hu">Túlzott bemagolás, ami begyakoroltnak és törékenynek hangzik</span><span class="item-en">Over-memorising, which sounds rehearsed and brittle</span></span></li>
+        <li><span class="bullet">✕</span><span><span class="item-hu">Dátumok, nevek vagy helyszínek találgatása ahelyett, hogy pontosan tudná őket</span><span class="item-en">Guessing at dates, names or places instead of knowing them</span></span></li>
+        <li><span class="bullet">✕</span><span><span class="item-hu">Felkészületlenül érkezni a szóbeli magyar nyelvtudás terén</span><span class="item-en">Arriving under-prepared in spoken Hungarian</span></span></li>
+        <li><span class="bullet">✕</span><span><span class="item-hu">Felszínes ismeret a saját benyújtott aktájáról</span><span class="item-en">Thin familiarity with your own submitted file</span></span></li>
+        <li><span class="bullet">✕</span><span><span class="item-hu">Pánikba esni egy apró hiba után, ahelyett hogy nyugodt maradna</span><span class="item-en">Panicking after a small mistake, instead of staying composed</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PATHWAY SELECTION CONTAINER -->
+  <div class="tabs-container">
+    <input type="radio" name="pathway-tabs" id="tab-ancestry" class="tab-input" checked>
+    <input type="radio" name="pathway-tabs" id="tab-marriage" class="tab-input">
+
+    <div class="tab-switchers">
+      <label for="tab-ancestry" class="tab-label label-ancestry">01 · Származási út · Ancestry Pathway</label>
+      <label for="tab-marriage" class="tab-label label-marriage">02 · Házasság útján · Through Marriage Pathway</label>
+    </div>
+
+    <div id="content-ancestry" class="tab-content">
+      <main class="folder">
+        <h2>Származási út — fókuszban<span class="bi-en">Ancestry Pathway Focus</span></h2>
+        <p><strong>Fő fókusz: a család és a származási vonal.</strong> Ezen az úton az interjú nagyrészt a családfája igazolására, a magyar állampolgárság öröklődésének nyomon követésére és arra összpontosít, hogy ezeket a történelmi kapcsolatokat mennyire tudja világosan elmagyarázni magyarul.
+          <span class="bi-en">Primary Focus: Family and Ancestry Line. Under this pathway, the interview will heavily center on verifying your family tree, tracing how the Hungarian citizenship was passed down, and assessing your ability to explain these historical connections clearly in Hungarian.</span>
+        </p>
+
+        <div class="important-note">
+          ⚠️ FIGYELEM! Nagyon fontos, hogy pontosan ismerje a saját családi történetét! Minden névnek, dátumnak és helyszínnek tökéletesen egyeznie kell a benyújtott hivatalos iratokkal.
+          <span class="bi-en">ATTENTION! It is absolutely critical that you know your own family history precisely! Every name, date, and location must match your submitted official records perfectly.</span>
+        </div>
+
+        <div class="qa-category-title">Személyes adatok és Bemutatkozás<small>Personal Information &amp; Introduction</small></div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hogy hívják?</span><span class="en-q">What are you called?</span></li>
+            <li><span class="hu-q">Mi a neve?</span><span class="en-q">What is your name?</span></li>
+            <li><span class="hu-q">Kérem, mutatkozzon be!</span><span class="en-q">Please, introduce yourself!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>John Smith vagyok, harmincéves mérnök.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Lebetűzné a nevét?</span><span class="en-q">Would you spell your name?</span></li>
+            <li><span class="hu-q">Le tudná betűzni a nevét?</span><span class="en-q">Could you spell your name?</span></li>
+            <li><span class="hu-q">Kérem, betűzze le a nevét!</span><span class="en-q">Please, spell your name!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, természetesen: J-O-H-N S-M-I-T-H.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hány éves Ön, és hol született pontosan?</span><span class="en-q">How old are you, and where exactly were you born?</span></li>
+            <li><span class="hu-q">Mikor és hol született pontosan?</span><span class="en-q">When and where exactly were you born?</span></li>
+            <li><span class="hu-q">Kérem, adja meg a születési évét és a születési helyét!</span><span class="en-q">Please provide your year of birth and your place of birth!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Harminckét éves vagyok. 1994-ben születtem Manchesterben.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Milyen nyelveken beszél a magyaron kívül?</span><span class="en-q">What languages do you speak besides Hungarian?</span></li>
+            <li><span class="hu-q">Beszél valamilyen más nyelven a magyaron kívül?</span><span class="en-q">Do you speak any other language besides Hungarian?</span></li>
+            <li><span class="hu-q">Kérem, sorolja fel, milyen nyelveket beszél még!</span><span class="en-q">Please list what other languages you speak!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Az angol az anyanyelvem.</div>
+        </div>
+
+        <div class="qa-category-title">Származás és Családfa<small>Strictly for Ancestry Pathway Applicants</small></div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Ki volt a magyar állampolgár a családban?</span><span class="en-q">Who was the Hungarian citizen in the family?</span></li>
+            <li><span class="hu-q">Ki után kérelmezi a magyar állampolgárságot?</span><span class="en-q">Through whom are you applying for Hungarian citizenship?</span></li>
+            <li><span class="hu-q">Melyik felmenője származik Magyarországról?</span><span class="en-q">Which of your ancestors originates from Hungary?</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>A dédapám volt magyar állampolgár a családomban.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Mikor hagyta el Magyarországot a felmenője?</span><span class="en-q">When did your ancestor leave Hungary?</span></li>
+            <li><span class="hu-q">Melyik évben emigrált a rokona Magyarországról?</span><span class="en-q">In which year did your relative emigrate from Hungary?</span></li>
+            <li><span class="hu-q">Mikor költözött el a dédnagyapja Magyarországról?</span><span class="en-q">When did your great-grandfather move away from Hungary?</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>A dédapám ezerkilencszázhúszban hagyta el Magyarországot.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hol született a dédapja pontosan?</span><span class="en-q">Where exactly was your great-grandfather born?</span></li>
+            <li><span class="hu-q">Mi volt a dédapja születési helye?</span><span class="en-q">What was your great-grandfather's place of birth?</span></li>
+            <li><span class="hu-q">Melyik városban vagy faluban született a magyar felmenője?</span><span class="en-q">In which city or village was your Hungarian ancestor born?</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>A dédapám Miskolcon született, 1902-ben.</div>
+        </div>
+
+        <div class="qa-category-title">Munka és Szabadidő<small>Work &amp; Free Time</small></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mi a foglalkozása?</span><span class="en-q">What is your occupation?</span></li><li><span class="hu-q">Mit dolgozik pontosan?</span><span class="en-q">What do you work exactly?</span></li><li><span class="hu-q">Kérem, meséljen a jelenlegi munkájáról!</span><span class="en-q">Please, tell me about your current job!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Pénzügyi elemzőként dolgozom.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mit csinál Ön egy átlagos munkanapon?</span><span class="en-q">What do you do on an average workday?</span></li><li><span class="hu-q">Hogyan telik egy szokásos munkanapja?</span><span class="en-q">How does a regular workday pass for you?</span></li><li><span class="hu-q">Kérem, vázolja fel a napi rutinját a munkahelyén!</span><span class="en-q">Please outline your daily routine at your workplace!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Reggel nyolckor kezdek és adatokat elemzek.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Miért választotta ezt a szakmát?</span><span class="en-q">Why did you choose this profession?</span></li><li><span class="hu-q">Miért döntött úgy, hogy ezen a területen fog dolgozni?</span><span class="en-q">Why did you decide to work in this field?</span></li><li><span class="hu-q">Kérem, fejtse ki, mi motiválta a karrierje kiválasztásában!</span><span class="en-q">Please explain what motivated you in choosing your career!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Mindig is nagyon szerettem a matematikát.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Szereti a technológiát?</span><span class="en-q">Do you like technology?</span></li><li><span class="hu-q">Mennyire érdekli Önt a modern technológia?</span><span class="en-q">How interested are you in modern technology?</span></li><li><span class="hu-q">Kérem, mondja el, milyen szerepet játszik a technológia az életében!</span><span class="en-q">Please tell me what role technology plays in your life!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, nagyon szeretem a modern technológiát.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mit szokott csinálni a szabadidejében?</span><span class="en-q">What do you usually do in your free time?</span></li><li><span class="hu-q">Milyen hobbijai vannak?</span><span class="en-q">What hobbies do you have?</span></li><li><span class="hu-q">Kérem, meséljen arról, hogyan kapcsolódik ki a hétvégéken!</span><span class="en-q">Please tell me about how you unwind on weekends!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szabadidőmben szeretek olvasni és kirándulni.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Sportol valamit rendszeresen?</span><span class="en-q">Do you do any sport regularly?</span></li><li><span class="hu-q">Mennyire fontos Önnek a fitnesz?</span><span class="en-q">How important is fitness to you?</span></li><li><span class="hu-q">Kérem, részletezze, hogyan tartja magát formában!</span><span class="en-q">Please detail how you keep yourself in shape!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, hetente háromszor futok.</div></div>
+
+        <div class="qa-category-title">Motiváció és Kultúra<small>Motivation &amp; Culture</small></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Miért szeretne magyar állampolgár lenni? Mi a fő motivációja?</span><span class="en-q">Why would you like to be a Hungarian citizen? What is your main motivation?</span></li><li><span class="hu-q">Mi ösztönzi Önt arra, hogy kérvényezze az állampolgárságot?</span><span class="en-q">What incites you to request the citizenship?</span></li><li><span class="hu-q">Kérem, fogalmazza meg a honosítási kérelem mögötti legfőbb okokat!</span><span class="en-q">Please formulate the main reasons behind the naturalization request!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szeretném tisztelni a családom gyökereit.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mik a tervei a jövőben, miután megkapta az állampolgárságot?</span><span class="en-q">What are your plans for the future after you have received the citizenship?</span></li><li><span class="hu-q">Mit szándékozik tenni, ha sikeresen lezárul az eljárás?</span><span class="en-q">What do you intend to do if the procedure finishes successfully?</span></li><li><span class="hu-q">Kérem, vázolja fel a jövőbeli céljait magyar állampolgárként!</span><span class="en-q">Please outline your future goals as a Hungarian citizen!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szeretnék többet utazni Magyarországra.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Járt már Magyarországon? Melyik városokba vagy helyekre utazott?</span><span class="en-q">Have you already been to Hungary? To which cities or places did you travel?</span></li><li><span class="hu-q">Látogatott már el Magyarországra, és ha igen, hova utazott?</span><span class="en-q">Have you visited Hungary yet, and if yes, where did you travel?</span></li><li><span class="hu-q">Kérem, számoljon be a korábbi magyarországi látogatásairól!</span><span class="en-q">Please report on your previous visits to Hungary!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, kétszer voltam már Budapesten.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Tudja-e, mit ünnepelnek a magyarok március 15-én vagy augusztus 20-án?</span><span class="en-q">Do you know what Hungarians celebrate on March 15th or August 20th?</span></li><li><span class="hu-q">Ismeri-e a március 15-i és augusztus 20-i nemzeti ünnepek jelentőségét?</span><span class="en-q">Do you know the significance of the national holidays on March 15th and August 20th?</span></li><li><span class="hu-q">Kérem, mondja el röviden, mit tud ezekről a jeles magyar történelmi napokról!</span><span class="en-q">Please tell me briefly what you know about these prominent Hungarian historical days!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Március 15-én a forradalmat, augusztus 20-án az államalapítást ünnepeljük.</div></div>
+      </main>
+    </div>
+
+    <div id="content-marriage" class="tab-content">
+      <main class="folder">
+        <h2>Házasság útján — fókuszban<span class="bi-en">Marriage Pathway Focus</span></h2>
+        <p><strong>Fő fókusz: a család és a magyar állampolgárral kötött házasság.</strong> Ezen az úton a hatóságok mélyen megvizsgálják a közös életüket, az esküvőjük részleteit, a házastársa hátterét, és azt, hogyan kommunikálnak párként. A nyelvi követelményeket szigorúan értékelik, hogy megbizonyosodjanak a valódi kapcsolatról.
+          <span class="bi-en">Primary Focus: Family and Marriage to a Hungarian Citizen. Under this pathway, the authorities will look deeply into your shared life, your wedding details, your spouse's background, and how you communicate as a couple. The language requirements are strictly evaluated to ensure a genuine connection.</span>
+        </p>
+
+        <div class="qa-category-title">Személyes adatok és Bemutatkozás<small>Personal Information &amp; Introduction</small></div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hogy hívják?</span><span class="en-q">What are you called?</span></li>
+            <li><span class="hu-q">Mi a neve?</span><span class="en-q">What is your name?</span></li>
+            <li><span class="hu-q">Kérem, mutatkozzon be!</span><span class="en-q">Please, introduce yourself!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>John Smith vagyok, a feleségem magyar állampolgár.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Lebetűzné a nevét?</span><span class="en-q">Would you spell your name?</span></li>
+            <li><span class="hu-q">Le tudná betűzni a nevét?</span><span class="en-q">Could you spell your name?</span></li>
+            <li><span class="hu-q">Kérem, betűzze le a nevét!</span><span class="en-q">Please, spell your name!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen: J-O-H-N S-M-I-T-H.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hány éves Ön, és hol született pontosan?</span><span class="en-q">How old are you, and where exactly were you born?</span></li>
+            <li><span class="hu-q">Mikor és hol született pontosan?</span><span class="en-q">When and where exactly were you born?</span></li>
+            <li><span class="hu-q">Kérem, adja meg a születési évét és a születési helyét!</span><span class="en-q">Please provide your year of birth and your place of birth!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Harminckét éves vagyok, Manchesterben születtem.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Milyen nyelveken beszél a magyaron kívül?</span><span class="en-q">What languages do you speak besides Hungarian?</span></li>
+            <li><span class="hu-q">Beszél valamilyen más nyelven a magyaron kívül?</span><span class="en-q">Do you speak any other language besides Hungarian?</span></li>
+            <li><span class="hu-q">Kérem, sorolja fel, milyen nyelveket beszél még!</span><span class="en-q">Please list what other languages you speak!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Az angol az anyanyelvem.</div>
+        </div>
+
+        <div class="qa-category-title">Házasság és Család<small>Strictly for Marriage Pathway Applicants</small></div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Mióta házasok a feleségével?</span><span class="en-q">How long have you been married to your wife?</span></li>
+            <li><span class="hu-q">Hány éve élnek házasságban a házastársával?</span><span class="en-q">How many years have you been living in marriage with your spouse?</span></li>
+            <li><span class="hu-q">Kérem, mondja meg, mikor kötöttek házasságot!</span><span class="en-q">Please tell me when you entered into marriage!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Öt éve vagyunk házasok a feleségemmel.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hol és mikor volt az esküvőjük?</span><span class="en-q">Where and when was your wedding?</span></li>
+            <li><span class="hu-q">Hol tartották a menyegzőt és pontosan melyik napon?</span><span class="en-q">Where did you hold the wedding and exactly on which day?</span></li>
+            <li><span class="hu-q">Kérem, ismertesse a házasságkötésük helyszínét és idejét!</span><span class="en-q">Please state the location and time of your marriage!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Az esküvőnk 2021. június 15-én volt Párizsban.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Hogyan és hol ismerkedtek meg a feleségével?</span><span class="en-q">How and where did you meet your wife?</span></li>
+            <li><span class="hu-q">Hol találkoztak legelőször és hogyan indult a kapcsolatuk?</span><span class="en-q">Where did you meet for the first time and how did your relationship start?</span></li>
+            <li><span class="hu-q">Kérem, ossza meg a megismerkedésük történetét!</span><span class="en-q">Please share the story of how you met!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Az egyetemen ismertük meg egymást hét évvel ezelőtt.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Mit dolgozik a felesége?</span><span class="en-q">What does your wife work?</span></li>
+            <li><span class="hu-q">Mi a házastársa jelenlegi foglalkozása?</span><span class="en-q">What is your spouse's current occupation?</span></li>
+            <li><span class="hu-q">Kérem, mutassa be párja szakmai tevékenységét!</span><span class="en-q">Please introduce your partner's professional activity!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>A feleségem tanárnő, egy általános iskolában tanít.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Beszélnek otthon magyarul?</span><span class="en-q">Do you speak Hungarian at home?</span></li>
+            <li><span class="hu-q">Szoktak otthon magyar nyelven kommunikálni?</span><span class="en-q">Do you usually communicate in the Hungarian language at home?</span></li>
+            <li><span class="hu-q">Kérem, meséljen a családi nyelvhasználatukról!</span><span class="en-q">Please tell me about your family language use!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, minden nap gyakoroljuk a magyar nyelvet otthon.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Vannak háziállataik? Kérem, meséljen róluk!</span><span class="en-q">Do you have pets? Please tell me about them!</span></li>
+            <li><span class="hu-q">Tartanak otthon valamilyen kisállatot?</span><span class="en-q">Do you keep any small animal at home?</span></li>
+            <li><span class="hu-q">Kérem, mutassa be a kedvenceiket, amennyiben vannak!</span><span class="en-q">Please introduce your pets, if there are any!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, van egy kutyánk, egy labrador, akit Maxnak hívnak.</div>
+        </div>
+        <div class="qa-group">
+          <ul class="question-variants">
+            <li><span class="hu-q">Szereti a magyar konyhát? Mi a kedvenc magyar étele, amit a felesége készít?</span><span class="en-q">Do you like Hungarian cuisine? What is your favorite Hungarian dish that your wife makes?</span></li>
+            <li><span class="hu-q">Kedveli a magyaros ételeket, és mit szeret a legjobban, amit a párja főz?</span><span class="en-q">Do you like Hungarian-style foods, and what do you like best that your partner cooks?</span></li>
+            <li><span class="hu-q">Kérem, fejtse ki a véleményét a magyar gasztronómiáról és a kedvenc fogásáról!</span><span class="en-q">Please express your opinion on Hungarian gastronomy and your favorite course!</span></li>
+          </ul>
+          <div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, a kedvencem a csirkepaprikás, amit a feleségem készít.</div>
+        </div>
+
+        <div class="qa-category-title">Munka és Szabadidő<small>Work &amp; Free Time</small></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mi a foglalkozása?</span><span class="en-q">What is your occupation?</span></li><li><span class="hu-q">Mit dolgozik pontosan?</span><span class="en-q">What do you work exactly?</span></li><li><span class="hu-q">Kérem, meséljen a jelenlegi munkájáról!</span><span class="en-q">Please, tell me about your current job!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Pénzügyi elemzőként dolgozom.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mit csinál Ön egy átlagos munkanapon?</span><span class="en-q">What do you do on an average workday?</span></li><li><span class="hu-q">Hogyan telik egy szokásos munkanapja?</span><span class="en-q">How does a regular workday pass for you?</span></li><li><span class="hu-q">Kérem, vázolja fel a napi rutinját a munkahelyén!</span><span class="en-q">Please outline your daily routine at your workplace!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Reggel e-maileket olvasok és meetingeken veszek részt.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Miért választotta ezt a szakmát?</span><span class="en-q">Why did you choose this profession?</span></li><li><span class="hu-q">Miért döntött úgy, hogy ezen a területen fog dolgozni?</span><span class="en-q">Why did you decide to work in this field?</span></li><li><span class="hu-q">Kérem, fejtse ki, mi motiválta a karrierje kiválasztásában!</span><span class="en-q">Please explain what motivated you in choosing your career!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Mindig szerettem a logikus feladatokat.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Szereti a technológiát?</span><span class="en-q">Do you like technology?</span></li><li><span class="hu-q">Mennyire érdekli Önt a modern technológia?</span><span class="en-q">How interested are you in modern technology?</span></li><li><span class="hu-q">Kérem, mondja el, milyen szerepet játszik a technológia az életében!</span><span class="en-q">Please tell me what role technology plays in your life!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, a munkám miatt is fontos.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mit szokott csinálni a szabadidejében?</span><span class="en-q">What do you usually do in your free time?</span></li><li><span class="hu-q">Milyen hobbijai vannak?</span><span class="en-q">What hobbies do you have?</span></li><li><span class="hu-q">Kérem, meséljen arról, hogyan kapcsolódik ki a hétvégéken!</span><span class="en-q">Please tell me about how you unwind on weekends!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szeretek filmet nézni és a feleségemmel sétálni.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Sportol valamit rendszeresen?</span><span class="en-q">Do you do any sport regularly?</span></li><li><span class="hu-q">Mennyire fontos Önnek a fitnesz?</span><span class="en-q">How important is fitness to you?</span></li><li><span class="hu-q">Kérem, részletezze, hogyan tartja magát formában!</span><span class="en-q">Please detail how you keep yourself in shape!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, edzőterembe járok.</div></div>
+
+        <div class="qa-category-title">Motiváció és Kultúra<small>Motivation &amp; Culture</small></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Miért szeretne magyar állampolgár lenni? Mi a fő motivációja?</span><span class="en-q">Why would you like to be a Hungarian citizen? What is your main motivation?</span></li><li><span class="hu-q">Mi ösztönzi Önt arra, hogy kérvényezze az állampolgárságot?</span><span class="en-q">What incites you to request the citizenship?</span></li><li><span class="hu-q">Kérem, fogalmazza meg a honosítási kérelem mögötti legfőbb okokat!</span><span class="en-q">Please formulate the main reasons behind the naturalization request!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szeretnék teljesen beilleszkedni a családom kultúrájába.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Mik a tervei a jövőben, miután megkapta az állampolgárságot?</span><span class="en-q">What are your plans for the future after you have received the citizenship?</span></li><li><span class="hu-q">Mit szándékozik tenni, ha sikeresen lezárul az eljárás?</span><span class="en-q">What do you intend to do if the procedure finishes successfully?</span></li><li><span class="hu-q">Kérem, vázolja fel a jövőbeli céljait magyar állampolgárként!</span><span class="en-q">Please outline your future goals as a Hungarian citizen!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Szeretnénk hosszabb időre Magyarországra költözni.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Járt már Magyarországon? Melyik városokba vagy helyekre utazott?</span><span class="en-q">Have you already been to Hungary? To which cities or places did you travel?</span></li><li><span class="hu-q">Látogatott már el Magyarországra, és ha igen, hova utazott?</span><span class="en-q">Have you visited Hungary yet, and if yes, where did you travel?</span></li><li><span class="hu-q">Kérem, számoljon be a korábbi magyarországi látogatásairól!</span><span class="en-q">Please report on your previous visits to Hungary!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Igen, többször voltunk már a feleségem családjánál.</div></div>
+        <div class="qa-group"><ul class="question-variants"><li><span class="hu-q">Tudja-e, mit ünnepelnek a magyarok március 15-én vagy augusztus 20-án?</span><span class="en-q">Do you know what Hungarians celebrate on March 15th or August 20th?</span></li><li><span class="hu-q">Ismeri-e a március 15-i és augusztus 20-i nemzeti ünnepek jelentőségét?</span><span class="en-q">Do you know the significance of the national holidays on March 15th and August 20th?</span></li><li><span class="hu-q">Kérem, mondja el röviden, mit tud ezekről a jeles magyar történelmi napokról!</span><span class="en-q">Please tell me briefly what you know about these prominent Hungarian historical days!</span></li></ul><div class="answer-box"><strong>Minta válasz · Sample Answer</strong>Március 15. az 1848-as szabadságharc, augusztus 20. az államalapítás ünnepe.</div></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 4-STEP PREPARATION -->
+  <div class="steps-section">
+    <div class="card" style="margin-bottom:16px;">
+      <h2>Hogyan készüljön fel helyesen<span class="bi-en">How to Prepare the Right Way</span></h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card" data-n="1">
+        <span class="step-num">1. LÉPÉS · STEP 1</span>
+        <p class="step-title">Ismerje a történetét<span class="bi-en">Know your story</span></p>
+        <p class="step-body">Tekintse át rendszeresen a saját iratait. Rögzítse emlékezetében a dátumokat és a helynevek magyar kiejtését.
+          <span class="bi-en">Revisit your specific documents regularly. Fix the dates and the Hungarian pronunciation of places in your memory.</span>
+        </p>
+      </div>
+      <div class="step-card" data-n="2">
+        <span class="step-num">2. LÉPÉS · STEP 2</span>
+        <p class="step-title">Tekintse át az űrlapjait<span class="bi-en">Review your forms</span></p>
+        <p class="step-body">Legyen képes felismerni és magyarul, hangosan lebetűzni pontosan azt, ami a kérelmén szerepel.
+          <span class="bi-en">Be able to recognise and spell out loud, in Hungarian, exactly what's written on your application.</span>
+        </p>
+      </div>
+      <div class="step-card" data-n="3">
+        <span class="step-num">3. LÉPÉS · STEP 3</span>
+        <p class="step-title">Gyakoroljon összevissza sorrendben<span class="bi-en">Practise out of order</span></p>
+        <p class="step-body">Kérje meg valakit, hogy keverje össze a kérdések sorrendjét, hogy a jelentésre figyeljen, ne egy bemagolt sorrendet kövessen.
+          <span class="bi-en">Have someone shuffle the questions, so you're listening for meaning rather than following a memorised sequence.</span>
+        </p>
+      </div>
+      <div class="step-card" data-n="4">
+        <span class="step-num">4. LÉPÉS · STEP 4</span>
+        <p class="step-title">Tanulja meg a mentő mondatait<span class="bi-en">Learn your safety phrases</span></p>
+        <p class="step-body">Néhány egyszerű, természetes magyar mondat, ami segít fenntartani a beszélgetés lendületét, ha elakadna.
+          <span class="bi-en">A few simple, natural Hungarian phrases to keep the conversation moving smoothly if you get stuck.</span>
+        </p>
+      </div>
+    </div>
+    <p class="closing-line">Azok a kérelmezők boldogulnak legjobban, akik nem a legkevesebb nyelvtani hibát vétik — hanem akik magabiztosnak, felkészültnek és a saját ügyükkel valóban összekapcsolódottnak tűnnek.
+      <span class="bi-en">The applicants who do best aren't the ones with the fewest grammar mistakes — they're the ones who sound grounded, prepared, and genuinely connected to their own paperwork.</span>
+    </p>
+  </div>
+
+  <p class="page-footnote">
+    Tanári segédeszköz magyar mint idegen nyelv oktatásához, felkészítés az egyszerűsített honosítási eljárás interjújára. A mintaválaszok illusztrációk, a saját válaszait mindig a saját tényleges adataihoz igazítsa.
+    <span class="bi-en">A teaching aid for Hungarian as a foreign language, preparing learners for the simplified naturalization procedure interview. Sample answers are illustrative — always adapt your own answers to your actual facts.</span>
+  </p>
+
+</div>
+
+<div class="motif meadow"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="Thank you for your support! Köszönöm a támogatást!" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+</body>
+</html>
