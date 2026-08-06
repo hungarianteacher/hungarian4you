@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Színek — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  :root{
+    --line: rgba(43,36,29,0.14);
+    --shadow: 0 18px 40px -22px rgba(43,36,29,0.4);
+  }
+
+  .breadcrumb { max-width: 900px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; border: 1px solid var(--border); margin: 0 0 28px; background: #000; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+  .lesson-wrap{max-width:900px;margin:0 auto;padding:20px 24px 64px;}
+
+  .lesson-header{margin-bottom:26px;}
+  .lesson-header h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:clamp(1.8rem,5vw,2.6rem);
+    margin:4px 0 8px;
+    line-height:1.1;
+  }
+  .lesson-header h1 em{font-style:italic;color:var(--paprika);}
+  .lesson-header .sub{font-size:1rem;color:var(--muted);max-width:600px;line-height:1.55;}
+
+  .intro-note{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:4px solid var(--mustard);
+    border-radius:0 4px 4px 0;
+    padding:14px 18px;
+    margin-bottom:24px;
+    font-size:14px;line-height:1.55;
+  }
+  .intro-note strong{color:var(--paprika-dark);}
+  .intro-note code{
+    font-family:'Work Sans',sans-serif;font-size:12.5px;background:var(--bg);
+    padding:1px 6px;border-radius:3px;border:1px solid var(--border);
+  }
+  .intro-note .translation{
+    display:block;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:13px;color:var(--muted);font-style:italic;
+  }
+
+  .master-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
+  .master-row button{
+    font-family:'Work Sans',sans-serif;font-weight:600;font-size:14px;
+    border:1.5px solid var(--ink);border-radius:3px;background:var(--ink);color:var(--bg);
+    padding:10px 18px;cursor:pointer;transition:transform .12s ease;
+    text-align:left;line-height:1.35;
+  }
+  .master-row button .btn-en{
+    display:block;font-family:'Work Sans',sans-serif;font-size:10.5px;
+    font-weight:500;opacity:.7;text-transform:none;letter-spacing:.02em;margin-top:2px;
+  }
+  .master-row button:hover{transform:translateY(-1px);}
+  .master-row button.secondary{background:transparent;color:var(--ink);}
+  .master-row button:focus-visible{outline:2px solid var(--mustard);outline-offset:2px;}
+  .master-row button:disabled{opacity:.5;cursor:default;transform:none;}
+
+  .group-card{
+    background:var(--card);
+    border:1.5px solid var(--ink);
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    position:relative;
+    padding:30px 26px 26px;
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .group-card::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:74px;height:14px;background:var(--surface2,#f0ece5);
+    border:1.5px solid var(--ink);border-top:none;
+    border-radius:0 0 10px 10px;
+  }
+  .group-number{
+    font-family:'Work Sans', sans-serif;font-size:12px;color:var(--muted);
+    position:absolute;top:14px;left:22px;letter-spacing:.04em;
+  }
+  .group-head{text-align:center;margin:14px 0 6px;}
+  .group-hu{
+    font-family:'Fraunces',serif;font-weight:700;font-style:italic;
+    font-size:27px;color:var(--paprika-dark);line-height:1.1;
+  }
+  .group-en{
+    font-family:'Work Sans',sans-serif;font-size:12.5px;letter-spacing:.05em;
+    color:var(--muted);margin-top:2px;text-transform:uppercase;
+  }
+  .group-desc{max-width:600px;margin:12px auto 0;text-align:center;font-size:14px;line-height:1.55;}
+  .group-desc code{
+    font-family:'Work Sans',sans-serif;font-size:12.5px;background:var(--bg);
+    padding:1px 6px;border-radius:3px;border:1px solid var(--border);
+  }
+  .group-desc .translation{display:block;margin-top:8px;font-size:13px;color:var(--muted);font-style:italic;}
+
+  .swatch-caption{
+    text-align:center;font-family:'Work Sans',sans-serif;font-size:12px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    margin:20px 0 12px;
+  }
+  .swatch-caption .translation{
+    display:block;text-transform:none;letter-spacing:.02em;font-style:italic;
+    opacity:.85;margin-top:2px;font-size:11px;
+  }
+
+  .swatch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .swatch-card{
+    background:#fff;border:1.5px solid var(--line);border-radius:4px;
+    padding:0 0 10px;text-align:center;position:relative;overflow:hidden;
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .swatch-card:hover{border-color:var(--ink); transform:translateY(-2px);}
+  .swatch-card.playing{border-color:var(--paprika); box-shadow:0 0 0 2px rgba(182,55,31,0.2);}
+  .swatch-block{width:100%;height:52px;background:var(--swatch-color,#ccc);border-bottom:1.5px solid var(--line);position:relative;}
+  .swatch-block.needs-border::after{content:"";position:absolute;inset:4px;border:1px dashed rgba(43,36,29,0.3);}
+  .swatch-order{
+    position:absolute;top:4px;left:6px;
+    font-family:'Work Sans',sans-serif;font-size:9.5px;
+    color:rgba(255,255,255,0.85);text-shadow:0 1px 2px rgba(0,0,0,.5);
+    mix-blend-mode:difference;
+  }
+  .swatch-hu{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-top:8px;}
+  .swatch-en{font-family:'Work Sans',sans-serif;font-size:10.5px;color:var(--muted);margin:2px 0 8px;}
+  .swatch-hex{font-family:'Work Sans',sans-serif;font-size:9.5px;color:var(--muted);opacity:.7;display:block;margin-bottom:6px;}
+  .swatch-speak{
+    background:var(--surface2,#f0ece5);border:1px solid var(--line);border-radius:50%;
+    width:26px;height:26px;cursor:pointer;font-size:11px;
+    display:inline-flex;align-items:center;justify-content:center;transition:all .12s ease;
+  }
+  .swatch-speak:hover{background:var(--mustard);color:#fff;border-color:transparent;}
+
+  .audio-note{
+    text-align:center;font-size:12.5px;color:var(--paprika-dark);
+    background:var(--card);border:1px solid var(--border);border-radius:4px;
+    padding:10px 14px;margin-bottom:22px;display:none;
+  }
+  .audio-note.show{display:block;}
+
+  @media (max-width:640px){ .swatch-grid{grid-template-columns:repeat(3,1fr);} .group-card{padding:26px 16px 22px;} }
+  @media (max-width:420px){ .swatch-grid{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / Colors
+</nav>
+
+<div class="lesson-wrap">
+
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/e7vbysfHYT4" title="Colors video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+
+  <header class="lesson-header">
+    <span class="eyebrow">ALAPOK / BASICS</span>
+    <h1>Színek — <em>Colors</em></h1>
+    <p class="sub">Colors in Hungarian, from the basic palette to shade expressions like "light blue" and "deep blue" — click any 🔊 icon to hear it spoken.</p>
+  </header>
+
+  <div class="intro-note">
+    <strong>Hogyan használd:</strong> az első kártya az alapszíneket tartalmazza, a második a bővebb palettát (pl. türkiz, bézs, levendula), a harmadik pedig azt mutatja meg, hogyan alkotunk árnyalatokat a <code>világos</code> (light), <code>sötét</code> (dark) és <code>mély</code> (deep) jelzőkkel, illetve az olyan összetett kifejezéseket, mint a <code>babarózsaszín</code> (baby pink). Kattints a 🔊 gombokra a kiejtéshez, vagy hallgasd meg mindet sorban.
+    <span class="translation"><strong>How to use it:</strong> the first card covers the basic colors, the second is an extended palette (e.g. turquoise, beige, lavender), and the third shows how shades are built with the modifiers <code>light</code>, <code>dark</code>, and <code>deep</code>, plus set phrases like <code>baby pink</code>. Click the 🔊 buttons to hear the pronunciation, or play a whole card in order.</span>
+  </div>
+
+  <div class="master-row">
+    <button type="button" id="playAllBasic">🔊 Alapszínek lejátszása sorban<span class="btn-en">Play basic colors in order</span></button>
+    <button type="button" class="secondary" id="playAllExtra">🔊 További színek lejátszása sorban<span class="btn-en">Play more colors in order</span></button>
+    <button type="button" class="secondary" id="playAllShades">🔊 Árnyalatok lejátszása sorban<span class="btn-en">Play shades in order</span></button>
+  </div>
+
+  <p class="audio-note" id="audioNote">Néhány hangfájl nem található — ellenőrizd, hogy minden mp3 fel van-e töltve az <code>audio</code> mappába.</p>
+
+  <div id="groupsWrap"></div>
+
+  <footer id="pageFooter" style="text-align:center;margin-top:20px;font-size:12.5px;color:var(--muted);font-family:'Work Sans',sans-serif;"></footer>
+
+</div>
+
+<div class="motif meadow"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="Thank you for your support! Köszönöm a támogatást!" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+const GROUPS = [
+  {
+    hu: "alapszínek", en: "basic colors",
+    desc: "A leggyakoribb tíz-tizenegy szín neve — ezekből épül fel majdnem minden árnyalat kifejezés.",
+    descEn: "The ten or eleven most common color names — almost every shade expression is built from these.",
+    items: [
+      { hu: "piros", en: "red", hex: "#B6342A" },
+      { hu: "narancssárga", en: "orange", hex: "#C97A3A" },
+      { hu: "sárga", en: "yellow", hex: "#D9A93C" },
+      { hu: "zöld", en: "green", hex: "#3E7A57" },
+      { hu: "kék", en: "blue", hex: "#2E5E9E" },
+      { hu: "lila", en: "purple", hex: "#6B4C82" },
+      { hu: "rózsaszín", en: "pink", hex: "#D98CA0" },
+      { hu: "barna", en: "brown", hex: "#6B4A32" },
+      { hu: "fekete", en: "black", hex: "#201B17" },
+      { hu: "fehér", en: "white", hex: "#FFFFFF", needsBorder: true },
+      { hu: "szürke", en: "gray", hex: "#8A8378" },
+    ]
+  },
+  {
+    hu: "további színek", en: "more colors",
+    desc: "Ezek a színek nem szerepelnek a legalapabb tízben, de a mindennapi életben (ruhák, festékek, dekoráció) nagyon gyakoriak.",
+    descEn: "These colors aren't part of the most basic ten, but they come up constantly in everyday life — clothes, paint, decor.",
+    items: [
+      { hu: "türkiz", en: "turquoise", hex: "#2A9D8F" },
+      { hu: "bézs", en: "beige", hex: "#D9C9A3" },
+      { hu: "arany", en: "gold", hex: "#C9A227" },
+      { hu: "ezüst", en: "silver", hex: "#B8B8B8" },
+      { hu: "menta", en: "mint", hex: "#8FD9B6" },
+      { hu: "korall", en: "coral", hex: "#E8735A" },
+      { hu: "levendula", en: "lavender", hex: "#B6A3D9" },
+      { hu: "olívzöld", en: "olive green", hex: "#708238" },
+      { hu: "indigó", en: "indigo", hex: "#3B3B6D" },
+      { hu: "türkizkék", en: "teal", hex: "#1F6E75" },
+    ]
+  },
+  {
+    hu: "árnyalatok", en: "shades & modifiers",
+    desc: "A <code>világos</code> (light) és <code>sötét</code> (dark) jelző bármelyik alapszín elé kerülhet. A <code>mély</code> (deep) inkább csak néhány színnel — leggyakrabban a kékkel — alkot állandósult kifejezést, mint a „mély kék” (deep blue), amely gazdagabb, telítettebb árnyalatot jelent, mint az egyszerű „sötét kék”. A <code>babarózsaszín</code> pedig egy önálló, összeforrt kifejezés: egy nagyon halvány, szinte fehéres rózsaszín árnyalat neve.",
+    descEn: "The modifiers <code>light</code> and <code>dark</code> can go in front of almost any basic color. <code>Deep</code> tends to form a fixed expression with just a few colors — most often blue — as in \"deep blue,\" which feels richer and more saturated than plain \"dark blue.\" <code>Baby pink</code> is its own fused expression: the name for a very pale, almost whitish shade of pink.",
+    items: [
+      { hu: "világos kék", en: "light blue", hex: "#A9C9DE" },
+      { hu: "sötét kék", en: "dark blue", hex: "#1B3A5C" },
+      { hu: "mély kék", en: "deep blue", hex: "#173A63" },
+      { hu: "világos zöld", en: "light green", hex: "#A8D5B0" },
+      { hu: "sötét zöld", en: "dark green", hex: "#1F4A32" },
+      { hu: "világos szürke", en: "light gray", hex: "#D8D3C8" },
+      { hu: "sötét szürke", en: "dark gray", hex: "#4A453E" },
+      { hu: "babarózsaszín", en: "baby pink", hex: "#F4C6D0" },
+      { hu: "bordó", en: "maroon / deep red", hex: "#5C1F1A" },
+    ]
+  },
+];
+
+/* ---------------- hangfájl-lejátszás (mp3), NFC/NFD próba, beszédszintézis tartalék ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){ pickHungarianVoice(); window.speechSynthesis.onvoiceschanged = pickHungarianVoice; }
+
+function speakFallback(text){
+  return new Promise(resolve => {
+    if(!speechSupported){ resolve(); return; }
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'hu-HU';
+    if(huVoice) utter.voice = huVoice;
+    utter.rate = 0.9;
+    utter.onend = () => resolve();
+    utter.onerror = () => resolve();
+    window.speechSynthesis.speak(utter);
+  });
+}
+
+function tryPlayUrl(url){
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let settled = false;
+    const finish = (ok) => { if(!settled){ settled = true; resolve(ok); } };
+    audio.addEventListener('ended', () => finish(true));
+    audio.addEventListener('error', () => finish(false));
+    audio.play().catch(() => finish(false));
+  });
+}
+
+async function speak(text, {onEnd} = {}){
+  const noSpace = text.replace(/\s+/g, '');
+  const rawCandidates = [text, noSpace];
+  const candidates = [];
+  rawCandidates.forEach(raw => {
+    candidates.push(raw);
+    if (typeof raw.normalize === 'function') {
+      candidates.push(raw.normalize('NFC'));
+      candidates.push(raw.normalize('NFD'));
+    }
+  });
+  const uniqueCandidates = candidates.filter((v, i, arr) => arr.indexOf(v) === i);
+
+  for (const candidate of uniqueCandidates) {
+    const ok = await tryPlayUrl(`audio/${encodeURIComponent(candidate)}.mp3`);
+    if (ok) { if (onEnd) onEnd(); return; }
+  }
+
+  document.getElementById('audioNote').classList.add('show');
+  await speakFallback(text);
+  if (onEnd) onEnd();
+}
+
+/* ---------------- felépítés ---------------- */
+const groupsWrap = document.getElementById('groupsWrap');
+
+GROUPS.forEach((group, gIdx) => {
+  const card = document.createElement('div');
+  card.className = 'group-card';
+
+  card.innerHTML = `
+    <span class="group-number">№ ${gIdx + 1}/${GROUPS.length}</span>
+    <div class="group-head">
+      <div class="group-hu">${group.hu}</div>
+      <div class="group-en">${group.en}</div>
+      <p class="group-desc">${group.desc}<span class="translation">${group.descEn}</span></p>
+    </div>
+    <div class="swatch-caption">Kattints a hangszóróra a kiejtéshez<span class="translation">Click the speaker icon to hear the pronunciation</span></div>
+    <div class="swatch-grid">
+      ${group.items.map((c, i) => `
+        <div class="swatch-card" data-hu="${c.hu}">
+          <div class="swatch-block ${c.needsBorder ? 'needs-border' : ''}" style="--swatch-color:${c.hex}">
+            <span class="swatch-order">${String(i + 1).padStart(2,'0')}</span>
+          </div>
+          <div class="swatch-hu">${c.hu}</div>
+          <div class="swatch-en">${c.en}</div>
+          <span class="swatch-hex">${c.hex}</span>
+          <button type="button" class="swatch-speak" data-text="${c.hu}" title="Kiejtés meghallgatása / Listen to pronunciation">🔊</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  groupsWrap.appendChild(card);
+});
+
+const totalItems = GROUPS.reduce((sum, g) => sum + g.items.length, 0);
+document.getElementById('pageFooter').innerHTML =
+  `${GROUPS.map(g => `${g.items.length} ${g.hu}`).join(' · ')} — összesen ${totalItems} kifejezés, mindegyik meghallgatható.
+   <span class="translation" style="display:block;margin-top:3px;font-style:italic;">${GROUPS.map(g => `${g.items.length} ${g.en}`).join(' · ')} — ${totalItems} expressions in total, all with audio.</span>`;
+
+document.querySelectorAll('.swatch-speak').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.swatch-card');
+    card.classList.add('playing');
+    speak(btn.dataset.text, { onEnd: () => card.classList.remove('playing') });
+  });
+});
+
+async function playSequence(buttons){
+  for(const btn of buttons){
+    const card = btn.closest('.swatch-card');
+    card.classList.add('playing');
+    await speak(btn.dataset.text);
+    card.classList.remove('playing');
+    await new Promise(r => setTimeout(r, 160));
+  }
+}
+
+function wirePlayAllButton(buttonId, groupIndex){
+  document.getElementById(buttonId).addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    const buttons = Array.from(groupsWrap.children[groupIndex].querySelectorAll('.swatch-speak'));
+    await playSequence(buttons);
+    btn.disabled = false;
+  });
+}
+
+wirePlayAllButton('playAllBasic', 0);
+wirePlayAllButton('playAllExtra', 1);
+wirePlayAllButton('playAllShades', 2);
+</script>
+</body>
+</html>
