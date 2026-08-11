@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irányt jelző igekötők · Prefixes indicating directions — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+ :root{
+   --ink:#182229;
+   --ink-soft:#2c3944;
+   --paper:#f4ecd8;
+   --paper-dim:#e9dfc7;
+   --wine:#B6371F;
+   --wine-deep:#7E2513;
+   --gold:#C9931A;
+   --sage:#2F6E4F;
+   --sage-deep:#1E4A34;
+   --line:rgba(244,236,216,0.14);
+   --line-dark:rgba(24,34,41,0.12);
+   --shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+ }
+
+ *{box-sizing:border-box;}
+ html{scroll-behavior:smooth;}
+ body{
+   margin:0;
+   background:var(--ink);
+   color:var(--paper);
+   font-family:'Work Sans', sans-serif;
+   line-height:1.6;
+   -webkit-font-smoothing:antialiased;
+ }
+ h1,h2,h3,h4{
+   font-family:'Fraunces', serif;
+   font-weight:600;
+   margin:0;
+   color:var(--paper);
+ }
+ .hu{ color:inherit; }
+.en{
+  font-style:italic;
+  color:var(--paper);
+  opacity:0.62;
+  font-size:0.92em;
+}
+a{color:var(--gold);}
+
+.wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+header.hero{
+  padding:88px 0 0;
+  position:relative;
+  overflow:hidden;
+}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  font-size:0.72rem;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:22px;
+}
+.eyebrow::before{
+  content:"";
+  width:26px;height:1px;background:var(--gold);
+}
+.hero h1{
+  font-size:clamp(2.2rem, 4.8vw, 3.5rem);
+  line-height:1.08;
+  letter-spacing:-0.01em;
+}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{
+  display:block;
+  font-size:0.42em;
+  font-style:italic;
+  font-weight:400;
+  color:var(--paper);
+  opacity:0.55;
+  margin-top:10px;
+}
+.hero p.lede{
+  max-width:640px;
+  margin-top:24px;
+  color:var(--paper);
+  opacity:0.78;
+  font-size:1.05rem;
+}
+
+/* ---------- signature: four directions rail ---------- */
+.dir-rail{
+  margin:60px 0 40px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.dir-card{
+  background:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:20px 14px 18px;
+  text-align:center;
+}
+.dir-card svg{width:44px;height:44px;margin:0 auto 10px;display:block;}
+.dir-card .prefix{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:700;
+  font-size:1.1rem;
+  color:var(--gold);
+  display:block;
+  margin-bottom:4px;
+}
+.dir-card .en-tiny{
+  font-size:0.72rem;
+  opacity:0.55;
+  font-style:italic;
+}
+.rail-caption{
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  opacity:0.5;
+  margin-top:6px;
+}
+.concept-banner{
+  background:var(--sage);
+  color:#f4ecd8;
+  border-radius:4px;
+  padding:26px 32px;
+  margin:0 0 40px;
+  box-shadow:var(--shadow);
+}
+.concept-banner .hu{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:1.1rem;
+  display:block;
+  margin-bottom:6px;
+}
+.concept-banner .en{
+  color:#f4ecd8;
+  opacity:0.85;
+  font-size:0.92rem;
+}
+
+section.panel{
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:6px;
+  padding:44px 48px;
+  margin-bottom:28px;
+  box-shadow:var(--shadow);
+}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{
+  color:var(--wine-deep);
+  font-size:1.5rem;
+  margin-bottom:6px;
+}
+section.panel h2 .en-sub{
+  display:block;
+  font-family:'Work Sans',sans-serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:0.58em;
+  color:var(--ink-soft);
+  opacity:0.6;
+ margin-top:4px;
+}
+.section-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.75rem;
+  color:var(--wine);
+  letter-spacing:0.08em;
+  margin-bottom:10px;
+  display:block;
+}
+
+/* meaning grid */
+.meaning-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--line-dark);
+  border-radius:6px;
+  overflow:hidden;
+  margin-top:24px;
+}
+.meaning-cell{
+  background:var(--paper);
+  padding:20px 16px;
+}
+.meaning-cell .prefix-tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:700;
+  color:var(--wine);
+  font-size:1rem;
+  display:block;
+  margin-bottom:8px;
+}
+.meaning-cell .hu{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.92rem;
+}
+.meaning-cell .hu b{color:var(--wine);}
+.meaning-cell .en{
+  display:block;
+  margin-top:6px;
+  font-size:0.82rem;
+}
+ul.rule-list{
+  margin:18px 0 0;
+  padding-left:0;
+  list-style:none;
+}
+ul.rule-list li{
+  position:relative;
+  padding-left:26px;
+  margin-bottom:14px;
+}
+ul.rule-list li::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  color:var(--wine);
+  font-weight:600;
+}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+
+/* qa table */
+.table-scroll{overflow-x:auto; margin-top:22px; border-radius:6px; box-shadow:var(--shadow);}
+table.qa-table{
+  width:100%;
+  border-collapse:collapse;
+  background:#f4ecd8;
+  font-size:0.92rem;
+  min-width:560px;
+}
+table.qa-table th, table.qa-table td{
+  padding:14px 16px;
+  text-align:left;
+  vertical-align:top;
+  border-bottom:1px solid rgba(24,34,41,0.12);
+  color:#182229 !important;
+  background-color:#f4ecd8 !important;
+}
+table.qa-table thead th{
+  background:#7E2513 !important;
+  color:#f4ecd8 !important;
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:0.95rem;
+}
+table.qa-table thead th .en-tiny{
+  display:block;
+  font-family:'Work Sans', sans-serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:0.7rem;
+  opacity:0.7;
+  margin-top:2px;
+  color:#f4ecd8 !important;
+}
+table.qa-table td .hu{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  color:#182229 !important;
+}
+table.qa-table td .en{
+  display:block;
+  font-size:0.82rem;
+  opacity:0.6;
+  font-style:italic;
+  margin-top:2px;
+  color:#182229 !important;
+}
+table.qa-table td .pre{color:#B6371F !important; font-weight:700;}
+
+/* word order table */
+table.wo-table{
+  width:100%;
+  border-collapse:collapse;
+  background:#f4ecd8;
+  font-size:0.92rem;
+  min-width:560px;
+}
+table.wo-table th, table.wo-table td{
+  padding:12px 16px;
+  text-align:center;
+  border-bottom:1px solid rgba(24,34,41,0.12);
+  color:#182229 !important;
+  background-color:#f4ecd8 !important;
+}
+table.wo-table thead th{
+  background:#e9dfc7 !important;
+  color:#182229 !important;
+ font-weight:600;
+ font-size:0.88rem;
+}
+table.wo-table tbody th{
+  background:#e9dfc7 !important;
+  color:#182229 !important;
+  font-weight:600;
+  text-align:left;
+  font-size:0.85rem;
+  vertical-align:middle;
+}
+table.wo-table td.focus-cell{
+  color:#C9931A !important;
+  font-weight:700;
+  text-decoration:underline;
+  font-family:'IBM Plex Mono', monospace;
+}
+table.wo-table td.verb-cell{
+  color:#B6371F !important;
+  font-weight:700;
+  font-family:'IBM Plex Mono', monospace;
+}
+table.wo-table td.rest-cell{
+  font-family:'IBM Plex Mono', monospace;
+  text-align:left;
+}
+
+.note{
+  margin-top:26px;
+  background:var(--paper-dim);
+  border-left:3px solid var(--sage-deep);
+  padding:16px 20px;
+  border-radius:0 4px 4px 0;
+  font-size:0.95rem;
+}
+.note b{color:var(--sage-deep);}
+
+section.quiz{
+  background:var(--ink-soft);
+  color:var(--paper);
+  border-radius:6px;
+  padding:48px;
+  margin-top:60px;
+}
+section.quiz h2{color:var(--gold); font-size:1.7rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+
+.q{
+  background:rgba(244,236,216,0.05);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:24px 26px;
+  margin-bottom:20px;
+}
+.q-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  color:var(--gold);
+  letter-spacing:0.08em;
+  display:block;
+  margin-bottom:10px;
+}
+.q-prompt{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:1.02rem;
+  margin-bottom:16px;
+}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{
+  background:transparent;
+  border:1px solid rgba(244,236,216,0.3);
+  color:var(--paper);
+  font-family:'Work Sans',sans-serif;
+  font-size:0.92rem;
+  padding:10px 16px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:all 0.15s ease;
+}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{
+ font-family:'IBM Plex Mono', monospace;
+ background:transparent;
+ border:none;
+ border-bottom:2px solid var(--gold);
+ color:var(--paper);
+ font-size:1rem;
+ padding:6px 4px;
+ width:200px;
+ outline:none;
+}
+.fill-row button.check{
+  background:var(--gold);
+  border:none;
+  color:var(--ink);
+  font-weight:600;
+  padding:9px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-family:'Work Sans',sans-serif;
+  font-size:0.88rem;
+}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+
+.quiz-score{
+  margin-top:8px;
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.85rem;
+  opacity:0.7;
+}
+
+footer{
+  text-align:center;
+  padding:50px 0 70px;
+  color:var(--paper);
+  opacity:0.4;
+  font-size:0.8rem;
+  font-family:'IBM Plex Mono', monospace;
+}
+
+@media (max-width:760px){
+  .dir-rail{grid-template-columns:repeat(2,1fr);}
+  .meaning-grid{grid-template-columns:repeat(2,1fr);}
+ }
+ @media (max-width:640px){
+   .wrap{padding:0 18px;}
+   header.hero{padding:56px 0 0;}
+   section.panel{padding:30px 22px;}
+   section.quiz{padding:30px 22px;}
+ }
+ @media (prefers-reduced-motion: reduce){
+   html{scroll-behavior:auto;}
+   .opt{transition:none;}
+ }
+
+ .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+ .breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Irányt jelző igekötők
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+   <div class="eyebrow">Magyar Nyelvtan · Lecke 07</div>
+   <h1>
+     <span class="hu-title">Irányt jelző igekötők</span>
+     <span class="en-title">Prefixes indicating directions</span>
+   </h1>
+   <p class="lede hu">Négy igekötő fejezi ki az alapvető irányokat: <b>fel-</b> (fel), <b>le-</b>
+(le), <b>be-</b> (be), <b>ki-</b> (ki). Ebben a leckében a jelentésüket, a rájuk épülő
+kérdés-válasz mintákat, és a mondatbeli szórendet nézzük meg.</p>
+   <p class="lede en">Four prefixes express the basic directions: fel- (up), le- (down), be- (in),
+ki- (out). This lesson covers their meaning, the question-answer patterns built on them, and their
+position in the sentence.</p>
+
+   <div class="dir-rail">
+    <div class="dir-card">
+     <svg viewBox="0 0 48 48" fill="none"><path d="M12 34L24 14L36 34" stroke="#C9931A"
+stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     <span class="prefix">fel-</span>
+     <div class="en-tiny">up</div>
+    </div>
+    <div class="dir-card">
+     <svg viewBox="0 0 48 48" fill="none"><path d="M12 14L24 34L36 14" stroke="#C9931A"
+stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     <span class="prefix">le-</span>
+     <div class="en-tiny">down</div>
+    </div>
+    <div class="dir-card">
+     <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="10" width="28" height="28" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><path d="M6 24H24M24 24L17 17M24 24L17 31"
+stroke="#C9931A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     <span class="prefix">be-</span>
+     <div class="en-tiny">in</div>
+    </div>
+    <div class="dir-card">
+     <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="10" width="28" height="28" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><path d="M42 24H24M24 24L31 17M24 24L31 31"
+stroke="#C9931A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+     <span class="prefix">ki-</span>
+     <div class="en-tiny">out</div>
+    </div>
+   </div>
+   <div class="rail-caption">négy alapirány · four basic directions</div>
+ </header>
+
+ <!-- ================= I. MEANING ================= -->
+ <section class="panel" id="meaning">
+  <span class="section-num">01</span>
+  <h2>I. Jelentés <span class="en-sub">Meaning</span></h2>
+
+  <div class="meaning-grid">
+   <div class="meaning-cell">
+    <span class="prefix-tag">FEL-</span>
+    <span class="hu"><b>Fel</b>megyek az emeletre.</span>
+    <span class="en">I go up to the first floor.</span>
+   </div>
+   <div class="meaning-cell">
+    <span class="prefix-tag">LE-</span>
+    <span class="hu"><b>Le</b>jövök az emeletről.</span>
+    <span class="en">I come down from the first floor.</span>
+   </div>
+   <div class="meaning-cell">
+    <span class="prefix-tag">BE-</span>
+    <span class="hu"><b>Be</b>megyek az irodába.</span>
+    <span class="en">I go into the office.</span>
+   </div>
+   <div class="meaning-cell">
+    <span class="prefix-tag">KI-</span>
+    <span class="hu"><b>Ki</b>jövök az irodából.</span>
+    <span class="en">I come out of the office.</span>
+   </div>
+  </div>
+ </section>
+
+ <!-- ================= II. QUESTIONS AND ANSWERS ================= -->
+ <section class="panel" id="qa">
+  <span class="section-num">02</span>
+  <h2>II. Kérdések és válaszok <span class="en-sub">Questions and answers</span></h2>
+ </section>
+
+ <div class="concept-banner">
+   <span class="hu">Eldöntendő kérdésre rövid, pozitív választ adhatunk az ige igekötőjével
+önmagában. Az igekötőt önmagában nem használhatjuk negatív válaszra.</span>
+   <span class="en">We can give short positive answers to yes-no questions by using the prefix
+of a verb on its own. We cannot use the prefix alone to give a negative answer.</span>
+ </div>
+
+  <section class="panel" id="qa-table" style="margin-top:-20px;">
+   <div class="table-scroll">
+    <table class="qa-table">
+      <thead>
+       <tr>
+         <th>Eldöntendő kérdés<span class="en-tiny">Yes-no question</span></th>
+         <th>Pozitív válasz<span class="en-tiny">Positive answer</span></th>
+         <th>Negatív válasz<span class="en-tiny">Negative answer</span></th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+         <td><span class="hu">– Felmész az emeletre?</span><span class="en">Are you going
+up to the first floor?</span></td>
+         <td><span class="hu">– <span class="pre">Fel</span>. (Igen,
+felmegyek.)</span><span class="en">Yes, I am.</span></td>
+         <td><span class="hu">– Nem. (Nem megyek fel.)</span><span class="en">No, I am
+not.</span></td>
+       </tr>
+       <tr>
+         <td><span class="hu">– Bemész az irodába?</span><span class="en">Are you going
+into the office?</span></td>
+         <td><span class="hu">– <span class="pre">Be</span>. (Igen,
+bemegyek.)</span><span class="en">Yes, I am.</span></td>
+         <td><span class="hu">– Nem. (Nem megyek be.)</span><span class="en">No, I am
+not.</span></td>
+       </tr>
+       <tr>
+        <td><span class="hu">– Lejössz a piacra?</span><span class="en">Will you come
+down to the market?</span></td>
+        <td><span class="hu">– <span class="pre">Le</span>. (Igen, lejövök.)</span><span
+class="en">Yes, I will.</span></td>
+        <td><span class="hu">– Nem. (Nem jövök le.)</span><span class="en">No, I will
+not.</span></td>
+       </tr>
+     </tbody>
+    </table>
+   </div>
+ </section>
+
+ <!-- ================= III. WORD ORDER ================= -->
+ <section class="panel" id="word-order">
+  <span class="section-num">03</span>
+  <h2>III. Szórend kérdésben és tagadásban <span class="en-sub">Word order in questions
+and negations</span></h2>
+  <p class="hu">A mondat szerkezete: <b>fókusz</b> — <b>ige</b> — a mondat többi része.
+Az, hogy az igekötő elválik-e az igétől, attól függ, mi kapja a hangsúlyt.</p>
+  <p class="en">Sentence structure: focus — verb — the rest of the sentence. Whether the
+prefix separates from the verb depends on what receives the emphasis.</p>
+
+  <div class="table-scroll">
+    <table class="wo-table">
+     <thead>
+       <tr>
+        <th></th>
+        <th>Fókusz<span style="display:block; font-weight:400; font-style:italic; opacity:0.6;
+font-size:0.75rem;">Focus</span></th>
+        <th>Ige<span style="display:block; font-weight:400; font-style:italic; opacity:0.6;
+font-size:0.75rem;">Verb</span></th>
+        <th></th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+        <th rowspan="2">Kiegészítendő kérdés<br><span style="font-weight:400;
+font-style:italic; opacity:0.6; font-size:0.78rem;">Wh-question</span></th>
+        <td class="focus-cell">Hova</td>
+        <td class="verb-cell">megy be</td>
+        <td class="rest-cell">Dénes?</td>
+       </tr>
+       <tr>
+        <td class="focus-cell">Ki</td>
+        <td class="verb-cell">megy be</td>
+        <td class="rest-cell">az irodába?</td>
+       </tr>
+       <tr>
+        <th rowspan="2">Eldöntendő kérdés<br><span style="font-weight:400; font-style:italic;
+opacity:0.6; font-size:0.78rem;">Yes-no question</span></th>
+        <td class="focus-cell">Dénes</td>
+        <td class="verb-cell">megy be</td>
+        <td class="rest-cell">az irodába?</td>
+       </tr>
+       <tr>
+        <td class="focus-cell">Bemegy</td>
+        <td class="verb-cell">—</td>
+        <td class="rest-cell">Dénes az irodába?</td>
+       </tr>
+       <tr>
+        <th rowspan="2">Tagadás<br><span style="font-weight:400; font-style:italic; opacity:0.6;
+font-size:0.78rem;">Negation</span></th>
+        <td class="focus-cell">Nem</td>
+        <td class="verb-cell">megy be</td>
+        <td class="rest-cell">Dénes az irodába.</td>
+       </tr>
+       <tr>
+        <td class="focus-cell">Nem Zita</td>
+        <td class="verb-cell">megy be</td>
+        <td class="rest-cell">az irodába (hanem Dénes).</td>
+       </tr>
+     </tbody>
+    </table>
+  </div>
+
+   <h3 style="font-size:1.05rem; color:var(--wine-deep); margin:30px 0 4px;">Mikor válik el az
+igekötő? <span style="display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.68em; opacity:0.55; margin-top:2px;">When does the prefix
+separate?</span></h3>
+
+  <ul class="rule-list">
+   <li>
+     <span class="hu"><b>Kiegészítendő kérdésben és tagadó mondatban</b> a fókusz
+automatikusan a kérdőszóra vagy a tagadószóra esik. Az igekötő elválik az igétől, és utána
+kerül.</span>
+      <span class="en">In wh-questions and negative sentences, the focus is automatically on
+the question word or the negative pronoun. The prefix separates from the verb and is placed
+after it.</span>
+    </li>
+    <li>
+      <span class="hu"><b>Eldöntendő kérdésben</b> lehetséges magát az igét hangsúlyozni
+— ilyenkor az igekötő nem válik el az igétől. Ha nem az ige, hanem a mondat más része kapja
+a hangsúlyt, az igekötő elválik.</span>
+      <span class="en">In yes-no questions it is possible to emphasize the verb. In this case the
+prefix does not separate from the verb. If not the verb but any other part of the sentence is
+emphasized, the prefix separates.</span>
+    </li>
+   </ul>
+ </section>
+
+ <div class="concept-banner">
+  <span class="hu">Az igekötő mindig elválik, ha az ige nem kapja meg a hangsúlyt.</span>
+  <span class="en">Note that the prefix always separates when the verb does not receive
+emphasis.</span>
+ </div>
+
+ <!-- ================= QUIZ ================= -->
+ <section class="quiz" id="quiz">
+  <span class="section-num" style="color:var(--gold);">04</span>
+  <h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+  <p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+  <p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+
+  <div class="q" data-qid="1">
+   <span class="q-num">1 / 8 · FELELET VÁLASZTÁS</span>
+   <div class="q-prompt">
+    <span class="hu">Melyik igekötő jelenti azt, hogy „ki”?</span><br>
+    <span class="en">Which prefix means "out"?</span>
+   </div>
+   <div class="opts">
+    <button class="opt" data-correct="false">be-</button>
+    <button class="opt" data-correct="true">ki-</button>
+    <button class="opt" data-correct="false">fel-</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="2">
+   <span class="q-num">2 / 8 · KIEGÉSZÍTÉS</span>
+   <div class="q-prompt">
+    <span class="hu">Adj rövid pozitív választ: „Bemész az irodába?” → „___.”</span>
+   </div>
+   <div class="fill-row">
+    <input type="text" placeholder="Írd ide a válaszod…" data-answers="be,be.">
+    <button class="check">Ellenőrzés</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="3">
+   <span class="q-num">3 / 8 · IGAZ VAGY HAMIS</span>
+   <div class="q-prompt">
+    <span class="hu">Negatív válaszban használhatjuk az igekötőt önmagában (pl. csak
+annyit mondunk: „Fel.” tagadásként).</span><br>
+    <span class="en">We can use the prefix alone to give a negative answer.</span>
+   </div>
+   <div class="opts">
+    <button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+    <button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+   <div class="q" data-qid="4">
+    <span class="q-num">4 / 8 · FELELET VÁLASZTÁS</span>
+    <div class="q-prompt">
+     <span class="hu">Kiegészítendő kérdésben (pl. „Hova megy be Dénes?”) hol áll az
+igekötő?</span><br>
+     <span class="en">In a wh-question, where does the prefix stand?</span>
+    </div>
+    <div class="opts">
+     <button class="opt" data-correct="false">az ige előtt, egybeírva <span
+class="en">(attached before the verb)</span></button>
+     <button class="opt" data-correct="true">elválasztva, az ige után <span
+class="en">(separated, after the verb)</span></button>
+     <button class="opt" data-correct="false">a mondat végén <span class="en">(at the end of
+the sentence)</span></button>
+    </div>
+    <div class="q-feedback"></div>
+   </div>
+
+  <div class="q" data-qid="5">
+   <span class="q-num">5 / 8 · FELELET VÁLASZTÁS</span>
+   <div class="q-prompt">
+    <span class="hu">Melyik mondatban marad EGYBEN az igekötő az igével?</span><br>
+    <span class="en">In which sentence does the prefix stay attached to the verb?</span>
+   </div>
+   <div class="opts">
+    <button class="opt" data-correct="false">Nem megy be Dénes az irodába.</button>
+    <button class="opt" data-correct="true">Bemegy Dénes az irodába?</button>
+    <button class="opt" data-correct="false">Hova megy be Dénes?</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="6">
+   <span class="q-num">6 / 8 · IGAZ VAGY HAMIS</span>
+   <div class="q-prompt">
+    <span class="hu">Az igekötő mindig elválik, ha az ige nem kapja meg a
+hangsúlyt.</span><br>
+    <span class="en">The prefix always separates when the verb does not receive
+emphasis.</span>
+   </div>
+   <div class="opts">
+    <button class="opt" data-correct="true">igaz <span class="en">(true)</span></button>
+    <button class="opt" data-correct="false">hamis <span class="en">(false)</span></button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="7">
+    <span class="q-num">7 / 8 · KIEGÉSZÍTÉS</span>
+    <div class="q-prompt">
+      <span class="hu">Egészítsd ki: „___megyek az emeletre.” <span class="en">(I go up to
+the first floor.)</span></span>
+    </div>
+    <div class="fill-row">
+      <input type="text" placeholder="Írd ide a válaszod…" data-answers="fel,fel-">
+      <button class="check">Ellenőrzés</button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="8">
+   <span class="q-num">8 / 8 · FELELET VÁLASZTÁS</span>
+   <div class="q-prompt">
+      <span class="hu">„Nem Zita megy be az irodába (hanem Dénes).” — mire esik a
+hangsúly?</span><br>
+      <span class="en">"Nem Zita megy be az irodába (hanem Dénes)." — what receives the
+emphasis?</span>
+     </div>
+     <div class="opts">
+      <button class="opt" data-correct="false">az igére <span class="en">(the
+verb)</span></button>
+      <button class="opt" data-correct="true">Zitára, mint alanyra <span class="en">(Zita, as the
+subject)</span></button>
+      <button class="opt" data-correct="false">az irodára <span class="en">(the
+office)</span></button>
+     </div>
+     <div class="q-feedback"></div>
+   </div>
+
+  <div class="quiz-score" id="scoreDisplay"></div>
+ </section>
+
+ <footer>Magyar Nyelvtan Online · Irányt jelző igekötők — Prefixes indicating directions</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+ let answeredCorrect = new Set();
+ const totalQuestions = document.querySelectorAll('.q').length;
+ const scoreDisplay = document.getElementById('scoreDisplay');
+
+ function updateScore(){
+   scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`;
+ }
+ updateScore();
+
+ document.querySelectorAll('.q').forEach(q => {
+  const qid = q.dataset.qid;
+  const opts = q.querySelectorAll('.opt');
+  if(opts.length){
+    opts.forEach(opt => {
+      opt.addEventListener('click', () => {
+       const feedback = q.querySelector('.q-feedback');
+       const isCorrect = opt.dataset.correct === 'true';
+       opts.forEach(o => o.disabled = true);
+       if(isCorrect){
+         opt.classList.add('correct');
+          feedback.textContent = 'Helyes! ✓ Correct!';
+          feedback.className = 'q-feedback ok';
+          answeredCorrect.add(qid);
+        } else {
+          opt.classList.add('wrong');
+          const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+          if(correctOpt) correctOpt.classList.add('correct');
+          feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+          feedback.className = 'q-feedback bad';
+        }
+        updateScore();
+      });
+    });
+  }
+
+  const fillRow = q.querySelector('.fill-row');
+  if(fillRow){
+    const input = fillRow.querySelector('input');
+    const button = fillRow.querySelector('.check');
+    const feedback = q.querySelector('.q-feedback');
+    const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+
+    function checkAnswer(){
+      const val = input.value.trim().toLowerCase();
+      if(answers.includes(val)){
+        feedback.textContent = 'Helyes! ✓ Correct!';
+        feedback.className = 'q-feedback ok';
+        input.style.borderBottomColor = '#2F6E4F';
+        answeredCorrect.add(qid);
+      } else {
+        feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite —
+correct answer: "${answers[0]}".`;
+        feedback.className = 'q-feedback bad';
+        input.style.borderBottomColor = '#B6371F';
+      }
+      updateScore();
+    }
+
+   button.addEventListener('click', checkAnswer);
+   input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+   }
+ });
+</script>
+</body>
+</html>
