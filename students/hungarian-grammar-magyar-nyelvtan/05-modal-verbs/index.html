@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segédigék · Modal verbs — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182229;
+    --ink-soft:#2c3944;
+    --paper:#f4ecd8;
+    --paper-dim:#e9dfc7;
+    --wine:#B6371F;
+    --wine-deep:#7E2513;
+    --gold:#C9931A;
+    --sage:#2F6E4F;
+    --sage-deep:#1E4A34;
+    --line:rgba(244,236,216,0.14);
+    --line-dark:rgba(24,34,41,0.12);
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--paper);
+  }
+  .hu{ color:inherit; }
+  .en{
+    font-style:italic;
+    color:var(--paper);
+    opacity:0.62;
+    font-size:0.92em;
+  }
+  .example{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.98rem;
+  }
+  a{color:var(--gold);}
+
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+  .breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+  header.hero{
+    padding:88px 0 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:1px;background:var(--gold);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .hu-title{display:block;}
+  .hero h1 .en-title{
+    display:block;
+    font-size:0.42em;
+    font-style:italic;
+    font-weight:400;
+    color:var(--paper);
+    opacity:0.55;
+    margin-top:10px;
+  }
+  .hero p.lede{
+    max-width:620px;
+    margin-top:24px;
+    color:var(--paper);
+    opacity:0.78;
+    font-size:1.05rem;
+  }
+
+  .demo-block{
+    margin:56px 0 40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .demo-card{
+    background:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px 26px;
+  }
+  .demo-card .sentence{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.1rem;
+    color:var(--paper);
+  }
+  .demo-card .sentence .modal{
+    color:var(--gold);
+    font-weight:700;
+  }
+  .demo-card .sentence .inf{
+    color:var(--wine);
+    text-decoration:none;
+    border-bottom:2px dotted var(--wine);
+  }
+  .demo-card .sentence-en{
+    margin-top:10px;
+    font-style:italic;
+    opacity:0.55;
+    font-size:0.85rem;
+  }
+  .demo-caption{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    opacity:0.5;
+  }
+  .legend-row{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+  }
+  .legend-row span{display:flex; align-items:center; gap:6px;}
+  .legend-dot{width:10px; height:10px; border-radius:50%; display:inline-block;}
+
+  .concept-banner{
+    background:var(--sage);
+    color:#f4ecd8;
+    border-radius:4px;
+    padding:26px 32px;
+    margin:0 0 40px;
+    box-shadow:var(--shadow);
+  }
+  .concept-banner .hu{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.18rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .concept-banner .en{
+    color:#f4ecd8;
+    opacity:0.85;
+    font-size:0.95rem;
+  }
+
+  section.panel{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:6px;
+    padding:44px 48px;
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+  }
+  section.panel .en{ color:var(--ink); opacity:0.6; }
+  section.panel h2{
+    color:var(--wine-deep);
+    font-size:1.6rem;
+    margin-bottom:6px;
+  }
+  section.panel h2 .en-sub{
+    display:block;
+    font-family:'Work Sans',sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.55em;
+    color:var(--ink-soft);
+    opacity:0.6;
+    margin-top:4px;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--wine);
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+    display:block;
+  }
+  h3.subhead{
+    font-size:1.1rem;
+    color:var(--wine-deep);
+    margin:30px 0 4px;
+  }
+  h3.subhead .en-sub2{
+    display:block;
+    font-family:'Work Sans',sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.68em;
+    opacity:0.55;
+    margin-top:2px;
+  }
+
+  .table-scroll{overflow-x:auto; margin-top:22px; border-radius:6px; box-shadow:var(--shadow);}
+  table.conj-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#f4ecd8;
+    font-size:0.95rem;
+    min-width:520px;
+  }
+  table.conj-table th, table.conj-table td{
+    padding:11px 14px;
+    text-align:center;
+    border-bottom:1px solid rgba(24,34,41,0.12);
+    color:#182229 !important;
+    background-color:#f4ecd8 !important;
+  }
+  table.conj-table thead th{
+    background:#7E2513 !important;
+    color:#f4ecd8 !important;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:0.98rem;
+  }
+  table.conj-table thead th .en-tiny{
+    display:block;
+    font-family:'Work Sans', sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.72rem;
+    opacity:0.7;
+    margin-top:2px;
+    color:#f4ecd8 !important;
+  }
+  table.conj-table tbody th{
+    text-align:left;
+    background:#e9dfc7 !important;
+    color:#182229 !important;
+    font-weight:600;
+    font-size:0.85rem;
+    white-space:nowrap;
+  }
+  table.conj-table td{
+    font-family:'IBM Plex Mono', monospace;
+    color:#182229 !important;
+  }
+  table.conj-table .suf{
+    color:#B6371F !important;
+    font-weight:700;
+  }
+  .table-footnote{
+    font-size:0.82rem;
+    opacity:0.6;
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .plus-ni-box{
+    margin-top:20px;
+    background:var(--paper-dim);
+    border-radius:6px;
+    padding:18px 22px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+  }
+  .plus-ni-box .badge{
+    background:var(--wine);
+    color:#fff;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:700;
+    font-size:0.9rem;
+    padding:6px 14px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .plus-ni-box .examples-inline{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.9rem;
+    color:var(--ink);
+  }
+  .plus-ni-box .en-small{
+    display:block;
+    font-size:0.82rem;
+    opacity:0.6;
+    font-style:italic;
+    margin-top:4px;
+  }
+
+  .meaning-grid{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .meaning-item{
+    background:var(--paper-dim);
+    border-radius:6px;
+    padding:18px 20px;
+  }
+  .meaning-item .head-row{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  .meaning-item .head-row b{
+    font-family:'Fraunces', serif;
+    color:var(--wine-deep);
+    font-size:1.05rem;
+  }
+  .meaning-item .head-row .en-def{
+    font-size:0.85rem;
+    opacity:0.65;
+    font-style:italic;
+  }
+  .meaning-item .example-line{margin-top:8px;}
+
+  .example-block{
+    margin-top:22px;
+    padding-left:20px;
+    border-left:3px solid var(--gold);
+  }
+  .example-line{margin-bottom:14px;}
+  .example-line:last-child{margin-bottom:0;}
+  .example-line .hu{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .example-line .hu b{color:var(--wine); font-weight:600;}
+  .example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+
+  .note{
+    margin-top:26px;
+    background:var(--paper-dim);
+    border-left:3px solid var(--sage-deep);
+    padding:16px 20px;
+    border-radius:0 4px 4px 0;
+    font-size:0.95rem;
+  }
+  .note b{color:var(--sage-deep);}
+
+  section.quiz{
+    background:var(--ink-soft);
+    color:var(--paper);
+    border-radius:6px;
+    padding:48px;
+    margin-top:60px;
+  }
+  section.quiz h2{color:var(--gold); font-size:1.7rem;}
+  section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+  .quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+
+  .q{
+    background:rgba(244,236,216,0.05);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:24px 26px;
+    margin-bottom:20px;
+  }
+  .q-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .q-prompt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.02rem;
+    margin-bottom:16px;
+  }
+  .q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+  .opts{display:flex; flex-wrap:wrap; gap:10px;}
+  .opt{
+    background:transparent;
+    border:1px solid rgba(244,236,216,0.3);
+    color:var(--paper);
+    font-family:'Work Sans',sans-serif;
+    font-size:0.92rem;
+    padding:10px 16px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+  .opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+  .opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+  .opt[disabled]{cursor:default;}
+
+  .fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .fill-row input{
+    font-family:'IBM Plex Mono', monospace;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--gold);
+    color:var(--paper);
+    font-size:1rem;
+    padding:6px 4px;
+    width:200px;
+    outline:none;
+  }
+  .fill-row button.check{
+    background:var(--gold);
+    border:none;
+    color:var(--ink);
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.88rem;
+  }
+  .fill-row button.check:hover{opacity:0.9;}
+  .q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+  .q-feedback.ok{color:#9fd6a0;}
+  .q-feedback.bad{color:#e79aa6;}
+
+  .quiz-score{
+    margin-top:8px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    opacity:0.7;
+  }
+
+  @media (max-width:760px){
+    .demo-block{grid-template-columns:1fr;}
+    .meaning-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    header.hero{padding:56px 0 0;}
+    section.panel{padding:30px 22px;}
+    section.quiz{padding:30px 22px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .opt{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Segédigék
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Magyar Nyelvtan · Lecke 05</div>
+    <h1>
+      <span class="hu-title">Segédigék</span>
+      <span class="en-title">Modal verbs</span>
+    </h1>
+    <p class="lede hu">A segédigék modalitást fejeznek ki: valószínűséget, engedélyt, jogosultságot, képességet vagy kötelezettséget. A legtöbbjük ragozható — kivéve a <b>lehet</b> és <b>kell</b> igéket.</p>
+    <p class="lede en">Modal verbs indicate modality: likelihood, permission, authorization, ability or obligation. Most of them have a conjugation, except for lehet and kell.</p>
+
+    <div class="demo-block">
+      <div class="demo-card">
+        <div class="sentence">Sára <span class="modal">szeret</span> a tengerben <span class="inf">fürdeni</span>.</div>
+        <div class="sentence-en">Sára likes bathing in the sea.</div>
+      </div>
+      <div class="demo-card">
+        <div class="sentence">Csaba jól <span class="modal">tud</span> <span class="inf">főzni</span>.</div>
+        <div class="sentence-en">Csaba can cook well.</div>
+      </div>
+    </div>
+    <div class="legend-row">
+      <span><span class="legend-dot" style="background:var(--gold);"></span>segédige · modal verb</span>
+      <span><span class="legend-dot" style="background:var(--wine); border:2px dotted var(--wine); background:transparent;"></span>főnévi igenév · infinitive</span>
+    </div>
+  </header>
+
+  <div class="concept-banner">
+    <span class="hu">A segédige után a fő cselekvést kifejező ige mindig főnévi igenévben (-ni) áll.</span>
+    <span class="en">The modal verb is always followed by the main verb in the infinitive (-ni) form.</span>
+  </div>
+
+  <!-- ================= I. TUD AKAR SZERET SZERETNE ================= -->
+  <section class="panel" id="conjugated">
+    <span class="section-num">01</span>
+    <h2>I. Tud, akar, szeret, szeretne <span class="en-sub">can, want, like, would like</span></h2>
+
+    <div class="table-scroll">
+      <table class="conj-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>tud<span class="en-tiny">(tudni)</span></th>
+            <th>akar<span class="en-tiny">(akarni)</span></th>
+            <th>szeret<span class="en-tiny">(szeretni)</span></th>
+            <th>szeretne *<span class="en-tiny"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>én</th><td>tud<span class="suf">ok</span></td><td>akar<span class="suf">ok</span></td><td>szeret<span class="suf">ek</span></td><td>szeretn<span class="suf">ék</span></td></tr>
+          <tr><th>te</th><td>tud<span class="suf">sz</span></td><td>akar<span class="suf">sz</span></td><td>szeret<span class="suf">sz</span></td><td>szeretn<span class="suf">él</span></td></tr>
+          <tr><th>Ön / ő</th><td>tud–</td><td>akar–</td><td>szeret–</td><td>szeretne–</td></tr>
+          <tr><th>mi</th><td>tud<span class="suf">unk</span></td><td>akar<span class="suf">unk</span></td><td>szeret<span class="suf">ünk</span></td><td>szeretn<span class="suf">énk</span></td></tr>
+          <tr><th>ti</th><td>tud<span class="suf">tok</span></td><td>akar<span class="suf">tok</span></td><td>szeret<span class="suf">tek</span></td><td>szeretn<span class="suf">étek</span></td></tr>
+          <tr><th>Önök / ők</th><td>tud<span class="suf">nak</span></td><td>akar<span class="suf">nak</span></td><td>szeret<span class="suf">nek</span></td><td>szeretn<span class="suf">ének</span></td></tr>
+          <tr><th>én → téged, titeket</th><td>tud<span class="suf">lak</span></td><td>akar<span class="suf">lak</span></td><td>szeret<span class="suf">lek</span></td><td>szeretn<span class="suf">élek</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="plus-ni-box">
+      <span class="badge">+ -ni</span>
+      <div>
+        <span class="examples-inline">asztalt foglal<b>ni</b>, étteremben vacsoráz<b>ni</b>, sportol<b>ni</b>…</span>
+        <span class="en-small">the modal verb is followed by the infinitive of the main verb</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>* Figyelem / Note:</b> a <b>szeretne</b> valójában a <b>szeret</b> feltételes módú alakja (szeret + <b>-ne</b>) — pontosan úgy, mint az angolban: like (szeret) → would like (szeretne). A ragozásának megjegyzése segít majd más igék feltételes módjának megtanulásában.
+      <div style="margin-top:8px;" class="en">In fact, szeretne is the conditional form of szeret (szeret + -ne), just like in English: like → would like. Memorizing its conjugation will help you learn the conditional form of other verbs.</div>
+    </div>
+
+    <h3 class="subhead">Jelentés <span class="en-sub2">Meaning</span></h3>
+    <div class="meaning-grid">
+      <div class="meaning-item">
+        <div class="head-row"><b>Tud</b><span class="en-def">(can) — ability, capacity</span></div>
+        <div class="example-line">
+          <span class="hu"><b>Tudsz</b> teniszezni?</span>
+          <span class="en">Can you / Do you know how to play tennis?</span>
+        </div>
+      </div>
+      <div class="meaning-item">
+        <div class="head-row"><b>Akar</b><span class="en-def">(want) — strong wish</span></div>
+        <div class="example-line">
+          <span class="hu"><b>Akarsz</b> egy fagyit enni?</span>
+          <span class="en">Do you want to have an ice cream?</span>
+        </div>
+      </div>
+      <div class="meaning-item">
+        <div class="head-row"><b>Szeret</b><span class="en-def">(like) — preference</span></div>
+        <div class="example-line">
+          <span class="hu"><b>Szeretsz</b> főzni?</span>
+          <span class="en">Do you like cooking?</span>
+        </div>
+      </div>
+      <div class="meaning-item">
+        <div class="head-row"><b>Szeretne</b><span class="en-def">(would like) — wish or desire</span></div>
+        <div class="example-line">
+          <span class="hu"><b>Szeretnél</b> Peruba utazni?</span>
+          <span class="en">Would you like to travel to Peru?</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= II. KELL LEHET ================= -->
+  <section class="panel" id="unconjugated">
+    <span class="section-num">02</span>
+    <h2>II. Kell, lehet <span class="en-sub">have to, be possible</span></h2>
+    <p class="hu">A <b>kell</b> és a <b>lehet</b> segédigéket nem ragozzuk — minden személyben ugyanaz az alakjuk marad.</p>
+    <p class="en">The modal verbs kell and lehet cannot be conjugated.</p>
+
+    <div class="example-block">
+      <div class="example-line">
+        <span class="hu">Itt várni <b>kell</b>.</span>
+        <span class="en">Here, you have to wait.</span>
+      </div>
+      <div class="example-line">
+        <span class="hu">Itt nem <b>lehet</b> bemenni.</span>
+        <span class="en">You cannot enter here.</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Előretekintés / Looking ahead:</b> egy következő leckében megtanulod, hogyan lehet megjelölni azt a személyt, akinek tennie kell valamit, vagy aki számára valami lehetséges. / You will learn later how to indicate the person who has to do something, or for whom something is possible.
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="quiz" id="quiz">
+    <span class="section-num" style="color:var(--gold);">03</span>
+    <h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+    <p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a válaszaidat.</p>
+    <p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+
+    <div class="q" data-qid="1">
+      <span class="q-num">1 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik segédige fejezi ki a <b>képességet</b>?</span><br>
+        <span class="en">Which modal verb expresses ability?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="true">tud</button>
+        <button class="opt" data-correct="false">akar</button>
+        <button class="opt" data-correct="false">szeretne</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="2">
+      <span class="q-num">2 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Egészítsd ki: „Te jól ___ főzni?” <span class="en">(te-form of "tud")</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="tudsz">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="3">
+      <span class="q-num">3 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik két segédige nem ragozható?</span><br>
+        <span class="en">Which two modal verbs cannot be conjugated?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">tud, akar</button>
+        <button class="opt" data-correct="true">kell, lehet</button>
+        <button class="opt" data-correct="false">szeret, szeretne</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="4">
+      <span class="q-num">4 / 8 · IGAZ VAGY HAMIS</span>
+      <div class="q-prompt">
+        <span class="hu">A „szeretne” valójában a „szeret” feltételes módú alakja.</span><br>
+        <span class="en">"Szeretne" is actually the conditional form of "szeret".</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="true">igaz <span class="en">(true)</span></button>
+        <button class="opt" data-correct="false">hamis <span class="en">(false)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="5">
+      <span class="q-num">5 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Milyen igealakban áll a segédige után a fő ige?</span><br>
+        <span class="en">In what verb form does the main verb appear after a modal verb?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">jelen idő <span class="en">(present tense)</span></button>
+        <button class="opt" data-correct="true">főnévi igenév <span class="en">(infinitive, -ni)</span></button>
+        <button class="opt" data-correct="false">múlt idő <span class="en">(past tense)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="6">
+      <span class="q-num">6 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Egészítsd ki: „Itt nem ___ bemenni.” <span class="en">(You cannot enter here.)</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="lehet">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="7">
+      <span class="q-num">7 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik mondat fejez ki <b>erős kívánságot</b> (strong wish)?</span><br>
+        <span class="en">Which sentence expresses a strong wish?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">Szeretsz főzni?</button>
+        <button class="opt" data-correct="true">Akarsz egy fagyit enni?</button>
+        <button class="opt" data-correct="false">Tudsz teniszezni?</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="8">
+      <span class="q-num">8 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi a „szeretne” egyes szám első személyű (én) alakja?</span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="szeretnék">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="quiz-score" id="scoreDisplay"></div>
+  </section>
+
+  <footer>Magyar Nyelvtan Online · Segédigék — Modal verbs</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="Thank you for your support! Köszönöm a támogatást!" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  let answeredCorrect = new Set();
+  const totalQuestions = document.querySelectorAll('.q').length;
+  const scoreDisplay = document.getElementById('scoreDisplay');
+
+  function updateScore(){
+    scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`;
+  }
+  updateScore();
+
+  document.querySelectorAll('.q').forEach(q => {
+    const qid = q.dataset.qid;
+    const opts = q.querySelectorAll('.opt');
+    if(opts.length){
+      opts.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const feedback = q.querySelector('.q-feedback');
+          const isCorrect = opt.dataset.correct === 'true';
+          opts.forEach(o => o.disabled = true);
+          if(isCorrect){
+            opt.classList.add('correct');
+            feedback.textContent = 'Helyes! ✓ Correct!';
+            feedback.className = 'q-feedback ok';
+            answeredCorrect.add(qid);
+          } else {
+            opt.classList.add('wrong');
+            const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+            if(correctOpt) correctOpt.classList.add('correct');
+            feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+            feedback.className = 'q-feedback bad';
+          }
+          updateScore();
+        });
+      });
+    }
+
+    const fillRow = q.querySelector('.fill-row');
+    if(fillRow){
+      const input = fillRow.querySelector('input');
+      const button = fillRow.querySelector('.check');
+      const feedback = q.querySelector('.q-feedback');
+      const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+
+      function checkAnswer(){
+        const val = input.value.trim().toLowerCase();
+        if(answers.includes(val)){
+          feedback.textContent = 'Helyes! ✓ Correct!';
+          feedback.className = 'q-feedback ok';
+          input.style.borderBottomColor = '#2F6E4F';
+          answeredCorrect.add(qid);
+        } else {
+          feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite — correct answer: "${answers[0]}".`;
+          feedback.className = 'q-feedback bad';
+          input.style.borderBottomColor = '#B6371F';
+        }
+        updateScore();
+      }
+
+      button.addEventListener('click', checkAnswer);
+      input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+    }
+  });
+</script>
+
+</body>
+</html>
