@@ -38,7 +38,9 @@
     "box-shadow:0 4px 10px rgba(0,0,0,0.12);transition:transform 0.15s ease, box-shadow 0.15s ease;text-decoration:none;}",
     "#h4y-social-bar a:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,0.18);color:#000;}",
     "#h4y-social-bar svg{width:19px;height:19px;}",
-    "@media (max-width:640px){#h4y-social-bar{left:10px;bottom:10px;}#h4y-social-bar a{width:34px;height:34px;}#h4y-social-bar svg{width:17px;height:17px;}}"
+    "@media (max-width:640px){#h4y-social-bar{left:10px;bottom:10px;}#h4y-social-bar a{width:34px;height:34px;}#h4y-social-bar svg{width:17px;height:17px;}}",
+    "#bmc-wbtn{opacity:0 !important;pointer-events:none !important;transition:opacity 0.35s ease !important;}",
+    "#bmc-wbtn.h4y-visible{opacity:1 !important;pointer-events:auto !important;}"
   ].join("");
   document.head.appendChild(style);
 
@@ -63,15 +65,30 @@
     });
   }
 
-  // A sáv csak akkor jelenik meg, ha a diák a lap aljához közel görget
-  // (kb. 200 pixelen belül a lap végétől).
+  // A sáv (és a Buy Me a Coffee gomb) csak akkor jelenik meg, ha a diák a lap
+  // aljához közel görget (kb. 200 pixelen belül a lap végétől).
   function updateSocialBarVisibility() {
     var scrollBottom = window.innerHeight + window.scrollY;
     var pageHeight = document.documentElement.scrollHeight;
     var nearBottom = scrollBottom >= pageHeight - 200;
     bar.classList.toggle("h4y-visible", nearBottom);
+    var bmcBtn = document.getElementById("bmc-wbtn");
+    if (bmcBtn) {
+      bmcBtn.classList.toggle("h4y-visible", nearBottom);
+    }
   }
   window.addEventListener("scroll", updateSocialBarVisibility, { passive: true });
   window.addEventListener("resize", updateSocialBarVisibility);
   updateSocialBarVisibility();
+
+  // A BMC-widget külső szolgáltatásként, késve tölti be a gombját —
+  // figyeljük a DOM-ot, hogy amint megjelenik, azonnal a helyes állapotba kerüljön.
+  var bmcObserver = new MutationObserver(function () {
+    var bmcBtn = document.getElementById("bmc-wbtn");
+    if (bmcBtn) {
+      updateSocialBarVisibility();
+      bmcObserver.disconnect();
+    }
+  });
+  bmcObserver.observe(document.body, { childList: true, subtree: true });
 })();
