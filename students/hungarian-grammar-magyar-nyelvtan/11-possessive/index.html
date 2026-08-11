@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birtokos személyjelek · Possessive endings — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+.example{font-family:'IBM Plex Mono', monospace; font-size:0.98rem;}
+a{color:var(--gold);}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{
+font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em; text-transform:uppercase;
+font-size:0.72rem; color:var(--gold); display:flex; align-items:center; gap:10px;
+margin-bottom:22px;
+}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.2rem, 4.8vw, 3.5rem); line-height:1.08; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:660px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.05rem;}
+.contrast-block{margin:56px 0 8px; display:grid; grid-template-columns:auto auto 1fr; gap:14px;
+align-items:center;}
+.contrast-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:10px;
+padding:24px 26px;}
+.contrast-card .tag{font-family:'IBM Plex Mono', monospace; font-size:0.66rem;
+letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); display:block;
+margin-bottom:10px;}
+.contrast-card .sentence{font-family:'IBM Plex Mono', monospace; font-size:1.15rem;
+color:var(--paper); white-space:nowrap;}
+.contrast-card .sentence .hl{color:var(--gold); font-weight:700;}
+.contrast-card .sentence-en{margin-top:8px; font-style:italic; opacity:0.55; font-size:0.82rem;}
+.converge-caption{text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; opacity:0.5; margin:14px 0 40px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:24px
+30px; margin:0 0 40px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.08rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.9rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:44px 48px;
+margin-bottom:28px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.45rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.58em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.02rem; color:var(--wine-deep); margin:28px 0 4px;}
+h3.subhead .en-sub2{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.68em; opacity:0.55; margin-top:2px;}
+.table-scroll{overflow-x:auto; margin-top:22px; border-radius:6px; box-shadow:var(--shadow);}
+table.conj-table{width:100%; border-collapse:collapse; background:#f4ecd8; font-size:0.92rem;
+min-width:480px;}
+table.conj-table th, table.conj-table td{
+padding:11px 14px; text-align:center; border-bottom:1px solid rgba(24,34,41,0.12);
+color:#182229 !important; background-color:#f4ecd8 !important;
+}
+table.conj-table thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;}
+table.conj-table tbody th{text-align:left; background:#e9dfc7 !important; color:#182229
+!important; font-weight:600; font-size:0.85rem; white-space:nowrap;}
+table.conj-table td{font-family:'IBM Plex Mono', monospace; color:#182229 !important;}
+table.conj-table .suf{color:#B6371F !important; font-weight:700;}
+table.wide-table{width:100%; border-collapse:collapse; background:#f4ecd8;
+font-size:0.85rem; min-width:640px;}
+table.wide-table th, table.wide-table td{
+padding:10px 12px; text-align:center; border-bottom:1px solid rgba(24,34,41,0.1);
+border-right:1px solid rgba(24,34,41,0.08); color:#182229 !important;
+background-color:#f4ecd8 !important; vertical-align:top;
+}
+table.wide-table th:last-child, table.wide-table td:last-child{border-right:none;}
+table.wide-table thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.82rem; line-height:1.3;}
+table.wide-table thead th .en-tiny{display:block; font-family:'Work Sans', sans-serif;
+font-style:italic; font-weight:400; font-size:0.68rem; opacity:0.7; margin-top:2px; color:#f4ecd8
+!important;}
+table.wide-table thead .word-row th{background:#e9dfc7 !important; color:#182229 !important;
+font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:0.85rem;}
+table.wide-table tbody th{text-align:left; background:#e9dfc7 !important; color:#182229
+!important; font-weight:600; font-size:0.82rem; white-space:nowrap;}
+table.wide-table td{font-family:'IBM Plex Mono', monospace; color:#182229 !important;}
+table.wide-table td .suf{color:#B6371F !important; font-weight:700;}
+table.wide-table td .line{display:block;}
+.table-footnote{font-size:0.8rem; opacity:0.6; font-style:italic; margin-top:10px;}
+ul.rule-list{margin:18px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:14px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+ul.rule-list .example-inline{display:block; margin-top:6px; color:var(--wine); font-family:'IBM Plex
+Mono', monospace; font-size:0.9rem;}
+.family-grid{margin-top:16px; display:flex; flex-direction:column; gap:12px;}
+.family-item{background:var(--paper-dim); border-radius:6px; padding:14px 18px;}
+.family-item .word{font-family:'Fraunces', serif; font-weight:600; color:var(--wine-deep);
+font-size:0.98rem; display:block; margin-bottom:6px;}
+.family-item .forms{font-family:'IBM Plex Mono', monospace; font-size:0.86rem; line-height:1.7;}
+.irregular-grid{margin-top:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.irr-pair{background:var(--paper-dim); border-radius:6px; padding:12px 14px; font-family:'IBM
+Plex Mono', monospace; font-size:0.86rem; text-align:center;}
+.irr-pair .arrow{color:var(--wine); font-weight:700;}
+.irr-pair .en-tiny2{display:block; font-size:0.7rem; opacity:0.55; font-style:italic; margin-top:4px;}
+.example-block{margin-top:22px; padding-left:20px; border-left:3px solid var(--gold);}
+.example-line{margin-bottom:14px;}
+.example-line:last-child{margin-bottom:0;}
+.example-line .hu{display:block; font-family:'IBM Plex Mono', monospace; font-size:1rem;
+color:var(--ink);}
+.example-line .hu b{color:var(--wine); font-weight:600;}
+.example-line .hu u{text-decoration-color:var(--gold); text-decoration-thickness:2px;}
+.example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+.note{margin-top:26px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:16px 20px; border-radius:0 4px 4px 0; font-size:0.92rem;}
+.note b{color:var(--sage-deep);}
+.steps-row{display:flex; align-items:center; gap:14px; margin-top:20px; flex-wrap:wrap;}
+.step-box{background:var(--paper-dim); border-radius:6px; padding:14px 18px;
+text-align:center; font-family:'IBM Plex Mono', monospace; font-size:1rem;}
+.step-box .step-label{display:block; font-family:'Work Sans',sans-serif; font-size:0.68rem;
+opacity:0.55; font-style:italic; margin-bottom:4px;}
+.step-arrow{color:var(--gold); font-size:1.3rem;}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:48px;
+margin-top:60px;}
+section.quiz h2{color:var(--gold); font-size:1.7rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:24px 26px; margin-bottom:20px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1.02rem; margin-bottom:16px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.92rem; padding:10px 16px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:1rem; padding:6px 4px;
+width:200px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:9px 18px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.88rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.85rem; opacity:0.7;}
+footer{text-align:center; padding:50px 0 70px; color:var(--paper); opacity:0.4; font-size:0.8rem;
+font-family:'IBM Plex Mono', monospace;}
+@media (max-width:800px){
+.contrast-block{grid-template-columns:1fr;}
+.irregular-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:56px 0 0;}
+section.panel{padding:28px 20px;} section.quiz{padding:28px 20px;}
+.irregular-grid{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+.breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Birtokos személyjelek
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 11</div>
+<h1>
+<span class="hu-title">Birtokos személyjelek</span>
+<span class="en-title">Possessive endings</span>
+</h1>
+<p class="lede hu">A magyarban a birtokos rag a birtok (a birtokolt dolog) végére kerül.
+Ellentétben az angollal, a birtokos mindig a birtok <b>előtt</b> áll.</p>
+<p class="lede en">In Hungarian, the possessive ending attaches to the possessed noun.
+Unlike in English, the possessor always precedes the possessed noun.</p>
+<div class="contrast-block">
+<div class="contrast-card">
+<span class="tag">Birtokos · Possessor</span>
+<div class="sentence">a <span class="hl">fiú</span></div>
+</div>
+<div class="contrast-card">
+<span class="tag">Birtok · Possessed noun</span>
+<div class="sentence">kutyá<span class="hl">ja</span></div>
+<div class="sentence-en">the boy's dog</div>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace; font-size:0.8rem; opacity:0.5;">a fiú
+kutyája — sorrendben pont fordítva, mint angolul<br><span style="opacity:0.7;">word order is
+the reverse of English</span></div>
+</div>
+<div class="converge-caption">a birtokos mindig előbb áll · the possessor always comes
+first</div>
+</header>
+<div class="concept-banner">
+<span class="hu">Az angollal ellentétben a birtokos mindig a birtok előtt áll: a fiú kutyája (the
+boy's dog), a ház ablaka (the window of the house).</span>
+<span class="en">Note that, contrary to English, the possessor always precedes the
+possessed noun: a fiú kutyája (the boy's dog), a ház ablaka (the window of the house).</span>
+</div>
+<!-- ================= I. VOWEL-ENDING NOUNS ================= -->
+<section class="panel" id="vowel-nouns">
+<span class="section-num">01</span>
+<h2>I. Magánhangzóra végződő szabályos főnevek <span class="en-sub">Regular nouns
+ending in a vowel</span></h2>
+<div class="table-scroll">
+<table class="conj-table">
+<thead>
+<tr><th></th><th>kutya</th><th>tévé</th><th>hűtő</th></tr>
+</thead>
+<tbody>
+<tr><th>én</th><td>a kutyá<span class="suf">m</span></td><td>a tévé<span
+class="suf">m</span></td><td>a hűtő<span class="suf">m</span></td></tr>
+<tr><th>te</th><td>a kutyá<span class="suf">d</span></td><td>a tévé<span
+class="suf">d</span></td><td>a hűtő<span class="suf">d</span></td></tr>
+<tr><th>Ön / ő</th><td>a kutyá<span class="suf">ja</span></td><td>a tévé<span
+class="suf">je</span></td><td>a hűtő<span class="suf">je</span></td></tr>
+<tr><th>mi</th><td>a kutyá<span class="suf">nk</span></td><td>a tévé<span
+class="suf">nk</span></td><td>a hűtő<span class="suf">nk</span></td></tr>
+<tr><th>ti</th><td>a kutyá<span class="suf">tok</span></td><td>a tévé<span
+class="suf">tek</span></td><td>a hűtő<span class="suf">tök</span></td></tr>
+<tr><th>Önök / ők</th><td>a kutyá<span class="suf">juk</span></td><td>a tévé<span
+class="suf">jük</span></td><td>a hűtő<span class="suf">jük</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= II. CONSONANT-ENDING NOUNS ================= -->
+<section class="panel" id="consonant-nouns">
+<span class="section-num">02</span>
+<h2>II. Mássalhangzóra végződő szabályos főnevek <span class="en-sub">Regular nouns
+ending in a consonant</span></h2>
+<p class="hu">A táblázat minden oszlopában egy -a/-e, -uk/-ük végződésű és egy -ja/-je,
+-juk/-jük végződésű szó szerepel, a harmadik személyekben.</p>
+<p class="en">This table shows one word with -a/-e, -uk/-ük and another with -ja/-je, -juk/-jük
+in the third persons.</p>
+<div class="table-scroll">
+<table class="wide-table">
+<thead>
+<tr>
+<th></th>
+<th>Mély/vegyes hangrendű<span class="en-tiny">Back and mixed vowel
+words</span></th>
+<th>Magas hangrendű<span class="en-tiny">Front vowel words</span></th>
+<th>Utolsó m.hangzó ö,ő,ü,ű<span class="en-tiny">Last vowel is ö, ő, ü, ű</span></th>
+</tr>
+<tr class="word-row">
+<th></th>
+<th>család / terasz</th>
+<th>kert / testvér</th>
+<th>bőrönd / függöny</th>
+</tr>
+</thead>
+<tbody>
+<tr><th>én</th>
+<td><span class="line">a család<span class="suf">om</span></span><span
+class="line">a terasz<span class="suf">om</span></span></td>
+<td><span class="line">a kert<span class="suf">em</span></span><span
+class="line">a testvér<span class="suf">em</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">öm</span></span><span
+class="line">a függöny<span class="suf">öm</span></span></td>
+</tr>
+<tr><th>te</th><td><span class="line">a család<span class="suf">od</span></span><span
+class="line">a terasz<span class="suf">od</span></span></td>
+<td><span class="line">a kert<span class="suf">ed</span></span><span
+class="line">a testvér<span class="suf">ed</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">öd</span></span><span
+class="line">a függöny<span class="suf">öd</span></span></td>
+</tr>
+<tr><th>Ön / ő</th>
+<td><span class="line">a család<span class="suf">ja</span></span><span
+class="line">a terasz<span class="suf">a</span></span></td>
+<td><span class="line">a kert<span class="suf">je</span></span><span class="line">a
+testvér<span class="suf">e</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">je</span></span><span
+class="line">a függöny<span class="suf">e</span></span></td>
+</tr>
+<tr><th>mi</th>
+<td><span class="line">a család<span class="suf">unk</span></span><span
+class="line">a terasz<span class="suf">unk</span></span></td>
+<td><span class="line">a kert<span class="suf">ünk</span></span><span
+class="line">a testvér<span class="suf">ünk</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">ünk</span></span><span
+class="line">a függöny<span class="suf">ünk</span></span></td>
+</tr>
+<tr><th>ti</th>
+<td><span class="line">a család<span class="suf">otok</span></span><span
+class="line">a terasz<span class="suf">otok</span></span></td>
+<td><span class="line">a kert<span class="suf">etek</span></span><span
+class="line">a testvér<span class="suf">etek</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">ötök</span></span><span
+class="line">a függöny<span class="suf">ötök</span></span></td>
+</tr>
+<tr><th>Önök / ők*</th>
+<td><span class="line">a család<span class="suf">juk</span></span><span
+class="line">a terasz<span class="suf">uk</span></span></td>
+<td><span class="line">a kert<span class="suf">jük</span></span><span
+class="line">a testvér<span class="suf">ük</span></span></td>
+<td><span class="line">a bőrönd<span class="suf">jük</span></span><span
+class="line">a függöny<span class="suf">ük</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="table-footnote">* A birtokos szerkezet néhány sajátosságot mutat, ha a birtokos
+egyes szám 3. személyű névmás (ők) — ezt egy következő leckében tanuljuk. / Possessive
+structures show some particularities when used with the personal pronoun ők (they) — you will
+learn the rules later.</p>
+</section>
+<!-- ================= III. IRREGULAR NOUNS ================= -->
+<section class="panel" id="irregular-nouns">
+<span class="section-num">03</span>
+<h2>III. Rendhagyó főnevek <span class="en-sub">Irregular nouns</span></h2>
+<p class="hu">A magyar főnevek egy viszonylag kis csoportja rendhagyó — a tövük néhány
+vagy az összes birtokos raggal megváltozik.</p>
+<p class="en">A relatively small group of Hungarian nouns is irregular. Their stem changes
+with some or all possessive endings.</p>
+<h3 class="subhead">A tő MINDEN birtokos raggal megváltozik <span class="en-sub2">The
+stem changes with ALL possessive endings</span></h3>
+<p class="hu" style="font-size:0.92rem;">(a legtöbbjük a többes szám jelével és a tárgy -t
+ragjával is rendhagyó) / (most of them are also irregular with the plural ending and the -t of the
+direct object)</p>
+<div class="irregular-grid">
+<div class="irr-pair">dolog <span class="arrow">→</span> a dolgom<span
+class="en-tiny2">thing</span></div>
+<div class="irr-pair">eper <span class="arrow">→</span> az eprem<span
+class="en-tiny2">strawberry</span></div>
+<div class="irr-pair">étterem <span class="arrow">→</span> az éttermem<span
+class="en-tiny2">restaurant</span></div>
+<div class="irr-pair">konditerem <span class="arrow">→</span> a konditermem<span
+class="en-tiny2">gym</span></div>
+<div class="irr-pair">víz <span class="arrow">→</span> a vizem<span
+class="en-tiny2">water</span></div>
+<div class="irr-pair">kenyér <span class="arrow">→</span> a kenyeret<span
+class="en-tiny2">bread</span></div>
+<div class="irr-pair">tér <span class="arrow">→</span> a terem<span
+class="en-tiny2">square</span></div>
+<div class="irr-pair">nyár <span class="arrow">→</span> a nyaram<span
+class="en-tiny2">summer</span></div>
+<div class="irr-pair">tél <span class="arrow">→</span> a telem<span
+class="en-tiny2">winter</span></div>
+</div>
+<h3 class="subhead">A tő csak NÉHÁNY birtokos raggal változik <span
+class="en-sub2">The stem changes with SOME possessive endings only</span></h3>
+<p class="hu" style="font-size:0.92rem;">Néhány szónál csak a harmadik személyek
+rendhagyók, pl. <span class="example">idő: ideje, idejük</span>. A családtagok elnevezései is
+rendhagyók (az édesanya, édesapa, öcs, bátya csak a harmadik személyekben
+rendhagyó):</p>
+<div class="family-grid">
+<div class="family-item">
+<span class="word">édesanya / édesapa <span class="en"
+style="font-size:0.8rem;">(mother / father)</span></span>
+<div class="forms">az édesanyám/édesapám, az édesanyád/édesapád, az
+<b>édesanyja</b>/<b>édesapja</b>, az édesanyánk/édesapánk, az édesanyátok/édesapátok,
+az <b>édesanyjuk</b>/<b>édesapjuk</b></div>
+</div>
+<div class="family-item">
+<span class="word">öcs <span class="en" style="font-size:0.8rem;">(younger
+brother)</span></span>
+<div class="forms">az öcsém, az öcséd, az <b>öccse</b>, az öcsénk, az öcsétek, az
+<b>öccsük</b></div>
+</div>
+<div class="family-item">
+<span class="word">bátya <span class="en" style="font-size:0.8rem;">(older brother —
+same pattern: nagybácsi, nagybátyám...)</span></span>
+<div class="forms">a bátyám, a bátyád, a <b>bátyja</b>, a bátyánk, a bátyátok, a
+<b>bátyjuk</b></div>
+</div>
+<div class="family-item">
+<span class="word">fiú <span class="en" style="font-size:0.8rem;">(son)</span></span>
+<div class="forms">a fiam, a fiad, a fia, a fiunk, a fiatok, a fiuk</div>
+</div>
+<div class="family-item">
+<span class="word">nagynéni <span class="en"
+style="font-size:0.8rem;">(aunt)</span></span>
+<div class="forms">a nagynéném, a nagynénéd, a <b>nagynénje</b>, a nagynénénk, a
+nagynénétek, a <b>nagynénjük</b></div>
+</div>
+</div>
+</section>
+<div class="concept-banner">
+<span class="hu">A legtöbb magyar főnév szabályos.</span>
+<span class="en">Note that most Hungarian nouns are regular.</span>
+</div>
+<!-- ================= POSSESSIVE STRUCTURES ================= -->
+<section class="panel" id="structures" style="margin-top:-20px;">
+<span class="section-num">04</span>
+<h2>Birtokos szerkezetek <span class="en-sub">Possessive structures</span></h2>
+<p class="hu">A magyar nyelv sajátossága, hogy nincs önálló „birtokolni" (<i>have</i>)
+jelentésű ige. A <b>van</b> igét használjuk, egy vagy két névszói raggal együtt, a birtokviszony
+kifejezésére.</p>
+<p class="en">A particularity of the Hungarian language is that there is no verb with the
+meaning "have". The verb van is used, together with one or two noun endings, to indicate
+possessive relations.</p>
+<div class="steps-row">
+<div class="step-box"><span class="step-label">főnév</span>az autó</div>
+<span class="step-arrow">→</span>
+<div class="step-box"><span class="step-label">+ birtokos rag</span>az autó<b
+style="color:var(--wine);">m</b></div>
+<span class="step-arrow">→</span>
+<div class="step-box"><span class="step-label">+ van</span><b
+style="color:var(--wine);">Van</b> autóm.</div>
+</div>
+<div class="example-block">
+<div class="example-line">
+<span class="hu">Robi<b>nak</b> van autó<b>ja</b>.</span>
+<span class="en">Robi has a car.</span>
+</div>
+</div>
+</section>
+<!-- ================= VERB TENSES ================= -->
+<section class="panel" id="structure-tenses">
+<span class="section-num">05</span>
+<h2>Igeidők <span class="en-sub">Verb tenses in possessive structures</span></h2>
+<div class="table-scroll">
+<table class="conj-table">
+<thead>
+<tr><th></th><th>Múlt idő<span style="display:block; font-weight:400; font-style:italic;
+font-size:0.75rem; opacity:0.7;">Past</span></th><th>Jelen idő<span style="display:block;
+font-weight:400; font-style:italic; font-size:0.75rem; opacity:0.7;">Present</span></th><th>Jövő
+idő<span style="display:block; font-weight:400; font-style:italic; font-size:0.75rem;
+opacity:0.7;">Future</span></th></tr>
+</thead>
+<tbody>
+<tr><th>(Nekem)</th><td><b>volt</b> macskám.</td><td><b>van</b>
+kutyám.</td><td><b>lesz</b> papagájom.</td></tr>
+<tr><th>(Neked)</th><td><b>volt</b> macskád.</td><td><b>van</b>
+kutyád.</td><td><b>lesz</b> papagájod.</td></tr>
+<tr><th>(Önnek / Neki / Péternek)</th><td><b>volt</b> macskája.</td><td><b>van</b>
+kutyája.</td><td><b>lesz</b> papagája.</td></tr>
+<tr><th>(Nekünk)</th><td><b>volt</b> macskánk.</td><td><b>van</b>
+kutyánk.</td><td><b>lesz</b> papagájunk.</td></tr>
+<tr><th>(Nektek)</th><td><b>volt</b> macskátok.</td><td><b>van</b>
+kutyátok.</td><td><b>lesz</b> papagájotok.</td></tr>
+<tr><th>(Önöknek / Nekik / A gyerekeknek)</th><td><b>volt</b>
+macskájuk.</td><td><b>van</b> kutyájuk.</td><td><b>lesz</b> papagájuk.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">A névmás elhagyása <span class="en-sub2">Omitting the
+pronoun</span></h3>
+<p class="hu">Ha a birtokost személyes névmás fejezi ki, a névmást általában elhagyjuk (a
+birtokon lévő rag egyértelműen jelzi a birtokost):</p>
+<p class="en">When the possessor is expressed with a personal pronoun, this pronoun is
+usually omitted, as the ending on the possession clearly indicates the possessor:</p>
+<div class="example-block">
+<div class="example-line">
+<span class="hu"><s style="opacity:0.4;">Nekem</s> van macskám.</span>
+<span class="en">I have a cat.</span>
+</div>
+<div class="example-line">
+<span class="hu"><s style="opacity:0.4;">Neki</s> van autója.</span>
+<span class="en">He/She has a car.</span>
+</div>
+</div>
+<p class="hu" style="margin-top:20px;">Ha ki akarjuk emelni a birtokost, a névmást a
+mondatba tesszük:</p>
+<p class="en">If we want to emphasize the possessor, we include the personal pronoun in
+the sentence:</p>
+<div class="example-block">
+<div class="example-line">
+<span class="hu"><u>Nekem</u> van kutyám.</span>
+<span class="en">It is me who has a dog.</span>
+</div>
+<div class="example-line">
+<span class="hu"><u>Neked</u> van autód, de <u>Balázsnak</u> nincs.</span>
+<span class="en">You do have a car, but Balázs does not.</span>
+</div>
+</div>
+</section>
+<!-- ================= NEGATION ================= -->
+<section class="panel" id="structure-negation">
+<span class="section-num">06</span>
+<h2>III. Birtokos szerkezetek tagadása <span class="en-sub">Negating possessive
+structures</span></h2>
+<div class="table-scroll">
+<table class="conj-table">
+<thead>
+<tr><th></th><th>Múlt idő<span style="display:block; font-weight:400; font-style:italic;
+font-size:0.75rem; opacity:0.7;">Past</span></th><th>Jelen idő<span style="display:block;
+font-weight:400; font-style:italic; font-size:0.75rem; opacity:0.7;">Present</span></th><th>Jövő
+idő<span style="display:block; font-weight:400; font-style:italic; font-size:0.75rem;
+opacity:0.7;">Future</span></th></tr>
+</thead>
+<tbody>
+<tr>
+<th>(Nekem / Neked / Neki / Önnek / Péternek / Nekünk / Nektek / Önöknek / Nekik /
+Robiéknak)</th>
+<td><b style="color:var(--wine);">Nem volt</b><br>autóm / autód / autója / autónk /
+autótok / autójuk.</td>
+<td><b style="color:var(--wine);">Nincs</b><br>autóm / autód / autója / autónk / autótok
+/ autójuk.</td>
+<td><b style="color:var(--wine);">Nem lesz</b><br>autóm / autód / autója / autónk /
+autótok / autójuk.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+<b>Figyelem / Note:</b> ugyanezt a ragot használjuk a közlekedési eszköz kifejezésére is.
+/ We also use this ending when talking about means of transport.
+<div class="example-block" style="margin-top:14px; border-color:var(--sage-deep);">
+<div class="example-line">
+<span class="hu">Autó<b>val</b> megyek Szegedre.</span>
+<span class="en">I go to Szeged by car.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= MULTIPLE ENDINGS ================= -->
+<section class="panel" id="multiple-endings">
+<span class="section-num">07</span>
+<h2>Többszörös toldalékolás <span class="en-sub">More than one ending</span></h2>
+<p class="hu">A magyar nyelv sajátossága, hogy egy szó egyszerre több ragot is kaphat. A
+ragok egymás után, meghatározott sorrendben kapcsolódnak a szótőhöz.</p>
+<p class="en">A particularity of the Hungarian language is that words can receive more than
+one ending at the same time. The endings are added one after the other, in a fixed order.</p>
+<ul class="rule-list">
+<li>
+<span class="hu">A többes szám jele mindig előrébb áll (a birtokos rag/eset előtt):</span>
+<span class="en">The plural ending always comes first:</span>
+<span class="example-inline">a bolt<b>ok</b>ban (in the shops), az üveg<b>ek</b>en
+(on the bottles)</span>
+</li>
+<li>
+<span class="hu">A birtokos rag mindig előrébb áll (az esetrag előtt):</span>
+<span class="en">The possessive ending always comes first:</span>
+<span class="example-inline">a barátnő<b>m</b>mel (with my female friend),
+lány<b>om</b>nak (for my daughter)</span>
+</li>
+</ul>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">08</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „kutya” szó én-alakja? (birtokos
+személyjellel)</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="a
+kutyám,kutyám"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="2">
+<span class="q-num">2 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik a helyes szórend?</span><br><span
+class="en">Which word order is correct?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">a fiú kutyája</button>
+<button class="opt" data-correct="false">kutyája a fiú</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „dolog” szó rendhagyó
+én-alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="a
+dolgom,dolgom"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A magyarban van önálló „birtokolni” (have)
+jelentésű ige.</span><br><span class="en">Hungarian has a standalone verb meaning "to
+have".</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „___ autóm.” <span class="en">(I
+have a car — present tense)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="van"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="6">
+<span class="q-num">6 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Hogyan tagadjuk jelen időben: „Van
+autóm.”?</span><br><span class="en">How do we negate "Van autóm." in the present
+tense?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">Nem van autóm.</button>
+<button class="opt" data-correct="true">Nincs autóm.</button>
+<button class="opt" data-correct="false">Nem autóm.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Mikor NEM hagyjuk el a birtokost kifejező
+névmást?</span><br><span class="en">When do we NOT omit the pronoun expressing the
+possessor?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">ha hangsúlyozni akarjuk <span class="en">(to
+emphasize it)</span></button>
+<button class="opt" data-correct="false">soha nem hagyjuk el</button>
+<button class="opt" data-correct="false">csak múlt időben</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik ragozó elem áll előrébb, ha egy szó több
+ragot is kap?</span><br><span class="en">Which ending comes first when a word takes
+multiple endings?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">a többes szám jele / a birtokos rag <span
+class="en">(plural / possessive ending)</span></button>
+<button class="opt" data-correct="false">az esetrag <span class="en">(the case
+ending)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „öcs” szó Ön/ő alakja? <span
+class="en">(irregular — stem doubles)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="az
+öccse,öccse"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="10">
+<span class="q-num">10 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik mondatban jelenik meg a -val/-vel rag
+közlekedési eszköz kifejezésére?</span><br><span class="en">In which sentence does
+-val/-vel express a means of transport?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Autóval megyek Szegedre.</button>
+<button class="opt" data-correct="false">Van autóm.</button>
+<button class="opt" data-correct="false">Nincs autóm.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · Birtokos személyjelek — Possessive endings</footer>
+</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score:
+${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite —
+correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>

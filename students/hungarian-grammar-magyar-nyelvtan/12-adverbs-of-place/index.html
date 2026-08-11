@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helyhatározók · Adverbs of place — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.1rem, 4.6vw, 3.3rem); line-height:1.1; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.4em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:660px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.03rem;}
+.tri-rail{margin:56px 0 8px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.tri-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:10px;
+padding:20px; text-align:center;}
+.tri-card svg{width:40px;height:40px;margin:0 auto 10px;display:block;}
+.tri-card .tag{font-family:'IBM Plex Mono', monospace; font-size:0.66rem;
+letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); display:block;
+margin-bottom:6px;}
+.tri-card .suf-big{font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:1.05rem;
+color:var(--paper);}
+.converge-caption{text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; opacity:0.5; margin:14px 0 40px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:22px
+28px; margin:0 0 36px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.02rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.88rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:40px 44px;
+margin-bottom:26px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.4rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.58em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.0rem; color:var(--wine-deep); margin:26px 0 4px;}
+h3.subhead .en-sub2{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.68em; opacity:0.55; margin-top:2px;}
+/* place ending group */
+.group-block{margin-top:20px; background:var(--paper-dim); border-radius:8px; padding:20px
+22px;}
+.group-block .group-title{font-family:'Fraunces',serif; font-weight:600; color:var(--wine-deep);
+font-size:1.0rem; display:block; margin-bottom:2px;}
+.group-block .group-title-en{font-size:0.8rem; opacity:0.6; font-style:italic; display:block;
+margin-bottom:14px;}
+.three-suf{display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--line-dark);
+border-radius:6px; overflow:hidden; margin-bottom:14px;}
+.three-suf .cell{background:var(--paper); padding:12px 10px; text-align:center;}
+.three-suf .cell .q{font-family:'Work Sans',sans-serif; font-size:0.72rem; opacity:0.55;
+font-style:italic; display:block; margin-bottom:4px;}
+.three-suf .cell .suf{font-family:'IBM Plex Mono', monospace; font-weight:700; color:var(--wine);
+font-size:1rem;}
+ul.usage-list{margin:10px 0 0; padding-left:0; list-style:none; font-size:0.88rem;}
+ul.usage-list li{position:relative; padding-left:22px; margin-bottom:8px;}
+ul.usage-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.usage-list .example-inline{font-family:'IBM Plex Mono', monospace; color:var(--wine);
+display:block; margin-top:3px;}
+ul.rule-list{margin:18px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:14px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+ul.rule-list .example-inline{display:block; margin-top:6px; color:var(--wine); font-family:'IBM Plex
+Mono', monospace; font-size:0.88rem;}
+.example-block{margin-top:20px; padding-left:18px; border-left:3px solid var(--gold);}
+.example-line{margin-bottom:12px;}
+.example-line:last-child{margin-bottom:0;}
+.example-line .hu{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.96rem;
+color:var(--ink);}
+.example-line .hu b{color:var(--wine); font-weight:600;}
+.example-line .en{display:block; margin-top:2px; font-size:0.85rem;}
+/* postpositions grid */
+.postp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px;}
+.postp-item{background:var(--paper-dim); border-radius:6px; padding:16px; text-align:center;}
+.postp-item .phrase{font-family:'IBM Plex Mono', monospace; font-size:0.95rem;}
+.postp-item .phrase b{color:var(--wine);}
+.postp-item .en-tiny3{display:block; font-size:0.78rem; opacity:0.55; font-style:italic;
+margin-top:4px;}
+/* generic simple table */
+.table-scroll{overflow-x:auto; margin-top:18px; border-radius:6px; box-shadow:var(--shadow);}
+table.simple-table{width:100%; border-collapse:collapse; background:#f4ecd8;
+font-size:0.85rem; min-width:520px;}
+table.simple-table th, table.simple-table td{
+padding:10px 12px; text-align:left; vertical-align:top; border-bottom:1px solid
+rgba(24,34,41,0.1);
+border-right:1px solid rgba(24,34,41,0.08); color:#182229 !important;
+background-color:#f4ecd8 !important;
+}
+table.simple-table th:last-child, table.simple-table td:last-child{border-right:none;}
+table.simple-table thead th{
+background:#7E2513 !important; color:#f4ecd8 !important; font-family:'Fraunces', serif;
+font-weight:600; font-size:0.85rem; text-align:center;
+}
+table.simple-table thead th .en-tiny{display:block; font-family:'Work Sans', sans-serif;
+font-style:italic; font-weight:400; font-size:0.68rem; opacity:0.7; margin-top:2px; color:#f4ecd8
+!important;}
+table.simple-table td{font-family:'IBM Plex Mono', monospace; color:#182229 !important;}
+table.simple-table td .suf{color:#B6371F !important; font-weight:700;}
+table.simple-table td .line{display:block; margin-bottom:3px;}
+.table-footnote{font-size:0.8rem; opacity:0.6; font-style:italic; margin-top:10px;}
+.note{margin-top:22px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:14px 18px; border-radius:0 4px 4px 0; font-size:0.9rem;}
+.note b{color:var(--sage-deep);}
+.ek-table{margin-top:18px; background:var(--paper-dim); border-radius:6px; padding:16px
+20px;}
+.ek-table .row{font-family:'IBM Plex Mono', monospace; font-size:0.9rem; margin-bottom:8px;}
+.ek-table .row:last-child{margin-bottom:0;}
+.ek-table .row .arrow{color:var(--gold); margin:0 8px;}
+.ek-table .row b{color:var(--wine);}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:44px;
+margin-top:56px;}
+section.quiz h2{color:var(--gold); font-size:1.6rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 30px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:22px 24px; margin-bottom:18px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1rem; margin-bottom:14px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.9rem; padding:9px 15px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:0.98rem; padding:6px 4px;
+width:190px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:8px 16px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.86rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:10px; font-size:0.86rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.84rem; opacity:0.7;}
+footer{text-align:center; padding:46px 0 66px; color:var(--paper); opacity:0.4;
+font-size:0.78rem; font-family:'IBM Plex Mono', monospace;}
+@media (max-width:800px){
+.tri-rail{grid-template-columns:1fr;}
+.three-suf{grid-template-columns:1fr;}
+.postp-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:52px 0 0;}
+section.panel{padding:26px 18px;} section.quiz{padding:26px 18px;}
+.postp-grid{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+.breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Helyhatározók
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 12</div>
+<h1>
+<span class="hu-title">Helyhatározók: névszóragok és névutók</span>
+<span class="en-title">Adverbs of place: Endings and postpositions</span>
+</h1>
+<p class="lede hu">Ez a lecke bemutatja a Hol?/Hova?/Honnan? kérdésekre válaszoló
+ragrendszert, a helyet jelölő névutókat, az időhatározókat, és a családot/társaságot jelölő -ék
+végződést.</p>
+<p class="lede en">This lesson covers the ending system that answers
+Where?/Whereto?/From where?, postpositions of place, adverbs of time, and the -ék ending
+that indicates a person and their family or friends.</p>
+<div class="tri-rail">
+<div class="tri-card">
+<svg viewBox="0 0 48 48" fill="none"><rect x="14" y="18" width="20" height="22" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><path d="M8 12L24 6L40 12" stroke="#C9931A"
+stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="10" r="3" fill="#C9931A"/></svg>
+<span class="tag">Hova?</span>
+<div class="suf-big">-ba / -be</div>
+</div>
+<div class="tri-card">
+<svg viewBox="0 0 48 48" fill="none"><rect x="14" y="18" width="20" height="22" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><circle cx="24" cy="27" r="3" fill="#C9931A"/></svg>
+<span class="tag">Hol?</span>
+<div class="suf-big">-ban / -ben</div>
+</div>
+<div class="tri-card">
+<svg viewBox="0 0 48 48" fill="none"><rect x="14" y="18" width="20" height="22" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><path d="M8 12L24 6L40 12" stroke="#C9931A"
+stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="12" r="3" fill="#C9931A"/></svg>
+<span class="tag">Honnan?</span>
+<div class="suf-big">-ból / -ből</div>
+</div>
+</div>
+<div class="converge-caption">ha egy ragot ismersz, a másik kettő is levezethető · knowing
+one ending, you can deduce the other two</div>
+</header>
+<!-- ================= I. PLACE ENDINGS ================= -->
+<section class="panel" id="place-endings">
+<span class="section-num">01</span>
+<h2>I. Hol? Hova? Honnan? <span class="en-sub">Where? Whereto? From
+where?</span></h2>
+</section>
+<div class="concept-banner">
+<span class="hu">A fenti három kérdésre válaszoló ragok rendszert alkotnak: ha egy
+főnévhez legalább az egyik ragot ismered, a másik kettő levezethető belőle.</span>
+<span class="en">The endings that answer the three questions above form a system: if you
+know at least one of the endings for a noun, you can deduce the other two from it.</span>
+</div>
+<section class="panel" id="place-groups" style="margin-top:-20px;">
+<div class="group-block">
+<span class="group-title">Épületek, háromdimenziós tárgyak</span>
+<span class="group-title-en">Buildings, three-dimensional objects</span>
+<div class="three-suf">
+<div class="cell"><span class="q">Hova?</span><span class="suf">-ba /
+-be</span></div>
+<div class="cell"><span class="q">Hol?</span><span class="suf">-ban /
+-ben</span></div>
+<div class="cell"><span class="q">Honnan?</span><span class="suf">-ból /
+-ből</span></div>
+</div>
+<ul class="usage-list">
+<li>Városok, országok, kontinensek (kivéve Magyarország és sok magyar település) <span
+class="example-inline">Berlin → Berlinben, Németország → Németországban, Európa →
+Európában</span></li>
+<li>Épületek <span class="example-inline">könyvtár → a könyvtárban, iskola → az
+iskolában, étterem → az étteremben</span></li>
+<li>Háromdimenziós tárgyak <span class="example-inline">táska → a táskában, nyomtató
+→ a nyomtatóban</span></li>
+</ul>
+</div>
+<div class="group-block">
+<span class="group-title">Nyílt terek, rendezvények, néhány intézmény, felületek</span>
+<span class="group-title-en">Open spaces, most events, a few institutions, surfaces</span>
+<div class="three-suf">
+<div class="cell"><span class="q">Hova?</span><span class="suf">-ra / -re</span></div>
+<div class="cell"><span class="q">Hol?</span><span class="suf">-n / -on / -en /
+-ön</span></div>
+<div class="cell"><span class="q">Honnan?</span><span class="suf">-ról /
+-ről</span></div>
+</div>
+<ul class="usage-list">
+<li>Szigetek <span class="example-inline">Ciprus → Cipruson, Málta → Máltán, a
+Kanári-szigetek → a Kanári-szigeteken</span></li>
+<li>Nyílt terek <span class="example-inline">tér → a téren, piac → a piacon</span></li>
+<li>A legtöbb rendezvény <span class="example-inline">koncert → a koncerten, előadás
+→ az előadáson, kiállítás → a kiállításon, nyelvóra → a nyelvórán</span></li>
+<li>Néhány intézmény <span class="example-inline">rendőrség → a rendőrségen, posta
+→ a postán, egyetem → az egyetemen, munkahely → a munkahelyen</span></li>
+<li>Felületek <span class="example-inline">asztal → az asztalon, szék → a
+széken</span></li>
+<li>Magyarország és sok magyar település <span
+class="example-inline">Magyarországon, Budapesten, Szegeden, Pécsen, Siófokon,
+Tökölön</span></li>
+</ul>
+</div>
+<div class="group-block">
+<span class="group-title">Személyek</span>
+<span class="group-title-en">Persons</span>
+<div class="three-suf">
+<div class="cell"><span class="q">Hova?</span><span class="suf">-hoz / -hez /
+-höz</span></div>
+<div class="cell"><span class="q">Hol?</span><span class="suf">-nál / -nél</span></div>
+<div class="cell"><span class="q">Honnan?</span><span class="suf">-tól /
+-től</span></div>
+</div>
+<ul class="usage-list">
+<li>Személyek <span class="example-inline">orvos → az orvoshoz, Péter → Péterhez,
+masszőr → a masszőrhöz</span></li>
+<li>„Mellett" jelentésben <span class="example-inline">Az autóhoz megyek. / Az autónál
+állok. / Az autótól jövök.</span></li>
+</ul>
+</div>
+<h3 class="subhead">További megjegyzések <span class="en-sub2">Note also the
+following</span></h3>
+<ul class="rule-list">
+<li>
+<span class="hu">Minden esetre igaz: ha a szó <b>a</b>-ra vagy <b>e</b>-re végződik,
+az <b>á</b>-vá / <b>é</b>-vé válik:</span>
+<span class="en">It is true for all cases that if the word ends in a or e, the a becomes á,
+and the e becomes é:</span>
+<span class="example-inline">uszoda → uszodában, posta → postáról, Emese →
+Emesénél, Chile → Chilébe</span>
+</li>
+<li>
+<span class="hu">Ha a szó nem tulajdonnév, ezekre a kérdésekre válaszolva általában
+névelővel használjuk.</span>
+<span class="en">If the word is not a proper noun, we usually use it with an article when
+answering these questions.</span>
+</li>
+</ul>
+</section>
+<!-- ================= II. FROM WHERE TO WHERE ================= -->
+<section class="panel" id="from-to">
+<span class="section-num">02</span>
+<h2>II. Honnan hova? <span class="en-sub">From where to where?</span></h2>
+<div class="example-block">
+<div class="example-line"><span class="hu">a buszmegálló<b>tól</b> az iskolá<b>ig</b></span>
+<span class="en">from the bus stop to the school</span>
+</div>
+<div class="example-line">
+<span class="hu">az étterem<b>től</b> a szállodá<b>ig</b></span>
+<span class="en">from the restaurant to the hotel</span>
+</div>
+</div>
+</section>
+<!-- ================= III. POSTPOSITIONS ================= -->
+<section class="panel" id="postpositions">
+<span class="section-num">03</span>
+<h2>III. Helyet jelölő névutók <span class="en-sub">Postpositions indicating
+place</span></h2>
+<p class="hu">Hol van Petike? <span class="en">(Where is little Peter?)</span></p>
+<div class="postp-grid">
+<div class="postp-item"><div class="phrase">apa <b>mögött</b></div><div
+class="en-tiny3">behind Dad</div></div>
+<div class="postp-item"><div class="phrase">apa lába <b>alatt</b></div><div
+class="en-tiny3">under Dad's feet</div></div>
+<div class="postp-item"><div class="phrase">anya <b>mellett</b></div><div
+class="en-tiny3">next to Mom</div></div>
+<div class="postp-item"><div class="phrase">apa <b>előtt</b></div><div
+class="en-tiny3">in front of Dad</div></div>
+<div class="postp-item"><div class="phrase">apa <b>fölött</b></div><div
+class="en-tiny3">above Dad</div></div>
+<div class="postp-item"><div class="phrase">anya és apa <b>között</b></div><div
+class="en-tiny3">between Mom and Dad</div></div>
+</div>
+</section>
+<div class="concept-banner">
+<span class="hu">Az angollal ellentétben a névutó mindig a rá vonatkozó főnév UTÁN áll:
+apa mögött (behind Dad).</span>
+<span class="en">Note that, contrary to English, the postposition is always placed after the
+noun to which it refers: apa mögött (behind Dad).</span>
+</div>
+<!-- ================= ADVERBS OF TIME INTRO ================= -->
+<section class="panel" id="time-intro" style="margin-top:-20px;">
+<span class="section-num">04</span>
+<h2>Időhatározók <span class="en-sub">Adverbs of time</span></h2>
+<p class="hu">Ez a rész az időhatározók öt fő kérdéscsoportját mutatja be.</p>
+<p class="en">This section covers the five main question groups for adverbs of time.</p>
+<h3 class="subhead">I. Mikor? Hány órakor? Melyik napon? <span class="en-sub2">When?
+At what time? On which day?</span></h3>
+<div class="table-scroll">
+<table class="simple-table">
+<thead><tr><th>Mikor? / Hánykor? / Hány órakor?<span class="en-tiny">When? At what
+time?</span></th><th>Melyik napon?<span class="en-tiny">On which
+day?</span></th></tr></thead>
+<tbody>
+<tr>
+<td><span class="line">Nyolc<b class="suf">óra</b>kor.* (Nyolc<b
+class="suf">kor</b>. / Fél nyolc<b class="suf">kor</b>. / Éjfél<b
+class="suf">kor</b>.)</span><span class="line">Dél<b class="suf">ben</b>. (!)</span></td>
+<td><span class="line">hétfő<b class="suf">n</b>, kedd<b class="suf">en</b>,
+szerdá<b class="suf">n</b>, csütörtök<b class="suf">ön</b>, pénteken, szombat<b
+class="suf">on</b></span><span class="line">vasárnap <span style="opacity:0.4;">––</span>
+(!)</span><span class="line">a hét<b class="suf">en</b>, a hétvégé<b
+class="suf">n</b></span><span class="line" style="opacity:0.7;">hétköznap / tegnap / ma /
+holnap <span style="opacity:0.4;">––</span> (no ending)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="table-footnote">* A -kor előtt az utolsó a nem válik á-vá: hat óra → hat órakor. /
+Before the ending -kor, the last a does not become á.</p>
+<h3 class="subhead">II. Melyik napszakban? hónapban? évszakban? <span
+class="en-sub2">In which time of day, month, season?</span></h3>
+<div class="table-scroll">
+<table class="simple-table">
+<thead><tr><th>Napszak<span class="en-tiny">Time of day</span></th><th>Hónap<span
+class="en-tiny">Month</span></th><th>Évszak<span
+class="en-tiny">Season</span></th></tr></thead>
+<tbody>
+<tr>
+<td>reggel / délelőtt / délután / este / éjszaka <span
+style="opacity:0.4;">––</span><br>kedd(en) reggel <span
+style="opacity:0.4;">––</span>*</td>
+<td>január<b class="suf">ban</b> ... augusztus<b class="suf">ban</b>, szeptember<b
+class="suf">ben</b> ... december<b class="suf">ben</b></td>
+<td>tavasz<b class="suf">szal</b>, nyár<b class="suf">on</b>, ősz<b
+class="suf">szel</b>, tél<b class="suf">en</b></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="table-footnote">* Ha egy hétköznap nevét napszakhoz adjuk, a hétköznapon az -n
+rag elhagyható: kedd reggel / kedden reggel. / When adding a weekday to a time of day, the -n
+ending on the weekday is optional.</p>
+<h3 class="subhead">III. Mi előtt? Mi után? Hány óra körül? <span class="en-sub2">Before
+what? After what? Around what time?</span></h3>
+<div class="example-block">
+<div class="example-line"><span class="hu">a magyaróra <b>előtt</b> / reggeli
+<b>előtt</b> / kilenc (óra) <b>előtt</b></span><span class="en">before what</span></div>
+<div class="example-line"><span class="hu">a magyaróra <b>után</b> / reggeli
+<b>után</b> / kilenc (óra) <b>után</b></span><span class="en">after what</span></div>
+<div class="example-line"><span class="hu">kilenc(óra) <b>körül</b> / dél
+<b>körül</b></span><span class="en">around what time</span></div>
+</div>
+<h3 class="subhead">IV. Mióta? Mettől meddig? <span class="en-sub2">Since when? From
+when to when?</span></h3>
+<div class="example-block">
+<div class="example-line"><span class="hu">2004 <b>óta</b> / tavasz <b>óta</b> / péntek
+<b>óta</b> / nyolc óra <b>óta</b></span><span class="en">since when</span></div>
+<div class="example-line"><span class="hu">8 órá<b>tól</b> 16 órá<b>ig</b> /
+hétfő<b>től</b> péntek<b>ig</b> / reggel<b>től</b> est<b>ig</b>(!)</span><span
+class="en">from when to when</span></div>
+</div>
+<h3 class="subhead">V. Hányadika? Hányadikán? <span class="en-sub2">Which date? On
+which date?</span></h3>
+<div class="table-scroll">
+<table class="simple-table">
+<thead><tr><th>Hányadika van ma?<span class="en-tiny">What is today's
+date?</span></th><th>Hányadikán van a születésnapod?<span class="en-tiny">On which date
+is your birthday?</span></th></tr></thead>
+<tbody>
+<tr><td>Január hatodik<b class="suf">a</b> van.</td><td>Január hatodik<b
+class="suf">án</b>.</td></tr>
+<tr><td>Október nyolcadik<b class="suf">a</b> van.</td><td>Október nyolcadik<b
+class="suf">án</b>.</td></tr>
+<tr><td>Május else<b class="suf">je</b>(!) van.</td><td>Május else<b
+class="suf">jén</b>.</td></tr>
+<tr><td>Február huszonegyedik<b class="suf">e</b> van.</td><td>Február
+huszonegyedik<b class="suf">én</b>.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= -ÉK ENDING ================= -->
+<section class="panel" id="ek-ending">
+<span class="section-num">05</span>
+<h2>Főnévragok: -ék <span class="en-sub">Suffixing nouns: -ék</span></h2>
+<p class="hu">Annak jelzésére, hogy egy személyről és a családjáról vagy barátairól
+beszélünk, a <b>-ék</b> végződést használjuk. A főnév fordítása a szövegkörnyezettől
+függ.</p>
+<p class="en">To indicate that we talk about a person and their family or friends, the ending
+-ék is used. The translation of the noun depends on the context.</p>
+<div class="ek-table">
+<div class="row">Zsuzsanna és a férje/családja <span class="arrow">=</span>
+<b>Zsuzsannáék</b> <span class="en" style="font-size:0.8rem;">(Zsuzsanna and her
+husband/family)</span></div>
+<div class="row">Szilárd és a sógora/barátja <span class="arrow">=</span>
+<b>Szilárdék</b> <span class="en" style="font-size:0.8rem;">(Szilárd and his
+brother-in-law/friend)</span></div>
+<div class="row">a fiam és a barátnője <span class="arrow">=</span> <b>a fiamék</b>
+<span class="en" style="font-size:0.8rem;">(my son and his girlfriend)</span></div>
+<div class="row">a Szép család <span class="arrow">=</span> <b>Szépék</b> <span
+class="en" style="font-size:0.8rem;">(the Szép family)</span></div>
+</div>
+<div class="note">
+<b>Figyelem / Note:</b> az igét egyes szám/többes szám <u>harmadik személyben</u>
+ragozzuk. / The verb is conjugated in the third person plural.
+<div class="example-block" style="margin-top:14px; border-color:var(--sage-deep);">
+<div class="example-line">
+<span class="hu">A Szép család otthon marad. <b>DE:</b> Szépék otthon
+marad<b>nak</b>.</span>
+<span class="en">Family Szép stay at home.</span>
+</div>
+<div class="example-line">
+<span class="hu">Szilárd és a barátja mosogat. <b>DE:</b> Szilárdék
+mosogat<b>nak</b>.</span>
+<span class="en">Szilárd and his friend are washing up.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">06</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Az iskolá___ vagyok.” <span
+class="en">(I am at school — Hol?)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="ban,-ban"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="2">
+<span class="q-num">2 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik ragot használjuk személyeknél, a „Hol?”
+kérdésre?</span><br><span class="en">Which ending is used with persons for
+"Hol?"</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">-ban/-ben</button>
+<button class="opt" data-correct="true">-nál/-nél</button>
+<button class="opt" data-correct="false">-on/-en/-ön</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „A piac___ vagyok.” <span
+class="en">(I am at the market)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="on,-on"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">Magyarországon a legtöbb magyar településnevet
+az -n/-on/-en/-ön csoport ragjaival használjuk, nem a -ban/-ben csoporttal.</span><br><span
+class="en">Most Hungarian place names use the -n/-on/-en/-ön group, not
+-ban/-ben.</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="false">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Hol áll a névutó a hozzá tartozó főnévhez
+képest?</span><br><span class="en">Where does the postposition stand relative to its
+noun?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">a főnév előtt <span class="en">(before the
+noun)</span></button>
+<button class="opt" data-correct="true">a főnév után <span class="en">(after the
+noun)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="6">
+<span class="q-num">6 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Hogyan mondjuk: „anya mögött”? Fordítsd
+angolra.</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="behind
+mom"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Nyolc___ találkozunk.” <span
+class="en">(We'll meet at eight o'clock.)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="órakor,-órakor"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik a helyes: „Délben” vagy
+„Délban”?</span><br><span class="en">Which is correct: "Délben" or "Délban"?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Délben</button>
+<button class="opt" data-correct="false">Délban</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A -ék raggal ellátott szó mellett az igét egyes
+szám 3. személyben ragozzuk.</span><br><span class="en">The verb is conjugated in the
+singular third person alongside an -ék-suffixed word.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="10">
+<span class="q-num">10 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mit jelent a „Szépék”?</span><br><span
+class="en">What does "Szépék" mean? (one short English phrase)</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="the
+szép family,the szep family"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · Helyhatározók — Adverbs of place</footer>
+</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score:
+${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite —
+correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>
