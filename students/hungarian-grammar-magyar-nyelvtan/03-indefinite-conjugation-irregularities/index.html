@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rendhagyóságokat mutató igék · Verbs with irregularities — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182229;
+    --ink-soft:#2c3944;
+    --paper:#f4ecd8;
+    --paper-dim:#e9dfc7;
+    --wine:#B6371F;
+    --wine-deep:#7E2513;
+    --gold:#C9931A;
+    --sage:#2F6E4F;
+    --sage-deep:#1E4A34;
+    --line:rgba(244,236,216,0.14);
+    --line-dark:rgba(24,34,41,0.12);
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--paper);
+  }
+  .hu{ color:inherit; }
+  .en{
+    font-style:italic;
+    color:var(--paper);
+    opacity:0.62;
+    font-size:0.92em;
+  }
+  .example{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.98rem;
+  }
+  a{color:var(--gold);}
+
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+  .breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+  header.hero{
+    padding:88px 0 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:1px;background:var(--gold);
+  }
+  .hero h1{
+    font-size:clamp(2.2rem, 4.6vw, 3.4rem);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .hu-title{display:block;}
+  .hero h1 .en-title{
+    display:block;
+    font-size:0.42em;
+    font-style:italic;
+    font-weight:400;
+    color:var(--paper);
+    opacity:0.55;
+    margin-top:10px;
+  }
+  .hero p.lede{
+    max-width:640px;
+    margin-top:24px;
+    color:var(--paper);
+    opacity:0.78;
+    font-size:1.05rem;
+  }
+
+  .groups-rail{
+    margin:60px 0 40px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+  }
+  .g-card{
+    background:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:20px 16px 18px;
+    text-align:center;
+    position:relative;
+  }
+  .g-card .g-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .g-card svg{width:48px;height:48px;margin:0 auto 12px;display:block;}
+  .g-card h4{
+    font-size:0.9rem;
+    color:var(--paper);
+    line-height:1.3;
+  }
+  .g-card .en-tiny{
+    font-size:0.72rem;
+    opacity:0.5;
+    font-style:italic;
+    margin-top:4px;
+  }
+  .rail-caption{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    opacity:0.5;
+    margin-top:6px;
+  }
+
+  section.panel{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:6px;
+    padding:44px 48px;
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+  }
+  section.panel .en{ color:var(--ink); opacity:0.6; }
+  section.panel h2{
+    color:var(--wine-deep);
+    font-size:1.55rem;
+    margin-bottom:6px;
+  }
+  section.panel h2 .en-sub{
+    display:block;
+    font-family:'Work Sans',sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.58em;
+    color:var(--ink-soft);
+    opacity:0.6;
+    margin-top:4px;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--wine);
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+    display:block;
+  }
+
+  .table-scroll{overflow-x:auto; margin-top:22px; border-radius:6px; box-shadow:var(--shadow);}
+  table.conj-table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--paper);
+    font-size:0.95rem;
+    min-width:480px;
+  }
+  table.conj-table th, table.conj-table td{
+    padding:11px 16px;
+    text-align:center;
+    border-bottom:1px solid var(--line-dark);
+    color:#182229 !important;
+    background-color:#f4ecd8 !important;
+  }
+  table.conj-table thead th{
+    background:#7E2513 !important;
+    color:#f4ecd8 !important;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1rem;
+  }
+  table.conj-table thead th .en-tiny{
+    display:block;
+    font-family:'Work Sans', sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.72rem;
+    opacity:0.7;
+    margin-top:2px;
+    color:#f4ecd8 !important;
+  }
+  table.conj-table tbody th{
+    text-align:left;
+    background:#e9dfc7 !important;
+    color:#182229 !important;
+    font-weight:600;
+    font-size:0.88rem;
+    white-space:nowrap;
+  }
+  table.conj-table td{
+    font-family:'IBM Plex Mono', monospace;
+    color:#182229 !important;
+  }
+  table.conj-table .suf{
+    color:#B6371F !important;
+    font-weight:700;
+  }
+  table.conj-table .alt{
+    color:#182229 !important;
+    opacity:0.55;
+    font-size:0.85rem;
+  }
+  .table-footnote{
+    font-size:0.82rem;
+    opacity:0.6;
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .example-block{
+    margin-top:22px;
+    padding-left:20px;
+    border-left:3px solid var(--gold);
+  }
+  .example-line{margin-bottom:14px;}
+  .example-line:last-child{margin-bottom:0;}
+  .example-line .hu{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .example-line .hu b{color:var(--wine); font-weight:600;}
+  .example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+
+  .note{
+    margin-top:26px;
+    background:var(--paper-dim);
+    border-left:3px solid var(--sage-deep);
+    padding:16px 20px;
+    border-radius:0 4px 4px 0;
+    font-size:0.95rem;
+  }
+  .note b{color:var(--sage-deep);}
+
+  .stem-grid{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .stem-item{
+    background:var(--paper-dim);
+    border-radius:6px;
+    padding:18px 20px;
+  }
+  .stem-item .hu{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .stem-item .hu b{color:var(--wine);}
+  .stem-item .arrow-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .stem-item .arrow-line span.tag{
+    font-size:0.72rem;
+    background:var(--gold);
+    color:var(--ink);
+    padding:1px 7px;
+    border-radius:4px;
+    font-weight:600;
+  }
+  .stem-item .en-small{font-size:0.82rem; opacity:0.6; font-style:italic; margin-top:6px; display:block;}
+
+  section.quiz{
+    background:var(--ink-soft);
+    color:var(--paper);
+    border-radius:6px;
+    padding:48px;
+    margin-top:60px;
+  }
+  section.quiz h2{color:var(--gold); font-size:1.7rem;}
+  section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+  .quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+
+  .q{
+    background:rgba(244,236,216,0.05);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:24px 26px;
+    margin-bottom:20px;
+  }
+  .q-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .q-prompt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.02rem;
+    margin-bottom:16px;
+  }
+  .q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+  .opts{display:flex; flex-wrap:wrap; gap:10px;}
+  .opt{
+    background:transparent;
+    border:1px solid rgba(244,236,216,0.3);
+    color:var(--paper);
+    font-family:'Work Sans',sans-serif;
+    font-size:0.92rem;
+    padding:10px 16px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+  .opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+  .opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+  .opt[disabled]{cursor:default;}
+
+  .fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .fill-row input{
+    font-family:'IBM Plex Mono', monospace;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--gold);
+    color:var(--paper);
+    font-size:1rem;
+    padding:6px 4px;
+    width:180px;
+    outline:none;
+  }
+  .fill-row button.check{
+    background:var(--gold);
+    border:none;
+    color:var(--ink);
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.88rem;
+  }
+  .fill-row button.check:hover{opacity:0.9;}
+  .q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+  .q-feedback.ok{color:#9fd6a0;}
+  .q-feedback.bad{color:#e79aa6;}
+
+  .quiz-score{
+    margin-top:8px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    opacity:0.7;
+  }
+
+  @media (max-width:760px){
+    .groups-rail{grid-template-columns:repeat(2,1fr);}
+    .stem-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    header.hero{padding:56px 0 0;}
+    section.panel{padding:30px 22px;}
+    section.quiz{padding:30px 22px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .opt{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Rendhagyóságokat mutató igék
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Magyar Nyelvtan · Lecke 03</div>
+    <h1>
+      <span class="hu-title">Rendhagyóságokat mutató igék határozatlan ragozása</span>
+      <span class="en-title">Indefinite conjugation for verbs with irregularities</span>
+    </h1>
+    <p class="lede hu">Négy igecsoport ragozását nézzük meg, amelyek a szabályos mintától eltérnek: az <b>-ik</b> igéket, az <b>-s/-sz/-z</b> végű igéket, ezek keverékét, és a három igazán rendhagyó igét: <b>megy, jön, van</b>.</p>
+    <p class="lede en">We look at four verb groups that deviate from the regular pattern: verbs ending in -ik, verbs ending in -s/-sz/-z, a combination of the two, and the three genuinely irregular verbs: megy, jön, van.</p>
+
+    <div class="groups-rail">
+      <div class="g-card">
+        <span class="g-num">I.</span>
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="14" r="7" stroke="#C9931A" stroke-width="2.5"/><path d="M10 40c0-9 6-15 14-15s14 6 14 15" stroke="#C9931A" stroke-width="2.5" stroke-linecap="round"/><path d="M18 22c1 3 3 5 3 8" stroke="#C9931A" stroke-width="2" stroke-linecap="round"/></svg>
+        <h4><span style="color:var(--gold);">-ik</span> igék</h4>
+        <div class="en-tiny">Verbs ending in -ik</div>
+      </div>
+      <div class="g-card">
+        <span class="g-num">II.</span>
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="14" r="7" stroke="#C9931A" stroke-width="2.5"/><path d="M10 40c0-9 6-15 14-15s14 6 14 15" stroke="#C9931A" stroke-width="2.5" stroke-linecap="round"/><rect x="16" y="24" width="16" height="11" rx="1.5" stroke="#C9931A" stroke-width="2"/></svg>
+        <h4><span style="color:var(--gold);">-s/-sz/-z</span></h4>
+        <div class="en-tiny">Verbs ending in -s, -sz, -z</div>
+      </div>
+      <div class="g-card">
+        <span class="g-num">III.</span>
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="14" r="7" stroke="#C9931A" stroke-width="2.5"/><path d="M10 40c0-9 6-15 14-15s14 6 14 15" stroke="#C9931A" stroke-width="2.5" stroke-linecap="round"/><rect x="15" y="25" width="18" height="10" rx="1.5" stroke="#C9931A" stroke-width="2"/><line x1="19" y1="30" x2="29" y2="30" stroke="#C9931A" stroke-width="1.5"/></svg>
+        <h4>Kombinált <span style="color:var(--gold);">-ik</span></h4>
+        <div class="en-tiny">-ik + -s/-sz/-z combined</div>
+      </div>
+      <div class="g-card">
+        <span class="g-num">IV.</span>
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="14" r="7" stroke="#C9931A" stroke-width="2.5"/><path d="M10 40c0-9 6-15 14-15s14 6 14 15" stroke="#C9931A" stroke-width="2.5" stroke-linecap="round"/><path d="M34 20l6 6-6 6" stroke="#C9931A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>megy, jön, van</h4>
+        <div class="en-tiny">Fully irregular verbs</div>
+      </div>
+    </div>
+    <div class="rail-caption">négy csoport, amely eltér a szabályos ragozástól · four groups that deviate from the regular pattern</div>
+  </header>
+
+  <!-- ================= I. -IK VERBS ================= -->
+  <section class="panel" id="group-1">
+    <span class="section-num">01</span>
+    <h2>I. -ik igék <span class="en-sub">Verbs ending in -ik · Ikesigék</span></h2>
+
+    <div class="table-scroll">
+      <table class="conj-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>lakik<span class="en-tiny">(lakni)</span></th>
+            <th>közlekedik<span class="en-tiny">(közlekedni)</span></th>
+            <th>fejlődik<span class="en-tiny">(fejlődni)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>én</th>
+            <td>lak<span class="suf">om</span> / <span class="alt">lak<span class="suf">ok</span></span></td>
+            <td>közlekedem / <span class="alt">közleked<span class="suf">ek</span></span></td>
+            <td>fejlőd<span class="suf">öm</span> / <span class="alt">fejlőd<span class="suf">ök</span></span></td>
+          </tr>
+          <tr><th>te</th><td>lak<span class="suf">sz</span></td><td>közleked<span class="suf">sz</span></td><td>fejlőd<span class="suf">sz</span></td></tr>
+          <tr><th>Ön / ő</th><td>lak<span class="suf">ik</span></td><td>közleked<span class="suf">ik</span></td><td>fejlőd<span class="suf">ik</span></td></tr>
+          <tr><th>mi</th><td>lak<span class="suf">unk</span></td><td>közleked<span class="suf">ünk</span></td><td>fejlőd<span class="suf">ünk</span></td></tr>
+          <tr><th>ti</th><td>lak<span class="suf">tok</span></td><td>közleked<span class="suf">tek</span></td><td>fejlőd<span class="suf">tök</span></td></tr>
+          <tr><th>Önök / ők</th><td>lak<span class="suf">nak</span></td><td>közleked<span class="suf">nek</span></td><td>fejlőd<span class="suf">nek</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-footnote">* Ezek az igék tárgyatlanok, ezért nincs -lak/-lek alakjuk. / These verbs are not transitive — they have no form with -lak/-lek.</p>
+  </section>
+
+  <!-- ================= II. -S/-SZ/-Z VERBS ================= -->
+  <section class="panel" id="group-2">
+    <span class="section-num">02</span>
+    <h2>II. -s, -sz, -z végű igék <span class="en-sub">Verbs ending in -s, -sz, -z</span></h2>
+    <p class="hu">A -<b>l</b> a második személyű (te) alaknál a kiejtést könnyíti meg.</p>
+    <p class="en">The -l for the second person singular facilitates pronunciation.</p>
+
+    <div class="table-scroll">
+      <table class="conj-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>hoz<span class="en-tiny">(hozni)</span></th>
+            <th>keres<span class="en-tiny">(keresni)</span></th>
+            <th>főz<span class="en-tiny">(főzni)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>én</th><td>hoz<span class="suf">ok</span></td><td>keres<span class="suf">ek</span></td><td>főz<span class="suf">ök</span></td></tr>
+          <tr><th>te</th><td>hoz<span class="suf">ol</span></td><td>keres<span class="suf">el</span></td><td>főz<span class="suf">öl</span></td></tr>
+          <tr><th>Ön / ő</th><td>hoz–</td><td>keres–</td><td>főz–</td></tr>
+          <tr><th>mi</th><td>hoz<span class="suf">unk</span></td><td>keres<span class="suf">ünk</span></td><td>főz<span class="suf">ünk</span></td></tr>
+          <tr><th>ti</th><td>hoz<span class="suf">tok</span></td><td>keres<span class="suf">tek</span></td><td>főz<span class="suf">tök</span></td></tr>
+          <tr><th>Önök / ők</th><td>hoz<span class="suf">nak</span></td><td>keres<span class="suf">nek</span></td><td>főz<span class="suf">nek</span></td></tr>
+          <tr><th>én → téged, titeket</th><td>hoz<span class="suf">lak</span></td><td>keres<span class="suf">lek</span></td><td>— —</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-footnote">A <b>főz</b> tárgyatlan használatban nem kap -lak/-lek alakot. / Used intransitively, főz has no -lak/-lek form.</p>
+  </section>
+
+  <!-- ================= III. COMBINED ================= -->
+  <section class="panel" id="group-3">
+    <span class="section-num">03</span>
+    <h2>III. -s, -sz, -z végű ikes igék <span class="en-sub">-ik verbs ending in -s, -sz, -z (combination of I and II)</span></h2>
+    <p class="hu">Az I. és a II. csoport keveréke: a <b>te</b> alak úgy viselkedik, mint a II. csoportban (<span class="suffix" style="background:var(--gold);color:var(--ink);padding:1px 6px;border-radius:4px;">-ol/-el/-öl</span>), az <b>Ön/ő</b> alak pedig úgy, mint az I. csoportban (<span class="suffix" style="background:var(--gold);color:var(--ink);padding:1px 6px;border-radius:4px;">-ik</span>).</p>
+    <p class="en">A combination of groups I and II: the te form behaves like group II, while the Ön/ő form behaves like group I.</p>
+
+    <div class="table-scroll">
+      <table class="conj-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>úszik<span class="en-tiny">(úszni)</span></th>
+            <th>tévézik<span class="en-tiny">(tévézni)</span></th>
+            <th>sörözik<span class="en-tiny">(sörözni)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>én</th>
+            <td>úsz<span class="suf">om</span> / <span class="alt">úsz<span class="suf">ok</span></span></td>
+            <td>tévéz<span class="suf">em</span> / <span class="alt">tévéz<span class="suf">ek</span></span></td>
+            <td>söröz<span class="suf">öm</span> / <span class="alt">söröz<span class="suf">ök</span></span></td>
+          </tr>
+          <tr><th>te</th><td>úsz<span class="suf">ol</span></td><td>tévéz<span class="suf">el</span></td><td>söröz<span class="suf">öl</span></td></tr>
+          <tr><th>Ön / ő</th><td>úsz<span class="suf">ik</span></td><td>tévéz<span class="suf">ik</span></td><td>söröz<span class="suf">ik</span></td></tr>
+          <tr><th>mi</th><td>úsz<span class="suf">unk</span></td><td>tévéz<span class="suf">ünk</span></td><td>söröz<span class="suf">ünk</span></td></tr>
+          <tr><th>ti</th><td>úsz<span class="suf">tok</span></td><td>tévéz<span class="suf">tek</span></td><td>söröz<span class="suf">tök</span></td></tr>
+          <tr><th>Önök / ők</th><td>úsz<span class="suf">nak</span></td><td>tévéz<span class="suf">nek</span></td><td>söröz<span class="suf">nek</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-footnote">* Ezek az igék tárgyatlanok, ezért nincs -lak/-lek alakjuk. / These verbs are not transitive — they have no form with -lak/-lek.</p>
+  </section>
+
+  <!-- ================= IV. IRREGULAR ================= -->
+  <section class="panel" id="group-4">
+    <span class="section-num">04</span>
+    <h2>IV. Rendhagyó igék <span class="en-sub">Irregular verbs: megy, jön, van</span></h2>
+
+    <div class="table-scroll">
+      <table class="conj-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>megy<span class="en-tiny">(menni)</span></th>
+            <th>jön<span class="en-tiny">(jönni)</span></th>
+            <th>van<span class="en-tiny">(lenni)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>én</th><td>megyek</td><td>jövök</td><td>vagyok</td></tr>
+          <tr><th>te</th><td>mész</td><td>jössz</td><td>vagy</td></tr>
+          <tr><th>Ön / ő</th><td>megy</td><td>jön</td><td>– / van</td></tr>
+          <tr><th>mi</th><td>megyünk</td><td>jövünk</td><td>vagyunk</td></tr>
+          <tr><th>ti</th><td>mentek</td><td>jöttök</td><td>vagytok</td></tr>
+          <tr><th>Önök / ők</th><td>mennek</td><td>jönnek</td><td>vannak</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-footnote">* Ezek az igék tárgyatlanok, ezért nincs -lak/-lek alakjuk. / These verbs are not transitive — they have no form with -lak/-lek.</p>
+
+    <div class="note">
+      <b>Figyelem / Note:</b> a <b>van</b> Ön/ő alakja jelen időben gyakran elmarad (pl. <span class="example">Éva otthon —.</span>), de kijelentő mondatban meg is jelenhet (<span class="example">Éva otthon van.</span>).
+    </div>
+  </section>
+
+  <!-- ================= STEM CHANGE NOTE ================= -->
+  <section class="panel" id="stem-change">
+    <span class="section-num">05</span>
+    <h2>Tőváltó igék <span class="en-sub">Stem-changing verbs</span></h2>
+    <p class="hu">Néhány ige nem a jelen idejű ragozásában rendhagyó, hanem a töve változik meg más alakokban.</p>
+    <p class="en">Some verbs are irregular not for their conjugation in the present tense, but for changes that occur in their stem in other forms.</p>
+
+    <div class="stem-grid">
+      <div class="stem-item">
+        <div class="arrow-line">
+          <span class="hu"><b>alszik</b></span>
+          <span class="tag">-sz tő</span>
+          <span>→</span>
+          <span class="hu"><b>aludni</b></span>
+          <span class="tag">-d tő</span>
+        </div>
+        <span class="en-small">to sleep — present-tense stem contains -sz, infinitive stem contains -d</span>
+      </div>
+      <div class="stem-item">
+        <div class="arrow-line">
+          <span class="hu"><b>fekszik</b></span>
+          <span class="tag">-sz tő</span>
+          <span>→</span>
+          <span class="hu"><b>feküdni</b></span>
+          <span class="tag">-d tő</span>
+        </div>
+        <span class="en-small">to lie down — present-tense stem contains -sz, infinitive stem contains -d</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Fontos / Note:</b> hasonló tőváltozás jelenik meg a múlt időben és a felszólító módban is. / Similar changes will also occur in the past tense and the imperative.
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="quiz" id="quiz">
+    <span class="section-num" style="color:var(--gold);">06</span>
+    <h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+    <p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a válaszaidat.</p>
+    <p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+
+    <div class="q" data-qid="1">
+      <span class="q-num">1 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi a „lakik” ige egyes szám első személyű (én) alakja? <span class="en">(two acceptable forms exist — give either)</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="lakom,lakok">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="2">
+      <span class="q-num">2 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi könnyíti meg a kiejtést a -s/-sz/-z végű igék „te” alakjánál?</span><br>
+        <span class="en">What eases pronunciation in the "te" form of -s/-sz/-z verbs?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="true">egy -l hang <span class="en">(an -l sound)</span></button>
+        <button class="opt" data-correct="false">egy -t hang <span class="en">(a -t sound)</span></button>
+        <button class="opt" data-correct="false">semmi, nincs változás</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="3">
+      <span class="q-num">3 / 8 · IGAZ VAGY HAMIS</span>
+      <div class="q-prompt">
+        <span class="hu">Az „úszik” ige a te alakban úgy viselkedik, mint az I. csoport (-ik igék), az Ön/ő alakban pedig mint a II. csoport (-s/-sz/-z igék).</span><br>
+        <span class="en">"Úszik" behaves like group I in the te form, and like group II in the Ön/ő form.</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+        <button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="4">
+      <span class="q-num">4 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Egészítsd ki: „Én holnap Budapestre ___.” <span class="en">(én-form of "megy")</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="megyek">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="5">
+      <span class="q-num">5 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi a „jön” ige egyes szám második személyű (te) alakja?</span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="jössz">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="6">
+      <span class="q-num">6 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik igének van -lak/-lek alakja?</span><br>
+        <span class="en">Which of these verbs has a -lak/-lek form?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">lakik</button>
+        <button class="opt" data-correct="true">keres</button>
+        <button class="opt" data-correct="false">megy</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="7">
+      <span class="q-num">7 / 8 · IGAZ VAGY HAMIS</span>
+      <div class="q-prompt">
+        <span class="hu">Az „alszik” ige töve a főnévi igenévben (aludni) ugyanaz, mint jelen időben (alszik).</span><br>
+        <span class="en">The stem of "alszik" is the same in the infinitive (aludni) as in the present tense (alszik).</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+        <button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="8">
+      <span class="q-num">8 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik igecsoportba tartozik a „tévézik”?</span><br>
+        <span class="en">Which group does "tévézik" (to watch TV) belong to?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">csak -ik igék</button>
+        <button class="opt" data-correct="false">csak -s/-sz/-z igék</button>
+        <button class="opt" data-correct="true">-ik és -s/-sz/-z végű ikes igék (kombinált)</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="quiz-score" id="scoreDisplay"></div>
+  </section>
+
+  <footer>Magyar Nyelvtan Online · Rendhagyóságokat mutató igék határozatlan ragozása — Indefinite conjugation for verbs with irregularities</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="Thank you for your support! Köszönöm a támogatást!" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  let answeredCorrect = new Set();
+  const totalQuestions = document.querySelectorAll('.q').length;
+  const scoreDisplay = document.getElementById('scoreDisplay');
+
+  function updateScore(){
+    scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`;
+  }
+  updateScore();
+
+  document.querySelectorAll('.q').forEach(q => {
+    const qid = q.dataset.qid;
+    const opts = q.querySelectorAll('.opt');
+    if(opts.length){
+      opts.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const feedback = q.querySelector('.q-feedback');
+          const isCorrect = opt.dataset.correct === 'true';
+          opts.forEach(o => o.disabled = true);
+          if(isCorrect){
+            opt.classList.add('correct');
+            feedback.textContent = 'Helyes! ✓ Correct!';
+            feedback.className = 'q-feedback ok';
+            answeredCorrect.add(qid);
+          } else {
+            opt.classList.add('wrong');
+            const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+            if(correctOpt) correctOpt.classList.add('correct');
+            feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+            feedback.className = 'q-feedback bad';
+          }
+          updateScore();
+        });
+      });
+    }
+
+    const fillRow = q.querySelector('.fill-row');
+    if(fillRow){
+      const input = fillRow.querySelector('input');
+      const button = fillRow.querySelector('.check');
+      const feedback = q.querySelector('.q-feedback');
+      const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+
+      function checkAnswer(){
+        const val = input.value.trim().toLowerCase();
+        if(answers.includes(val)){
+          feedback.textContent = 'Helyes! ✓ Correct!';
+          feedback.className = 'q-feedback ok';
+          input.style.borderBottomColor = '#2F6E4F';
+          answeredCorrect.add(qid);
+        } else {
+          feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite — correct answer: "${answers[0]}".`;
+          feedback.className = 'q-feedback bad';
+          input.style.borderBottomColor = '#B6371F';
+        }
+        updateScore();
+      }
+
+      button.addEventListener('click', checkAnswer);
+      input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+    }
+  });
+</script>
+
+</body>
+</html>
