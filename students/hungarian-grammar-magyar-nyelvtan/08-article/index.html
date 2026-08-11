@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A névelő · The article — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+ :root{
+   --ink:#182229;
+   --ink-soft:#2c3944;
+   --paper:#f4ecd8;
+   --paper-dim:#e9dfc7;
+   --wine:#B6371F;
+   --wine-deep:#7E2513;
+   --gold:#C9931A;
+   --sage:#2F6E4F;
+   --sage-deep:#1E4A34;
+   --line:rgba(244,236,216,0.14);
+   --line-dark:rgba(24,34,41,0.12);
+   --shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+ }
+
+ *{box-sizing:border-box;}
+ html{scroll-behavior:smooth;}
+ body{
+   margin:0;
+   background:var(--ink);
+   color:var(--paper);
+   font-family:'Work Sans', sans-serif;
+   line-height:1.6;
+   -webkit-font-smoothing:antialiased;
+ }
+ h1,h2,h3,h4{
+   font-family:'Fraunces', serif;
+   font-weight:600;
+   margin:0;
+   color:var(--paper);
+ }
+ .hu{ color:inherit; }
+.en{
+  font-style:italic;
+  color:var(--paper);
+  opacity:0.62;
+  font-size:0.92em;
+}
+.example{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.98rem;
+}
+a{color:var(--gold);}
+
+.wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+header.hero{
+  padding:88px 0 0;
+  position:relative;
+  overflow:hidden;
+}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  font-size:0.72rem;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:22px;
+}
+.eyebrow::before{
+  content:"";
+  width:26px;height:1px;background:var(--gold);
+}
+.hero h1{
+  font-size:clamp(2.4rem, 5vw, 3.6rem);
+  line-height:1.05;
+  letter-spacing:-0.01em;
+}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{
+  display:block;
+  font-size:0.42em;
+  font-style:italic;
+ font-weight:400;
+ color:var(--paper);
+ opacity:0.55;
+ margin-top:10px;
+}
+.hero p.lede{
+  max-width:620px;
+  margin-top:24px;
+  color:var(--paper);
+  opacity:0.78;
+  font-size:1.05rem;
+}
+
+/* ---------- signature: a / az contrast ---------- */
+.contrast-block{
+  margin:56px 0 8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.contrast-card{
+  background:var(--ink-soft);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:30px 26px;
+  text-align:center;
+}
+.contrast-card svg{width:56px;height:56px;margin:0 auto 16px;display:block;}
+.contrast-card .tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.68rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--gold);
+  display:block;
+  margin-bottom:12px;
+}
+.contrast-card .sentence{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:1.3rem;
+  color:var(--paper);
+}
+.contrast-card .sentence .hl{
+  color:var(--gold);
+ font-weight:700;
+}
+.contrast-card .sentence-en{
+  margin-top:8px;
+  font-style:italic;
+  opacity:0.55;
+  font-size:0.85rem;
+}
+.converge-caption{
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  opacity:0.5;
+  margin:14px 0 40px;
+}
+
+.concept-banner{
+  background:var(--sage);
+  color:#f4ecd8;
+  border-radius:4px;
+  padding:26px 32px;
+  margin:0 0 40px;
+  box-shadow:var(--shadow);
+}
+.concept-banner .hu{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:1.15rem;
+  display:block;
+  margin-bottom:6px;
+}
+.concept-banner .en{
+  color:#f4ecd8;
+  opacity:0.85;
+  font-size:0.92rem;
+}
+
+section.panel{
+ background:var(--paper);
+ color:var(--ink);
+ border-radius:6px;
+ padding:44px 48px;
+ margin-bottom:28px;
+ box-shadow:var(--shadow);
+}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{
+  color:var(--wine-deep);
+  font-size:1.6rem;
+  margin-bottom:6px;
+}
+section.panel h2 .en-sub{
+  display:block;
+  font-family:'Work Sans',sans-serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:0.55em;
+  color:var(--ink-soft);
+  opacity:0.6;
+  margin-top:4px;
+}
+.section-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.75rem;
+  color:var(--wine);
+  letter-spacing:0.08em;
+  margin-bottom:10px;
+  display:block;
+}
+h3.subhead{
+  font-size:1.05rem;
+  color:var(--wine-deep);
+  margin:30px 0 4px;
+}
+h3.subhead .en-sub2{
+  display:block;
+  font-family:'Work Sans',sans-serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:0.68em;
+  opacity:0.55;
+  margin-top:2px;
+}
+
+ul.rule-list{
+ margin:18px 0 0;
+ padding-left:0;
+ list-style:none;
+}
+ul.rule-list li{
+  position:relative;
+  padding-left:26px;
+  margin-bottom:14px;
+}
+ul.rule-list li::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  color:var(--wine);
+  font-weight:600;
+}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+
+.example-block{
+  margin-top:22px;
+  padding-left:20px;
+  border-left:3px solid var(--gold);
+}
+.example-line{margin-bottom:14px;}
+.example-line:last-child{margin-bottom:0;}
+.example-line .hu{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:1rem;
+  color:var(--ink);
+}
+.example-line .hu b{color:var(--wine); font-weight:600;}
+.example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+.om{color:var(--wine); font-weight:700;}
+
+.pair-example{
+  margin-top:10px;
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  align-items:baseline;
+}
+.pair-example .hu{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.98rem;
+}
+.pair-example .divider{opacity:0.4;}
+
+.note{
+  margin-top:26px;
+  background:var(--paper-dim);
+  border-left:3px solid var(--sage-deep);
+  padding:16px 20px;
+  border-radius:0 4px 4px 0;
+  font-size:0.95rem;
+}
+.note b{color:var(--sage-deep);}
+
+section.quiz{
+  background:var(--ink-soft);
+  color:var(--paper);
+  border-radius:6px;
+  padding:48px;
+  margin-top:60px;
+}
+section.quiz h2{color:var(--gold); font-size:1.7rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+
+.q{
+  background:rgba(244,236,216,0.05);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:24px 26px;
+  margin-bottom:20px;
+}
+.q-num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem;
+  color:var(--gold);
+  letter-spacing:0.08em;
+  display:block;
+  margin-bottom:10px;
+}
+.q-prompt{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:1.02rem;
+  margin-bottom:16px;
+}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{
+  background:transparent;
+  border:1px solid rgba(244,236,216,0.3);
+  color:var(--paper);
+  font-family:'Work Sans',sans-serif;
+  font-size:0.92rem;
+  padding:10px 16px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:all 0.15s ease;
+}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{
+  font-family:'IBM Plex Mono', monospace;
+  background:transparent;
+  border:none;
+  border-bottom:2px solid var(--gold);
+  color:var(--paper);
+  font-size:1rem;
+  padding:6px 4px;
+  width:160px;
+  outline:none;
+}
+.fill-row button.check{
+  background:var(--gold);
+  border:none;
+  color:var(--ink);
+  font-weight:600;
+  padding:9px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-family:'Work Sans',sans-serif;
+  font-size:0.88rem;
+}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+ .quiz-score{
+   margin-top:8px;
+   text-align:center;
+   font-family:'IBM Plex Mono', monospace;
+   font-size:0.85rem;
+   opacity:0.7;
+ }
+
+ footer{
+   text-align:center;
+   padding:50px 0 70px;
+   color:var(--paper);
+   opacity:0.4;
+   font-size:0.8rem;
+   font-family:'IBM Plex Mono', monospace;
+ }
+
+ @media (max-width:760px){
+   .contrast-block{grid-template-columns:1fr;}
+ }
+ @media (max-width:640px){
+   .wrap{padding:0 18px;}
+   header.hero{padding:56px 0 0;}
+   section.panel{padding:30px 22px;}
+   section.quiz{padding:30px 22px;}
+ }
+ @media (prefers-reduced-motion: reduce){
+   html{scroll-behavior:auto;}
+   .opt{transition:none;}
+ }
+
+ .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+ .breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / A névelő
+</nav>
+
+<div class="wrap">
+
+ <header class="hero">
+  <div class="eyebrow">Magyar Nyelvtan · Lecke 08</div>
+  <h1>
+   <span class="hu-title">A névelő</span>
+   <span class="en-title">The article</span>
+  </h1>
+   <p class="lede hu">A határozott névelőnek (<i>the</i>) két alakja van: <b>a</b> és
+<b>az</b>. A határozatlan névelőnek (<i>a/an</i>) csak egy alakja van: <b>egy</b> — de a
+magyar gyakran el is hagyja.</p>
+   <p class="lede en">The definite article (the) has two forms: a and az. The indefinite article
+(a/an) has only one form: egy — but Hungarian often omits it altogether.</p>
+
+   <div class="contrast-block">
+    <div class="contrast-card">
+     <svg viewBox="0 0 48 48" fill="none"><rect x="10" y="8" width="6" height="32" rx="2"
+stroke="#C9931A" stroke-width="2.5"/><circle cx="13" cy="34" r="8" stroke="#C9931A"
+stroke-width="2.5"/><line x1="13" y1="10" x2="13" y2="26" stroke="#C9931A"
+stroke-width="1.5"/></svg>
+     <span class="tag">a + mássalhangzó · consonant</span>
+     <div class="sentence"><span class="hl">a</span> gitár</div>
+     <div class="sentence-en">the guitar</div>
+    </div>
+    <div class="contrast-card">
+     <svg viewBox="0 0 48 48" fill="none"><path d="M8 30L12 20H36L40 30"
+stroke="#C9931A" stroke-width="2.5" stroke-linejoin="round"/><rect x="6" y="30" width="36"
+height="8" rx="2" stroke="#C9931A" stroke-width="2.5"/><circle cx="14" cy="38" r="3"
+stroke="#C9931A" stroke-width="2"/><circle cx="34" cy="38" r="3" stroke="#C9931A"
+stroke-width="2"/></svg>
+     <span class="tag">az + magánhangzó · vowel</span>
+     <div class="sentence"><span class="hl">az</span> autó</div>
+     <div class="sentence-en">the car</div>
+    </div>
+   </div>
+   <div class="converge-caption">a következő szó kezdőhangja dönt · the first sound of the next
+word decides</div>
+ </header>
+
+ <!-- ================= I. DEFINITE ARTICLE ================= -->
+ <section class="panel" id="definite">
+  <span class="section-num">01</span>
+  <h2>I. A határozott névelő <span class="en-sub">The definite article</span></h2>
+  <p class="hu">A határozott névelőnek (<i>the</i>) két alakja van: <b>a</b> és
+<b>az</b>.</p>
+  <p class="en">The definite article (the) has two forms: a and az.</p>
+
+  <ul class="rule-list">
+   <li>
+    <span class="hu">Az <b>a</b> alakot használjuk, ha a következő szó
+<b>mássalhangzóval</b> kezdődik:</span>
+      <span class="en">The article a is used when the following word begins with a
+consonant:</span>
+      <span class="example" style="display:block; margin-top:6px; color:var(--wine);">a szék
+(the chair), a lámpa (the lamp), a nyomtató (the printer)</span>
+    </li>
+    <li>
+      <span class="hu">Az <b>az</b> alakot használjuk, ha a következő szó
+<b>magánhangzóval</b> kezdődik:</span>
+      <span class="en">The article az is used when the following word begins with a
+vowel:</span>
+      <span class="example" style="display:block; margin-top:6px; color:var(--wine);">az asztal
+(the table), az e-mail (the e-mail)</span>
+    </li>
+   </ul>
+
+  <div class="note">
+    <b>Emlékeztető / Reminder:</b> a döntés kizárólag a következő szó <u>hangzásán</u>
+múlik, nem azon, hogy főnév, melléknév vagy más szófaj következik. / The choice depends only
+on the sound the following word begins with — not on its part of speech.
+  </div>
+ </section>
+
+  <!-- ================= II. INDEFINITE ARTICLE ================= -->
+  <section class="panel" id="indefinite">
+   <span class="section-num">02</span>
+   <h2>II. A határozatlan névelő <span class="en-sub">The indefinite article</span></h2>
+   <p class="hu">A határozatlan névelőnek csak egy alakja van: <b>egy</b>.</p>
+   <p class="en">The indefinite article has only one form: egy.</p>
+   <p class="hu" style="margin-top:14px;">Sok esetben a magyar egyáltalán nem használ
+határozatlan névelőt ott, ahol más nyelvek igen.</p>
+   <p class="en">In many cases, Hungarian does not use the indefinite article where other
+languages do.</p>
+
+   <h3 class="subhead">Azonosító kérdésekre adott válasz <span class="en-sub2">Answering
+identity questions</span></h3>
+   <p class="hu">Ha a teljes mondat a <i>Mi ez?</i> vagy a <i>Ki ő?</i> kérdésre válaszol, a
+főnév általában használható névelővel vagy anélkül is:</p>
+   <p class="en">If the whole sentence answers the question "Mi ez?" (What is this?) or "Ki ő?"
+(Who is he/she?), the noun can usually be used with or without an article:</p>
+   <div class="example-block">
+    <div class="pair-example">
+     <span class="hu">Mi ez? Ez <b>egy</b> nyomtató.</span>
+     <span class="divider">/</span>
+     <span class="hu">Ez <span class="om">––</span> nyomtató.</span>
+     </div>
+     <div class="example-line"><span class="en">What is this? This is a printer.</span></div>
+     <div class="pair-example" style="margin-top:14px;">
+      <span class="hu">Ki Luca? Luca <b>egy</b> kedves lány.</span>
+      <span class="divider">/</span>
+      <span class="hu">Luca <span class="om">––</span> kedves lány.</span>
+     </div>
+     <div class="example-line"><span class="en">Who is Luca? Luca is a nice
+girl.</span></div>
+   </div>
+
+  <h3 class="subhead">Foglalkozások <span class="en-sub2">Professions</span></h3>
+  <p class="hu">Foglalkozások esetén jellemzően elhagyjuk a határozatlan névelőt:</p>
+  <p class="en">We tend not to use an indefinite article with professions:</p>
+  <div class="example-block">
+   <div class="example-line">
+     <span class="hu">Dániel <span class="om">––</span> fogorvos.</span>
+     <span class="en">Daniel is a dentist.</span>
+   </div>
+   <div class="example-line">
+     <span class="hu">Gabi <span class="om">––</span> tanár.</span>
+     <span class="en">Gabi is a teacher.</span>
+   </div>
+   <div class="pair-example">
+     <span class="hu">Arany János <b>egy</b> magyar költő.</span>
+     <span class="divider">/</span>
+     <span class="hu">Arany János <span class="om">––</span> magyar költő.</span>
+   </div>
+   <div class="example-line"><span class="en">János Arany is a Hungarian
+poet.</span></div>
+  </div>
+ </section>
+
+ <!-- ================= QUIZ ================= -->
+ <section class="quiz" id="quiz">
+  <span class="section-num" style="color:var(--gold);">03</span>
+  <h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+  <p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+  <p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+
+  <div class="q" data-qid="1">
+   <span class="q-num">1 / 8 · KIEGÉSZÍTÉS</span>
+   <div class="q-prompt">
+    <span class="hu">Egészítsd ki: „___ szék” <span class="en">(the chair)</span></span>
+   </div>
+   <div class="fill-row">
+    <input type="text" placeholder="Írd ide a válaszod…" data-answers="a">
+    <button class="check">Ellenőrzés</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+  <div class="q" data-qid="2">
+   <span class="q-num">2 / 8 · KIEGÉSZÍTÉS</span>
+   <div class="q-prompt">
+    <span class="hu">Egészítsd ki: „___ asztal” <span class="en">(the table)</span></span>
+   </div>
+   <div class="fill-row">
+    <input type="text" placeholder="Írd ide a válaszod…" data-answers="az">
+    <button class="check">Ellenőrzés</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+   <div class="q" data-qid="3">
+    <span class="q-num">3 / 8 · FELELET VÁLASZTÁS</span>
+    <div class="q-prompt">
+     <span class="hu">Mi dönti el, hogy „a” vagy „az” kerül a szó elé?</span><br>
+     <span class="en">What decides whether "a" or "az" is used before a word?</span>
+    </div>
+    <div class="opts">
+     <button class="opt" data-correct="false">a szó szófaja <span class="en">(the part of
+speech)</span></button>
+     <button class="opt" data-correct="true">a következő szó első hangja <span
+class="en">(the first sound of the following word)</span></button>
+     <button class="opt" data-correct="false">a szó hossza <span class="en">(the length of the
+word)</span></button>
+    </div>
+    <div class="q-feedback"></div>
+   </div>
+
+  <div class="q" data-qid="4">
+   <span class="q-num">4 / 8 · FELELET VÁLASZTÁS</span>
+   <div class="q-prompt">
+    <span class="hu">Hány alakja van a határozatlan névelőnek?</span><br>
+    <span class="en">How many forms does the indefinite article have?</span>
+   </div>
+    <div class="opts">
+     <button class="opt" data-correct="false">kettő <span class="en">(two)</span></button>
+     <button class="opt" data-correct="true">egy <span class="en">(one)</span></button>
+     <button class="opt" data-correct="false">három <span
+class="en">(three)</span></button>
+    </div>
+    <div class="q-feedback"></div>
+   </div>
+
+  <div class="q" data-qid="5">
+    <span class="q-num">5 / 8 · IGAZ VAGY HAMIS</span>
+    <div class="q-prompt">
+     <span class="hu">Foglalkozások megnevezésénél a magyar jellemzően használja a
+határozatlan névelőt.</span><br>
+     <span class="en">Hungarian typically uses the indefinite article when naming
+professions.</span>
+    </div>
+    <div class="opts">
+     <button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+     <button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+    </div>
+    <div class="q-feedback"></div>
+  </div>
+
+   <div class="q" data-qid="6">
+    <span class="q-num">6 / 8 · FELELET VÁLASZTÁS</span>
+    <div class="q-prompt">
+      <span class="hu">Melyik mondat helyes és természetes magyarul?</span><br>
+      <span class="en">Which sentence is correct and natural in Hungarian?</span>
+    </div>
+    <div class="opts">
+      <button class="opt" data-correct="true">Gabi tanár.</button>
+      <button class="opt" data-correct="false">Gabi egy tanár. <span class="en">(unusual for
+this context)</span></button>
+    </div>
+    <div class="q-feedback"></div>
+   </div>
+
+  <div class="q" data-qid="7">
+   <span class="q-num">7 / 8 · KIEGÉSZÍTÉS</span>
+   <div class="q-prompt">
+    <span class="hu">Egészítsd ki: „___ e-mail” <span class="en">(the
+e-mail)</span></span>
+   </div>
+   <div class="fill-row">
+    <input type="text" placeholder="Írd ide a válaszod…" data-answers="az">
+    <button class="check">Ellenőrzés</button>
+   </div>
+   <div class="q-feedback"></div>
+  </div>
+
+   <div class="q" data-qid="8">
+    <span class="q-num">8 / 8 · KIEGÉSZÍTÉS</span>
+    <div class="q-prompt">
+     <span class="hu">Egészítsd ki: „Ez ___ nyomtató.” <span class="en">(This is a printer —
+indefinite article form)</span></span>
+    </div>
+    <div class="fill-row">
+     <input type="text" placeholder="Írd ide a válaszod…" data-answers="egy">
+     <button class="check">Ellenőrzés</button>
+    </div>
+    <div class="q-feedback"></div>
+   </div>
+
+  <div class="quiz-score" id="scoreDisplay"></div>
+ </section>
+
+ <footer>Magyar Nyelvtan Online · A névelő — The article</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+ let answeredCorrect = new Set();
+ const totalQuestions = document.querySelectorAll('.q').length;
+ const scoreDisplay = document.getElementById('scoreDisplay');
+
+ function updateScore(){
+   scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`;
+ }
+ updateScore();
+
+ document.querySelectorAll('.q').forEach(q => {
+  const qid = q.dataset.qid;
+  const opts = q.querySelectorAll('.opt');
+  if(opts.length){
+    opts.forEach(opt => {
+      opt.addEventListener('click', () => {
+       const feedback = q.querySelector('.q-feedback');
+       const isCorrect = opt.dataset.correct === 'true';
+        opts.forEach(o => o.disabled = true);
+        if(isCorrect){
+          opt.classList.add('correct');
+          feedback.textContent = 'Helyes! ✓ Correct!';
+          feedback.className = 'q-feedback ok';
+          answeredCorrect.add(qid);
+        } else {
+          opt.classList.add('wrong');
+          const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+          if(correctOpt) correctOpt.classList.add('correct');
+          feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+          feedback.className = 'q-feedback bad';
+        }
+        updateScore();
+      });
+    });
+  }
+
+  const fillRow = q.querySelector('.fill-row');
+  if(fillRow){
+    const input = fillRow.querySelector('input');
+    const button = fillRow.querySelector('.check');
+    const feedback = q.querySelector('.q-feedback');
+    const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+
+    function checkAnswer(){
+      const val = input.value.trim().toLowerCase();
+      if(answers.includes(val)){
+        feedback.textContent = 'Helyes! ✓ Correct!';
+        feedback.className = 'q-feedback ok';
+        input.style.borderBottomColor = '#2F6E4F';
+        answeredCorrect.add(qid);
+      } else {
+        feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite —
+correct answer: "${answers[0]}".`;
+        feedback.className = 'q-feedback bad';
+        input.style.borderBottomColor = '#B6371F';
+      }
+      updateScore();
+    }
+
+   button.addEventListener('click', checkAnswer);
+   input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+   }
+ });
+</script>
+
+</body>
+</html>
