@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A főnévi igenév · The infinitive — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182229;
+    --ink-soft:#2c3944;
+    --paper:#f4ecd8;
+    --paper-dim:#e9dfc7;
+    --wine:#B6371F;
+    --wine-deep:#7E2513;
+    --gold:#C9931A;
+    --sage:#2F6E4F;
+    --sage-deep:#1E4A34;
+    --line:rgba(244,236,216,0.14);
+    --line-dark:rgba(24,34,41,0.12);
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    color:var(--paper);
+  }
+  .hu{ color:inherit; }
+  .en{
+    font-style:italic;
+    color:var(--paper);
+    opacity:0.62;
+    font-size:0.92em;
+  }
+  a{color:var(--gold);}
+
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+  .breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+  header.hero{
+    padding:88px 0 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:1px;background:var(--gold);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 .hu-title{display:block;}
+  .hero h1 .en-title{
+    display:block;
+    font-size:0.42em;
+    font-style:italic;
+    font-weight:400;
+    color:var(--paper);
+    opacity:0.55;
+    margin-top:10px;
+  }
+  .hero p.lede{
+    max-width:620px;
+    margin-top:24px;
+    color:var(--paper);
+    opacity:0.78;
+    font-size:1.05rem;
+  }
+
+  .routes-rail{
+    margin:60px 0 8px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    position:relative;
+  }
+  .route-card{
+    background:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 14px;
+    text-align:center;
+  }
+  .route-card .r-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .route-card .r-example{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.95rem;
+    color:var(--paper);
+    margin-bottom:6px;
+  }
+  .route-card .r-example .suf{color:var(--gold); font-weight:700;}
+  .route-card h4{
+    font-size:0.8rem;
+    color:var(--paper);
+    opacity:0.85;
+    line-height:1.3;
+    font-weight:500;
+    font-family:'Work Sans',sans-serif;
+  }
+  .converge-caption{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    opacity:0.5;
+    margin-top:12px;
+    margin-bottom:40px;
+  }
+
+  .concept-banner{
+    background:var(--sage);
+    color:#f4ecd8;
+    border-radius:4px;
+    padding:26px 32px;
+    margin:0 0 40px;
+    box-shadow:var(--shadow);
+  }
+  .concept-banner .hu{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.18rem;
+    display:block;
+    margin-bottom:6px;
+  }
+  .concept-banner .en{
+    color:#f4ecd8;
+    opacity:0.85;
+    font-size:0.95rem;
+  }
+
+  section.panel{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:6px;
+    padding:44px 48px;
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+  }
+  section.panel .en{ color:var(--ink); opacity:0.6; }
+  section.panel h2{
+    color:var(--wine-deep);
+    font-size:1.5rem;
+    margin-bottom:6px;
+  }
+  section.panel h2 .en-sub{
+    display:block;
+    font-family:'Work Sans',sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:0.58em;
+    color:var(--ink-soft);
+    opacity:0.6;
+    margin-top:4px;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--wine);
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+    display:block;
+  }
+  h3.subhead{
+    font-size:1.05rem;
+    color:var(--wine-deep);
+    margin:26px 0 10px;
+  }
+
+  .cat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line-dark);
+    border-radius:6px;
+    overflow:hidden;
+    margin-top:24px;
+  }
+  .cat-grid .head{
+    background:var(--wine-deep);
+    color:var(--paper);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    grid-column:span 2;
+    padding:12px 22px;
+  }
+  .cat-cell{
+    background:var(--paper);
+    padding:20px 22px;
+    grid-column:span 2;
+  }
+  .pair-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+  }
+  .pair{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.92rem;
+    white-space:nowrap;
+  }
+  .pair .suf{color:var(--wine); font-weight:700;}
+  .pair .cv{color:var(--sage-deep); text-decoration:underline; text-decoration-color:var(--gold); text-decoration-thickness:2px;}
+  .cat-subnote{
+    margin-top:12px;
+    font-size:0.82rem;
+    opacity:0.6;
+    font-style:italic;
+  }
+  .cat-sublist{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--line-dark);
+  }
+
+  ul.rule-list{
+    margin:18px 0 0;
+    padding-left:0;
+    list-style:none;
+  }
+  ul.rule-list li{
+    position:relative;
+    padding-left:26px;
+    margin-bottom:14px;
+  }
+  ul.rule-list li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--wine);
+    font-weight:600;
+  }
+  ul.rule-list .hu{display:block;}
+  ul.rule-list .en{display:block; margin-top:2px;}
+
+  .example-block{
+    margin-top:22px;
+    padding-left:20px;
+    border-left:3px solid var(--gold);
+  }
+  .example-line{margin-bottom:14px;}
+  .example-line:last-child{margin-bottom:0;}
+  .example-line .hu{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1rem;
+    color:var(--ink);
+  }
+  .example-line .hu b{color:var(--wine); font-weight:600;}
+  .example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+
+  .note{
+    margin-top:26px;
+    background:var(--paper-dim);
+    border-left:3px solid var(--sage-deep);
+    padding:16px 20px;
+    border-radius:0 4px 4px 0;
+    font-size:0.95rem;
+  }
+  .note b{color:var(--sage-deep);}
+
+  section.quiz{
+    background:var(--ink-soft);
+    color:var(--paper);
+    border-radius:6px;
+    padding:48px;
+    margin-top:60px;
+  }
+  section.quiz h2{color:var(--gold); font-size:1.7rem;}
+  section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+  .quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+
+  .q{
+    background:rgba(244,236,216,0.05);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:24px 26px;
+    margin-bottom:20px;
+  }
+  .q-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .q-prompt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.02rem;
+    margin-bottom:16px;
+  }
+  .q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+  .opts{display:flex; flex-wrap:wrap; gap:10px;}
+  .opt{
+    background:transparent;
+    border:1px solid rgba(244,236,216,0.3);
+    color:var(--paper);
+    font-family:'Work Sans',sans-serif;
+    font-size:0.92rem;
+    padding:10px 16px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+  .opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+  .opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+  .opt[disabled]{cursor:default;}
+
+  .fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .fill-row input{
+    font-family:'IBM Plex Mono', monospace;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--gold);
+    color:var(--paper);
+    font-size:1rem;
+    padding:6px 4px;
+    width:200px;
+    outline:none;
+  }
+  .fill-row button.check{
+    background:var(--gold);
+    border:none;
+    color:var(--ink);
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:'Work Sans',sans-serif;
+    font-size:0.88rem;
+  }
+  .fill-row button.check:hover{opacity:0.9;}
+  .q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+  .q-feedback.ok{color:#9fd6a0;}
+  .q-feedback.bad{color:#e79aa6;}
+
+  .quiz-score{
+    margin-top:8px;
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    opacity:0.7;
+  }
+
+  @media (max-width:760px){
+    .routes-rail{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px;}
+    header.hero{padding:56px 0 0;}
+    section.panel{padding:30px 22px;}
+    section.quiz{padding:30px 22px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .opt{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / A főnévi igenév
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Magyar Nyelvtan · Lecke 06</div>
+    <h1>
+      <span class="hu-title">A főnévi igenév</span>
+      <span class="en-title">The infinitive</span>
+    </h1>
+    <p class="lede hu">A főnévi igenév végződése <b>-ni</b>. Négyféle úton juthatunk el idáig, az ige típusától függően.</p>
+    <p class="lede en">The ending for the infinitive is -ni. There are four routes to get there, depending on the type of the verb.</p>
+
+    <div class="routes-rail">
+      <div class="route-card">
+        <span class="r-num">01</span>
+        <div class="r-example">él → él<span class="suf">ni</span></div>
+        <h4>Szabályos igék</h4>
+      </div>
+      <div class="route-card">
+        <span class="r-num">02</span>
+        <div class="r-example">mond → mond<span class="suf">ani</span></div>
+        <h4>Kötőhanggal</h4>
+      </div>
+      <div class="route-card">
+        <span class="r-num">03</span>
+        <div class="r-example">lak<s style="opacity:0.4;">ik</s> → lak<span class="suf">ni</span></div>
+        <h4>-ik igék</h4>
+      </div>
+      <div class="route-card">
+        <span class="r-num">04</span>
+        <div class="r-example">van → le<span class="suf">nni</span></div>
+        <h4>Rendhagyó</h4>
+      </div>
+    </div>
+    <div class="converge-caption">négy út, egyetlen végződés: -ni · four routes, one ending: -ni</div>
+  </header>
+
+  <div class="concept-banner">
+    <span class="hu">A főnévi igenév végződése -ni. A főnévi igenevet úgy képezzük, hogy az igetőhöz -ni-t adunk.</span>
+    <span class="en">The ending for the infinitive is -ni. The infinitive is formed by adding -ni to the verb stem.</span>
+  </div>
+
+  <!-- ================= CATEGORY TABLE ================= -->
+  <section class="panel" id="categories">
+    <span class="section-num">01</span>
+    <h2>Négy kategória <span class="en-sub">Four categories</span></h2>
+
+    <div class="cat-grid">
+      <div class="head">1. Szabályos igék, -s/-sz/-z végű igék · Regular verbs, verbs ending in -s, -sz, -z</div>
+      <div class="cat-cell">
+        <div class="pair-list">
+          <span class="pair">él → él<span class="suf">ni</span></span>
+          <span class="pair">ül → ül<span class="suf">ni</span></span>
+          <span class="pair">beszél → beszél<span class="suf">ni</span></span>
+          <span class="pair">tanul → tanul<span class="suf">ni</span></span>
+          <span class="pair">csinál → csinál<span class="suf">ni</span></span>
+          <span class="pair">rendel → rendel<span class="suf">ni</span></span>
+          <span class="pair">olvas → olvas<span class="suf">ni</span></span>
+          <span class="pair">főz → főz<span class="suf">ni</span></span>
+          <span class="pair">hoz → hoz<span class="suf">ni</span></span>
+        </div>
+      </div>
+
+      <div class="head">2. Szabályos igék kötőhanggal · Regular verbs with a connecting vowel</div>
+      <div class="cat-cell">
+        <div class="pair-list">
+          <span class="pair">mond → mond<span class="cv">a</span><span class="suf">ni</span></span>
+          <span class="pair">tart → tart<span class="cv">a</span><span class="suf">ni</span></span>
+          <span class="pair">küld → küld<span class="cv">e</span><span class="suf">ni</span></span>
+          <span class="pair">fest → fest<span class="cv">e</span><span class="suf">ni</span></span>
+          <span class="pair">segít → segít<span class="cv">e</span><span class="suf">ni</span></span>
+          <span class="pair">tanít → tanít<span class="cv">a</span><span class="suf">ni</span></span>
+          <span class="pair">takarít → takarít<span class="cv">a</span><span class="suf">ni</span></span>
+        </div>
+      </div>
+
+      <div class="head">3. -ik végű igék (-s/-sz/-z + ik is) · Verbs ending in -ik (also -s/-sz/-z + ik)</div>
+      <div class="cat-cell">
+        <div class="pair-list">
+          <span class="pair">lak<s style="opacity:0.4;">ik</s> → lak<span class="suf">ni</span></span>
+          <span class="pair">működ<s style="opacity:0.4;">ik</s> → működ<span class="suf">ni</span></span>
+          <span class="pair">dolgoz<s style="opacity:0.4;">ik</s> → dolgoz<span class="suf">ni</span></span>
+          <span class="pair">úsz<s style="opacity:0.4;">ik</s> → úsz<span class="suf">ni</span></span>
+          <span class="pair">tévéz<s style="opacity:0.4;">ik</s> → tévéz<span class="suf">ni</span></span>
+        </div>
+        <div class="cat-sublist">
+          <span class="cat-subnote">Néhány -ik igének kötőhangra is szüksége van: / A few -ik verbs also need a connecting vowel:</span>
+          <div class="pair-list" style="margin-top:8px;">
+            <span class="pair">játsz<s style="opacity:0.4;">ik</s> → játsz<span class="cv">a</span><span class="suf">ni</span></span>
+            <span class="pair">fürd<s style="opacity:0.4;">ik</s> → fürd<span class="cv">e</span><span class="suf">ni</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="head">4. Rendhagyó igék · Irregular verbs</div>
+      <div class="cat-cell">
+        <span class="cat-subnote" style="font-style:normal; opacity:1; font-weight:600; color:var(--wine-deep);">4.1 — Főnévi igenév: -nni / Infinitive: -nni</span>
+        <div class="pair-list" style="margin-top:10px;">
+          <span class="pair">van → le<span class="suf">nni</span></span>
+          <span class="pair">megy → me<span class="suf">nni</span></span>
+          <span class="pair">jön → jö<span class="suf">nni</span></span>
+          <span class="pair">eszik → e<span class="suf">nni</span></span>
+          <span class="pair">iszik → i<span class="suf">nni</span></span>
+          <span class="pair">tesz → te<span class="suf">nni</span></span>
+          <span class="pair">vesz → ve<span class="suf">nni</span></span>
+          <span class="pair">visz → vi<span class="suf">nni</span></span>
+          <span class="pair">hisz → hi<span class="suf">nni</span></span>
+        </div>
+        <div class="cat-sublist">
+          <span class="cat-subnote" style="font-style:normal; opacity:1; font-weight:600; color:var(--wine-deep);">4.2 — Egyéb rendhagyóság / Other irregularities</span>
+          <div class="pair-list" style="margin-top:10px;">
+            <span class="pair">alsz<s style="opacity:0.4;">ik</s> → alud<span class="suf">ni</span></span>
+            <span class="pair">feksz<s style="opacity:0.4;">ik</s> → feküd<span class="suf">ni</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>* Figyelem / Note:</b> a <b>jön, megy, van</b> igék jelen idejű ragozása rendhagyó. A többi rendhagyó ige azért számít annak, mert a töve megváltozik a ragozás során — pl. a főnévi igenév és a múlt idő töve eltér a jelen idejű ragozás tövétől: <span class="example">eszik / evett / enni</span>, <span class="example">alszik / aludt / aludni</span>.
+      <div style="margin-top:8px;" class="en">The conjugation of jön, megy and van is irregular in the present tense. The other irregular verbs are irregular because their stem shows changes throughout the conjugation.</div>
+    </div>
+  </section>
+
+  <!-- ================= RULES ================= -->
+  <section class="panel" id="rules">
+    <span class="section-num">02</span>
+    <h2>Képzési szabályok <span class="en-sub">Formation rules</span></h2>
+
+    <ul class="rule-list">
+      <li>
+        <span class="hu">A <b>-ni</b> általában közvetlenül az egyes szám harmadik személyű alakhoz kapcsolódik:</span>
+        <span class="en">-ni is usually connected directly to the third person singular form:</span>
+        <span class="example" style="display:block; margin-top:6px; color:var(--wine);">beszél → beszélni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(he speaks → to speak)</span>, tanul → tanulni, nyomtat → nyomtatni</span>
+      </li>
+      <li>
+        <span class="hu">Ha az ige <b>-ít</b>-re vagy <b>két mássalhangzóra</b> végződik, a végződés magánhangzóval (<b>a</b> vagy <b>e</b>) kapcsolódik:</span>
+        <span class="en">If the verb ends in -ít or two consonants, the ending is connected with a vowel (a or e):</span>
+        <span class="example" style="display:block; margin-top:6px; color:var(--wine);">mond → mondani <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(he says → to say)</span>, segít → segíteni</span>
+      </li>
+      <li>
+        <span class="hu">Az -ik igék <b>-ik</b> végződése elmarad:</span>
+        <span class="en">The -ik of the -ik verbs is omitted:</span>
+        <span class="example" style="display:block; margin-top:6px; color:var(--wine);">úszik → úszni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(he swims → to swim)</span>, tévézik → tévézni</span>
+      </li>
+      <li>
+        <span class="hu">Kilenc rendhagyó ige főnévi igeneve <b>-nni</b>-re végződik:</span>
+        <span class="en">There are nine irregular verbs whose infinitive ends in -nni:</span>
+        <span class="example" style="display:block; margin-top:6px; color:var(--wine);">van → lenni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(be)</span>, iszik → inni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(drink)</span> stb.</span>
+      </li>
+      <li>
+        <span class="hu">Egy (elég ritka) másik rendhagyóság a tő megváltozása:</span>
+        <span class="en">Another (quite rare) irregularity is a change in the stem:</span>
+        <span class="example" style="display:block; margin-top:6px; color:var(--wine);">alszik → aludni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(he sleeps → to sleep)</span>, fekszik → feküdni <span style="opacity:0.6; font-style:italic; font-family:'Work Sans',sans-serif; font-size:0.85rem;">(he lies → to lie)</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ================= WITH MODAL VERBS ================= -->
+  <section class="panel" id="with-modals">
+    <span class="section-num">03</span>
+    <h2>Segédigékkel együtt <span class="en-sub">Used with modal verbs</span></h2>
+    <p class="hu">Sok más nyelvhez hasonlóan a főnévi igenevet gyakran segédigékkel együtt használjuk.</p>
+    <p class="en">Similar to many other languages, the infinitive is often used with modal verbs.</p>
+
+    <div class="example-block">
+      <div class="example-line">
+        <span class="hu"><b>Tudok</b> gyakorolni.</span>
+        <span class="en">I can practice.</span>
+      </div>
+      <div class="example-line">
+        <span class="hu">Nem <b>tudok</b> telefonálni.</span>
+        <span class="en">I cannot make a phone call.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="quiz" id="quiz">
+    <span class="section-num" style="color:var(--gold);">04</span>
+    <h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+    <p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a válaszaidat.</p>
+    <p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+
+    <div class="q" data-qid="1">
+      <span class="q-num">1 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi az „olvas” ige főnévi igeneve?</span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="olvasni">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="2">
+      <span class="q-num">2 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi a „segít” ige főnévi igeneve? <span class="en">(ends in -ít, needs a connecting vowel)</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="segíteni">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="3">
+      <span class="q-num">3 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi történik az -ik igék -ik végződésével a főnévi igenévben?</span><br>
+        <span class="en">What happens to the -ik ending of -ik verbs in the infinitive?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="true">elmarad <span class="en">(it is omitted)</span></button>
+        <button class="opt" data-correct="false">megkettőződik <span class="en">(it is doubled)</span></button>
+        <button class="opt" data-correct="false">változatlan marad <span class="en">(it stays the same)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="4">
+      <span class="q-num">4 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi az „úszik” ige főnévi igeneve?</span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="úszni">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="5">
+      <span class="q-num">5 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Mi a „van” ige főnévi igeneve? <span class="en">(one of the nine -nni verbs)</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="lenni">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="6">
+      <span class="q-num">6 / 8 · IGAZ VAGY HAMIS</span>
+      <div class="q-prompt">
+        <span class="hu">Az „alszik” és a „fekszik” igék töve megváltozik a főnévi igenévben.</span><br>
+        <span class="en">The stem of "alszik" and "fekszik" changes in the infinitive.</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="true">igaz <span class="en">(true)</span></button>
+        <button class="opt" data-correct="false">hamis <span class="en">(false)</span></button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="7">
+      <span class="q-num">7 / 8 · FELELET VÁLASZTÁS</span>
+      <div class="q-prompt">
+        <span class="hu">Melyik igének VAN kötőhangra szüksége a főnévi igenévben?</span><br>
+        <span class="en">Which of these verbs NEEDS a connecting vowel in the infinitive?</span>
+      </div>
+      <div class="opts">
+        <button class="opt" data-correct="false">él → élni</button>
+        <button class="opt" data-correct="true">tart → tartani</button>
+        <button class="opt" data-correct="false">hoz → hozni</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="q" data-qid="8">
+      <span class="q-num">8 / 8 · KIEGÉSZÍTÉS</span>
+      <div class="q-prompt">
+        <span class="hu">Egészítsd ki: „Nem tudok ___.” <span class="en">(infinitive of "telefonál")</span></span>
+      </div>
+      <div class="fill-row">
+        <input type="text" placeholder="Írd ide a válaszod…" data-answers="telefonálni">
+        <button class="check">Ellenőrzés</button>
+      </div>
+      <div class="q-feedback"></div>
+    </div>
+
+    <div class="quiz-score" id="scoreDisplay"></div>
+  </section>
+
+  <footer>Magyar Nyelvtan Online · A főnévi igenév — The infinitive</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  let answeredCorrect = new Set();
+  const totalQuestions = document.querySelectorAll('.q').length;
+  const scoreDisplay = document.getElementById('scoreDisplay');
+
+  function updateScore(){
+    scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`;
+  }
+  updateScore();
+
+  document.querySelectorAll('.q').forEach(q => {
+    const qid = q.dataset.qid;
+    const opts = q.querySelectorAll('.opt');
+    if(opts.length){
+      opts.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const feedback = q.querySelector('.q-feedback');
+          const isCorrect = opt.dataset.correct === 'true';
+          opts.forEach(o => o.disabled = true);
+          if(isCorrect){
+            opt.classList.add('correct');
+            feedback.textContent = 'Helyes! ✓ Correct!';
+            feedback.className = 'q-feedback ok';
+            answeredCorrect.add(qid);
+          } else {
+            opt.classList.add('wrong');
+            const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+            if(correctOpt) correctOpt.classList.add('correct');
+            feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+            feedback.className = 'q-feedback bad';
+          }
+          updateScore();
+        });
+      });
+    }
+
+    const fillRow = q.querySelector('.fill-row');
+    if(fillRow){
+      const input = fillRow.querySelector('input');
+      const button = fillRow.querySelector('.check');
+      const feedback = q.querySelector('.q-feedback');
+      const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+
+      function checkAnswer(){
+        const val = input.value.trim().toLowerCase();
+        if(answers.includes(val)){
+          feedback.textContent = 'Helyes! ✓ Correct!';
+          feedback.className = 'q-feedback ok';
+          input.style.borderBottomColor = '#2F6E4F';
+          answeredCorrect.add(qid);
+        } else {
+          feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite — correct answer: "${answers[0]}".`;
+          feedback.className = 'q-feedback bad';
+          input.style.borderBottomColor = '#B6371F';
+        }
+        updateScore();
+      }
+
+      button.addEventListener('click', checkAnswer);
+      input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+    }
+  });
+</script>
+
+</body>
+</html>
