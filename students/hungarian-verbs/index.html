@@ -3,50 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hungarian Grammar — Magyar Nyelvtan — Hungarian4You</title>
+<title>Hungarian Verbs — Hungarian4You</title>
 <link rel="stylesheet" href="../style.css">
 <style>
   .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
   .breadcrumb a { color: var(--paprika); text-decoration: none; }
   .lesson-header { max-width: 980px; margin: 0 auto; padding: 20px 24px 0; }
-  .lesson-header h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 4px 0 10px; }
-  .lesson-header .sub { color: var(--muted); font-size: 1.02rem; margin: 0 0 24px; max-width: 640px; }
-  .lesson-header .sub .en { display: block; margin-top: 6px; font-style: italic; color: var(--muted); }
+  .lesson-header h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 4px 0 20px; }
   .lesson-body { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
-
-  .chapter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-  .chapter-tile {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 16px 18px; background: var(--card); border: 1px solid var(--border);
-    border-radius: 4px; text-decoration: none; color: var(--ink);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    position: relative; overflow: hidden;
-  }
-  .chapter-tile::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--paprika);
-  }
-  .chapter-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 18px -10px rgba(43,36,29,0.35); border-color: var(--paprika); }
-  .chapter-tile:active { animation: tile-pulse 0.35s ease-out; }
-  @keyframes tile-pulse {
-    0%   { transform: translateY(-2px) scale(1); }
-    35%  { transform: translateY(-2px) scale(0.95); }
-    70%  { transform: translateY(-2px) scale(1.02); }
-    100% { transform: translateY(-2px) scale(1); }
-  }
-  .chapter-num {
-    font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 1.4rem;
-    color: var(--paprika); min-width: 34px; flex-shrink: 0;
-  }
-  .chapter-titles { display: flex; flex-direction: column; }
-  .chapter-hu { font-weight: 600; font-size: 1rem; }
-  .chapter-en { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-  .chapter-tile.pending { opacity: 0.55; cursor: default; }
-  .chapter-tile.pending::before { background: var(--border); }
-  .chapter-tile.pending:hover { transform: none; box-shadow: none; border-color: var(--border); }
-  .status-tag {
-    font-family: 'Work Sans', sans-serif; font-size: 0.68rem; letter-spacing: .04em;
-    text-transform: uppercase; color: var(--muted); margin-top: 4px; display: inline-block;
-  }
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; border: 1px solid var(--border); margin: 0 0 28px; background: #000; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+  .interactive-wrap { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 0 0 28px; background: var(--card); }
+  .interactive-wrap iframe { width: 100%; height: 1400px; border: 0; display: block; }
 </style>
 </head>
 <body>
@@ -55,209 +23,35 @@
 <div class="motif"></div>
 
 <nav class="breadcrumb">
-  <a href="../">&larr; Students</a> / Hungarian Grammar
+  <a href="../">&larr; Students</a> / Hungarian Verbs
 </nav>
 
 <header class="lesson-header">
   <span class="eyebrow">NYELVTAN / GRAMMAR</span>
-  <h1>Hungarian Grammar <span style="color: var(--muted); font-weight: 500;">— Magyar Nyelvtan</span></h1>
-  <p class="sub">Huszonegy alfejezet, a magyar nyelvtan legfontosabb témáival. Kattints egy címre a lecke megnyitásához.
-    <span class="en">Twenty-one chapters covering the essentials of Hungarian grammar. Click a title to open that lesson.</span>
-  </p>
+  <h1>Hungarian Verbs <span style="color: var(--muted); font-weight: 500;">— Magyar Igék</span></h1>
 </header>
 
 <main class="lesson-body">
-  <div class="chapter-grid">
 
-    <a class="chapter-tile" href="01-verb-tenses/">
-      <span class="chapter-num">01</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Igeidők</span>
-        <span class="chapter-en">Verb Tenses</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile" href="02-verb-forms/">
-      <span class="chapter-num">02</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Az ige alakjai</span>
-        <span class="chapter-en">Verb Forms</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile" href="03-indefinite-conjugation-irregularities/">
-      <span class="chapter-num">03</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Rendhagyóságokat mutató igék határozatlan ragozása</span>
-        <span class="chapter-en">Indefinite Conjugation</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile" href="04-definite-conjugation/">
-      <span class="chapter-num">04</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Határozott ragozás</span>
-        <span class="chapter-en">Definite Conjugation</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">05</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Segédigék</span>
-        <span class="chapter-en">Modal Verbs</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">06</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A főnévi igenév</span>
-        <span class="chapter-en">The Infinitive</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">07</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Irányt jelző igekötők</span>
-        <span class="chapter-en">Prefixes Indicating Directions</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">08</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A névelő</span>
-        <span class="chapter-en">The Article</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">09</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A többes szám</span>
-        <span class="chapter-en">The Plural of Nouns</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">10</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A tárgy</span>
-        <span class="chapter-en">The Direct Object</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">11</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Birtokos személyjelek</span>
-        <span class="chapter-en">Possessive Endings</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">12</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Helyhatározók: névszóragok és névutók</span>
-        <span class="chapter-en">Adverbs of Place: Endings and Postpositions</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">13</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A melléknév</span>
-        <span class="chapter-en">The Adjective</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">14</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A melléknév toldalékolása</span>
-        <span class="chapter-en">Suffixing Adjectives</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">15</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Személyes névmások</span>
-        <span class="chapter-en">Personal Pronouns</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">16</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A mutató névmás</span>
-        <span class="chapter-en">The Demonstrative Pronoun</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">17</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Kötőszók</span>
-        <span class="chapter-en">Conjunctions</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">18</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Kérdőszók</span>
-        <span class="chapter-en">Question Words</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">19</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">A szórend</span>
-        <span class="chapter-en">The Word Order</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">20</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Nyelvtani szakkifejezések szójegyzéke</span>
-        <span class="chapter-en">List of Grammar Terms</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
-    <a class="chapter-tile pending" href="#">
-      <span class="chapter-num">21</span>
-      <span class="chapter-titles">
-        <span class="chapter-hu">Igekötők és befejezett cselekvések</span>
-        <span class="chapter-en">Verbal Prefixes and Completed Actions</span>
-        <span class="status-tag">hamarosan / coming soon</span>
-      </span>
-    </a>
-
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/1XJMaDSBTRw" title="Hungarian Verbs video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
+
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/VIWqX57ONA4" title="Hungarian Verbs video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+
+  <div class="interactive-wrap">
+    <iframe src="50-most-common-verbs.html" title="50 Most Common Verbs"></iframe>
+  </div>
+
+  <div class="interactive-wrap">
+    <iframe src="100-essential-verbs.html" title="100 Essential Verbs"></iframe>
+  </div>
+
 </main>
 
-<div class="motif meadow"></div>
+<div class="motif"></div>
 <footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
 
 <script src="../shared/site-widgets.js"></script>
