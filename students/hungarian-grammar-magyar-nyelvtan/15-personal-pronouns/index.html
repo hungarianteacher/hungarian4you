@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Személyes névmások · Personal pronouns — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,500;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.4rem, 5vw, 3.6rem); line-height:1.05; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:640px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.05rem;}
+.contrast-block{margin:56px 0 8px; display:grid; grid-template-columns:1fr auto 1fr; gap:16px;
+align-items:center;}
+.contrast-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:10px;
+padding:24px 26px; text-align:center;}.contrast-card .tag{font-family:'IBM Plex Mono', monospace; font-size:0.66rem;
+letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); display:block;
+margin-bottom:10px;}
+.contrast-card .sentence{font-family:'IBM Plex Mono', monospace; font-size:1.15rem;
+color:var(--paper);}
+.contrast-card .sentence .hl{color:var(--gold); font-weight:700;}
+.contrast-card .sentence-en{margin-top:8px; font-style:italic; opacity:0.55; font-size:0.82rem;}
+.contrast-eq{font-size:1.4rem; color:var(--gold); text-align:center;}
+.converge-caption{text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; opacity:0.5; margin:14px 0 40px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:24px
+30px; margin:0 0 40px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.92rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:44px 48px;
+margin-bottom:28px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.5rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.55em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.05rem; color:var(--wine-deep); margin:28px 0 4px;}
+.table-scroll{overflow-x:auto; margin-top:20px; border-radius:6px; box-shadow:var(--shadow);}
+table.conj-table{width:100%; border-collapse:collapse; background:#f4ecd8; font-size:0.9rem;
+min-width:480px;}
+table.conj-table th, table.conj-table td{padding:11px 14px; text-align:center; border-bottom:1px
+solid rgba(24,34,41,0.12); color:#182229 !important; background-color:#f4ecd8 !important;}
+table.conj-table thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.92rem;}
+table.conj-table thead th .en-tiny{display:block; font-family:'Work Sans', sans-serif;
+font-style:italic; font-weight:400; font-size:0.7rem; opacity:0.7; margin-top:2px; color:#f4ecd8
+!important;}
+table.conj-table tbody th{text-align:left; background:#e9dfc7 !important; color:#182229
+!important; font-weight:600; font-size:0.85rem; white-space:nowrap;}
+table.conj-table td{font-family:'IBM Plex Mono', monospace; color:#182229 !important;}
+table.conj-table .suf{color:#B6371F !important; font-weight:700;}
+table.conj-table .full{color:#B6371F !important; font-weight:700;}
+.rule3-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--line-dark);
+border-radius:6px; overflow:hidden; margin-top:22px;}
+.rule3-cell{background:var(--paper); padding:18px 16px;}
+.rule3-grid .head{background:var(--wine-deep); color:var(--paper); padding:14px 16px;
+font-family:'IBM Plex Mono', monospace; font-size:0.78rem; line-height:1.4;}
+.rule3-grid .head .en-tiny2{display:block; font-style:italic; opacity:0.75; font-size:0.7rem;
+margin-top:4px; font-family:'Work Sans',sans-serif;}
+.rule3-cell .ex-line{font-family:'IBM Plex Mono', monospace; font-size:0.86rem;
+margin-bottom:6px;}
+.rule3-cell .ex-line:last-child{margin-bottom:0;}
+.rule3-cell .ex-line b{color:var(--wine);}
+ul.rule-list{margin:20px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:14px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+.note{margin-top:26px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:16px 20px; border-radius:0 4px 4px 0; font-size:0.92rem;}
+.note b{color:var(--sage-deep);}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:48px;
+margin-top:60px;}
+section.quiz h2{color:var(--gold); font-size:1.7rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:24px 26px; margin-bottom:20px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1.02rem; margin-bottom:16px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.92rem; padding:10px 16px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:1rem; padding:6px 4px;
+width:200px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:9px 18px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.88rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.85rem; opacity:0.7;}
+footer{text-align:center; padding:50px 0 70px; color:var(--paper); opacity:0.4; font-size:0.8rem;
+font-family:'IBM Plex Mono', monospace;}
+@media (max-width:800px){
+.contrast-block{grid-template-columns:1fr;}
+.rule3-grid{grid-template-columns:1fr;}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:56px 0 0;}
+section.panel{padding:30px 22px;} section.quiz{padding:30px 22px;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+
+.breadcrumb { max-width: 960px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Személyes névmások
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 15</div>
+<h1>
+<span class="hu-title">Személyes névmások</span>
+<span class="en-title">Personal pronouns</span>
+</h1>
+<p class="lede hu">A személyes névmások alakja a legtöbb esetben megváltozik, amikor
+ragot kapnak — tárgyként, helyhatározóként, vagy társ-/részeshatározóként.</p>
+<p class="lede en">The form of personal pronouns changes most of the time when they
+receive endings — as a direct object, adverb of place, or in prepositional phrases.</p>
+<div class="contrast-block">
+<div class="contrast-card"><span class="tag">Névmás + rag · Pronoun + ending</span>
+<div class="sentence">vel<span class="hl">em</span></div>
+<div class="sentence-en">with me</div>
+</div>
+<div class="contrast-eq">≈</div>
+<div class="contrast-card">
+<span class="tag">Birtokos rag · Possessive ending</span>
+<div class="sentence">a férj<span class="hl">em</span></div>
+<div class="sentence-en">my husband</div>
+</div>
+</div>
+<div class="converge-caption">a névmásragok nagyon hasonlítanak a birtokos ragokra ·
+pronoun endings closely resemble possessive endings</div>
+</header>
+<!-- ================= I. AS DIRECT OBJECT ================= -->
+<section class="panel" id="direct-object">
+<span class="section-num">01</span>
+<h2>I. A személyes névmás mint tárgy <span class="en-sub">The personal pronoun as the
+direct object</span></h2>
+<p class="hu">Kit? <span class="en">(Whom?)</span></p>
+<div class="table-scroll">
+<table class="conj-table">
+<thead><tr><th></th><th>Kit?<span
+class="en-tiny">Whom?</span></th><th></th><th>Kit?<span
+class="en-tiny">Whom?</span></th></tr></thead>
+<tbody>
+<tr><th>én</th><td class="full">engem</td><th>mi</th><td class="full">minket /
+bennünket</td></tr>
+<tr><th>te</th><td class="full">téged</td><th>ti</th><td class="full">titeket /
+benneteket</td></tr>
+<tr><th>Ön</th><td>Ön<span class="suf">t</span></td><th>Önök</th><td>Önök<span
+class="suf">et</span></td></tr>
+<tr><th>ő</th><td>ő<span class="suf">t</span></td><th>ők</th><td>ők<span
+class="suf">et</span></td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Ragozás e névmásokkal <span style="display:block; font-family:'Work
+Sans',sans-serif; font-style:italic; font-weight:400; font-size:0.68em; opacity:0.55;
+margin-top:2px;">Conjugation with these pronouns</span></h3>
+<div class="rule3-grid"><div class="head">engem, téged, minket/bennünket, titeket/benneteket<span
+class="en-tiny2">+ Indefinite conjugation</span></div>
+<div class="head">Ön, őt, Önöket, őket<span class="en-tiny2">+ Definite
+conjugation</span></div>
+<div class="head">én → téged, titeket/benneteket<span class="en-tiny2">+ -lak /
+-lek</span></div>
+<div class="rule3-cell">
+<div class="ex-line">Ismer<b>sz</b> engem?</div>
+<div class="ex-line">Lát<b>sz</b> bennünket?</div>
+<div class="ex-line">Szeret<b>sz</b> minket?</div>
+</div>
+<div class="rule3-cell">
+<div class="ex-line">Lát<b>om</b> Önt.</div>
+<div class="ex-line">Ismer<b>em</b> őt.</div>
+<div class="ex-line">Önöket keres<b>em</b>.</div>
+</div>
+<div class="rule3-cell">
+<div class="ex-line">Szeret<b>lek</b> téged.</div>
+<div class="ex-line">Lát<b>lak</b> titeket.</div>
+<div class="ex-line">Ismer<b>lek</b> titeket.</div>
+</div>
+</div>
+<ul class="rule-list">
+<li>
+<span class="hu">Első és második személyű névmásokkal (<i>engem, téged,
+minket/bennünket, titeket/benneteket</i>) határozatlan ragozást használunk.</span>
+<span class="en">With pronouns in the first and second person we use the indefinite
+conjugation.</span>
+</li>
+<li>
+<span class="hu">Harmadik személyű és magázó névmásokkal (<i>Ön, őt, Önöket,
+őket</i>) határozott ragozást használunk.</span>
+<span class="en">With pronouns in the third person and the formal "you" we use the
+definite conjugation.</span>
+</li>
+<li>
+<span class="hu">Ha a mondat alanya <i>én</i>, és a tárgy második személyű névmás
+(<i>téged, titeket/benneteket</i>), az ige a <b>-lak/-lek</b> végződést kapja.</span>
+<span class="en">If the subject is "I" (én) and the direct object is a second-person
+pronoun, the verb receives the ending -lak/-lek.</span>
+</li>
+</ul></section>
+<!-- ================= II. AS ADVERB OF PLACE ================= -->
+<section class="panel" id="adverb-place">
+<span class="section-num">02</span>
+<h2>II. A személyes névmás mint helyhatározó <span class="en-sub">The personal pronoun
+as adverb of place</span></h2>
+<div class="table-scroll">
+<table class="conj-table">
+<thead><tr><th></th><th>Hol?<span
+class="en-tiny">Where?</span></th><th>Hova?<span class="en-tiny">Where
+to?</span></th><th>Honnan?<span class="en-tiny">Where from?</span></th></tr></thead>
+<tbody>
+<tr><th>én</th><td>nál<span class="suf">am</span></td><td>hozz<span
+class="suf">ám</span></td><td>től<span class="suf">em</span></td></tr>
+<tr><th>te</th><td>nál<span class="suf">ad</span></td><td>hozz<span
+class="suf">ád</span></td><td>től<span class="suf">ed</span></td></tr>
+<tr><th>Ön</th><td>Önnél</td><td>Önhöz</td><td>Öntől</td></tr>
+<tr><th>ő</th><td>nál<span class="suf">a</span></td><td>hozz<span
+class="suf">á</span></td><td>től<span class="suf">e</span></td></tr>
+<tr><th>mi</th><td>nál<span class="suf">unk</span></td><td>hozz<span
+class="suf">ánk</span></td><td>től<span class="suf">ünk</span></td></tr>
+<tr><th>ti</th><td>nál<span class="suf">atok</span></td><td>hozz<span
+class="suf">átok</span></td><td>től<span class="suf">etek</span></td></tr>
+<tr><th>Önök</th><td>Önöknél</td><td>Önökhöz</td><td>Önöktől</td></tr>
+<tr><th>ők</th><td>nál<span class="suf">uk</span></td><td>hozz<span
+class="suf">ájuk</span></td><td>től<span class="suf">ük</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= III. PREPOSITIONAL PHRASES ================= -->
+<section class="panel" id="prep-phrases">
+<span class="section-num">03</span>
+<h2>III. A személyes névmás mint társ- és részeshatározó <span class="en-sub">In
+prepositional phrases: Kivel? Kinek?</span></h2>
+<div class="table-scroll">
+<table class="conj-table">
+<thead><tr><th></th><th>Kivel?<span class="en-tiny">With
+whom?</span></th><th>Kinek?<span class="en-tiny">To whom? For
+whom?</span></th></tr></thead><tbody>
+<tr><th>én</th><td>vel<span class="suf">em</span></td><td>nek<span
+class="suf">em</span></td></tr>
+<tr><th>te</th><td>vel<span class="suf">ed</span></td><td>nek<span
+class="suf">ed</span></td></tr>
+<tr><th>Ön</th><td>Önnel</td><td>Önnek</td></tr>
+<tr><th>ő</th><td>vel<span class="suf">e</span></td><td>nek<span
+class="suf">i</span></td></tr>
+<tr><th>mi</th><td>vel<span class="suf">ünk</span></td><td>nek<span
+class="suf">ünk</span></td></tr>
+<tr><th>ti</th><td>vel<span class="suf">etek</span></td><td>nek<span
+class="suf">tek</span></td></tr>
+<tr><th>Önök</th><td>Önökkel</td><td>Önöknek</td></tr>
+<tr><th>ők</th><td>vel<span class="suf">ük</span></td><td>nek<span
+class="suf">ik</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<div class="concept-banner">
+<span class="hu">A legtöbb névmásrag nagyon hasonlít a birtokos személyjelekre. Vö.:
+velem/a férjem (with me/my husband), neked/a széked (for you/your chair).</span>
+<span class="en">The endings for most pronouns are similar to the possessive endings.
+Compare: velem/a férjem (with me/my husband), neked/a széked (for you/your chair).</span>
+</div>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">04</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „én" névmás tárgyesete? <span
+class="en">(Kit? form of "én")</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="engem"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div><div class="q" data-qid="2">
+<span class="q-num">2 / 9 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik ragozást használjuk az „engem"
+névmással?</span><br><span class="en">Which conjugation is used with
+"engem"?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">határozatlan <span
+class="en">(indefinite)</span></button>
+<button class="opt" data-correct="false">határozott <span
+class="en">(definite)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 9 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Mikor kapja az ige a -lak/-lek
+végződést?</span><br><span class="en">When does the verb take the -lak/-lek
+ending?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">ha az alany „én", a tárgy pedig
+„téged/titeket"</button>
+<button class="opt" data-correct="false">ha az alany „ő", a tárgy „engem"</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Szeret___ téged." <span
+class="en">(I love you)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="lek,-lek"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „én" névmás Hol? alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="nálam"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div><div class="q" data-qid="6">
+<span class="q-num">6 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „ő" névmás Hova? alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="hozzá"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „mi" névmás Kivel? alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="velünk"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 9 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A névmásragok teljesen máshogy néznek ki, mint
+a birtokos személyjelek.</span><br><span class="en">Pronoun endings look completely
+different from possessive endings.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „ti" névmás Kinek? alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="nektek"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · Személyes névmások — Personal pronouns</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}". / Not quite — correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>

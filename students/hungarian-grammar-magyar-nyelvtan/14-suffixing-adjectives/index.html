@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A melléknév toldalékolása · Suffixing adjectives — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.1rem, 4.6vw, 3.3rem); line-height:1.1; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.4em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:660px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.03rem;}
+.transform-block{margin:56px 0 8px; display:flex; align-items:center; justify-content:center;
+gap:20px; flex-wrap:wrap;}
+.transform-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:10px;
+padding:24px 28px; text-align:center;}.transform-card .tag{font-family:'IBM Plex Mono', monospace; font-size:0.66rem;
+letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); display:block;
+margin-bottom:10px;}
+.transform-card .sentence{font-family:'IBM Plex Mono', monospace; font-size:1.15rem;
+color:var(--paper);}
+.transform-card .sentence s{opacity:0.35;}
+.transform-card .sentence .hl{color:var(--gold); font-weight:700;}
+.transform-card .sentence-en{margin-top:8px; font-style:italic; opacity:0.55; font-size:0.82rem;}
+.transform-arrow{font-size:1.6rem; color:var(--gold);}
+.converge-caption{text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; opacity:0.5; margin:14px 0 40px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:22px
+28px; margin:0 0 36px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.9rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:42px 46px;
+margin-bottom:26px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.42rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.58em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.0rem; color:var(--wine-deep); margin:26px 0 4px;}
+h3.subhead .en-sub2{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.68em; opacity:0.55; margin-top:2px;}
+.qa-table{margin-top:20px; display:flex; flex-direction:column; gap:1px;
+background:var(--line-dark); border-radius:6px; overflow:hidden;}
+.qa-row{display:grid; grid-template-columns:1fr 1fr; background:var(--paper);}
+.qa-row .q-cell, .qa-row .a-cell{padding:16px 20px;}
+.qa-row .q-cell{background:var(--paper-dim);}
+.qa-row .hu{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.94rem;
+margin-bottom:4px;}
+.qa-row .hu s{opacity:0.35;}
+.qa-row .hu .hl{color:var(--wine); font-weight:700;}
+.qa-row .en-inline{font-size:0.8rem; opacity:0.55; font-style:italic;}
+.qa-head{display:grid; grid-template-columns:1fr 1fr; background:var(--wine-deep);}
+.qa-head div{padding:10px 20px; color:var(--paper); font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em;}
+.table-scroll{overflow-x:auto; margin-top:18px; border-radius:6px; box-shadow:var(--shadow);}
+table.triple-table{width:100%; border-collapse:collapse; background:#f4ecd8;
+font-size:0.85rem; min-width:560px;}
+table.triple-table th, table.triple-table td{padding:9px 12px; text-align:center; border-bottom:1px
+solid rgba(24,34,41,0.1); border-right:1px solid rgba(24,34,41,0.08); color:#182229 !important;
+background-color:#f4ecd8 !important;}
+table.triple-table th:last-child, table.triple-table td:last-child{border-right:none;}
+table.triple-table thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.85rem;}
+table.triple-table thead th .en-tiny{display:block; font-family:'Work Sans', sans-serif;
+font-style:italic; font-weight:400; font-size:0.68rem; opacity:0.7; margin-top:2px; color:#f4ecd8
+!important;}
+table.triple-table td{font-family:'IBM Plex Mono', monospace; color:#182229 !important;}
+table.triple-table td .suf{color:#B6371F !important; font-weight:700;}
+.table-footnote{font-size:0.8rem; opacity:0.6; font-style:italic; margin-top:10px;}
+ul.rule-list{margin:18px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:14px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+.example-block{margin-top:20px; padding-left:18px; border-left:3px solid var(--gold);}
+.example-line{margin-bottom:12px;}
+.example-line:last-child{margin-bottom:0;}
+.example-line .hu{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.96rem;
+color:var(--ink);}
+.example-line .hu b{color:var(--wine); font-weight:600;}
+.example-line .en{display:block; margin-top:2px; font-size:0.85rem;}
+.note{margin-top:22px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:14px 18px; border-radius:0 4px 4px 0; font-size:0.9rem;}
+.note b{color:var(--sage-deep);}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:44px;
+margin-top:56px;}
+section.quiz h2{color:var(--gold); font-size:1.6rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 30px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:22px 24px; margin-bottom:18px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1rem; margin-bottom:14px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.9rem; padding:9px 15px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:0.98rem; padding:6px 4px;
+width:190px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:8px 16px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.86rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:10px; font-size:0.86rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.84rem; opacity:0.7;}
+footer{text-align:center; padding:46px 0 66px; color:var(--paper); opacity:0.4;
+font-size:0.78rem; font-family:'IBM Plex Mono', monospace;}
+@media (max-width:760px){
+.qa-row, .qa-head{grid-template-columns:1fr;}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:52px 0 0;}
+section.panel{padding:26px 18px;} section.quiz{padding:26px 18px;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+
+.breadcrumb { max-width: 960px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / A melléknév toldalékolása
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 14</div>
+<h1>
+<span class="hu-title">A melléknév toldalékolása</span>
+<span class="en-title">Suffixing adjectives</span>
+</h1>
+<p class="lede hu">Szinte minden szófaj kaphat ragot a magyarban. Ha a melléknév vagy a
+számnév helyettesíti a főnevet (az ismétlés elkerülésére), a főnév ragja átkerül rá.</p>
+<p class="lede en">Almost every part of speech can take an ending in Hungarian. When an
+adjective or numeral replaces a noun (to avoid repetition), the noun's ending moves onto it.</p>
+<div class="transform-block">
+<div class="transform-card">
+<span class="tag">Teljes válasz · Full answer</span>
+<div class="sentence">Divatos <s>pulóver<span class="hl">t</span></s>.</div>
+</div>
+<span class="transform-arrow">→</span>
+<div class="transform-card">
+<span class="tag">Rövidített · Shortened</span>
+<div class="sentence">Divatos<span class="hl">t</span>.</div>
+<div class="sentence-en">A fashionable one.</div>
+</div>
+</div>
+<div class="converge-caption">a főnév ragja átkerül a melléknévre, amely helyettesíti · the
+noun's ending moves onto the adjective replacing it</div>
+</header>
+<div class="concept-banner">
+<span class="hu">A magyar nyelv sajátossága, hogy szinte minden szófaj kaphat
+ragot.</span>
+<span class="en">A particularity of the Hungarian language is that almost all parts of speech
+can receive endings.</span>
+</div>
+<!-- ================= SUFFIXING ADJECTIVES ================= -->
+<section class="panel" id="suffixing-adj" style="margin-top:-16px;">
+<span class="section-num">01</span>
+<h2>A melléknév toldalékolása <span class="en-sub">Suffixing adjectives</span></h2>
+<p class="hu">A melléknevek és számnevek gyakran kapnak ragot, amikor egy főnevet
+helyettesítenek, hogy elkerüljük az ismétlést.</p>
+<p class="en">Adjectives and numerals often receive an ending when they replace a noun in
+order to avoid repetition.</p><div class="qa-head"><div>Kérdés · Question</div><div>Válasz · Answer</div></div>
+<div class="qa-table">
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Milyen pulóver<span class="hl">t</span>
+szeretne?</span><span class="en-inline">What kind of sweater would you like?</span></div>
+<div class="a-cell"><span class="hu">– Divatos <s>pulóver<span
+class="hl">t</span></s>. → Divatos<span class="hl">t</span>.</span><span
+class="en-inline">A fashionable one.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Melyik bolt<span class="hl">ba</span>
+megyünk?</span><span class="en-inline">To which shop are we going?</span></div>
+<div class="a-cell"><span class="hu">– Az olcsó <s>bolt<span class="hl">ba</span></s>.
+→ Az olcsó<span class="hl">ba</span>.</span><span class="en-inline">To the cheap
+one.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Melyik almá<span class="hl">ból</span>
+veszel?</span><span class="en-inline">(From) which kind of apple are you
+buying?</span></div>
+<div class="a-cell"><span class="hu">– A piros <s>almá<span class="hl">ból</span></s>.
+→ A piros<span class="hl">ból</span>.</span><span class="en-inline">From the red
+one.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Melyik ceruzá<span class="hl">val</span> akarsz
+írni?</span><span class="en-inline">With which pencil do you want to write?</span></div>
+<div class="a-cell"><span class="hu">– A sárga <s>ceruzá<span
+class="hl">val</span></s>. → A sárgá<span class="hl">val</span>.</span><span
+class="en-inline">With the yellow one.</span></div>
+</div>
+</div>
+</section>
+<!-- ================= THE NUMERAL: HÁNY? HÁNYAS? HÁNYSZOR? ================= -->
+<section class="panel" id="numeral-1">
+<span class="section-num">02</span>
+<h2>A számnév — I. Hány? Hányas? Hányszor? <span class="en-sub">How many? Which
+number/size? How many times?</span></h2>
+<div class="table-scroll">
+<table class="triple-table">
+<thead><tr>
+<th>Hány?<span class="en-tiny">How many?</span></th>
+<th>Hányas?<span class="en-tiny">Which number? What size?</span></th>
+<th>Hányszor?<span class="en-tiny">How many times?</span></th>
+</tr>
+</thead>
+<tbody>
+<tr><td>egy</td><td>egy<span class="suf">es</span></td><td>egy<span
+class="suf">szer</span></td></tr>
+<tr><td>kettő</td><td>kett<span class="suf">es</span></td><td>két<span
+class="suf">szer</span></td></tr>
+<tr><td>három</td><td>hárm<span class="suf">as</span></td><td>három<span
+class="suf">szor</span></td></tr>
+<tr><td>négy</td><td>négy<span class="suf">es</span></td><td>négy<span
+class="suf">szer</span></td></tr>
+<tr><td>öt</td><td>öt<span class="suf">ös</span></td><td>öt<span
+class="suf">ször</span></td></tr>
+<tr><td>hat</td><td>hat<span class="suf">os</span></td><td>hat<span
+class="suf">szor</span></td></tr>
+<tr><td>hét</td><td>het<span class="suf">es</span></td><td>hét<span
+class="suf">szer</span></td></tr>
+<tr><td>nyolc</td><td>nyolc<span class="suf">as</span></td><td>nyolc<span
+class="suf">szor</span></td></tr>
+<tr><td>kilenc</td><td>kilenc<span class="suf">es</span></td><td>kilenc<span
+class="suf">szer</span></td></tr>
+<tr><td>tíz</td><td>tíz<span class="suf">es</span></td><td>tíz<span
+class="suf">szer</span></td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Hányas? <span class="en-sub2">Which number? What
+size?</span></h3>
+<p class="hu">A -s végződést elsősorban ezekre használjuk:</p>
+<ul class="rule-list">
+<li>
+<span class="hu">Busz, szoba vagy ülés száma:</span>
+<span class="en">The number of a bus, a room or a seat:</span>
+<span class="example-inline">a tízes busz (bus number 10), a húszas szoba (room 20), a
+négyes szék (seat number 4)</span>
+</li>
+<li>
+<span class="hu">Cipő- és ruhaméret:</span>
+<span class="en">Shoe size and clothing size:</span><span class="example-inline">36-os cipő (shoe size 36), 42-es ruha (dress size
+42)</span>
+</li>
+</ul>
+<div class="note"><b>Kivétel / Exception:</b> csak a <b>hat</b> kapja a -os végződést
+(hatos), és csak az <b>öt</b> kapja a -ös végződést (ötös). / Only "hat" (six) receives -os
+(hatos), and only "öt" (five) receives -ös (ötös).</div>
+<h3 class="subhead">Hányszor? <span class="en-sub2">How many times?</span></h3>
+<p class="hu">Ez a végződés azt jelzi, hányszor történik meg valami. A gyakoriságot így
+bővíthetjük:</p>
+<div class="example-block">
+<div class="example-line"><span class="hu">minden évben egyszer / egy évben
+egyszer</span><span class="en">once a year</span></div>
+<div class="example-line"><span class="hu">minden hónapban háromszor / egy hónapban
+háromszor</span><span class="en">three times a month</span></div>
+<div class="example-line"><span class="hu">minden héten ötször / egy héten
+ötször</span><span class="en">five times a week</span></div>
+<div class="example-line"><span class="hu">néhányszor, sokszor</span><span
+class="en">a couple of times, many times</span></div>
+</div>
+<div class="note">
+<b>Helyesírás / Spelling:</b> sz után: <span class="example-inline" style="display:inline;
+margin:0;">húsz + szor → hússzor</span>. Ezek a kifejezések jellemzően a mondat elején
+állnak, hangsúlyt kapva. / Note the spelling after sz. These expressions are usually placed at
+the beginning of the sentence to receive emphasis.
+</div>
+</section>
+<!-- ================= HÁNYADIK? HÁNYADIKA? HÁNYADIKÁN? ================= -->
+<section class="panel" id="numeral-2">
+<span class="section-num">03</span>
+<h2>II. Hányadik? Hányadika? Hányadikán? <span class="en-sub">Which of a given
+number? Which date? On which date?</span></h2>
+<div class="table-scroll">
+<table class="triple-table">
+<thead>
+<tr>
+<th>Hányadik?<span class="en-tiny">Which of a given number?</span></th>
+<th>Hányadika?<span class="en-tiny">Which date?</span></th>
+<th>Hányadikán?<span class="en-tiny">On which date?</span></th>
+</tr></thead>
+<tbody>
+<tr><td>első(!)</td><td>els<span class="suf">eje</span></td><td>els<span
+class="suf">ején</span></td></tr>
+<tr><td>második(!)</td><td>második<span
+class="suf">a</span></td><td>második<span class="suf">án</span></td></tr>
+<tr><td>harmad<span class="suf">ik</span></td><td>harmadik<span
+class="suf">a</span></td><td>harmadik<span class="suf">án</span></td></tr>
+<tr><td>negy<span class="suf">edik</span></td><td>negyedik<span
+class="suf">e</span></td><td>negyedik<span class="suf">én</span></td></tr>
+<tr><td>öt<span class="suf">ödik</span></td><td>ötödik<span
+class="suf">e</span></td><td>ötödik<span class="suf">én</span></td></tr>
+<tr><td>hat<span class="suf">odik</span></td><td>hatodik<span
+class="suf">a</span></td><td>hatodik<span class="suf">án</span></td></tr>
+<tr><td>het<span class="suf">edik</span></td><td>hetedik<span
+class="suf">e</span></td><td>hetedik<span class="suf">én</span></td></tr>
+<tr><td>nyolc<span class="suf">adik</span></td><td>nyolcadik<span
+class="suf">a</span></td><td>nyolcadik<span class="suf">án</span></td></tr>
+<tr><td>kilenc<span class="suf">edik</span></td><td>kilencedik<span
+class="suf">e</span></td><td>kilencedik<span class="suf">én</span></td></tr>
+<tr><td>tiz<span class="suf">edik</span></td><td>tizedik<span
+class="suf">e</span></td><td>tizedik<span class="suf">én</span></td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Hányadik? <span class="en-sub2">Which of a given
+number?</span></h3>
+<p class="hu">A <b>-(a/e/ö)dik</b> végződés egy személy vagy dolog helyét jelzi egy
+sorban:</p>
+<p class="en">The ending -(a/e/ö)dik indicates the position of a person or a thing in a
+sequence:</p>
+<p class="example-inline" style="color:var(--wine); font-family:'IBM Plex Mono',monospace;
+margin-top:6px;">a harmadik gyerek (the third child), a második osztály (the second class), az
+ötödik év (the fifth year)</p>
+<h3 class="subhead">Hányadika? <span class="en-sub2">Which date?</span></h3>
+<p class="hu">Ezt a végződést kizárólag a „Hányadika van ma?" kérdés megválaszolására
+használjuk:</p>
+<p class="en">This ending is only used to answer the question "Hányadika van ma?" (What
+is today's date?):</p>
+<p class="example-inline" style="color:var(--wine); font-family:'IBM Plex Mono',monospace;
+margin-top:6px;">Május harmadika van. (It is May 3.) Április ötödike van. (It is April 5.)</p><h3 class="subhead">Hányadikán? <span class="en-sub2">On which date?</span></h3>
+<p class="hu">Ez a végződés azt jelzi, mely napon történik valami:</p>
+<p class="en">This ending indicates on which date something happens:</p>
+<p class="example-inline" style="color:var(--wine); font-family:'IBM Plex Mono',monospace;
+margin-top:6px;">Június tizedikén megyek szabadságra. (I go on vacation on June 10.)
+Szeptember másodikán van a születésnapom. (My birthday is on September 2.)</p>
+</section>
+<!-- ================= SUFFIXING NUMERALS ================= -->
+<section class="panel" id="suffixing-numerals">
+<span class="section-num">04</span>
+<h2>III. A számnév toldalékolása főnévragokkal <span class="en-sub">Suffixing numerals
+with noun endings</span></h2>
+<p class="hu">A számnevek a melléknevekhez hasonlóan szintén kaphatnak ragot, amikor
+egy főnevet helyettesítenek, az ismétlés elkerülésére.</p>
+<p class="en">Numerals, similar to adjectives, can also receive endings when they replace a
+noun in order to avoid repetition.</p>
+<div class="qa-head"><div>Kérdés · Question</div><div>Válasz · Answer</div></div>
+<div class="qa-table">
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Hány kiló krumpli<span class="hl">t</span>
+kér?</span><span class="en-inline">How many kilos of potatoes would you like?</span></div>
+<div class="a-cell"><span class="hu">– Két <s>kiló<span class="hl">t</span></s>. →
+Kettő<span class="hl">t</span>.</span><span class="en-inline">Two.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Hányadik osztály<span class="hl">ba</span> jár a
+fiad?</span><span class="en-inline">To which class is your son going?</span></div>
+<div class="a-cell"><span class="hu">– Második <s>osztály<span
+class="hl">ba</span></s>. → Második<span class="hl">ba</span>.</span><span
+class="en-inline">To the second.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Hány tojás<span class="hl">ból</span> csinálsz
+rántottát?</span><span class="en-inline">From how many eggs do you make scrambled
+eggs?</span></div>
+<div class="a-cell"><span class="hu">– Két <s>tojás<span class="hl">ból</span></s>. →
+Kettő<span class="hl">ből</span>.</span><span class="en-inline">From two.</span></div>
+</div>
+<div class="qa-row">
+<div class="q-cell"><span class="hu">– Melyik villamos<span class="hl">sal</span>
+megyünk?</span><span class="en-inline">Which tram are we taking? (lit.: With
+which?)</span></div><div class="a-cell"><span class="hu">– A kettes <s>villamos<span
+class="hl">sal</span></s>. → A kettes<span class="hl">sel</span>.</span><span
+class="en-inline">The number two. (lit.: With the number two.)</span></div>
+</div>
+</div>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">05</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Milyen pulóvert szeretne?" –
+„Divatos___." <span class="en">(a fashionable one)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="t,-t"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="2">
+<span class="q-num">2 / 9 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Mit jelez a „Hányas?" kérdés végződése
+(-s)?</span><br><span class="en">What does the -s ending in "Hányas?"
+indicate?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">számot / méretet <span class="en">(number /
+size)</span></button>
+<button class="opt" data-correct="false">gyakoriságot <span
+class="en">(frequency)</span></button>
+<button class="opt" data-correct="false">sorrendet <span
+class="en">(sequence)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „hat" (six) rendhagyó Hányas?
+alakja?</span></div><div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="hatos"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „három" (three) Hányszor?
+alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="háromszor"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 9 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kérdésre válaszolunk a „Hányadika?"
+végződéssel?</span><br><span class="en">Which question does the "Hányadika?" ending
+answer?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Hányadika van ma? <span class="en">(What is
+today's date?)</span></button>
+<button class="opt" data-correct="false">Hányszor történik? <span class="en">(How many
+times does it happen?)</span></button>
+<button class="opt" data-correct="false">Hányas a busz? <span class="en">(What number
+is the bus?)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="6">
+<span class="q-num">6 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi az „ötödik" (fifth) Hányadika?
+alakja?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="ötödike"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 9 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A számnév, csakúgy mint a melléknév, kaphat
+főnévragot, ha egy főnevet helyettesít.</span><br><span class="en">Like the adjective, the
+numeral can take a noun ending when it replaces a noun.</span></div><div class="opts">
+<button class="opt" data-correct="true">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="false">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Hány kiló krumplit kér?" – „Két
+kilót." → „___." <span class="en">(shortened: Two.)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="kettőt"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 9 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Írd le helyesen: „húsz" + „szor" <span
+class="en">(spelling rule after sz)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="hússzor"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · A melléknév toldalékolása — Suffixing adjectives</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}". / Not quite — correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>

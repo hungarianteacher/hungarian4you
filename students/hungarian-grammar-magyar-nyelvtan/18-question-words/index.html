@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kérdőszók · Question words — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,500;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1020px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.4rem, 5vw, 3.6rem); line-height:1.05; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:660px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.05rem;}
+.cat-rail{margin:60px 0 40px; display:grid; grid-template-columns:repeat(5,1fr); gap:10px;}
+.cat-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:8px;
+padding:16px 10px; text-align:center;}.cat-card .r-num{font-family:'IBM Plex Mono', monospace; font-size:0.62rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:8px;}
+.cat-card h4{font-size:0.76rem; color:var(--paper); opacity:0.9; line-height:1.35;
+font-weight:500; font-family:'Work Sans',sans-serif;}
+.rail-caption{text-align:center; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+opacity:0.5; margin-top:6px;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:40px 44px;
+margin-bottom:26px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.4rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.58em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+.qword-grid{margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.qword-item{background:var(--paper-dim); border-radius:6px; padding:14px 18px;}
+.qword-item .qhead{display:flex; align-items:baseline; gap:8px; margin-bottom:6px;}
+.qword-item .qword{font-family:'Fraunces',serif; font-weight:700; color:var(--wine-deep);
+font-size:1.02rem;}
+.qword-item .qgloss{font-size:0.78rem; opacity:0.6; font-style:italic;}
+.qword-item .qex{font-family:'IBM Plex Mono', monospace; font-size:0.88rem; display:block;}
+.qword-item .qex b{color:var(--wine);}
+.qword-item .qex-en{font-size:0.78rem; opacity:0.55; font-style:italic; display:block;
+margin-top:2px;}
+.note{margin-top:22px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:14px 18px; border-radius:0 4px 4px 0; font-size:0.9rem;}
+.note b{color:var(--sage-deep);}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:44px;
+margin-top:56px;}
+section.quiz h2{color:var(--gold); font-size:1.6rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 30px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:22px 24px; margin-bottom:18px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1rem; margin-bottom:14px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.9rem; padding:9px 15px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:0.98rem; padding:6px 4px;
+width:190px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:8px 16px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.86rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:10px; font-size:0.86rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.84rem; opacity:0.7;}
+footer{text-align:center; padding:46px 0 66px; color:var(--paper); opacity:0.4;
+font-size:0.78rem; font-family:'IBM Plex Mono', monospace;}
+@media (max-width:800px){
+.cat-rail{grid-template-columns:repeat(3,1fr);}
+.qword-grid{grid-template-columns:1fr;}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:52px 0 0;}
+section.panel{padding:26px 18px;} section.quiz{padding:26px 18px;}
+.cat-rail{grid-template-columns:repeat(2,1fr);}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+
+.breadcrumb { max-width: 960px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Kérdőszók
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 18</div>
+<h1>
+<span class="hu-title">Kérdőszók</span><span class="en-title">Question words</span>
+</h1>
+<p class="lede hu">Ez a lecke összefoglalja a magyar kérdőszavakat öt csoportban — sokat
+közülük már korábbi leckékben is láttál!</p>
+<p class="lede en">This lesson brings together the Hungarian question words in five groups
+— you've already met many of them in earlier lessons!</p>
+<div class="cat-rail">
+<div class="cat-card"><span class="r-num">I.</span><h4>Személy, tárgy<br>Persons,
+objects</h4></div>
+<div class="cat-card"><span
+class="r-num">II.</span><h4>Minőség<br>Qualities</h4></div>
+<div class="cat-card"><span class="r-num">III.</span><h4>Hely<br>Place</h4></div>
+<div class="cat-card"><span class="r-num">IV.</span><h4>Idő, gyakoriság<br>Time,
+frequency</h4></div>
+<div class="cat-card"><span class="r-num">V.</span><h4>Szám, ok stb.<br>Number,
+reason...</h4></div>
+</div>
+<div class="rail-caption">öt kérdőszó-csoport · five question-word groups</div>
+</header>
+<!-- ================= I. PERSONS AND OBJECTS ================= -->
+<section class="panel" id="persons-objects">
+<span class="section-num">01</span>
+<h2>I. Személyre, tárgyra kérdezünk <span class="en-sub">Questions for persons and
+objects</span></h2>
+<div class="qword-grid">
+<div class="qword-item"><div class="qhead"><span class="qword">Ki? Kik?</span><span
+class="qgloss">Who?</span></div><span class="qex">Ki az a magas férfi? <b>Kik</b> azok a
+fiúk?</span><span class="qex-en">Who is that tall man? Who are those boys?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Mi? Mik?</span><span
+class="qgloss">What?</span></div><span class="qex">Mi a telefonszámod? <b>Mik</b> ezek
+a papírok?</span><span class="qex-en">What is your telephone number? What are these
+papers?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Kit?
+Kiket?</span><span class="qgloss">Whom?</span></div><span class="qex">Kit szeretsz?
+<b>Kiket</b> ismersz itt?</span><span class="qex-en">Whom do you love? Whom (which
+people) do you know here?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Mit?
+Miket?</span><span class="qgloss">What? (direct object)</span></div><span class="qex">Mit
+látsz? <b>Miket</b> fotózol?</span><span class="qex-en">What do you see? What (which
+things) are you photographing?</span></div><div class="qword-item"><div class="qhead"><span class="qword">Kivel?
+(Kikkel?)</span><span class="qgloss">With whom?</span></div><span class="qex">Kivel
+mész az uszodába?</span><span class="qex-en">With whom are you going to the swimming
+pool?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Kinek?
+(Kiknek?)</span><span class="qgloss">To/for whom?</span></div><span class="qex">Kinek
+veszel virágot?</span><span class="qex-en">For whom are you buying flowers?</span></div>
+</div>
+<div class="note"><b>Figyelem / Note:</b> a kérdőszavak többes számú alakját (Kik, Mik,
+Kiket, Miket, Kikkel, Kiknek) ritkán használjuk. / The plural form of the question words is rather
+rarely used.</div>
+</section>
+<!-- ================= II. QUALITIES ================= -->
+<section class="panel" id="qualities">
+<span class="section-num">02</span>
+<h2>II. Minőségre, tulajdonságra kérdezünk <span class="en-sub">Questions for
+qualities</span></h2>
+<div class="qword-grid">
+<div class="qword-item"><div class="qhead"><span class="qword">Milyen?
+Milyenek?</span><span class="qgloss">What is/are ... like?</span></div><span
+class="qex">Milyen a sütemény? <b>Milyenek</b> az új kollégák?</span><span
+class="qex-en">What is the cake like? What are the new colleagues like?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Milyen
+…?</span><span class="qgloss">What kind of …?</span></div><span class="qex">Milyen
+nyelven beszélsz?</span><span class="qex-en">What language do you speak?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Melyik
+…?</span><span class="qgloss">Which …?</span></div><span class="qex">Melyik városban
+élsz?</span><span class="qex-en">In which city do you live?</span></div>
+</div>
+</section>
+<!-- ================= III. PLACE ================= -->
+<section class="panel" id="place">
+<span class="section-num">03</span>
+<h2>III. Helyre kérdezünk <span class="en-sub">Questions for adverbs of
+place</span></h2>
+<div class="qword-grid">
+<div class="qword-item"><div class="qhead"><span class="qword">Hol?</span><span
+class="qgloss">Where?</span></div><span class="qex">Hol élsz?</span><span
+class="qex-en">Where do you live?</span></div><div class="qword-item"><div class="qhead"><span class="qword">Hova?</span><span
+class="qgloss">Where to?</span></div><span class="qex">Hova megyünk ma
+este?</span><span class="qex-en">Where are we going tonight?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Honnan?</span><span
+class="qgloss">Where from?</span></div><span class="qex">Honnan jössz?</span><span
+class="qex-en">Where do you come from?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Honnan
+hova?</span><span class="qgloss">From where to where?</span></div><span
+class="qex">Honnan hova megy ez a vonat?</span><span class="qex-en">From where to
+where is this train going?</span></div>
+</div>
+</section>
+<!-- ================= IV. TIME AND FREQUENCY ================= -->
+<section class="panel" id="time">
+<span class="section-num">04</span>
+<h2>IV. Időre, gyakoriságra kérdezünk <span class="en-sub">Questions for time and
+frequency</span></h2>
+<div class="qword-grid">
+<div class="qword-item"><div class="qhead"><span class="qword">Mióta?</span><span
+class="qgloss">Since when?</span></div><span class="qex">Mióta laksz
+Magyarországon?</span><span class="qex-en">Since when have you been living in
+Hungary?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Mettől
+meddig?</span><span class="qgloss">From when to when?</span></div><span
+class="qex">Mettől meddig dolgozol?</span><span class="qex-en">From when to when do you
+work?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Mikor?</span><span
+class="qgloss">When?</span></div><span class="qex">Mikor találkozol Ferivel?</span><span
+class="qex-en">When will you meet Feri?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Hánykor? / Hány
+órakor?</span><span class="qgloss">At what time?</span></div><span class="qex">Hánykor
+kezdődik az előadás?</span><span class="qex-en">At what time does the show
+begin?</span></div>
+<div class="qword-item"><div class="qhead"><span
+class="qword">Hányszor?</span><span class="qgloss">How many times?</span></div><span
+class="qex">Hányszor voltál már Ázsiában?</span><span class="qex-en">How many times
+have you been to Asia?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Milyen
+gyakran?</span><span class="qgloss">How often?</span></div><span class="qex">Milyen
+gyakran jársz moziba?</span><span class="qex-en">How often do you go to the
+cinema?</span></div>
+</div></section>
+<!-- ================= V. OTHER ================= -->
+<section class="panel" id="other">
+<span class="section-num">05</span>
+<h2>V. Másra kérdezünk <span class="en-sub">Number, quantity, reason...</span></h2>
+<div class="qword-grid">
+<div class="qword-item"><div class="qhead"><span class="qword">Hány …?</span><span
+class="qgloss">How many …?</span></div><span class="qex">Hány ember él
+Kínában?</span><span class="qex-en">How many people live in China?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Hány
+éves?</span><span class="qgloss">How old?</span></div><span class="qex">Hány éves
+vagy?</span><span class="qex-en">How old are you?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Mennyi
+…?</span><span class="qgloss">How much?</span></div><span class="qex">Mennyi liszt
+kell a süteménybe?</span><span class="qex-en">How much flour do you need for the
+cake?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Hányas
+…?</span><span class="qgloss">Which number?</span></div><span class="qex">Hányas
+busz megy a főtérre?</span><span class="qex-en">Which bus goes to the main
+square?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Hányadik
+…?</span><span class="qgloss">Which of a given number?</span></div><span
+class="qex">Hányadik emeleten laktok?</span><span class="qex-en">On which floor do you
+live?</span></div>
+<div class="qword-item"><div class="qhead"><span
+class="qword">Hányadika?</span><span class="qgloss">Which date?</span></div><span
+class="qex">Hányadika van ma?</span><span class="qex-en">What is today's
+date?</span></div>
+<div class="qword-item"><div class="qhead"><span
+class="qword">Hányadikán?</span><span class="qgloss">On which date?</span></div><span
+class="qex">Hányadikán van a születésnapod?</span><span class="qex-en">On which date is
+your birthday?</span></div>
+<div class="qword-item"><div class="qhead"><span class="qword">Miért?</span><span
+class="qgloss">Why?</span></div><span class="qex">Miért tanulsz magyarul?</span><span
+class="qex-en">Why are you learning Hungarian?</span></div>
+</div>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">06</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2><p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kérdőszóval kérdezünk a tárgyra (Mit
+látsz?)?</span><br><span class="en">Which question word asks about the direct
+object?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">Mi?</button>
+<button class="opt" data-correct="true">Mit?</button>
+<button class="opt" data-correct="false">Kinek?</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="2">
+<span class="q-num">2 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „___ a sütemény?" <span
+class="en">(What is the cake like?)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="milyen"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kérdőszó kérdez a helyre, ahonnan
+jövünk?</span><br><span class="en">Which question word asks where we're coming
+from?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">Hova?</button>
+<button class="opt" data-correct="true">Honnan?</button>
+<button class="opt" data-correct="false">Hol?</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „___ laksz Magyarországon?" <span
+class="en">(Since when have you been living in Hungary?)</span></span></div><div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="mióta"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kérdőszóval kérdezünk a
+gyakoriságra?</span><br><span class="en">Which question word asks about
+frequency?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Milyen gyakran?</button>
+<button class="opt" data-correct="false">Mettől meddig?</button>
+<button class="opt" data-correct="false">Hányadik?</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="6">
+<span class="q-num">6 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „___ van ma?" <span
+class="en">(What is today's date?)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="hányadika"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Mit kérdezünk a „Hányas busz megy a főtérre?"
+mondatban?</span><br><span class="en">What are we asking about in "Hányas busz megy a
+főtérre?"</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">a busz számát <span class="en">(the bus
+number)</span></button>
+<button class="opt" data-correct="false">a busz méretét <span class="en">(the bus
+size)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 10 · KIEGÉSZÍTÉS</span><div class="q-prompt"><span class="hu">Egészítsd ki: „___ tanulsz magyarul?" <span
+class="en">(Why are you learning Hungarian?)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="miért"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A kérdőszavak többes számú alakját (Kik, Mik
+stb.) nagyon gyakran használjuk.</span><br><span class="en">The plural form of question
+words (Kik, Mik, etc.) is used very often.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="10">
+<span class="q-num">10 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kérdőszóval kérdezünk
+életkorra?</span><br><span class="en">Which question word asks about age?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Hány éves?</button>
+<button class="opt" data-correct="false">Hányadik?</button>
+<button class="opt" data-correct="false">Mennyi?</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · Kérdőszók — Question words</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}". / Not quite — correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>
