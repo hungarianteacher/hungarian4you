@@ -30,7 +30,9 @@
 
   var style = document.createElement("style");
   style.textContent = [
-    "#h4y-social-bar{position:fixed;left:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:8px;}",
+    "#h4y-social-bar{position:fixed;left:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:8px;",
+    "opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity 0.35s ease, transform 0.35s ease;}",
+    "#h4y-social-bar.h4y-visible{opacity:1;pointer-events:auto;transform:translateY(0);}",
     "#h4y-social-bar a{width:38px;height:38px;border-radius:50%;background:#fff;color:#1a1a1a;",
     "border:1.4px solid rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;",
     "box-shadow:0 4px 10px rgba(0,0,0,0.12);transition:transform 0.15s ease, box-shadow 0.15s ease;text-decoration:none;}",
@@ -60,4 +62,16 @@
       document.body.appendChild(bar);
     });
   }
+
+  // A sáv csak akkor jelenik meg, ha a diák a lap aljához közel görget
+  // (kb. 200 pixelen belül a lap végétől).
+  function updateSocialBarVisibility() {
+    var scrollBottom = window.innerHeight + window.scrollY;
+    var pageHeight = document.documentElement.scrollHeight;
+    var nearBottom = scrollBottom >= pageHeight - 200;
+    bar.classList.toggle("h4y-visible", nearBottom);
+  }
+  window.addEventListener("scroll", updateSocialBarVisibility, { passive: true });
+  window.addEventListener("resize", updateSocialBarVisibility);
+  updateSocialBarVisibility();
 })();
