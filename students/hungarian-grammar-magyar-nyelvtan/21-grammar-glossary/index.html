@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyelvtani szakkifejezések jegyzéke · List of grammar terms — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,500;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:880px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.1rem, 4.6vw, 3.2rem); line-height:1.1; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:600px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.03rem;}
+.search-block{margin:44px 0 40px;}
+.search-input-wrap{
+position:relative;
+max-width:420px;}
+.search-input-wrap svg{
+position:absolute; left:16px; top:50%; transform:translateY(-50%);
+width:16px; height:16px; opacity:0.5;
+}
+#searchBox{
+width:100%;
+background:var(--ink-soft);
+border:1px solid var(--line);
+border-radius:30px;
+padding:13px 20px 13px 44px;
+color:var(--paper);
+font-family:'Work Sans',sans-serif;
+font-size:0.95rem;
+outline:none;
+transition:border-color 0.15s ease;
+}
+#searchBox:focus{border-color:var(--gold);}
+#searchBox::placeholder{color:var(--paper); opacity:0.4;}
+.search-count{
+margin-top:10px;
+font-family:'IBM Plex Mono', monospace;
+font-size:0.75rem;
+opacity:0.5;
+}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:20px 0;
+margin-bottom:40px; box-shadow:var(--shadow); overflow:hidden;}
+.glossary-header{
+display:grid;
+grid-template-columns:1fr 1fr;
+background:var(--wine-deep);
+color:var(--paper);
+font-family:'IBM Plex Mono', monospace;
+font-size:0.75rem;
+text-transform:uppercase;
+letter-spacing:0.06em;
+padding:14px 32px;
+margin-bottom:2px;
+}
+.glossary-row{
+display:grid;grid-template-columns:1fr 1fr;
+padding:11px 32px;
+border-bottom:1px solid var(--line-dark);
+font-family:'IBM Plex Mono', monospace;
+font-size:0.94rem;
+transition:background-color 0.1s ease;
+}
+.glossary-row:hover{background:var(--paper-dim);}
+.glossary-row:last-child{border-bottom:none;}
+.glossary-row.sub{
+padding-left:52px;
+font-size:0.86rem;
+}
+.glossary-row.sub .hu-term{opacity:0.75;}
+.glossary-row .hu-term{color:var(--wine-deep); font-weight:600;}
+.glossary-row .hu-term.sub-term{font-weight:500;}
+.glossary-row .en-term{color:var(--ink); opacity:0.85;}
+.glossary-row.hidden{display:none;}
+.no-results{
+padding:40px 32px;
+text-align:center;
+font-family:'IBM Plex Mono', monospace;
+font-size:0.9rem;
+opacity:0.5;
+display:none;
+}
+.no-results.show{display:block;}
+.closing-note{
+text-align:center; margin-top:20px; padding:40px 20px;
+font-family:'IBM Plex Mono', monospace; font-size:0.85rem; opacity:0.6;
+}
+footer{text-align:center; padding:20px 0 66px; color:var(--paper); opacity:0.4;
+font-size:0.78rem; font-family:'IBM Plex Mono', monospace;}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:52px 0 0;}
+.glossary-header, .glossary-row{padding-left:20px; padding-right:20px;}
+.glossary-row.sub{padding-left:36px;}
+}
+.breadcrumb { max-width: 860px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / Nyelvtani szakkifejezések jegyzéke
+</nav>
+
+<div class="wrap">
+<header class="hero"><div class="eyebrow">Magyar Nyelvtan · Lecke 21</div>
+<h1>
+<span class="hu-title">Nyelvtani szakkifejezések jegyzéke</span>
+<span class="en-title">List of grammar terms</span>
+</h1>
+<p class="lede hu">A sorozat összes leckéjében előforduló nyelvtani szakkifejezések
+magyar–angol jegyzéke.</p>
+<p class="lede en">A Hungarian–English glossary of the grammar terms used throughout
+every lesson in this series.</p>
+<div class="search-block">
+<div class="search-input-wrap">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle
+cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+<input type="text" id="searchBox" placeholder="Keresés magyarul vagy angolul… / Search
+in Hungarian or English…" autocomplete="off">
+</div>
+<div class="search-count" id="searchCount"></div>
+</div>
+</header>
+<section class="panel" id="glossary-panel">
+<div class="glossary-header"><div>magyar</div><div>angol</div></div>
+<div id="glossaryList">
+<!-- rows injected by JS -->
+</div>
+<div class="no-results" id="noResults">Nincs találat. / No matches found.</div>
+</section>
+<div class="closing-note">Ez volt a Magyar Nyelvtan sorozat utolsó leckéje. Köszönjük, hogy
+velünk tartottál!<br>This was the final lesson in the Hungarian Grammar series. Thank you for
+following along!</div>
+<footer>Magyar Nyelvtan Online · Nyelvtani szakkifejezések jegyzéke — List of grammar
+terms</footer>
+</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+const terms = [
+["alak","form",0],
+["állítás","statement",0],
+["birtokos személyjel","possessive ending",0],
+["birtokos szerkezet","possessive structure",0],
+["fókusz","focus",0],
+["fókuszpozíció","focus position",0],
+["főnév","noun",0],
+["főnévi igenév","infinitive",0],
+["hangrend","vowel harmony",0],["mély hangrendű szó","word with back vowels",1],
+["magas hangrendű szó","word with front vowels",1],
+["vegyes hangrendű szó","word with mixed vowels",1],
+["hangsúly","emphasis",0],
+["hangsúlyszabály","emphasis rule",0],
+["határozatlan","indefinite",0],
+["határozott","definite",0],
+["helyhatározó","adverb of place",0],
+["időhatározó","adverb of time",0],
+["ige","verb",0],
+["ikes ige","verb ending in -ik",1],
+["rendhagyó ige","irregular verb",1],
+["szabályos ige","regular verb",1],
+["igekötő","prefix",0],
+["igerag","verb ending",0],
+["igeragozás, ragozás","conjugation",0],
+["határozatlan ragozás","indefinite conjugation",1],
+["határozott ragozás","definite conjugation",1],
+["jelen idő","present tense",0],
+["jelentés","meaning",0],
+["jövő idő","future tense",0],
+["képzés","formation",0],
+["kérdés","question",0],
+["eldöntendő kérdés","yes-no question",1],
+["kiegészítendő kérdés","wh- question",1],
+["kérdőszó","question word",0],
+["kötőhang","connecting vowel",0],
+["kötőszó","conjunction",0],
+["létige (van)","verb be",0],
+["melléknév","adjective",0],
+["mondat","sentence",0],
+["kérdő mondat","question, interrogative sentence",1],
+["kijelentő mondat","statement, affirmative sentence",1],
+["tagadó mondat","negative sentence",1],
+["múlt idő","past tense",0],
+["névelő","article",0],
+["határozatlan névelő","indefinite article",1],
+["határozott névelő","definite article",1],
+["névmás","pronoun",0],
+["mutató névmás","demonstrative pronoun",1],
+["személyes névmás","personal pronoun",1],
+["rendhagyó","irregular",0],
+["rendhagyóság","irregularity",0],
+["segédige","helping verb",0],["szórend","word order",0],
+["szótag","syllable",0],
+["tagadás","negation",0],
+["tagadószó","negative word",0],
+["tárgy","direct object",0],
+["határozatlan tárgy","indefinite direct object",1],
+["határozott tárgy","definite direct object",1],
+["toldalék","suffix, ending",0],
+["toldalékolás","suffixing",0],
+["többszörös toldalékolás","more than one ending",1],
+["többes szám","plural",0],
+["végződés","ending",0]
+];
+const listEl = document.getElementById('glossaryList');
+const noResultsEl = document.getElementById('noResults');
+const countEl = document.getElementById('searchCount');
+function renderRows(){
+listEl.innerHTML = terms.map((t, i) => {
+const [hu, en, level] = t;
+const subClass = level === 1 ? ' sub' : '';
+const termClass = level === 1 ? 'hu-term sub-term' : 'hu-term';
+return `<div class="glossary-row${subClass}" data-hu="${hu.toLowerCase()}"
+data-en="${en.toLowerCase()}">
+<div class="${termClass}">${hu}</div>
+<div class="en-term">${en}</div>
+</div>`;
+}).join('');
+}
+renderRows();
+function updateCount(visible, total){
+countEl.textContent = `${visible} / ${total} kifejezés · terms`;
+}
+updateCount(terms.length, terms.length);
+document.getElementById('searchBox').addEventListener('input', (e) => {
+const query = e.target.value.trim().toLowerCase();
+const rows = document.querySelectorAll('.glossary-row');
+let visibleCount = 0;
+rows.forEach(row => {
+const hu = row.dataset.hu;
+const en = row.dataset.en;const matches = query === '' || hu.includes(query) || en.includes(query);
+row.classList.toggle('hidden', !matches);
+if(matches) visibleCount++;
+});
+noResultsEl.classList.toggle('show', visibleCount === 0);
+updateCount(visibleCount, terms.length);
+});
+</script>
+</body>
+</html>
