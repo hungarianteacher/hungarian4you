@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nevek — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  :root{
+    --line: rgba(43,36,29,0.14);
+    --shadow: 0 18px 40px -22px rgba(43,36,29,0.4);
+  }
+
+  .breadcrumb { max-width: 900px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; border: 1px solid var(--border); margin: 0 0 28px; background: #000; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+  .lesson-wrap{max-width:900px;margin:0 auto;padding:20px 24px 64px;}
+
+  .lesson-header{margin-bottom:26px;}
+  .lesson-header h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:clamp(1.8rem,5vw,2.6rem);
+    margin:4px 0 8px;
+    line-height:1.1;
+  }
+  .lesson-header h1 em{font-style:italic;color:var(--paprika);}
+  .lesson-header .sub{font-size:1rem;color:var(--muted);max-width:620px;line-height:1.55;}
+
+  .intro-note{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:4px solid var(--mustard);
+    border-radius:0 4px 4px 0;
+    padding:14px 18px;
+    margin-bottom:24px;
+    font-size:14px;line-height:1.55;
+  }
+  .intro-note strong{color:var(--paprika-dark);}
+  .intro-note .translation{
+    display:block;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:13px;color:var(--muted);font-style:italic;
+  }
+
+  .master-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
+  .master-row button{
+    font-family:'Work Sans',sans-serif;font-weight:600;font-size:14px;
+    border:1.5px solid var(--ink);border-radius:3px;background:var(--ink);color:var(--bg);
+    padding:10px 18px;cursor:pointer;transition:transform .12s ease;
+    text-align:left;line-height:1.35;
+  }
+  .master-row button .btn-en{
+    display:block;font-family:'Work Sans',sans-serif;font-size:10.5px;
+    font-weight:500;opacity:.7;text-transform:none;letter-spacing:.02em;margin-top:2px;
+  }
+  .master-row button:hover{transform:translateY(-1px);}
+  .master-row button.secondary{background:transparent;color:var(--ink);}
+  .master-row button:focus-visible{outline:2px solid var(--mustard);outline-offset:2px;}
+  .master-row button:disabled{opacity:.5;cursor:default;transform:none;}
+
+  .group-card{
+    background:var(--card);
+    border:1.5px solid var(--ink);
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    position:relative;
+    padding:30px 26px 26px;
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .group-card::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:74px;height:14px;background:var(--surface2,#f0ece5);
+    border:1.5px solid var(--ink);border-top:none;
+    border-radius:0 0 10px 10px;
+  }
+  .group-card::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+    background:var(--group-accent, var(--paprika));
+  }
+  .group-number{
+    font-family:'Work Sans', sans-serif;font-size:12px;color:var(--muted);
+    position:absolute;top:14px;left:22px;letter-spacing:.04em;
+  }
+  .group-head{text-align:center;margin:14px 0 6px;}
+  .group-emoji{font-size:34px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12));}
+  .group-hu{
+    font-family:'Fraunces',serif;font-weight:700;font-style:italic;
+    font-size:27px;color:var(--group-accent, var(--paprika-dark));line-height:1.1;
+  }
+  .group-en{
+    font-family:'Work Sans',sans-serif;font-size:12.5px;letter-spacing:.05em;
+    color:var(--muted);margin-top:2px;text-transform:uppercase;
+  }
+  .group-desc{max-width:620px;margin:12px auto 0;text-align:center;font-size:14px;line-height:1.55;}
+  .group-desc .translation{display:block;margin-top:8px;font-size:13px;color:var(--muted);font-style:italic;}
+  .group-count{
+    display:inline-block;margin-top:10px;font-family:'Work Sans',sans-serif;font-size:11px;
+    color:var(--muted);letter-spacing:.05em;
+  }
+
+  .names-caption{
+    text-align:center;font-family:'Work Sans',sans-serif;font-size:12px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    margin:20px 0 12px;
+  }
+  .names-caption .translation{
+    display:block;text-transform:none;letter-spacing:.02em;font-style:italic;
+    opacity:.85;margin-top:2px;font-size:11px;
+  }
+
+  .names-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .name-card{
+    background:#fff;border:1.5px solid var(--line);border-radius:4px;
+    padding:14px 12px 12px;text-align:center;position:relative;
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .name-card:hover{border-color:var(--group-accent, var(--ink)); transform:translateY(-2px);}
+  .name-card.playing{border-color:var(--group-accent, var(--paprika)); box-shadow:0 0 0 2px rgba(182,55,31,0.18);}
+  .name-card.tradition{border-style:dashed;}
+  .name-order{
+    font-family:'Work Sans',sans-serif;font-size:10.5px;color:var(--muted);opacity:.7;
+    margin-bottom:6px;
+  }
+  .name-hu{
+    font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--ink);
+  }
+  .name-arrow{font-size:11px;color:var(--muted);margin:3px 0;}
+  .name-en{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:17px;
+    color:var(--group-accent, var(--paprika-dark));margin-bottom:6px;
+  }
+  .name-noeq{
+    font-family:'Work Sans',sans-serif;font-size:11px;font-weight:600;
+    color:var(--group-accent, var(--muted));margin:4px 0 8px;line-height:1.5;
+  }
+  .name-noeq-en{
+    display:block;font-weight:400;font-style:italic;opacity:.8;font-size:10px;margin-top:1px;
+  }
+  .name-note{
+    font-family:'Work Sans',sans-serif;font-size:11px;color:var(--muted);
+    line-height:1.45;margin-bottom:10px;min-height:28px;
+  }
+  .name-note-en{
+    display:block;font-style:italic;opacity:.8;margin-top:2px;
+  }
+  .name-speak{
+    background:var(--surface2,#f0ece5);border:1px solid var(--line);border-radius:50%;
+    width:28px;height:28px;cursor:pointer;font-size:12px;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:all .12s ease;
+  }
+  .name-speak:hover{background:var(--mustard);color:#fff;border-color:transparent;}
+
+  .audio-note{
+    text-align:center;font-size:12.5px;color:var(--paprika-dark);
+    background:var(--card);border:1px solid var(--border);border-radius:4px;
+    padding:10px 14px;margin-bottom:22px;display:none;
+  }
+  .audio-note.show{display:block;}
+
+  @media (max-width:640px){
+    .names-grid{grid-template-columns:repeat(2,1fr);}
+    .group-card{padding:26px 16px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / Names
+</nav>
+
+<div class="lesson-wrap">
+
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/LupNQxrbneM" title="Hungarian names video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+
+  <header class="lesson-header">
+    <span class="eyebrow">SZÓKINCS / VOCABULARY</span>
+    <h1>Nevek — <em>Names</em></h1>
+    <p class="sub">Hungarian first names and their English counterparts — from Old and New Testament figures through classic name-pairs to today's international names, plus a set of distinctly Hungarian names with no true English equivalent. Click any 🔊 icon to hear it spoken.</p>
+  </header>
+
+  <div class="intro-note">
+    <strong>Hogyan használd:</strong> az első kártya a bibliai neveket tartalmazza, a második a görög/latin/germán közös gyökerű klasszikus névpárokat, a harmadik a ma is népszerű modern neveket, a negyedik pedig olyan sajátosan magyar neveket, amelyeknek nincs valódi angol megfelelőjük. A szaggatott szegélyű kártyák hagyomány szerinti (nem közvetlenül a bibliai szövegben megnevezett), vagy angol megfelelő nélküli neveket jelölnek. A neveket a Károli- és a revideált új fordítású bibliaszövegek, valamint elismert névtani források (pl. az MTA Nyelvtudományi Intézetének Utónévportálja) alapján állítottam össze. Kattints a 🔊 gombokra a kiejtéshez, vagy hallgasd meg egy egész kártyát sorban.
+    <span class="translation">
+      <strong>How to use it:</strong> the first card covers biblical names, the second is classic Greek/Latin/Germanic cognate name-pairs, the third is names popular today, and the fourth collects distinctly Hungarian names that have no true English equivalent. Dashed-border cards mark names known from tradition (not named directly in the biblical text itself) or names with no English equivalent. The Hungarian forms were compiled from the Károli and revised modern Hungarian Bible translations, as well as recognized naming reference sources (e.g. the Name Portal of the Research Institute for Linguistics, Hungarian Academy of Sciences). Click the 🔊 buttons to hear the pronunciation, or play a whole card in order.
+    </span>
+  </div>
+
+  <div class="master-row">
+    <button type="button" id="playAllBiblical">🔊 Bibliai nevek lejátszása sorban<span class="btn-en">Play biblical names in order</span></button>
+    <button type="button" class="secondary" id="playAllClassic">🔊 Klasszikus névpárok lejátszása sorban<span class="btn-en">Play classic name-pairs in order</span></button>
+    <button type="button" class="secondary" id="playAllModern">🔊 Modern nevek lejátszása sorban<span class="btn-en">Play modern names in order</span></button>
+    <button type="button" class="secondary" id="playAllUnique">🔊 Egyedi magyar nevek lejátszása sorban<span class="btn-en">Play unique Hungarian names in order</span></button>
+    <button type="button" class="secondary" id="stopAll">⏹ Leállítás<span class="btn-en">Stop</span></button>
+  </div>
+
+  <p class="audio-note" id="audioNote">Néhány hangfájl nem található — ellenőrizd, hogy minden mp3 fel van-e töltve az <code>audio</code> mappába.</p>
+
+  <div id="groupsWrap"></div>
+
+  <footer id="pageFooter" style="text-align:center;margin-top:20px;font-size:12.5px;color:var(--muted);font-family:'Work Sans',sans-serif;"></footer>
+
+</div>
+
+<div class="motif meadow"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Adatok: magyar nevek és igazolható angol megfelelőik,
+   négy csoportban. A megjelenített sorrend csoporton belül magyar
+   ábécé szerint rendezett — ez pontosan követi a hangfájlok
+   (audio/<Név>.mp3) felvételi sorrendjét.
+   A "tradition: true" jelzésű elemek a keresztény hagyományból
+   (nem közvetlenül a bibliai szövegből) ismert nevek.
+----------------------------------------------------------------*/
+const GROUPS = [
+  {
+    hu: "bibliai nevek", en: "biblical names", emoji: "📜", accent: "var(--paprika-dark)",
+    desc: {
+      hu: "Ószövetségi és újszövetségi alakok magyar Biblia-fordításokban használt neve és angol megfelelője, kiegészítve a keresztény hagyomány két-három, jól ismert nevével.",
+      en: "Old and New Testament figures as named in Hungarian Bible translations, alongside their English equivalents, plus a few well-known names from Christian tradition."
+    },
+    names: [
+      { hu: "Ábrahám", en: "Abraham", note: { hu: "a hit atyja; jelentése: sok nép atyja", en: "father of faith; meaning: father of many nations" } },
+      { hu: "Ádám", en: "Adam", note: { hu: "az első ember; jelentése: föld / ember", en: "the first man; meaning: earth / man" } },
+      { hu: "András", en: "Andrew", note: { hu: "apostol; jelentése: férfias", en: "apostle; meaning: manly" } },
+      { hu: "Boldizsár", en: "Balthazar", note: { hu: "hagyomány szerinti napkeleti bölcs; Dánielnél babiloni királynév is", en: "traditional name of one of the Magi; also a Babylonian king's name in Daniel" }, tradition: true },
+      { hu: "Dávid", en: "David", note: { hu: "Izrael királya; jelentése: kedvenc", en: "king of Israel; meaning: beloved" } },
+      { hu: "Erzsébet", en: "Elizabeth", note: { hu: "Keresztelő János anyja; jelentése: Isten az én esküm", en: "mother of John the Baptist; meaning: God is my oath" } },
+      { hu: "Eszter", en: "Esther", note: { hu: "perzsa királyné; jelentése: csillag", en: "Persian queen; meaning: star" } },
+      { hu: "Éva", en: "Eve", note: { hu: "az első nő; jelentése: élet", en: "the first woman; meaning: life" } },
+      { hu: "Fülöp", en: "Philip", note: { hu: "apostol; jelentése: lovak barátja", en: "apostle; meaning: friend of horses" } },
+      { hu: "Gáspár", en: "Caspar", note: { hu: "hagyomány szerinti napkeleti bölcs; a Biblia nem nevezi meg", en: "traditional name of one of the Magi; not named in the Bible itself" }, tradition: true },
+      { hu: "Izsák", en: "Isaac", note: { hu: "Ábrahám fia; jelentése: nevetni fog", en: "son of Abraham; meaning: he will laugh" } },
+      { hu: "Jakab", en: "James", note: { hu: "apostol; a Jákob név görög-latin alakja", en: "apostle; the Greek-Latin form of the name Jacob" } },
+      { hu: "Jákob", en: "Jacob", note: { hu: "Izrael ősatyja; jelentése: sarkonfogó", en: "patriarch of Israel; meaning: heel-holder" } },
+      { hu: "János", en: "John", note: { hu: "apostol/evangélista; jelentése: Isten kegyes", en: "apostle/evangelist; meaning: God is gracious" } },
+      { hu: "József", en: "Joseph", note: { hu: "Jákob fia / Mária férje; jelentése: Isten gyarapítja", en: "son of Jacob / husband of Mary; meaning: God will increase" } },
+      { hu: "Lukács", en: "Luke", note: { hu: "evangélista; jelentése: Lucaniából való", en: "evangelist; meaning: from Lucania" } },
+      { hu: "Magdolna", en: "Magdalene", note: { hu: "Mária Magdolna nevéből; jelentése: Magdalából való", en: "from Mary Magdalene; meaning: of Magdala" } },
+      { hu: "Mária", en: "Mary", note: { hu: "Jézus édesanyja; jelentése vitatott", en: "mother of Jesus; meaning disputed" } },
+      { hu: "Márk", en: "Mark", note: { hu: "evangélista; a latin Mars istennévhez köthető", en: "evangelist; linked to the Latin god-name Mars" } },
+      { hu: "Máté", en: "Matthew", note: { hu: "apostol, evangélista; jelentése: az Úr ajándéka", en: "apostle and evangelist; meaning: gift of the Lord" } },
+      { hu: "Menyhért", en: "Melchior", note: { hu: "hagyomány szerinti napkeleti bölcs; a Biblia nem nevezi meg", en: "traditional name of one of the Magi; not named in the Bible itself" }, tradition: true },
+      { hu: "Mózes", en: "Moses", note: { hu: "a törvényadó próféta; jelentése: kihúzott", en: "the lawgiving prophet; meaning: drawn out" } },
+      { hu: "Noé", en: "Noah", note: { hu: "a bárka építője; jelentése: nyugalom", en: "builder of the ark; meaning: rest" } },
+      { hu: "Pál", en: "Paul", note: { hu: "apostol; jelentése: kicsi", en: "apostle; meaning: small" } },
+      { hu: "Péter", en: "Peter", note: { hu: "apostol; jelentése: kőszikla", en: "apostle; meaning: rock" } },
+      { hu: "Sámuel", en: "Samuel", note: { hu: "próféta és bíró; jelentése: Isten meghallgatott", en: "prophet and judge; meaning: God has heard" } },
+      { hu: "Sém", en: "Shem", note: { hu: "Noé fia; jelentése: név, hírnév", en: "son of Noah; meaning: name, renown" } },
+      { hu: "Sét", en: "Seth", note: { hu: "Ádám és Éva harmadik fia; jelentése: pótlás, helyettesítés", en: "third son of Adam and Eve; meaning: replacement" } },
+      { hu: "Tamás", en: "Thomas", note: { hu: "apostol; jelentése: iker", en: "apostle; meaning: twin" } },
+      { hu: "Zsuzsanna", en: "Susanna", note: { hu: "jelentése: liliom", en: "meaning: lily" } },
+    ]
+  },
+  {
+    hu: "klasszikus névpárok", en: "classic cognate names", emoji: "🏛️", accent: "var(--mustard)",
+    desc: {
+      hu: "Görög, latin vagy germán közös gyökérből származó magyar–angol névpárok, jórészt keresztény hagyományból.",
+      en: "Hungarian–English name pairs sharing a common Greek, Latin, or Germanic root, mostly rooted in Christian tradition."
+    },
+    names: [
+      { hu: "Antal", en: "Anthony", note: { hu: "latin eredetű; jelentése bizonytalan", en: "Latin origin; meaning uncertain" } },
+      { hu: "Bálint", en: "Valentine", note: { hu: "latin eredetű; jelentése: erős, egészséges", en: "Latin origin; meaning: strong, healthy" } },
+      { hu: "Beatrix", en: "Beatrice", note: { hu: "latin eredetű; jelentése: boldogságot hozó", en: "Latin origin; meaning: bringer of happiness" } },
+      { hu: "Benedek", en: "Benedict", note: { hu: "latin eredetű; jelentése: áldott", en: "Latin origin; meaning: blessed" } },
+      { hu: "Ferenc", en: "Francis", note: { hu: "latin/germán eredetű; jelentése: francia, szabad", en: "Latin/Germanic origin; meaning: Frenchman, free" } },
+      { hu: "Flóra", en: "Flora", note: { hu: "latin eredetű; jelentése: virág", en: "Latin origin; meaning: flower" } },
+      { hu: "Gábor", en: "Gabriel", note: { hu: "héber eredetű; jelentése: Isten embere", en: "Hebrew origin; meaning: man of God" } },
+      { hu: "Henrik", en: "Henry", note: { hu: "germán eredetű; jelentése: otthon ura", en: "Germanic origin; meaning: ruler of the home" } },
+      { hu: "Ilona", en: "Helen", note: { hu: "görög eredetű; jelentése: fáklyafény", en: "Greek origin; meaning: torchlight" } },
+      { hu: "István", en: "Stephen", note: { hu: "görög eredetű; jelentése: koszorú", en: "Greek origin; meaning: crown, wreath" } },
+      { hu: "Károly", en: "Charles", note: { hu: "germán eredetű; jelentése: szabad ember", en: "Germanic origin; meaning: free man" } },
+      { hu: "Katalin", en: "Katherine", note: { hu: "görög eredetű; jelentése: tiszta", en: "Greek origin; meaning: pure" } },
+      { hu: "Klára", en: "Clara", note: { hu: "latin eredetű; jelentése: fényes, ragyogó", en: "Latin origin; meaning: bright, shining" } },
+      { hu: "Kornél", en: "Cornelius", note: { hu: "latin eredetű; ókori római nemzetségnév", en: "Latin origin; an ancient Roman clan name" } },
+      { hu: "Kristóf", en: "Christopher", note: { hu: "görög eredetű; jelentése: Krisztus-hordozó", en: "Greek origin; meaning: Christ-bearer" } },
+      { hu: "Lőrinc", en: "Lawrence", note: { hu: "latin eredetű; jelentése: Laurentumból való", en: "Latin origin; meaning: from Laurentum" } },
+      { hu: "Margit", en: "Margaret", note: { hu: "görög eredetű; jelentése: gyöngy", en: "Greek origin; meaning: pearl" } },
+      { hu: "Márton", en: "Martin", note: { hu: "latin eredetű; jelentése: Marshoz tartozó", en: "Latin origin; meaning: belonging to Mars" } },
+      { hu: "Mihály", en: "Michael", note: { hu: "héber eredetű; jelentése: ki olyan, mint Isten", en: "Hebrew origin; meaning: who is like God" } },
+      { hu: "Miklós", en: "Nicholas", note: { hu: "görög eredetű; jelentése: a nép győzelme", en: "Greek origin; meaning: victory of the people" } },
+      { hu: "Viktória", en: "Victoria", note: { hu: "latin eredetű; jelentése: győzelem", en: "Latin origin; meaning: victory" } },
+      { hu: "Vilmos", en: "William", note: { hu: "germán eredetű; jelentése: eltökélt védelmező", en: "Germanic origin; meaning: resolute protector" } },
+      { hu: "Zsigmond", en: "Sigismund", note: { hu: "germán eredetű; jelentése: győzelmes védelmező", en: "Germanic origin; meaning: victorious protector" } },
+      { hu: "Zsófia", en: "Sophia", note: { hu: "görög eredetű; jelentése: bölcsesség", en: "Greek origin; meaning: wisdom" } },
+    ]
+  },
+  {
+    hu: "modern nevek", en: "modern / international names", emoji: "🌍", accent: "var(--paprika)",
+    desc: {
+      hu: "Ma is népszerű nevek, amelyek Magyarországon és angol nyelvterületen szinte azonos formában élnek.",
+      en: "Names popular today that exist in nearly identical form both in Hungary and in English-speaking countries."
+    },
+    names: [
+      { hu: "Adrián", en: "Adrian", note: { hu: "latin eredetű; jelentése: Hadriából való", en: "Latin origin; meaning: from Hadria" } },
+      { hu: "Alexandra", en: "Alexandra", note: { hu: "görög eredetű; jelentése: a férfiak védelmezője", en: "Greek origin; meaning: defender of men" } },
+      { hu: "Bianka", en: "Bianca", note: { hu: "olasz eredetű; jelentése: fehér", en: "Italian origin; meaning: white" } },
+      { hu: "Diána", en: "Diana", note: { hu: "római istennő neve; a Hold és a vadászat istennője", en: "name of a Roman goddess; goddess of the Moon and the hunt" } },
+      { hu: "Dominik", en: "Dominic", note: { hu: "latin eredetű; jelentése: az Úré", en: "Latin origin; meaning: belonging to the Lord" } },
+      { hu: "Emma", en: "Emma", note: { hu: "germán eredetű; jelentése: egész, erős", en: "Germanic origin; meaning: whole, universal" } },
+      { hu: "Hanna", en: "Hannah", note: { hu: "héber eredetű; jelentése: kegyelem", en: "Hebrew origin; meaning: grace, favor" } },
+      { hu: "Kevin", en: "Kevin", note: { hu: "ír eredetű; jelentése: kedves születésű", en: "Irish origin; meaning: handsome, gentle birth" } },
+      { hu: "Léna", en: "Lena", note: { hu: "az Ilona/Magdaléna rövidülése", en: "a short form of Ilona / Magdalene" } },
+      { hu: "Lili", en: "Lily", note: { hu: "virágnév; jelentése: liliom", en: "flower name; meaning: lily" } },
+      { hu: "Maja", en: "Maya", note: { hu: "több eredetű; a május hónap istennőjéhez köthető", en: "multiple origins; linked to the goddess of the month of May" } },
+      { hu: "Noel", en: "Noel", note: { hu: "latin/francia eredetű; jelentése: karácsony", en: "Latin/French origin; meaning: Christmas" } },
+      { hu: "Nóra", en: "Nora", note: { hu: "az Eleonóra rövidülése", en: "a short form of Eleonóra (Eleanor)" } },
+      { hu: "Olívia", en: "Olivia", note: { hu: "latin eredetű; jelentése: olajfa", en: "Latin origin; meaning: olive tree" } },
+      { hu: "Szilvia", en: "Sylvia", note: { hu: "latin eredetű; jelentése: erdei", en: "Latin origin; meaning: of the forest" } },
+      { hu: "Viktor", en: "Victor", note: { hu: "latin eredetű; jelentése: győztes", en: "Latin origin; meaning: victor" } },
+      { hu: "Vivien", en: "Vivian", note: { hu: "latin eredetű; jelentése: eleven, élő", en: "Latin origin; meaning: lively, alive" } },
+      { hu: "Zoé", en: "Zoe", note: { hu: "görög eredetű; jelentése: élet", en: "Greek origin; meaning: life" } },
+      { hu: "Zsanett", en: "Jeanette", note: { hu: "francia eredetű; a Jean (János) név kicsinyítése", en: "French origin; a diminutive of Jean (John)" } },
+    ]
+  },
+  {
+    hu: "egyedi magyar nevek", en: "names with no English equivalent", emoji: "🧬", accent: "var(--meadow-dark, var(--meadow))",
+    desc: {
+      hu: "Ómagyar, hun-magyar mondai, vagy 19. századi írók (főleg Vörösmarty Mihály és Csokonai Vitéz Mihály) alkotta nevek, amelyeknek nincs valódi, elfogadott angol megfelelőjük — legfeljebb távoli, rokon hangzású nevek léteznek.",
+      en: "Old Hungarian, Hun-Hungarian legendary, or 19th-century literary names (mainly coined by Mihály Vörösmarty and Mihály Csokonai Vitéz) that have no true, accepted English equivalent — at most distantly related names exist."
+    },
+    names: [
+      { hu: "Boglárka", noEquivalent: true, note: { hu: "virágnévből; a „boglár” (dísz) szóból", en: "a flower name, from 'boglár' (ornament / buttercup)" } },
+      { hu: "Csaba", noEquivalent: true, note: { hu: "hun-magyar mondai eredetű; a hagyomány szerint Attila legkisebb fia", en: "of Hun-Hungarian legendary origin; traditionally Attila's youngest son" } },
+      { hu: "Emese", noEquivalent: true, note: { hu: "Álmos vezér anyja a Turul-mondában; jelentése: dajka", en: "mother of Chief Álmos in the Turul legend; meaning: wet-nurse" } },
+      { hu: "Enikő", noEquivalent: true, note: { hu: "Vörösmarty Mihály alkotta az Enéh (ünő) szóból", en: "coined by Mihály Vörösmarty from Enéh (meaning 'doe')" } },
+      { hu: "Hajnalka", noEquivalent: true, note: { hu: "Vörösmarty Mihály alkotása a „hajnal” szóból", en: "coined by Mihály Vörösmarty from 'hajnal' (dawn)" } },
+      { hu: "Ildikó", noEquivalent: true, note: { hu: "germán eredetű (a Hilda rokona), de önálló alakja csak magyarul él", en: "Germanic origin (related to Hilda), but this exact form exists only in Hungarian" } },
+      { hu: "Levente", noEquivalent: true, note: { hu: "Árpád-kori ómagyar név; jelentése: élő, létező", en: "an Old Hungarian name from the Árpád era; meaning: living, existing" } },
+      { hu: "Lilla", noEquivalent: true, note: { hu: "Csokonai Vitéz Mihály irodalmi névalkotása, múzsájának adott név", en: "a literary name coined by Mihály Csokonai Vitéz for his muse" } },
+      { hu: "Piroska", noEquivalent: true, note: { hu: "a „piros” szóból; a magyar népmese címszereplőjének neve", en: "from 'piros' (red); the title character of the Hungarian folk tale (Little Red Riding Hood)" } },
+      { hu: "Réka", noEquivalent: true, note: { hu: "Arany János eposzában Attila feleségének neve", en: "the name of Attila's wife in János Arany's epic poem" } },
+      { hu: "Tünde", noEquivalent: true, note: { hu: "Vörösmarty Mihály alkotta a „tündér” szóból, 1830", en: "coined by Mihály Vörösmarty from 'tündér' (fairy), 1830" } },
+      { hu: "Zoltán", noEquivalent: true, note: { hu: "honfoglalás kori, hun-türk eredetű férfinév", en: "a male name from the age of the Hungarian conquest, of Hun-Turkic origin" } },
+    ]
+  },
+];
+
+/* ---------------- hangfájl-lejátszás (mp3), NFC/NFD próba, beszédszintézis tartalék ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){ pickHungarianVoice(); window.speechSynthesis.onvoiceschanged = pickHungarianVoice; }
+
+let cancelRequested = false;
+
+function speakFallback(text){
+  return new Promise(resolve => {
+    if(!speechSupported){ resolve(); return; }
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'hu-HU';
+      if(huVoice) utter.voice = huVoice;
+      utter.rate = 0.9;
+      let settled = false;
+      const finish = () => { if(settled) return; settled = true; resolve(); };
+      utter.onend = finish;
+      utter.onerror = finish;
+      window.speechSynthesis.speak(utter);
+      window.speechSynthesis.resume();
+      setTimeout(finish, Math.max(2500, text.length * 220));
+    }, 30);
+  });
+}
+
+function tryPlayUrl(url){
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let settled = false;
+    const finish = (ok) => { if(!settled){ settled = true; resolve(ok); } };
+    audio.addEventListener('ended', () => finish(true));
+    audio.addEventListener('error', () => finish(false));
+    audio.play().catch(() => finish(false));
+  });
+}
+
+async function speak(text, {onEnd} = {}){
+  const noSpace = text.replace(/\s+/g, '');
+  const rawCandidates = [text, noSpace];
+  const candidates = [];
+  rawCandidates.forEach(raw => {
+    candidates.push(raw);
+    if (typeof raw.normalize === 'function') {
+      candidates.push(raw.normalize('NFC'));
+      candidates.push(raw.normalize('NFD'));
+    }
+  });
+  const uniqueCandidates = candidates.filter((v, i, arr) => arr.indexOf(v) === i);
+
+  for (const candidate of uniqueCandidates) {
+    const ok = await tryPlayUrl(`audio/${encodeURIComponent(candidate)}.mp3`);
+    if (ok) { if (onEnd) onEnd(); return; }
+  }
+
+  document.getElementById('audioNote').classList.add('show');
+  await speakFallback(text);
+  if (onEnd) onEnd();
+}
+
+/* ---------------- felépítés ---------------- */
+const groupsWrap = document.getElementById('groupsWrap');
+
+GROUPS.forEach((group, gIdx) => {
+  const card = document.createElement('div');
+  card.className = 'group-card';
+  card.style.setProperty('--group-accent', group.accent);
+
+  const sortedNames = group.names.slice().sort((a, b) => a.hu.localeCompare(b.hu, 'hu'));
+
+  card.innerHTML = `
+    <span class="group-number">№ ${gIdx + 1}/${GROUPS.length}</span>
+    <div class="group-head">
+      <div class="group-emoji">${group.emoji}</div>
+      <div class="group-hu">${group.hu}</div>
+      <div class="group-en">${group.en}</div>
+      <p class="group-desc">${group.desc.hu}<span class="translation">${group.desc.en}</span></p>
+      <span class="group-count">${group.names.length} név ebben a csoportban</span>
+    </div>
+    <div class="names-caption">Kattints a hangszóróra a kiejtéshez · a szaggatott szegélyű kártyák hagyomány szerinti, vagy angol megfelelő nélküli nevek<span class="translation">Click the speaker icon to hear the pronunciation · dashed-border cards are traditional or have no English equivalent</span></div>
+    <div class="names-grid">
+      ${sortedNames.map((n, i) => `
+        <div class="name-card ${(n.tradition || n.noEquivalent) ? 'tradition' : ''}" data-hu="${n.hu}">
+          <div class="name-order">${String(i + 1).padStart(2,'0')}</div>
+          <div class="name-hu">${n.hu}</div>
+          ${n.noEquivalent ? `
+            <div class="name-noeq">nincs angol megfelelő<span class="name-noeq-en">no English equivalent</span></div>
+          ` : `
+            <div class="name-arrow">↓ angolul</div>
+            <div class="name-en">${n.en}</div>
+          `}
+          <div class="name-note">${n.note.hu}<span class="name-note-en">${n.note.en}</span></div>
+          <button type="button" class="name-speak" data-text="${n.hu}" title="Kiejtés meghallgatása / Listen to pronunciation">🔊</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  groupsWrap.appendChild(card);
+});
+
+const totalNames = GROUPS.reduce((sum, g) => sum + g.names.length, 0);
+document.getElementById('pageFooter').innerHTML =
+  `${GROUPS.map(g => `${g.names.length} ${g.hu}`).join(' · ')} — összesen ${totalNames} név, mindegyik meghallgatható.
+   <span style="display:block;margin-top:3px;font-style:italic;">${GROUPS.map(g => `${g.names.length} ${g.en}`).join(' · ')} — ${totalNames} names in total, all with audio.</span>`;
+
+document.querySelectorAll('.name-speak').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.name-card');
+    card.classList.add('playing');
+    speak(btn.dataset.text, { onEnd: () => card.classList.remove('playing') });
+  });
+});
+
+async function playSequence(buttons){
+  cancelRequested = false;
+  for(const btn of buttons){
+    if(cancelRequested) break;
+    const card = btn.closest('.name-card');
+    card.classList.add('playing');
+    await speak(btn.dataset.text);
+    card.classList.remove('playing');
+    if(cancelRequested) break;
+    await new Promise(r => setTimeout(r, 160));
+  }
+  cancelRequested = false;
+}
+
+function wirePlayAllButton(buttonId, groupIndex){
+  document.getElementById(buttonId).addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    const buttons = Array.from(groupsWrap.children[groupIndex].querySelectorAll('.name-speak'));
+    await playSequence(buttons);
+    btn.disabled = false;
+  });
+}
+
+wirePlayAllButton('playAllBiblical', 0);
+wirePlayAllButton('playAllClassic', 1);
+wirePlayAllButton('playAllModern', 2);
+wirePlayAllButton('playAllUnique', 3);
+
+document.getElementById('stopAll').addEventListener('click', () => {
+  cancelRequested = true;
+  if(speechSupported) window.speechSynthesis.cancel();
+  document.querySelectorAll('.name-card.playing').forEach(c => c.classList.remove('playing'));
+  document.querySelectorAll('.master-row button').forEach(b => { if (b.id !== 'stopAll') b.disabled = false; });
+});
+</script>
+</body>
+</html>
