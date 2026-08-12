@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A melléknév · The adjective — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.4rem, 5vw, 3.6rem); line-height:1.05; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:640px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.05rem;}
+.tri-rail{margin:60px 0 40px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+.tri-card{background:var(--ink-soft); border:1px solid var(--line); border-radius:8px;
+padding:20px 16px; text-align:center;}.tri-card .r-num{font-family:'IBM Plex Mono', monospace; font-size:0.65rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:8px;}
+.tri-card .r-example{font-family:'IBM Plex Mono', monospace; font-size:0.98rem;
+color:var(--paper); margin-bottom:6px;}
+.tri-card .r-example .suf{color:var(--gold); font-weight:700;}
+.tri-card h4{font-size:0.82rem; color:var(--paper); opacity:0.85; line-height:1.3; font-weight:500;
+font-family:'Work Sans',sans-serif;}
+.rail-caption{text-align:center; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+opacity:0.5; margin-top:6px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:24px
+30px; margin:0 0 40px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.92rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:44px 48px;
+margin-bottom:28px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.5rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.55em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.05rem; color:var(--wine-deep); margin:28px 0 4px;}
+.table-scroll{overflow-x:auto; margin-top:20px; border-radius:6px; box-shadow:var(--shadow);}
+table.suf-table{width:100%; border-collapse:collapse; background:#f4ecd8; font-size:0.9rem;
+min-width:480px;}
+table.suf-table th, table.suf-table td{padding:11px 12px; text-align:center; border-bottom:1px
+solid rgba(24,34,41,0.12); color:#182229 !important; background-color:#f4ecd8 !important;}
+table.suf-table thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.92rem;}
+table.suf-table thead th .en-tiny{display:block; font-family:'Work Sans', sans-serif;
+font-style:italic; font-weight:400; font-size:0.7rem; opacity:0.7; margin-top:2px; color:#f4ecd8
+!important;}
+table.suf-table tr.suf-row td{font-family:'IBM Plex Mono', monospace; font-weight:700;
+color:#B6371F !important; background:#e9dfc7 !important; font-style:italic;}
+table.suf-table tr.example-row td{font-family:'IBM Plex Mono', monospace; color:#182229
+!important;}
+.table-footnote{font-size:0.8rem; opacity:0.6; font-style:italic; margin-top:10px;}
+table.wide-plural{width:100%; border-collapse:collapse; background:#f4ecd8;
+font-size:0.82rem; min-width:680px;}table.wide-plural th, table.wide-plural td{
+padding:9px 10px; text-align:center; border-bottom:1px solid rgba(24,34,41,0.1);
+border-right:1px solid rgba(24,34,41,0.08); color:#182229 !important;
+background-color:#f4ecd8 !important;
+}
+table.wide-plural th:last-child, table.wide-plural td:last-child{border-right:none;}
+table.wide-plural thead th{background:#7E2513 !important; color:#f4ecd8 !important;
+font-family:'Fraunces', serif; font-weight:600; font-size:0.78rem; line-height:1.25;}
+table.wide-plural thead th.sub{background:#e9dfc7 !important; color:#182229 !important;
+font-family:'Work Sans',sans-serif; font-weight:600; font-size:0.72rem;}
+table.wide-plural tr.suf-row td{font-family:'IBM Plex Mono', monospace; font-weight:700;
+color:#B6371F !important; background:#e9dfc7 !important; font-style:italic;}
+table.wide-plural tr.example-row td{font-family:'IBM Plex Mono', monospace; color:#182229
+!important; line-height:1.7;}
+.qa-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-dark);
+border-radius:6px; overflow:hidden; margin-top:22px;}
+.qa-cell{background:var(--paper); padding:20px 22px;}
+.qa-grid .head{background:var(--wine-deep); color:var(--paper); font-family:'IBM Plex Mono',
+monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.05em; padding:12px
+22px;}
+.qa-cell .ex-line{font-family:'IBM Plex Mono', monospace; font-size:0.9rem;
+margin-bottom:6px;}
+.qa-cell .ex-line:last-child{margin-bottom:0;}
+.qa-cell .ex-line .en-inline{font-family:'Work Sans',sans-serif; font-size:0.78rem; opacity:0.55;
+font-style:italic; display:block;}
+ul.rule-list{margin:18px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:14px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+ul.rule-list .example-inline{display:block; margin-top:6px; color:var(--wine); font-family:'IBM Plex Mono', monospace; font-size:0.88rem;}
+.origin-grid{margin-top:16px; display:flex; flex-direction:column; gap:12px;}
+.origin-item{background:var(--paper-dim); border-radius:6px; padding:14px 18px;}
+.origin-item .cat{font-family:'Fraunces',serif; font-weight:600; color:var(--wine-deep);
+font-size:0.92rem; display:block; margin-bottom:6px;}
+.origin-item .words{font-family:'IBM Plex Mono', monospace; font-size:0.86rem; line-height:1.8;}
+.origin-item .words .suf{color:var(--wine); font-weight:700;}
+.example-block{margin-top:22px; padding-left:20px; border-left:3px solid var(--gold);}
+.example-line{margin-bottom:14px;}.example-line:last-child{margin-bottom:0;}
+.example-line .hu{display:block; font-family:'IBM Plex Mono', monospace; font-size:1rem;
+color:var(--ink);}
+.example-line .hu b{color:var(--wine); font-weight:600;}
+.example-line .en{display:block; margin-top:2px; font-size:0.9rem;}
+.note{margin-top:26px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:16px 20px; border-radius:0 4px 4px 0; font-size:0.92rem;}
+.note b{color:var(--sage-deep);}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:48px;
+margin-top:60px;}
+section.quiz h2{color:var(--gold); font-size:1.7rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 34px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:24px 26px; margin-bottom:20px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1.02rem; margin-bottom:16px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.92rem; padding:10px 16px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}
+.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:1rem; padding:6px 4px;
+width:200px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:9px 18px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.88rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:12px; font-size:0.88rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.85rem; opacity:0.7;}footer{text-align:center; padding:50px 0 70px; color:var(--paper); opacity:0.4; font-size:0.8rem;
+font-family:'IBM Plex Mono', monospace;}
+@media (max-width:760px){
+.tri-rail{grid-template-columns:1fr;}
+.qa-grid{grid-template-columns:1fr;}
+}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:56px 0 0;}
+section.panel{padding:30px 22px;} section.quiz{padding:30px 22px;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+
+.breadcrumb { max-width: 960px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / A melléknév
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 13</div>
+<h1>
+<span class="hu-title">A melléknév</span>
+<span class="en-title">The adjective</span>
+</h1>
+<p class="lede hu">Ebben a leckében négy dolgot nézünk meg: a nyelvet jelölő
+<b>-ul/-ül</b> végződést, a származást jelölő <b>-i</b> végződést, a melléknév többes számát,
+és a melléknév fokozását.</p>
+<p class="lede en">This lesson covers four things: the -ul/-ül ending indicating language, the
+-i ending indicating origin, the plural of the adjective, and the degrees of comparison.</p>
+<div class="tri-rail" style="grid-template-columns:repeat(4,1fr);">
+<div class="tri-card">
+<span class="r-num">I.</span>
+<div class="r-example">orosz<span class="suf">ul</span></div>
+<h4>Nyelv · Language</h4>
+</div>
+<div class="tri-card">
+<span class="r-num">II.</span>
+<div class="r-example">berlin<span class="suf">i</span></div>
+<h4>Származás · Origin</h4>
+</div>
+<div class="tri-card">
+<span class="r-num">III.</span>
+<div class="r-example">szép<span class="suf">ek</span></div><h4>Többes szám · Plural</h4>
+</div>
+<div class="tri-card">
+<span class="r-num">IV.</span>
+<div class="r-example">jó → jo<span class="suf">bb</span></div>
+<h4>Fokozás · Comparison</h4>
+</div>
+</div>
+</header>
+<!-- ================= I. -UL/-ÜL ================= -->
+<section class="panel" id="ul-ul">
+<span class="section-num">01</span>
+<h2>I. -ul / -ül <span class="en-sub">Language adverb ending</span></h2>
+<p class="hu">Milyen nyelven beszélsz / tudsz / tanulsz? <span class="en">(What language
+do you speak / know / learn?)</span></p>
+<div class="table-scroll">
+<table class="suf-table">
+<thead>
+<tr>
+<th>Mély és vegyes hangrendű szavak<span class="en-tiny">Back and mixed vowel
+words</span></th>
+<th>Magas hangrendű szavak<span class="en-tiny">Front vowel words</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="suf-row"><td>-ul</td><td>-ül</td></tr>
+<tr class="example-row">
+<td>orosz<b>ul</b><br>spanyol<b>ul</b><br>kínai<b>ul</b><br>franciá<b>ul</b></td>
+<td>finn<b>ül</b><br>lengyel<b>ül</b><br>svéd<b>ül</b></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+<b>Korlátozott használat / Limited use:</b> a -ul/-ül végződés csak nagyon korlátozottan
+használatos, elsősorban nyelvek neveivel. Akkor tesszük a melléknévre, ha a <i>Milyen nyelven
+beszélsz/tudsz/tanulsz/írsz?</i> típusú kérdésre válaszolunk. / The ending -ul/-ül has very
+limited use with names for languages — we add it to the adjective when answering questions
+like "What language do you speak/know/learn/write?"
+</div></section>
+<!-- ================= II. -I ================= -->
+<section class="panel" id="i-ending">
+<span class="section-num">02</span>
+<h2>II. -i <span class="en-sub">Indicating a place of origin</span></h2>
+<p class="hu">A <b>-i</b> a származási helyet jelöli:</p>
+<p class="en">The -i indicates a place of origin:</p>
+<div class="example-block">
+<div class="example-line">
+<span class="hu">Peter london<b>i</b>.</span>
+<span class="en">Peter is (originally) from London.</span>
+</div>
+<div class="example-line">
+<span class="hu">Én berlin<b>i</b> vagyok.</span>
+<span class="en">I am (originally) from Berlin.</span>
+</div>
+</div>
+<h3 class="subhead">Használat <span class="en-sub2">Usage</span></h3>
+<div class="origin-grid">
+<div class="origin-item">
+<span class="cat">Városnevekkel · With names of cities</span>
+<div class="words">London → london<span class="suf">i</span>, Szeged →
+szeged<span class="suf">i</span>, München → münchen<span class="suf">i</span>, Tokió →
+tokiói, Washington → washington<span class="suf">i</span>, Varsó → varsó<span
+class="suf">i</span></div>
+</div>
+<div class="origin-item">
+<span class="cat">Néhány (jellemzően nem európai) országgal · With a few (mostly
+non-European) countries</span>
+<div class="words">Svájc → svájc<span class="suf">i</span>, Kanada → kanada<span
+class="suf">i</span>, Peru → peru<span class="suf">i</span>, India → india<span
+class="suf">i</span>, Kína → kína<span class="suf">i</span>, Kongó → kongó<span
+class="suf">i</span>, Marokkó → marokkó<span class="suf">i</span></div>
+</div>
+<div class="origin-item">
+<span class="cat">A legtöbb kontinenssel · With most continents</span>
+<div class="words">Európa → európa<span class="suf">i</span>, Amerika →
+amerika<span class="suf">i</span>, Ázsia → ázsia<span class="suf">i</span>, Afrika →
+afrika<span class="suf">i</span> — <b>DE:</b> Ausztrália → ausztrál</div>
+</div>
+</div><div class="note">
+<b>Figyelem / Note:</b> a melléknév első betűje kisbetűs, még akkor is, ha a helynév
+nagybetűvel kezdődik. / The first letter of the adjective is lower case.
+</div>
+</section>
+<!-- ================= III. PLURAL ================= -->
+<section class="panel" id="plural-adjective">
+<span class="section-num">03</span>
+<h2>III. A melléknév többes száma <span class="en-sub">Plural of the
+adjective</span></h2>
+<p class="hu">Amikor a <i>Milyen…?</i> kérdésre válaszolunk, a válaszban szereplő
+melléknév megkapja a többes szám jelét. A kérdőszó is többes számban áll:
+<b>Milyenek?</b></p>
+<p class="en">When we answer the question "What are ... like?", the adjective in the answer
+receives the plural ending. The question word is also used in the plural: Milyenek?</p>
+<div class="qa-grid">
+<div class="head">Egyes szám · Milyen a/az …? <span style="opacity:0.7;">(What is ...
+like?)</span></div>
+<div class="head">Többes szám · Milyenek a/az …k? <span style="opacity:0.7;">(What are
+... like?)</span></div>
+<div class="qa-cell">
+<div class="ex-line">Milyen az új kolléga?<span class="en-inline">What is the new
+colleague like?</span></div>
+<div class="ex-line">Kedves.<span class="en-inline">He is nice.</span></div>
+<div class="ex-line">Türelmetlen és barátságtalan.<span class="en-inline">He is impatient
+and unfriendly.</span></div>
+</div>
+<div class="qa-cell">
+<div class="ex-line">Milyen<b style="color:var(--wine);">ek</b> az új kollégá<b
+style="color:var(--wine);">k</b>?<span class="en-inline">What are the new colleagues
+like?</span></div>
+<div class="ex-line">Kedves<b style="color:var(--wine);">ek</b>.<span
+class="en-inline">They are nice.</span></div>
+<div class="ex-line">Türelmetlen<b style="color:var(--wine);">ek</b> és barátságtalan<b
+style="color:var(--wine);">ok</b>.<span class="en-inline">They are impatient and
+unfriendly.</span></div>
+</div>
+<div class="qa-cell">
+<div class="ex-line">Milyen a sütemény?<span class="en-inline">How is the
+cake?</span></div><div class="ex-line">Finom.<span class="en-inline">It is delicious.</span></div>
+<div class="ex-line">Édes.<span class="en-inline">It is sweet.</span></div>
+</div>
+<div class="qa-cell">
+<div class="ex-line">Milyen<b style="color:var(--wine);">ek</b> a sütemény<b
+style="color:var(--wine);">ek</b>?<span class="en-inline">How are the
+cakes/cookies?</span></div>
+<div class="ex-line">Finom<b style="color:var(--wine);">ak</b>.<span
+class="en-inline">They are delicious.</span></div>
+<div class="ex-line">Éde<b style="color:var(--wine);">sek</b>.<span
+class="en-inline">They are sweet.</span></div>
+</div>
+</div>
+<h3 class="subhead">A végződések rendszere <span class="en-sub2">The ending
+system</span></h3>
+<div class="table-scroll">
+<table class="wide-plural">
+<thead>
+<tr>
+<th colspan="2">Magánhangzó után<span style="display:block; font-weight:400;
+font-style:italic; font-size:0.68rem; opacity:0.75;">After a vowel</span></th>
+<th colspan="3">Mássalhangzó után<span style="display:block; font-weight:400;
+font-style:italic; font-size:0.68rem; opacity:0.75;">After a consonant</span></th>
+</tr>
+<tr>
+<th class="sub">a, e, ó, ő után</th>
+<th class="sub">i, ú, ű után</th>
+<th class="sub">Mély/vegyes hangrendű</th>
+<th class="sub">(ritka) rare</th>
+<th class="sub">Magas hangrendű (ö,ő,ü,ű is)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="suf-row"><td>-k / -'k</td><td>-ak / -ek</td><td>-ak</td><td>-ok
+*</td><td>-ek</td></tr>
+<tr class="example-row">
+<td>jók<br>olcsók<br>drágák<br>feketék</td>
+<td>szigorúak<br>gyönyörűek<br>régiek<br><b>DE!</b> kicsik</td>
+<td>újak<br>sósak<br>zsírosak<br>magasak</td>
+<td>nagyok<br>sótlanok<br>fiatalok<br>barátságtalanok</td>
+<td>szépek<br>fűszeresek<br>erősek<br>zöldek</td>
+</tr>
+</tbody></table>
+</div>
+<p class="table-footnote">* Az -ok ritkán használt végződés — néhány egyszerű
+melléknévnél és a -tlan/-talan képző után használjuk: só → sótlan → sótlan<b>ok</b> (salt →
+unsalted), barátság → barátságtalan → barátságtalan<b>ok</b> (friendship → unfriendly). / -ok
+is a rarely used ending, used after a few simple adjectives and after the -tlan/-talan affix.</p>
+<h3 class="subhead">További szabályok <span class="en-sub2">Additional
+rules</span></h3>
+<ul class="rule-list">
+<li>
+<span class="hu">Csak két szó kapja az <b>-ök</b> végződést:</span>
+<span class="en">Only the following two words receive the ending -ök:</span>
+<span class="example-inline">görögök (Greek), törökök (Turkish)</span>
+</li>
+<li>
+<span class="hu">Idegen eredetű szavaknál az utolsó magánhangzó dönti el a
+kötőhangot:</span>
+<span class="en">For words of foreign origin the last vowel determines the connecting
+vowel:</span>
+<span class="example-inline">modern (modern) → modernek</span>
+</li>
+<li>
+<span class="hu">Kivétel (tőváltozás):</span>
+<span class="en">Note the following exception (change in the stem):</span>
+<span class="example-inline">nehéz (difficult, heavy) → nehezek</span>
+</li>
+</ul>
+</section>
+<!-- ================= IV. COMPARISON ================= -->
+<section class="panel" id="comparison">
+<span class="section-num">04</span>
+<h2>IV. A melléknév fokozása <span class="en-sub">Degrees of comparison</span></h2>
+<p class="hu">A melléknévnek három foka van: <b>alapfok</b> (nincs jele),
+<b>középfok</b> (jele: <b>-bb</b>), és <b>felsőfok</b> (jele: <b>leg…bb</b>).</p>
+<p class="en">The adjective has three degrees: the positive (no marker), the comparative
+(marked with -bb), and the superlative (marked with leg…bb).</p>
+<div class="qa-grid" style="grid-template-columns:1fr 1fr 1fr;">
+<div class="head">Alapfok <span style="opacity:0.7;">(Positive)</span></div>
+<div class="head">Középfok <span style="opacity:0.7;">(Comparative)</span></div>
+<div class="head">Felsőfok <span style="opacity:0.7;">(Superlative)</span></div><div class="qa-cell" style="text-align:center;"><div class="ex-line"
+style="font-size:1.05rem;">jó</div></div>
+<div class="qa-cell" style="text-align:center;"><div class="ex-line"
+style="font-size:1.05rem;">jo<b style="color:var(--wine);">bb</b></div></div>
+<div class="qa-cell" style="text-align:center;"><div class="ex-line"
+style="font-size:1.05rem;"><b style="color:var(--wine);">leg</b>jobb</div></div>
+</div>
+<h3 class="subhead">A középfok képzése <span class="en-sub2">Forming the
+comparative</span></h3>
+<p class="hu">A középfok jele a <b>-bb</b>. Mássalhangzóra végződő melléknevek a
+hangrendnek megfelelő kötőhangot (<b>-a-</b> vagy <b>-e-</b>) kapják a -bb elé. A
+magánhangzóra végződő mellékneveknél a -bb közvetlenül kapcsolódik a szótőhöz — a rövid
+<b>a</b> és <b>e</b> végű szavaknál azonban a magánhangzó megnyúlik (<b>á</b>, illetve
+<b>é</b>) a -bb előtt.</p>
+<p class="en">The comparative marker is -bb. Adjectives ending in a consonant take a
+connecting vowel (-a- or -e-, following vowel harmony) before -bb. Adjectives ending in a vowel
+attach -bb directly — but words ending in a short a or e lengthen that vowel to á/é before
+-bb.</p>
+<div class="table-scroll">
+<table class="suf-table">
+<thead>
+<tr>
+<th>Mássalhangzó után<span class="en-tiny">After a consonant</span></th>
+<th>Magánhangzó után<span class="en-tiny">After a vowel</span></th>
+<th>Rövid a/e végű szavak<span class="en-tiny">Words ending in short
+a/e</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="suf-row"><td>-a<b>bb</b> /
+-e<b>bb</b></td><td>-<b>bb</b></td><td>-á<b>bb</b> / -é<b>bb</b></td></tr>
+<tr class="example-row">
+<td>magas → magas<b>abb</b><br>kedves → kedves<b>ebb</b><br>fiatal →
+fiatal<b>abb</b><br>friss → friss<b>ebb</b></td>
+<td>olcsó → olcsó<b>bb</b><br>szabad → szabad<b>abb</b><br>nagyszájú →
+nagyszájú<b>bb</b></td>
+<td>buta → but<b>ább</b><br>gyenge → gyeng<b>ébb</b></td>
+</tr>
+</tbody>
+</table>
+</div><h3 class="subhead">A felsőfok és a túlzófok <span class="en-sub2">The superlative — and
+beyond</span></h3>
+<p class="hu">A felsőfokot úgy képezzük, hogy a középfok elé <b>leg-</b> előtagot teszünk,
+egybeírva:</p>
+<p class="en">The superlative is formed by attaching the prefix leg- to the comparative form,
+written as one word:</p>
+<div class="example-block">
+<div class="example-line">
+<span class="hu">magas → magasabb → <b>leg</b>magasabb</span>
+<span class="en">tall → taller → tallest</span>
+</div>
+<div class="example-line">
+<span class="hu">olcsó → olcsóbb → <b>leg</b>olcsóbb</span>
+<span class="en">cheap → cheaper → cheapest</span>
+</div>
+</div>
+<div class="note">
+<b>Túlzófok / Emphatic degree:</b> a nagyon erős, nyomatékosított kiemeléshez (főleg
+beszélt nyelvben) a <b>legesleg-</b> előtag is használható: <span class="example-inline"
+style="display:inline; margin:0; color:var(--wine);">legeslegjobb, legeslegszebb</span>. / For
+extra, emphatic emphasis (mostly in spoken language), the prefix legesleg- can also be used:
+legeslegjobb (the very best), legeslegszebb (the very most beautiful).
+</div>
+<h3 class="subhead">Rendhagyó fokozás <span class="en-sub2">Irregular
+comparison</span></h3>
+<p class="hu">Néhány nagyon gyakori melléknév fokozása rendhagyó:</p>
+<p class="en">A few very common adjectives have irregular comparative and superlative
+forms:</p>
+<div class="table-scroll">
+<table class="suf-table">
+<thead>
+<tr>
+<th>Alapfok<span class="en-tiny">Positive</span></th>
+<th>Középfok<span class="en-tiny">Comparative</span></th>
+<th>Felsőfok<span class="en-tiny">Superlative</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="example-row">
+<td>jó <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(good)</span></td>
+<td><b>jobb</b></td><td><b>legjobb</b></td>
+</tr>
+<tr class="example-row">
+<td>szép <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(beautiful)</span></td>
+<td><b>szebb</b></td>
+<td><b>legszebb</b></td>
+</tr>
+<tr class="example-row">
+<td>nagy <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(big)</span></td>
+<td><b>nagyobb</b></td>
+<td><b>legnagyobb</b></td>
+</tr>
+<tr class="example-row">
+<td>kicsi <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(small)</span></td>
+<td><b>kisebb</b></td>
+<td><b>legkisebb</b></td>
+</tr>
+<tr class="example-row">
+<td>sok <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(much/many)</span></td>
+<td><b>több</b></td>
+<td><b>legtöbb</b></td>
+</tr>
+<tr class="example-row">
+<td>kevés <span style="opacity:0.55; font-family:'Work Sans',sans-serif; font-style:italic;
+font-size:0.8rem;">(little/few)</span></td>
+<td><b>kevesebb</b></td>
+<td><b>legkevesebb</b></td>
+</tr>
+<tr class="example-row">
+<td>hosszú <span style="opacity:0.55; font-family:'Work Sans',sans-serif;
+font-style:italic; font-size:0.8rem;">(long)</span></td>
+<td><b>hosszabb</b></td>
+<td><b>leghosszabb</b></td>
+</tr>
+<tr class="example-row">
+<td>könnyű <span style="opacity:0.55; font-family:'Work Sans',sans-serif;
+font-style:italic; font-size:0.8rem;">(light/easy)</span></td>
+<td><b>könnyebb</b></td>
+<td><b>legkönnyebb</b></td>
+</tr></tbody>
+</table>
+</div>
+<p class="table-footnote">A „sok → több" pár teljesen rendhagyó: a középfok egy egészen
+más szótőből épül fel. / "Sok → több" is fully suppletive — the comparative is built from a
+completely different stem.</p>
+<h3 class="subhead">Összehasonlítás: „mint" <span class="en-sub2">Using comparison:
+"mint" (than)</span></h3>
+<p class="hu">Két dolog összehasonlítására a középfokot és a <b>mint</b> kötőszót
+használjuk:</p>
+<p class="en">To compare two things, we use the comparative together with the conjunction
+mint (than):</p>
+<div class="example-block">
+<div class="example-line">
+<span class="hu">Péter <b>magasabb</b>, <b>mint</b> Éva.</span>
+<span class="en">Péter is taller than Éva.</span>
+</div>
+<div class="example-line">
+<span class="hu">Ez a kávé <b>finomabb</b>, <b>mint</b> az otthoni.</span>
+<span class="en">This coffee tastes better than the one at home.</span>
+</div>
+<div class="example-line">
+<span class="hu">A vonat <b>gyorsabb</b>, <b>mint</b> a busz.</span>
+<span class="en">The train is faster than the bus.</span>
+</div>
+</div>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">05</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Milyen nyelven beszélsz?
+Spanyol___." <span class="en">(in Spanish)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="ul,-ul"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div></div>
+<div class="q" data-qid="2">
+<span class="q-num">2 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Milyen nyelven tudsz? Finn___."
+<span class="en">(in Finnish)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="ül,-ül"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Peter london___." <span
+class="en">(Peter is from London.)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="i,-i"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 12 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik kontinens KIVÉTEL az -i végződés
+alól?</span><br><span class="en">Which continent is an exception to the -i
+ending?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">Európa</button>
+<button class="opt" data-correct="false">Afrika</button>
+<button class="opt" data-correct="true">Ausztrália</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 12 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A származást jelölő melléknév nagybetűvel
+kezdődik, mert helynévből képezzük.</span><br><span class="en">The origin adjective starts
+with a capital letter because it derives from a place name.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div><div class="q" data-qid="6">
+<span class="q-num">6 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki: „Milyen___ a kollégák?" <span
+class="en">(What are the colleagues like? — plural question word)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="ek,-ek"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „kedves" (nice) melléknév többes
+száma?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="kedvesek"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 12 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik szó kapja a ritka -ok
+végződést?</span><br><span class="en">Which word takes the rare -ok ending?</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">szép <span class="en">(nice)</span></button>
+<button class="opt" data-correct="true">barátságtalan <span
+class="en">(unfriendly)</span></button>
+<button class="opt" data-correct="false">drága <span
+class="en">(expensive)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9">
+<span class="q-num">9 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „nehéz" (difficult) melléknév rendhagyó
+többes száma?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="nehezek"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="10">
+<span class="q-num">10 / 12 · KIEGÉSZÍTÉS</span><div class="q-prompt"><span class="hu">Mi a „jó" melléknév középfoka? <span
+class="en">(irregular)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…" data-answers="jobb"><button
+class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="11">
+<span class="q-num">11 / 12 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Mi a „magas" melléknév felsőfoka?</span></div>
+<div class="fill-row"><input type="text" placeholder="Írd ide a válaszod…"
+data-answers="legmagasabb"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="12">
+<span class="q-num">12 / 12 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Melyik mondat fejezi ki helyesen az
+összehasonlítást?</span><br><span class="en">Which sentence correctly expresses a
+comparison?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">Péter magasabb, mint Éva.</button>
+<button class="opt" data-correct="false">Péter magasabb Évánál mint.</button>
+<button class="opt" data-correct="false">Péter mint magasabb Éva.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · A melléknév — The adjective</footer>
+</div>
+
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score: ${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){
+opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}". / Not quite — correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();}
+button.addEventListener('click', checkAnswer);
+input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>
