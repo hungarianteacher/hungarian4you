@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A szórend · The word order — Magyar Nyelvtan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..
+144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:ital,w
+ght@0,500;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#182229; --ink-soft:#2c3944; --paper:#f4ecd8; --paper-dim:#e9dfc7;
+--wine:#B6371F; --wine-deep:#7E2513; --gold:#C9931A; --sage:#2F6E4F; --sage-deep:#1E4A34;
+--line:rgba(244,236,216,0.14); --line-dark:rgba(24,34,41,0.12);
+--shadow: 0 18px 40px -20px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--ink); color:var(--paper); font-family:'Work Sans', sans-serif;
+line-height:1.6; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:'Fraunces', serif; font-weight:600; margin:0; color:var(--paper);}
+.hu{ color:inherit; }
+.en{font-style:italic; color:var(--paper); opacity:0.62; font-size:0.92em;}
+a{color:var(--gold);}
+.wrap{max-width:1020px;margin:0 auto;padding:0 28px;}
+header.hero{padding:88px 0 0; position:relative; overflow:hidden;}
+.eyebrow{font-family:'IBM Plex Mono', monospace; letter-spacing:0.14em;
+text-transform:uppercase; font-size:0.72rem; color:var(--gold); display:flex; align-items:center;
+gap:10px; margin-bottom:22px;}
+.eyebrow::before{content:""; width:26px;height:1px;background:var(--gold);}
+.hero h1{font-size:clamp(2.4rem, 5vw, 3.6rem); line-height:1.05; letter-spacing:-0.01em;}
+.hero h1 .hu-title{display:block;}
+.hero h1 .en-title{display:block; font-size:0.42em; font-style:italic; font-weight:400;
+color:var(--paper); opacity:0.55; margin-top:10px;}
+.hero p.lede{max-width:660px; margin-top:24px; color:var(--paper); opacity:0.78;
+font-size:1.05rem;}
+/* signature: focus-verb structure */
+.structure-block{margin:56px 0 8px; display:flex; align-items:center; justify-content:center;
+gap:0; flex-wrap:wrap;}.struct-slot{padding:20px 26px; text-align:center; font-family:'IBM Plex Mono', monospace;
+border:1px solid var(--line); background:var(--ink-soft);}
+.struct-slot.dim{opacity:0.4; border-radius:8px 0 0 8px;}
+.struct-slot.focus{background:var(--wine); border-color:var(--wine); border-radius:0;
+font-weight:700; font-size:1.1rem;}
+.struct-slot.verb{background:var(--gold); color:var(--ink); border-color:var(--gold);
+font-weight:700; font-size:1.1rem;}
+.struct-slot.dim2{opacity:0.4; border-radius:0 8px 8px 0;}
+.struct-label{display:block; font-family:'Work Sans',sans-serif; font-size:0.62rem;
+text-transform:uppercase; letter-spacing:0.05em; opacity:0.8; margin-top:6px;}
+.converge-caption{text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.72rem; opacity:0.5; margin:16px 0 40px;}
+.concept-banner{background:var(--sage); color:#f4ecd8; border-radius:4px; padding:26px
+30px; margin:0 0 40px; box-shadow:var(--shadow);}
+.concept-banner .hu{font-family:'Fraunces', serif; font-weight:600; font-size:1.08rem;
+display:block; margin-bottom:6px;}
+.concept-banner .en{color:#f4ecd8; opacity:0.85; font-size:0.9rem;}
+section.panel{background:var(--paper); color:var(--ink); border-radius:6px; padding:42px 46px;
+margin-bottom:26px; box-shadow:var(--shadow);}
+section.panel .en{ color:var(--ink); opacity:0.6; }
+section.panel h2{color:var(--wine-deep); font-size:1.42rem; margin-bottom:6px;}
+section.panel h2 .en-sub{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.58em; color:var(--ink-soft); opacity:0.6; margin-top:4px;}
+.section-num{font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--wine);
+letter-spacing:0.08em; margin-bottom:10px; display:block;}
+h3.subhead{font-size:1.0rem; color:var(--wine-deep); margin:26px 0 4px;}
+h3.subhead .en-sub2{display:block; font-family:'Work Sans',sans-serif; font-style:italic;
+font-weight:400; font-size:0.68em; opacity:0.55; margin-top:2px;}
+ul.rule-list{margin:18px 0 0; padding-left:0; list-style:none;}
+ul.rule-list li{position:relative; padding-left:26px; margin-bottom:12px;}
+ul.rule-list li::before{content:"—"; position:absolute; left:0; color:var(--wine); font-weight:600;}
+ul.rule-list .hu{display:block;}
+ul.rule-list .en{display:block; margin-top:2px;}
+.table-scroll{overflow-x:auto; margin-top:18px; border-radius:6px; box-shadow:var(--shadow);}
+table.wo-table{width:100%; border-collapse:collapse; background:#f4ecd8; font-size:0.88rem;
+min-width:600px;}
+table.wo-table th, table.wo-table td{padding:11px 14px; text-align:left; border-bottom:1px solid
+rgba(24,34,41,0.1); color:#182229 !important; background-color:#f4ecd8 !important;}table.wo-table thead th{background:#e9dfc7 !important; color:#182229 !important;
+font-weight:700; font-size:0.78rem; text-align:center; text-transform:uppercase;
+letter-spacing:0.04em;}
+table.wo-table thead th .en-tiny{display:block; font-weight:400; font-style:italic; opacity:0.65;
+font-size:0.72rem; text-transform:none; letter-spacing:0;}
+table.wo-table td.subj-cell{font-weight:600; font-family:'IBM Plex Mono',monospace;
+white-space:nowrap;}
+table.wo-table td.focus-cell{color:#C9931A !important; font-weight:700;
+text-decoration:underline; font-family:'IBM Plex Mono', monospace; text-align:center;}
+table.wo-table td.verb-cell{color:#B6371F !important; font-weight:700; font-family:'IBM Plex Mono', monospace; text-align:center;}
+table.wo-table td.rest-cell{font-family:'IBM Plex Mono', monospace;}
+table.wo-table tbody tr:last-child td{border-bottom:none;}
+.group-label{font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--wine-deep);
+font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-top:22px;
+display:block;}
+.group-label .en-tiny2{display:block; font-weight:400; font-style:italic; opacity:0.55;
+text-transform:none; letter-spacing:0; font-family:'Work Sans',sans-serif; margin-top:2px;}
+.note{margin-top:22px; background:var(--paper-dim); border-left:3px solid var(--sage-deep);
+padding:14px 18px; border-radius:0 4px 4px 0; font-size:0.9rem;}
+.note b{color:var(--sage-deep);}
+.closing-note{
+text-align:center; margin-top:60px; padding:40px 20px;
+font-family:'IBM Plex Mono', monospace; font-size:0.85rem; opacity:0.6;
+}
+section.quiz{background:var(--ink-soft); color:var(--paper); border-radius:6px; padding:44px;
+margin-top:56px;}
+section.quiz h2{color:var(--gold); font-size:1.6rem;}
+section.quiz .en-sub{color:var(--paper); opacity:0.55;}
+.quiz-intro{opacity:0.75; margin:10px 0 30px; max-width:560px;}
+.q{background:rgba(244,236,216,0.05); border:1px solid var(--line); border-radius:6px;
+padding:22px 24px; margin-bottom:18px;}
+.q-num{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--gold);
+letter-spacing:0.08em; display:block; margin-bottom:10px;}
+.q-prompt{font-family:'IBM Plex Mono', monospace; font-size:1rem; margin-bottom:14px;}
+.q-prompt .en{opacity:0.55; font-family:'Work Sans',sans-serif;}
+.opts{display:flex; flex-wrap:wrap; gap:10px;}
+.opt{background:transparent; border:1px solid rgba(244,236,216,0.3); color:var(--paper);
+font-family:'Work Sans',sans-serif; font-size:0.9rem; padding:9px 15px; border-radius:30px;
+cursor:pointer; transition:all 0.15s ease;}
+.opt:hover{border-color:var(--gold); background:rgba(201,154,58,0.1);}.opt.correct{background:var(--sage); border-color:var(--sage); color:#fff;}
+.opt.wrong{background:var(--wine); border-color:var(--wine); color:#fff;}
+.opt[disabled]{cursor:default;}
+.fill-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.fill-row input{font-family:'IBM Plex Mono', monospace; background:transparent; border:none;
+border-bottom:2px solid var(--gold); color:var(--paper); font-size:0.98rem; padding:6px 4px;
+width:200px; outline:none;}
+.fill-row button.check{background:var(--gold); border:none; color:var(--ink); font-weight:600;
+padding:8px 16px; border-radius:30px; cursor:pointer; font-family:'Work Sans',sans-serif;
+font-size:0.86rem;}
+.fill-row button.check:hover{opacity:0.9;}
+.q-feedback{margin-top:10px; font-size:0.86rem; min-height:1.2em;}
+.q-feedback.ok{color:#9fd6a0;}
+.q-feedback.bad{color:#e79aa6;}
+.quiz-score{margin-top:8px; text-align:center; font-family:'IBM Plex Mono', monospace;
+font-size:0.84rem; opacity:0.7;}
+footer{text-align:center; padding:46px 0 66px; color:var(--paper); opacity:0.4;
+font-size:0.78rem; font-family:'IBM Plex Mono', monospace;}
+@media (max-width:640px){
+.wrap{padding:0 18px;} header.hero{padding:52px 0 0;}
+section.panel{padding:26px 18px;} section.quiz{padding:26px 18px;}
+.struct-slot{padding:14px 14px; font-size:0.85rem;}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;} .opt{transition:none;}}
+.breadcrumb { max-width: 1020px; margin: 0 auto; padding: 14px 28px 0; font-size: 0.85rem; color: var(--paper); opacity: 0.6; }
+.breadcrumb a { color: var(--gold); text-decoration: none; opacity: 1; }
+</style>
+</head>
+<body>
+
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.85;padding:10px 20px;text-align:center;font-family:'Work Sans',sans-serif;font-size:0.85rem;letter-spacing:0.02em;">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%),linear-gradient(45deg, var(--wine) 25%, transparent 25%, transparent 75%, var(--wine) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<nav class="breadcrumb">
+  <a href="../../">Students</a> / <a href="../">Hungarian Grammar</a> / A szórend
+</nav>
+
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Magyar Nyelvtan · Lecke 19</div>
+<h1>
+<span class="hu-title">A szórend</span>
+<span class="en-title">The word order</span>
+</h1>
+<p class="lede hu">A magyar szórendet elsősorban a <b>hangsúly</b> határozza meg. A
+hangsúlyos szó vagy kifejezés mindig az ige elé kerül — ezt a helyet <b>fókuszpozíciónak</b>
+hívjuk.</p>
+<p class="lede en">Hungarian word order is largely determined by emphasis. The
+emphasized word or expression is always placed in front of the verb — this position is called the
+focus position.</p><div class="structure-block">
+<div class="struct-slot dim">…<span class="struct-label">alany, stb. · subject
+etc.</span></div>
+<div class="struct-slot focus">FÓKUSZ<span class="struct-label">legfontosabb infó · most
+important info</span></div>
+<div class="struct-slot verb">IGE<span class="struct-label">verb</span></div>
+<div class="struct-slot dim2">…<span class="struct-label">a mondat többi része · rest of
+sentence</span></div>
+</div>
+<div class="converge-caption">a fókusz mindig közvetlenül az ige előtt áll · the focus always
+stands directly in front of the verb</div>
+</header>
+<div class="concept-banner">
+<span class="hu">A magyar szórend inkább tendenciákat mutat, mint szigorú szabályokat.
+Az alábbiakban a legfontosabbakat vesszük sorra.</span>
+<span class="en">Hungarian word order shows tendencies rather than rules. The following
+sections present the most important ones.</span>
+</div>
+<!-- ================= I. STATEMENTS ================= -->
+<section class="panel" id="statements" style="margin-top:-16px;">
+<span class="section-num">01</span>
+<h2>I. Állítások: tipikus szórend <span class="en-sub">Statements: Typical word
+order</span></h2>
+<p class="hu">Egy majdnem semleges mondatban (amikor nem akarunk különösebben
+semmit kiemelni) a mondat egyes részei nagyobb eséllyel kerülnek az ige elé, mint mások (és
+így enyhe hangsúlyt kapnak):</p>
+<p class="en">In a close-to-neutral sentence (we do not want to emphasize anything in
+particular), some parts of the sentence are more likely to be placed before the verb than
+others.</p>
+<ul class="rule-list">
+<li><span class="hu">Az a főnév, amelynek ragját az ige határozza meg, gyakran az ige elé
+kerül.</span><span class="en">The noun whose ending is determined by the verb is often
+placed in front of it.</span></li>
+<li><span class="hu">Ha egynél több vonzat van, az egyik megelőzi az igét.</span><span
+class="en">If there is more than one dependent noun, one of the nouns precedes the
+verb.</span></li>
+<li><span class="hu">Maga az ige is kaphat hangsúlyt.</span><span class="en">The verb
+itself can also receive emphasis.</span></li>
+</ul><p class="hu" style="margin-top:14px;"><b>Ha a mondat más része kap hangsúlyt, az kerül
+a fókuszpozícióba, az ige elé.</b> Az alany gyakran (valahol) a mondat elején áll, de ez csak
+tendencia, nem szabály.</p>
+<p class="en"><b>If another part of the sentence receives emphasis, it is placed in front of
+the verb, into the focus position.</b> The subject is often placed at the beginning of the
+sentence, but this is only a tendency.</p>
+<span class="group-label">Vonzat nélkül<span class="en-tiny2">With one dependent noun
+(no complement before)</span></span>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Holnap</td><td class="verb-cell">telefonálok</td><td
+class="rest-cell">(és nem ma).</td></tr>
+<tr><td></td><td class="focus-cell">Petra</td><td class="verb-cell">beszél</td><td
+class="rest-cell">(és nem Magda).</td></tr>
+<tr><td class="subj-cell">Petra</td><td class="focus-cell">beszél</td><td
+class="verb-cell">—</td><td class="rest-cell">(és nem gitározik.)</td></tr>
+</tbody>
+</table>
+</div>
+<span class="group-label">Egy vonzattal<span class="en-tiny2">With one dependent
+noun</span></span>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Orfűre</td><td class="verb-cell">megyek</td><td
+class="rest-cell">a hétvégén.</td></tr>
+<tr><td class="subj-cell">A nővérem</td><td class="focus-cell">egy könyvet</td><td
+class="verb-cell">olvas.</td><td class="rest-cell"></td></tr>
+<tr><td></td><td class="focus-cell">Annával</td><td
+class="verb-cell">beszélgetek</td><td class="rest-cell">egy kávézóban.</td></tr>
+</tbody>
+</table>
+</div>
+<span class="group-label">Két vonzattal<span class="en-tiny2">With two dependent
+nouns</span></span>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead><tbody>
+<tr><td class="subj-cell">Klári</td><td class="focus-cell">szendvicset</td><td
+class="verb-cell">visz</td><td class="rest-cell">a munkahelyére.</td></tr>
+<tr><td class="subj-cell">Laura</td><td class="focus-cell">virágot</td><td
+class="verb-cell">tesz</td><td class="rest-cell">az asztalra.</td></tr>
+<tr><td></td><td class="focus-cell">Csokoládét</td><td
+class="verb-cell">veszek</td><td class="rest-cell">a húgomnak.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Segédigével <span class="en-sub2">With modal verbs</span></h3>
+<p class="hu">A segédigét általában főnévi igenév követi (kivéve, ha az igenév kap
+hangsúlyt — ekkor az igenév kerül a segédige elé).</p>
+<p class="en">Modal verbs are usually followed by the infinitive, unless the infinitive receives
+emphasis, in which case it is placed in front of the helping verb.</p>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td class="subj-cell">Kata</td><td class="focus-cell">jól</td><td
+class="verb-cell">tud</td><td class="rest-cell">énekelni.</td></tr>
+<tr><td class="subj-cell">Zalán</td><td class="focus-cell">gitározni</td><td
+class="verb-cell">akar</td><td class="rest-cell">délután.</td></tr>
+<tr><td></td><td class="focus-cell">Szeretnék</td><td class="verb-cell">enni.</td><td
+class="rest-cell"></td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Igekötővel <span class="en-sub2">With a verb prefix</span></h3>
+<p class="hu">Ha az igének igekötője van, az igekötő általában elválik az igétől, és utána
+kerül. Az egyetlen kivétel, ha maga az ige kap hangsúlyt — ekkor az igekötő nem válik el.</p>
+<p class="en">If the verb has a prefix, the prefix usually separates from the verb and is
+placed after it. The only exception is when the verb itself is emphasized — then the prefix stays
+attached.</p>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td class="subj-cell">Laci</td><td class="focus-cell">az ötödik emeletre</td><td
+class="verb-cell">megy fel</td><td class="rest-cell">(nem a másodikra).</td></tr>
+<tr><td></td><td class="focus-cell">Gábor</td><td class="verb-cell">jön ki</td><td
+class="rest-cell">a szobából (nem Ernő).</td></tr><tr><td class="subj-cell">A lányom</td><td class="focus-cell">kimegy</td><td
+class="verb-cell">—</td><td class="rest-cell">a parkba.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= II. NEGATION ================= -->
+<section class="panel" id="negation">
+<span class="section-num">02</span>
+<h2>II. Tagadás: tipikus szórend <span class="en-sub">Negation: Typical word
+order</span></h2>
+<p class="hu">Amikor az igét (és ezzel az egész mondatot) tagadjuk, a <b>nem</b>
+tagadószó mindig az ige elé, a fókuszpozícióba kerül. A hangsúlytalan vonzatok jellemzően az
+ige után állnak.</p>
+<p class="en">When negating the verb (and therefore the whole sentence), the negative
+pronoun nem is always placed in front of the verb, into the focus position. Unemphasized
+dependent nouns are usually placed after the verb.</p>
+<span class="group-label">Teljes tagadás<span class="en-tiny2">Sentence
+negation</span></span>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Nem</td><td class="verb-cell">járok</td><td
+class="rest-cell">színházba.</td></tr>
+<tr><td class="subj-cell">Mari</td><td class="focus-cell">nem</td><td
+class="verb-cell">visz</td><td class="rest-cell">szendvicset a munkahelyére / a munkahelyére
+szendvicset.</td></tr>
+</tbody>
+</table>
+</div>
+<h3 class="subhead">Részleges tagadás <span class="en-sub2">Partial
+negation</span></h3>
+<p class="hu">Ha csak egy szót vagy kifejezést tagadunk, a <b>nem</b> e szó/kifejezés elé
+kerül. Mivel ez a rész erős hangsúlyt kap, a fókuszpozícióba kerül. A mondatnak jellemzően van
+egy második fele, amely a <b>hanem</b> kötőszóval kezdődik (nem…hanem = nem…,
+hanem).</p>
+<p class="en">When only one word or expression is negated, nem is placed in front of it. As
+this part receives strong emphasis, it is placed in the focus position. The sentence usually has a
+second part beginning with hanem (nem...hanem = not...but).</p>
+<div class="table-scroll"><table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Nem Betti</td><td
+class="verb-cell">gitározik,</td><td class="rest-cell"><b style="color:var(--wine);">hanem</b>
+Adri.</td></tr>
+<tr><td></td><td class="focus-cell">Nem Dénes</td><td class="verb-cell">megy
+be</td><td class="rest-cell">az irodába, <b style="color:var(--wine);">hanem</b>
+Erika.</td></tr>
+<tr><td class="subj-cell">Én</td><td class="focus-cell">nem kávét</td><td
+class="verb-cell">kérek,</td><td class="rest-cell"><b style="color:var(--wine);">hanem</b>
+teát.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= III. QUESTIONS ================= -->
+<section class="panel" id="questions">
+<span class="section-num">03</span>
+<h2>III. Kérdések: tipikus szórend <span class="en-sub">Questions: Typical word
+order</span></h2>
+<h3 class="subhead">Kérdőszós kérdések <span
+class="en-sub2">Wh-questions</span></h3>
+<p class="hu">Kiegészítendő kérdésekben a kérdőszó erős hangsúlyt kap, ezért az ige elé
+kerül.</p>
+<p class="en">In wh-questions, the question word receives strong emphasis and is therefore
+placed in front of the verb.</p>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Mikor</td><td class="verb-cell">megyünk</td><td
+class="rest-cell">uszodába?</td></tr>
+<tr><td></td><td class="focus-cell">Hol</td><td class="verb-cell">találkozunk</td><td
+class="rest-cell">kedden?</td></tr>
+<tr><td class="subj-cell">Te</td><td class="focus-cell">hova</td><td
+class="verb-cell">mész</td><td class="rest-cell">nyaralni?</td></tr>
+</tbody>
+</table>
+</div><h3 class="subhead">Eldöntendő kérdések <span class="en-sub2">Yes-no
+questions</span></h3>
+<p class="hu">Eldöntendő kérdésekben az a szó kerül az ige elé, amelyről információt
+kérünk.</p>
+<p class="en">In yes-no questions the word about which we ask for information is placed in
+front of the verb.</p>
+<div class="table-scroll">
+<table class="wo-table">
+<thead><tr><th></th><th>Fókusz</th><th>Ige</th><th></th></tr></thead>
+<tbody>
+<tr><td></td><td class="focus-cell">Beszélsz</td><td class="verb-cell">—</td><td
+class="rest-cell">japánul?</td></tr>
+<tr><td></td><td class="focus-cell">Karcsi</td><td class="verb-cell">utazik</td><td
+class="rest-cell">Londonba?</td></tr>
+<tr><td class="subj-cell">Tényleg</td><td class="focus-cell">te</td><td
+class="verb-cell">vagy</td><td class="rest-cell">Pál barátnője?</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ================= QUIZ ================= -->
+<section class="quiz" id="quiz">
+<span class="section-num" style="color:var(--gold);">04</span>
+<h2>Feladatlap <span class="en-sub">Practice quiz</span></h2>
+<p class="quiz-intro hu">Teszteld a tudásod! Válaszolj a kérdésekre, majd ellenőrizd a
+válaszaidat.</p>
+<p class="quiz-intro en">Test yourself — answer the questions, then check your work.</p>
+<div class="q" data-qid="1">
+<span class="q-num">1 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Hol áll a hangsúlyos szó a magyar
+mondatban?</span><br><span class="en">Where does the emphasized word stand in a
+Hungarian sentence?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">közvetlenül az ige előtt <span class="en">(directly
+before the verb)</span></button>
+<button class="opt" data-correct="false">a mondat legvégén <span class="en">(at the very
+end)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="2"><span class="q-num">2 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">A magyar szórend szigorú, kötelező szabályokból
+áll, nincsenek benne tendenciák.</span><br><span class="en">Hungarian word order consists
+of strict, mandatory rules with no tendencies.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="3">
+<span class="q-num">3 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Hol áll általában az igekötő, ha az ige (nem az
+igekötő) kap hangsúlyt?</span><br><span class="en">Where does the prefix usually stand
+when the verb (not the prefix) is emphasized?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">együtt marad az igével <span class="en">(stays
+attached to the verb)</span></button>
+<button class="opt" data-correct="false">elválik és az ige után kerül <span
+class="en">(separates and follows the verb)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="4">
+<span class="q-num">4 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Mi kerül a fókuszpozícióba teljes
+tagadásban?</span><br><span class="en">What goes into the focus position in a full sentence
+negation?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">a „nem” szó</button>
+<button class="opt" data-correct="false">az alany</button>
+<button class="opt" data-correct="false">a vonzat</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="5">
+<span class="q-num">5 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Milyen kötőszó vezeti be a részleges tagadás
+második felét?</span></div>
+<div class="fill-row"><input type="text" placeholder="pl. hanem"
+data-answers="hanem"><button class="check">Ellenőrzés</button></div><div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="6">
+<span class="q-num">6 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Kérdőszós kérdésben („Mikor…?”) hova kerül a
+kérdőszó?</span><br><span class="en">In a wh-question, where does the question word
+go?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">az ige elé <span class="en">(in front of the
+verb)</span></button>
+<button class="opt" data-correct="false">az ige után <span class="en">(after the
+verb)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="7">
+<span class="q-num">7 / 10 · IGAZ VAGY HAMIS</span>
+<div class="q-prompt"><span class="hu">Az alany mindig kötelezően a mondat élén
+áll.</span><br><span class="en">The subject is always obligatorily placed at the beginning of
+the sentence.</span></div>
+<div class="opts">
+<button class="opt" data-correct="false">igaz <span class="en">(true)</span></button>
+<button class="opt" data-correct="true">hamis <span class="en">(false)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="8">
+<span class="q-num">8 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Segédige + főnévi igenév esetén hol áll normál
+esetben a főnévi igenév?</span><br><span class="en">With a modal verb + infinitive, where
+does the infinitive normally stand?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">a segédige után <span class="en">(after the
+modal verb)</span></button>
+<button class="opt" data-correct="false">a segédige előtt <span class="en">(before the
+modal verb)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="9"><span class="q-num">9 / 10 · FELELET VÁLASZTÁS</span>
+<div class="q-prompt"><span class="hu">Eldöntendő kérdésben mi kerül az ige
+elé?</span><br><span class="en">In a yes-no question, what goes in front of the
+verb?</span></div>
+<div class="opts">
+<button class="opt" data-correct="true">az a szó, amiről információt kérünk <span
+class="en">(the word we're asking about)</span></button>
+<button class="opt" data-correct="false">mindig az ige maga <span class="en">(always
+the verb itself)</span></button>
+</div>
+<div class="q-feedback"></div>
+</div>
+<div class="q" data-qid="10">
+<span class="q-num">10 / 10 · KIEGÉSZÍTÉS</span>
+<div class="q-prompt"><span class="hu">Egészítsd ki a mintát: „[…] [___] [IGE] […]” <span
+class="en">(the position immediately before the verb)</span></span></div>
+<div class="fill-row"><input type="text" placeholder="pl. fókusz"
+data-answers="fókusz,focus"><button class="check">Ellenőrzés</button></div>
+<div class="q-feedback"></div>
+</div>
+<div class="quiz-score" id="scoreDisplay"></div>
+</section>
+<footer>Magyar Nyelvtan Online · A szórend — The word order</footer>
+</div>
+<div class="motif" style="height:14px;width:100%;background-image:linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%),linear-gradient(45deg, var(--sage) 25%, transparent 25%, transparent 75%, var(--sage) 75%);background-size:14px 14px;background-position:0 0, 7px 7px;"></div>
+<div style="background:var(--ink-soft);color:var(--paper);opacity:0.6;text-align:center;padding:14px;font-family:'Work Sans',sans-serif;font-size:0.8rem;">&copy; Hungarian4You — My Hungarian Language Journey</div>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+let answeredCorrect = new Set();
+const totalQuestions = document.querySelectorAll('.q').length;
+const scoreDisplay = document.getElementById('scoreDisplay');
+function updateScore(){ scoreDisplay.textContent = `Pontszám / Score:
+${answeredCorrect.size} / ${totalQuestions}`; }
+updateScore();
+document.querySelectorAll('.q').forEach(q => {
+const qid = q.dataset.qid;
+const opts = q.querySelectorAll('.opt');
+if(opts.length){opts.forEach(opt => {
+opt.addEventListener('click', () => {
+const feedback = q.querySelector('.q-feedback');
+const isCorrect = opt.dataset.correct === 'true';
+opts.forEach(o => o.disabled = true);
+if(isCorrect){
+opt.classList.add('correct');
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+answeredCorrect.add(qid);
+} else {
+opt.classList.add('wrong');
+const correctOpt = [...opts].find(o => o.dataset.correct === 'true');
+if(correctOpt) correctOpt.classList.add('correct');
+feedback.textContent = 'Nem egészen. Helyes válasz kiemelve. / Not quite — correct answer highlighted.';
+feedback.className = 'q-feedback bad';
+}
+updateScore();
+});
+});
+}
+const fillRow = q.querySelector('.fill-row');
+if(fillRow){
+const input = fillRow.querySelector('input');
+const button = fillRow.querySelector('.check');
+const feedback = q.querySelector('.q-feedback');
+const answers = input.dataset.answers.split(',').map(a => a.trim().toLowerCase());
+function checkAnswer(){
+const val = input.value.trim().toLowerCase();
+if(answers.includes(val)){
+feedback.textContent = 'Helyes! ✓ Correct!';
+feedback.className = 'q-feedback ok';
+input.style.borderBottomColor = '#2F6E4F';
+answeredCorrect.add(qid);
+} else {
+feedback.textContent = `Nem egészen — helyes válasz: „${answers[0]}”. / Not quite —
+correct answer: "${answers[0]}".`;
+feedback.className = 'q-feedback bad';
+input.style.borderBottomColor = '#B6371F';
+}
+updateScore();
+}
+button.addEventListener('click', checkAnswer);input.addEventListener('keydown', e => { if(e.key === 'Enter') checkAnswer(); });
+}
+});
+</script>
+</body>
+</html>
