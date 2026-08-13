@@ -18,7 +18,7 @@
   .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
   .video-wrap.bottom { margin: 8px 0 0; }
 
-  .lesson-wrap{max-width:980px;margin:0 auto;padding:20px 24px 40px;}
+  .lesson-wrap{max-width:1040px;margin:0 auto;padding:20px 24px 40px;}
 
   .lesson-header{margin-bottom:26px;}
   .lesson-header h1{
@@ -29,7 +29,7 @@
     line-height:1.1;
   }
   .lesson-header h1 em{font-style:italic;color:var(--paprika);}
-  .lesson-header .sub{font-size:1rem;color:var(--muted);max-width:640px;line-height:1.55;}
+  .lesson-header .sub{font-size:1rem;color:var(--muted);max-width:680px;line-height:1.55;}
 
   .intro-note{
     background:var(--card);
@@ -97,7 +97,7 @@
     font-family:'Work Sans',sans-serif;font-size:12.5px;letter-spacing:.05em;
     color:var(--muted);margin-top:2px;text-transform:uppercase;
   }
-  .group-desc{max-width:640px;margin:12px auto 0;text-align:center;font-size:14px;line-height:1.55;}
+  .group-desc{max-width:680px;margin:12px auto 0;text-align:center;font-size:14px;line-height:1.55;}
   .group-desc .translation{display:block;margin-top:8px;font-size:13px;color:var(--muted);font-style:italic;}
   .group-count{
     display:inline-block;margin-top:10px;font-family:'Work Sans',sans-serif;font-size:11px;
@@ -114,29 +114,83 @@
     opacity:.85;margin-top:2px;font-size:11px;
   }
 
-  .letters-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .letters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
   .letter-card{
     background:#fff;border:1.5px solid var(--line);border-radius:4px;
-    padding:16px 8px 12px;text-align:center;position:relative;
+    padding:16px 14px 14px;text-align:center;position:relative;
     transition:border-color .12s ease, transform .12s ease;
+    display:flex;flex-direction:column;
   }
   .letter-card:hover{border-color:var(--group-accent, var(--ink)); transform:translateY(-2px);}
   .letter-card.playing{border-color:var(--group-accent, var(--paprika)); box-shadow:0 0 0 2px rgba(182,55,31,0.18);}
+  .letter-top{display:flex;align-items:center;justify-content:center;gap:10px;}
   .letter-glyph{
     font-family:'Fraunces',serif;font-weight:700;font-size:30px;color:var(--ink);
     line-height:1;
   }
   .letter-name{
     font-family:'Work Sans',sans-serif;font-style:italic;font-size:12.5px;
-    color:var(--group-accent, var(--paprika-dark));margin:6px 0 10px;
+    color:var(--group-accent, var(--paprika-dark));margin:6px 0 2px;
+  }
+  .letter-altname{
+    font-family:'Work Sans',sans-serif;font-size:10.5px;
+    color:var(--muted);margin-bottom:8px;
   }
   .letter-speak{
     background:var(--surface2,#f0ece5);border:1px solid var(--line);border-radius:50%;
-    width:28px;height:28px;cursor:pointer;font-size:12px;
+    width:28px;height:28px;cursor:pointer;font-size:12px;flex:0 0 auto;
     display:inline-flex;align-items:center;justify-content:center;
     transition:all .12s ease;
   }
   .letter-speak:hover{background:var(--mustard);color:#fff;border-color:transparent;}
+
+  .letter-detail{
+    margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+    text-align:left;font-size:12px;line-height:1.5;color:var(--ink);
+  }
+  .letter-detail .sound{margin-bottom:6px;}
+  .letter-detail .ipa{
+    font-family:'Work Sans',sans-serif;font-size:11px;color:var(--muted);
+    display:inline-block;margin-bottom:6px;
+  }
+  .letter-detail .example{
+    font-family:'Work Sans',sans-serif;font-size:11.5px;color:var(--group-accent, var(--paprika-dark));
+  }
+  .letter-detail .example .en{color:var(--muted);font-style:italic;}
+  .letter-warn{color:var(--paprika-dark);font-weight:600;}
+
+  .digraph-tip{
+    background:var(--card);border:1px dashed var(--line);border-radius:4px;
+    padding:14px 18px;margin:0 0 28px;font-size:13px;line-height:1.55;color:var(--muted);
+  }
+  .digraph-tip strong{color:var(--ink);}
+
+  .section-header{margin:8px 0 20px;text-align:left;}
+  .section-header h2{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:clamp(1.4rem,4vw,1.9rem);
+    margin:4px 0 8px;
+    line-height:1.15;
+  }
+  .section-header h2 em{font-style:italic;color:var(--paprika);}
+  .section-header .sub{font-size:0.95rem;color:var(--muted);max-width:680px;line-height:1.55;}
+
+  .patterns-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:36px;}
+  .pattern-card{
+    background:var(--card);border:1.5px solid var(--ink);border-radius:4px;
+    box-shadow:var(--shadow);padding:20px 20px 18px;position:relative;
+  }
+  .pattern-number{
+    font-family:'Fraunces',serif;font-weight:700;font-style:italic;
+    font-size:22px;color:var(--paprika-dark);line-height:1;margin-bottom:8px;
+  }
+  .pattern-title{font-family:'Work Sans',sans-serif;font-weight:700;font-size:14.5px;margin-bottom:8px;}
+  .pattern-body{font-size:13.5px;line-height:1.55;color:var(--ink);}
+  .pattern-body code{
+    font-family:'Work Sans',sans-serif;font-size:12px;background:var(--bg);
+    padding:1px 6px;border-radius:3px;border:1px solid var(--border);
+  }
 
   .audio-note{
     text-align:center;font-size:12.5px;color:var(--paprika-dark);
@@ -145,12 +199,13 @@
   }
   .audio-note.show{display:block;}
 
-  @media (max-width:720px){
-    .letters-grid{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:820px){
+    .letters-grid{grid-template-columns:repeat(2,1fr);}
+    .patterns-grid{grid-template-columns:1fr;}
     .group-card{padding:26px 16px 22px;}
   }
   @media (max-width:460px){
-    .letters-grid{grid-template-columns:repeat(3,1fr);}
+    .letters-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -176,9 +231,9 @@
   </header>
 
   <div class="intro-note">
-    <strong>Hogyan használd:</strong> a magyar ábécében minden betűnek saját "neve" van, ahogyan felmondáskor kiejtjük (pl. a B betű neve "bé", nem csak "b" hang). Az első kártya a 14 magánhangzót tartalmazza, a második a mássalhangzókat, a harmadik a betűkapcsolatokat (ezeket a magyar nyelvtan önálló betűként kezeli: cs, dz, dzs, gy, ly, ny, sz, ty, zs), a negyedik pedig az idegen eredetű betűket (q, w, x, y), amelyek csak családnevekben és idegen szavakban fordulnak elő. Kattints a 🔊 gombokra a kiejtéshez, vagy hallgass meg egy egész kártyát sorban.
+    <strong>Hogyan működik a magyar betűzés:</strong> amikor a magyarok betűzve mondanak ki egy szót — például telefonon adják meg a nevüket —, minden betűnek van egy megszokott, kimondott neve. Lent mind a 44 megtalálható, csoportosítva, referenciaként, kiejtés-leírással, IPA-jelöléssel és példaszóval. Kattints egy betű-kártyára a meghallgatáshoz, vagy hallgass meg egy egész csoportot sorban.
     <span class="translation">
-      <strong>How to use it:</strong> in Hungarian, every letter has its own spoken "name" used when reciting the alphabet (e.g. the letter B is called "bé", not just the sound "b"). The first card covers the 14 vowels, the second the consonants, the third the digraphs (Hungarian grammar treats these as single letters in their own right: cs, dz, dzs, gy, ly, ny, sz, ty, zs), and the fourth the foreign-origin letters (q, w, x, y), which appear only in family names and loanwords. Click the 🔊 buttons to hear the pronunciation, or play a whole card in order.
+      <strong>How Hungarian spelling works:</strong> when Hungarians spell out a word letter by letter — like giving your name over the phone — each letter has a conventional spoken name. Below are all 44, grouped for reference, with a pronunciation description, IPA notation, and an example word. Click a letter card to hear it, or play a whole group in order.
     </span>
   </div>
 
@@ -193,6 +248,20 @@
   <p class="audio-note" id="audioNote">Néhány hangfájl nem található — ellenőrizd, hogy minden mp3 fel van-e töltve az <code>audio</code> mappába.</p>
 
   <div id="groupsWrap"></div>
+
+  <div class="digraph-tip">
+    <strong>Betűkapcsolat-tipp / Digraph spelling tip:</strong> amikor betűkapcsolatokat mondunk ki hangosan, magyarul gyakran az alkotóelemek neveit soroljuk fel: cs → "cé-es", sz → "es-zé", gy → "gé-ipszilon", ny → "en-ipszilon". Szótárban a betűkapcsolatok önálló szócikkként szerepelnek — a cs például az összes c-s szó UTÁN következik, nem közéjük keverve.
+    <br><br>
+    When spelling digraphs aloud, Hungarians sometimes say each component letter name: cs → "cé-es", sz → "es-zé", gy → "gé-ipszilon", ny → "en-ipszilon". In dictionaries, digraphs are listed as their own entries — cs comes after all c words, not mixed among them.
+  </div>
+
+  <div class="section-header">
+    <span class="eyebrow">TIPPEK / TIPS</span>
+    <h2>Kulcsfontosságú minták angol anyanyelvűeknek — <em>Key Patterns for English Speakers</em></h2>
+    <p class="sub">A leggyakoribb buktatók és félreértések, amikkel angolul beszélők találkoznak a magyar kiejtés tanulásakor.</p>
+  </div>
+
+  <div class="patterns-grid" id="patternsGrid"></div>
 
   <footer id="pageFooter" style="text-align:center;margin-top:0;font-size:12.5px;color:var(--muted);font-family:'Work Sans',sans-serif;"></footer>
 
@@ -211,9 +280,11 @@
 <script>
 /* ---------------------------------------------------------------
    Adatok: a teljes 44 betűs magyar ábécé, négy csoportban.
-   Minden betűnél a "name" mező a betű kiejtett NEVE (ahogy
-   felmondáskor mondjuk, pl. B -> "bé") — ez egyezik az
-   audio/<név>.mp3 fájlnevekkel.
+   "name" = a kiejtett, köznapi betűnév (ez egyezik az
+   audio/<név>.mp3 fájlnevekkel). "altName" = néhány betűkapcsolatnál
+   az alkotóelemek szerinti, "kimondva betűzött" alak (csak
+   megjelenítésre, nincs hozzá külön audio).
+   sound/ipa/example: angol nyelvű kiejtés-segédlet.
 ----------------------------------------------------------------*/
 const GROUPS = [
   {
@@ -223,20 +294,20 @@ const GROUPS = [
       en: "The 14 Hungarian vowels — short/long pairs, plus the umlaut (ö/ő, ü/ű) forms."
     },
     letters: [
-      { glyph: "A", name: "a" },
-      { glyph: "Á", name: "á" },
-      { glyph: "E", name: "e" },
-      { glyph: "É", name: "é" },
-      { glyph: "I", name: "i" },
-      { glyph: "Í", name: "í" },
-      { glyph: "O", name: "o" },
-      { glyph: "Ó", name: "ó" },
-      { glyph: "Ö", name: "ö" },
-      { glyph: "Ő", name: "ő" },
-      { glyph: "U", name: "u" },
-      { glyph: "Ú", name: "ú" },
-      { glyph: "Ü", name: "ü" },
-      { glyph: "Ű", name: "ű" },
+      { glyph: "A", name: "a", sound: "Short 'o' sound, like the 'o' in otter or hot", ipa: "/ɒ/", example: "alma", exampleEn: "apple" },
+      { glyph: "Á", name: "á", sound: "Long 'ah' sound, like the 'a' in father or spa", ipa: "/aː/", example: "ágy", exampleEn: "bed" },
+      { glyph: "E", name: "e", sound: "Short 'e' sound, like the 'e' in met or pet", ipa: "/ɛ/", example: "egér", exampleEn: "mouse" },
+      { glyph: "É", name: "é", sound: "Like the 'ay' in say, but clipped — no 'y' glide", ipa: "/eː/", example: "édes", exampleEn: "sweet" },
+      { glyph: "I", name: "i", sound: "Short, crisp 'ee' sound, like the 'i' in machine", ipa: "/i/", example: "ing", exampleEn: "shirt" },
+      { glyph: "Í", name: "í", sound: "Long 'ee' sound, exactly like the 'ee' in meet or feet", ipa: "/iː/", example: "ír", exampleEn: "to write" },
+      { glyph: "O", name: "o", sound: "Short, rounded 'o' sound, like the 'o' in more or core", ipa: "/o/", example: "olló", exampleEn: "scissors" },
+      { glyph: "Ó", name: "ó", sound: "Long 'o' sound, like the 'o' in go or boat", ipa: "/oː/", example: "óra", exampleEn: "clock" },
+      { glyph: "Ö", name: "ö", sound: "Short open vowel, like the 'u' in fur or the 'i' in bird", ipa: "/ø/", example: "öt", exampleEn: "five" },
+      { glyph: "Ő", name: "ő", sound: "Longer, sustained version of the Ö sound", ipa: "/øː/", example: "ősz", exampleEn: "autumn" },
+      { glyph: "U", name: "u", sound: "Short, rounded sound like the 'oo' in book or pull", ipa: "/u/", example: "ujj", exampleEn: "finger" },
+      { glyph: "Ú", name: "ú", sound: "Long vowel sound, like the 'oo' in moon or boot", ipa: "/uː/", example: "út", exampleEn: "road" },
+      { glyph: "Ü", name: "ü", sound: "Shape lips to say 'oo', but force out an 'ee' sound", ipa: "/y/", example: "ül", exampleEn: "to sit" },
+      { glyph: "Ű", name: "ű", sound: "Longer, sustained version of the Ü sound", ipa: "/yː/", example: "űr", exampleEn: "outer space" },
     ]
   },
   {
@@ -246,23 +317,23 @@ const GROUPS = [
       en: "The single-letter consonants — each has its own spoken name, used when reciting the alphabet."
     },
     letters: [
-      { glyph: "B", name: "bé" },
-      { glyph: "C", name: "cé" },
-      { glyph: "D", name: "dé" },
-      { glyph: "F", name: "ef" },
-      { glyph: "G", name: "gé" },
-      { glyph: "H", name: "há" },
-      { glyph: "J", name: "jé" },
-      { glyph: "K", name: "ká" },
-      { glyph: "L", name: "el" },
-      { glyph: "M", name: "em" },
-      { glyph: "N", name: "en" },
-      { glyph: "P", name: "pé" },
-      { glyph: "R", name: "er" },
-      { glyph: "S", name: "es" },
-      { glyph: "T", name: "té" },
-      { glyph: "V", name: "vé" },
-      { glyph: "Z", name: "zé" },
+      { glyph: "B", name: "bé", sound: "Exactly like the 'b' in banana", ipa: "/b/", example: "banán", exampleEn: "banana" },
+      { glyph: "C", name: "cé", sound: "Sharp 'ts' sound, like the 'ts' in cats or tsunami", ipa: "/t͡s/", example: "cica", exampleEn: "kitten" },
+      { glyph: "D", name: "dé", sound: "Exactly like the 'd' in door", ipa: "/d/", example: "dinnye", exampleEn: "melon" },
+      { glyph: "F", name: "ef", sound: "Exactly like the 'f' in find", ipa: "/f/", example: "fa", exampleEn: "tree" },
+      { glyph: "G", name: "gé", sound: "Always hard 'g' sound, like the 'g' in go or guitar", ipa: "/ɡ/", example: "gitár", exampleEn: "guitar" },
+      { glyph: "H", name: "há", sound: "Exactly like the 'h' in home", ipa: "/h/", example: "ház", exampleEn: "house" },
+      { glyph: "J", name: "jé", sound: "Like the 'y' sound in yes or yellow", ipa: "/j/", example: "jó", exampleEn: "good" },
+      { glyph: "K", name: "ká", sound: "Exactly like the 'k' in key", ipa: "/k/", example: "kávé", exampleEn: "coffee" },
+      { glyph: "L", name: "el", sound: "Exactly like the 'l' in love", ipa: "/l/", example: "ló", exampleEn: "horse" },
+      { glyph: "M", name: "em", sound: "Exactly like the 'm' in man", ipa: "/m/", example: "macska", exampleEn: "cat" },
+      { glyph: "N", name: "en", sound: "Exactly like the 'n' in no", ipa: "/n/", example: "nap", exampleEn: "sun / day" },
+      { glyph: "P", name: "pé", sound: "Exactly like the 'p' in pen (less aspirated than English)", ipa: "/p/", example: "papír", exampleEn: "paper" },
+      { glyph: "R", name: "er", sound: "Alveolar rolled or trilled 'r' sound, like Spanish or Italian", ipa: "/r/", example: "rózsa", exampleEn: "rose" },
+      { glyph: "S", name: "es", sound: "Sounds like the 'sh' in shoe or shout — NEVER like English 's'", ipa: "/ʃ/", example: "sajt", exampleEn: "cheese", warn: true },
+      { glyph: "T", name: "té", sound: "Exactly like the 't' in top", ipa: "/t/", example: "tej", exampleEn: "milk" },
+      { glyph: "V", name: "vé", sound: "Exactly like the 'v' in vine or very", ipa: "/v/", example: "víz", exampleEn: "water" },
+      { glyph: "Z", name: "zé", sound: "Exactly like the 'z' in zebra", ipa: "/z/", example: "zene", exampleEn: "music" },
     ]
   },
   {
@@ -272,15 +343,15 @@ const GROUPS = [
       en: "Hungarian grammar treats these two- (or three-) letter combinations as single letters in their own right — they can't even be split at a line break."
     },
     letters: [
-      { glyph: "Cs", name: "csé" },
-      { glyph: "Dz", name: "dzé" },
-      { glyph: "Dzs", name: "dzsé" },
-      { glyph: "Gy", name: "gyé" },
-      { glyph: "Ly", name: "el-ipszilon" },
-      { glyph: "Ny", name: "eny" },
-      { glyph: "Sz", name: "esz" },
-      { glyph: "Ty", name: "tyé" },
-      { glyph: "Zs", name: "zsé" },
+      { glyph: "Cs", name: "csé", altName: "cé-es", sound: "Like the 'ch' in chair or chocolate", ipa: "/t͡ʃ/", example: "család", exampleEn: "family" },
+      { glyph: "Dz", name: "dzé", sound: "Soft 'ds' sound, like the 'ds' in kids or reads", ipa: "/d͡z/", example: "edzés", exampleEn: "exercise" },
+      { glyph: "Dzs", name: "dzsé", sound: "Like the soft 'j' or 'dg' sound in jungle or badge", ipa: "/d͡ʒ/", example: "dzsungel", exampleEn: "jungle" },
+      { glyph: "Gy", name: "gyé", altName: "gé-ipszilon", sound: "Soft palatal 'd', similar to the 'd' sound in during or duke", ipa: "/ɟ/", example: "gyerek", exampleEn: "child" },
+      { glyph: "Ly", name: "el-ipszilon", sound: "Pronounced exactly like J — sounds like 'y' in yes", ipa: "/j/", example: "lyuk", exampleEn: "hole" },
+      { glyph: "Ny", name: "eny", altName: "en-ipszilon", sound: "Soft blended sound, like the 'ny' in canyon or Spanish 'ñ'", ipa: "/ɲ/", example: "nyúl", exampleEn: "rabbit" },
+      { glyph: "Sz", name: "esz", altName: "es-zé", sound: "Sounds like the standard 's' in see or gas", ipa: "/s/", example: "szia", exampleEn: "hi / hello", warn: true },
+      { glyph: "Ty", name: "tyé", altName: "té-ipszilon", sound: "Soft palatal 't', close to the 't' sound in British English 'tube'", ipa: "/c/", example: "tyúk", exampleEn: "hen" },
+      { glyph: "Zs", name: "zsé", altName: "zé-es", sound: "Like the soft 's' sound in measure or vision", ipa: "/ʒ/", example: "zsiráf", exampleEn: "giraffe" },
     ]
   },
   {
@@ -290,11 +361,41 @@ const GROUPS = [
       en: "Not part of the \"smaller\" (basic) alphabet — these only appear in loanwords and family names."
     },
     letters: [
-      { glyph: "Q", name: "kú" },
-      { glyph: "W", name: "dupla vé" },
-      { glyph: "X", name: "iksz" },
-      { glyph: "Y", name: "ipszilon" },
+      { glyph: "Q", name: "kú", sound: "Called 'ku'. Found in modern loanwords; usually written as 'kv' when fully adapted", ipa: "/k/", example: "kvíz", exampleEn: "quiz" },
+      { glyph: "W", name: "dupla vé", sound: "Called 'dupla vé'. Sounds like V. Found in loanwords and some aristocratic surnames", ipa: "/v/", example: "weboldal", exampleEn: "website" },
+      { glyph: "X", name: "iksz", sound: "Called 'iksz'. Sounds exactly like the 'ks' combination", ipa: "/ks/", example: "taxi", exampleEn: "taxi" },
+      { glyph: "Y", name: "ipszilon", sound: "Called 'ipszilon'. Primarily functions inside digraphs (gy, ny, ty, ly). Alone in surnames: short 'i' sound", ipa: "/i/", example: "Andrássy", exampleEn: "surname" },
     ]
+  },
+];
+
+/* ---------------------------------------------------------------
+   Kulcsfontosságú minták angol anyanyelvűeknek
+----------------------------------------------------------------*/
+const PATTERNS = [
+  {
+    title: "S ≠ \"s\" — crucial!",
+    body: "<code>s</code> in Hungarian is always \"sh\" (like shoe). The English \"s\" sound is written <code>sz</code>. This is the most common pitfall for English speakers."
+  },
+  {
+    title: "Long vowels change meaning",
+    body: "<code>kor</code> = \"age/era\", <code>kór</code> = \"disease\". The accent mark is not decorative — it changes meaning completely."
+  },
+  {
+    title: "gy, ty, ny",
+    body: "Palatalized consonants unique to Hungarian. <code>gy</code> ≈ soft \"d\" as in during (American). <code>ny</code> = Spanish ñ as in canyon."
+  },
+  {
+    title: "Ö and Ü",
+    body: "<code>ö</code>: shape lips for \"o\", say \"e\" — like \"u\" in fur. <code>ü</code>: shape lips for \"oo\", say \"ee\". Long versions (<code>ő</code>, <code>ű</code>) simply hold longer."
+  },
+  {
+    title: "c = \"ts\"",
+    body: "<code>c</code> is always \"ts\" as in cats or tsunami. Never a \"k\" or \"s\" sound. So <code>cica</code> (kitten) = \"tsee-tsa\"."
+  },
+  {
+    title: "First syllable stress",
+    body: "Every Hungarian word — no exceptions — is stressed on the first syllable. <strong>BU</strong>-da-pest, not bu-da-<strong>PEST</strong>."
   },
 ];
 
@@ -364,7 +465,7 @@ async function speak(text, {onEnd} = {}){
   if (onEnd) onEnd();
 }
 
-/* ---------------- felépítés ---------------- */
+/* ---------------- felépítés: ábécé ---------------- */
 const groupsWrap = document.getElementById('groupsWrap');
 
 GROUPS.forEach((group, gIdx) => {
@@ -385,9 +486,17 @@ GROUPS.forEach((group, gIdx) => {
     <div class="letters-grid">
       ${group.letters.map((l) => `
         <div class="letter-card" data-name="${l.name}">
-          <div class="letter-glyph">${l.glyph}</div>
-          <div class="letter-name">${l.name}</div>
-          <button type="button" class="letter-speak" data-text="${l.name}" title="Kiejtés meghallgatása / Listen to pronunciation">🔊</button>
+          <div class="letter-top">
+            <div class="letter-glyph">${l.glyph}</div>
+            <button type="button" class="letter-speak" data-text="${l.name}" title="Kiejtés meghallgatása / Listen to pronunciation">🔊</button>
+          </div>
+          <div class="letter-name">say: "${l.name}"</div>
+          ${l.altName ? `<div class="letter-altname">spelled aloud as "${l.altName}"</div>` : ``}
+          <div class="letter-detail">
+            <div class="sound ${l.warn ? 'letter-warn' : ''}">${l.warn ? '⚠ ' : ''}${l.sound}</div>
+            <div class="ipa">${l.ipa}</div>
+            <div class="example">${l.example} <span class="en">(${l.exampleEn})</span></div>
+          </div>
         </div>
       `).join('')}
     </div>
@@ -443,6 +552,19 @@ document.getElementById('stopAll').addEventListener('click', () => {
   if(speechSupported) window.speechSynthesis.cancel();
   document.querySelectorAll('.letter-card.playing').forEach(c => c.classList.remove('playing'));
   document.querySelectorAll('.master-row button').forEach(b => { if (b.id !== 'stopAll') b.disabled = false; });
+});
+
+/* ---------------- felépítés: key patterns ---------------- */
+const patternsGrid = document.getElementById('patternsGrid');
+PATTERNS.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'pattern-card';
+  card.innerHTML = `
+    <div class="pattern-number">${String(i + 1).padStart(2, '0')}</div>
+    <div class="pattern-title">${p.title}</div>
+    <div class="pattern-body">${p.body}</div>
+  `;
+  patternsGrid.appendChild(card);
 });
 </script>
 </body>
