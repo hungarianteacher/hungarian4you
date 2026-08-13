@@ -2,19 +2,156 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Hungarian Alphabet — Hungarian4You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Magyar Ábécé — Hungarian4You</title>
 <link rel="stylesheet" href="../style.css">
 <style>
+  :root{
+    --line: rgba(43,36,29,0.14);
+    --shadow: 0 18px 40px -22px rgba(43,36,29,0.4);
+  }
+
   .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
   .breadcrumb a { color: var(--paprika); text-decoration: none; }
-  .lesson-header { max-width: 980px; margin: 0 auto; padding: 20px 24px 0; }
-  .lesson-header h1 { font-family: 'Fraunces', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 4px 0 20px; }
-  .lesson-body { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
   .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; border: 1px solid var(--border); margin: 0 0 28px; background: #000; }
   .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-  .interactive-wrap { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin: 0 0 28px; background: var(--card); }
-  .interactive-wrap iframe { width: 100%; height: 780px; border: 0; display: block; }
+  .video-wrap.bottom { margin: 8px 0 0; }
+
+  .lesson-wrap{max-width:980px;margin:0 auto;padding:20px 24px 40px;}
+
+  .lesson-header{margin-bottom:26px;}
+  .lesson-header h1{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:clamp(1.8rem,5vw,2.6rem);
+    margin:4px 0 8px;
+    line-height:1.1;
+  }
+  .lesson-header h1 em{font-style:italic;color:var(--paprika);}
+  .lesson-header .sub{font-size:1rem;color:var(--muted);max-width:640px;line-height:1.55;}
+
+  .intro-note{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-left:4px solid var(--mustard);
+    border-radius:0 4px 4px 0;
+    padding:14px 18px;
+    margin-bottom:24px;
+    font-size:14px;line-height:1.55;
+  }
+  .intro-note strong{color:var(--paprika-dark);}
+  .intro-note .translation{
+    display:block;margin-top:10px;padding-top:10px;
+    border-top:1px dashed var(--line);
+    font-size:13px;color:var(--muted);font-style:italic;
+  }
+
+  .master-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
+  .master-row button{
+    font-family:'Work Sans',sans-serif;font-weight:600;font-size:14px;
+    border:1.5px solid var(--ink);border-radius:3px;background:var(--ink);color:var(--bg);
+    padding:10px 18px;cursor:pointer;transition:transform .12s ease;
+    text-align:left;line-height:1.35;
+  }
+  .master-row button .btn-en{
+    display:block;font-family:'Work Sans',sans-serif;font-size:10.5px;
+    font-weight:500;opacity:.7;text-transform:none;letter-spacing:.02em;margin-top:2px;
+  }
+  .master-row button:hover{transform:translateY(-1px);}
+  .master-row button.secondary{background:transparent;color:var(--ink);}
+  .master-row button:focus-visible{outline:2px solid var(--mustard);outline-offset:2px;}
+  .master-row button:disabled{opacity:.5;cursor:default;transform:none;}
+
+  .group-card{
+    background:var(--card);
+    border:1.5px solid var(--ink);
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    position:relative;
+    padding:30px 26px 26px;
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .group-card::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:74px;height:14px;background:var(--surface2,#f0ece5);
+    border:1.5px solid var(--ink);border-top:none;
+    border-radius:0 0 10px 10px;
+  }
+  .group-card::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+    background:var(--group-accent, var(--paprika));
+  }
+  .group-number{
+    font-family:'Work Sans', sans-serif;font-size:12px;color:var(--muted);
+    position:absolute;top:14px;left:22px;letter-spacing:.04em;
+  }
+  .group-head{text-align:center;margin:14px 0 6px;}
+  .group-emoji{font-size:34px;line-height:1;margin-bottom:6px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12));}
+  .group-hu{
+    font-family:'Fraunces',serif;font-weight:700;font-style:italic;
+    font-size:27px;color:var(--group-accent, var(--paprika-dark));line-height:1.1;
+  }
+  .group-en{
+    font-family:'Work Sans',sans-serif;font-size:12.5px;letter-spacing:.05em;
+    color:var(--muted);margin-top:2px;text-transform:uppercase;
+  }
+  .group-desc{max-width:640px;margin:12px auto 0;text-align:center;font-size:14px;line-height:1.55;}
+  .group-desc .translation{display:block;margin-top:8px;font-size:13px;color:var(--muted);font-style:italic;}
+  .group-count{
+    display:inline-block;margin-top:10px;font-family:'Work Sans',sans-serif;font-size:11px;
+    color:var(--muted);letter-spacing:.05em;
+  }
+
+  .letters-caption{
+    text-align:center;font-family:'Work Sans',sans-serif;font-size:12px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    margin:20px 0 12px;
+  }
+  .letters-caption .translation{
+    display:block;text-transform:none;letter-spacing:.02em;font-style:italic;
+    opacity:.85;margin-top:2px;font-size:11px;
+  }
+
+  .letters-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .letter-card{
+    background:#fff;border:1.5px solid var(--line);border-radius:4px;
+    padding:16px 8px 12px;text-align:center;position:relative;
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .letter-card:hover{border-color:var(--group-accent, var(--ink)); transform:translateY(-2px);}
+  .letter-card.playing{border-color:var(--group-accent, var(--paprika)); box-shadow:0 0 0 2px rgba(182,55,31,0.18);}
+  .letter-glyph{
+    font-family:'Fraunces',serif;font-weight:700;font-size:30px;color:var(--ink);
+    line-height:1;
+  }
+  .letter-name{
+    font-family:'Work Sans',sans-serif;font-style:italic;font-size:12.5px;
+    color:var(--group-accent, var(--paprika-dark));margin:6px 0 10px;
+  }
+  .letter-speak{
+    background:var(--surface2,#f0ece5);border:1px solid var(--line);border-radius:50%;
+    width:28px;height:28px;cursor:pointer;font-size:12px;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:all .12s ease;
+  }
+  .letter-speak:hover{background:var(--mustard);color:#fff;border-color:transparent;}
+
+  .audio-note{
+    text-align:center;font-size:12.5px;color:var(--paprika-dark);
+    background:var(--card);border:1px solid var(--border);border-radius:4px;
+    padding:10px 14px;margin-bottom:22px;display:none;
+  }
+  .audio-note.show{display:block;}
+
+  @media (max-width:720px){
+    .letters-grid{grid-template-columns:repeat(4,1fr);}
+    .group-card{padding:26px 16px 22px;}
+  }
+  @media (max-width:460px){
+    .letters-grid{grid-template-columns:repeat(3,1fr);}
+  }
 </style>
 </head>
 <body>
@@ -26,36 +163,287 @@
   <a href="../">&larr; Students</a> / The Hungarian Alphabet
 </nav>
 
-<header class="lesson-header">
-  <span class="eyebrow">ALAPOK / BASICS</span>
-  <h1>The Hungarian Alphabet <span style="color: var(--muted); font-weight: 500;">— A Magyar Ábécé</span></h1>
-</header>
-
-<main class="lesson-body">
+<div class="lesson-wrap">
 
   <div class="video-wrap">
     <iframe src="https://www.youtube.com/embed/kOSAXSpSh3E" title="Hungarian Alphabet video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
-  <div class="interactive-wrap">
-    <iframe src="https://learn-hungarian.gitlab.io/alphabet/" title="Interactive Hungarian Alphabet" loading="lazy"></iframe>
+  <header class="lesson-header">
+    <span class="eyebrow">ALAPOK / BASICS</span>
+    <h1>A Magyar Ábécé — <em>The Hungarian Alphabet</em></h1>
+    <p class="sub">The full 44-letter Hungarian alphabet — magánhangzók (vowels), mássalhangzók (consonants), betűkapcsolatok (digraphs, treated as single letters in Hungarian), and the foreign-origin letters Q, W, X, Y. Click any 🔊 icon to hear how the letter is named when reciting the alphabet.</p>
+  </header>
+
+  <div class="intro-note">
+    <strong>Hogyan használd:</strong> a magyar ábécében minden betűnek saját "neve" van, ahogyan felmondáskor kiejtjük (pl. a B betű neve "bé", nem csak "b" hang). Az első kártya a 14 magánhangzót tartalmazza, a második a mássalhangzókat, a harmadik a betűkapcsolatokat (ezeket a magyar nyelvtan önálló betűként kezeli: cs, dz, dzs, gy, ly, ny, sz, ty, zs), a negyedik pedig az idegen eredetű betűket (q, w, x, y), amelyek csak családnevekben és idegen szavakban fordulnak elő. Kattints a 🔊 gombokra a kiejtéshez, vagy hallgass meg egy egész kártyát sorban.
+    <span class="translation">
+      <strong>How to use it:</strong> in Hungarian, every letter has its own spoken "name" used when reciting the alphabet (e.g. the letter B is called "bé", not just the sound "b"). The first card covers the 14 vowels, the second the consonants, the third the digraphs (Hungarian grammar treats these as single letters in their own right: cs, dz, dzs, gy, ly, ny, sz, ty, zs), and the fourth the foreign-origin letters (q, w, x, y), which appear only in family names and loanwords. Click the 🔊 buttons to hear the pronunciation, or play a whole card in order.
+    </span>
   </div>
 
-  <div class="video-wrap">
+  <div class="master-row">
+    <button type="button" id="playAllVowels">🔊 Magánhangzók lejátszása sorban<span class="btn-en">Play vowels in order</span></button>
+    <button type="button" class="secondary" id="playAllConsonants">🔊 Mássalhangzók lejátszása sorban<span class="btn-en">Play consonants in order</span></button>
+    <button type="button" class="secondary" id="playAllDigraphs">🔊 Betűkapcsolatok lejátszása sorban<span class="btn-en">Play digraphs in order</span></button>
+    <button type="button" class="secondary" id="playAllForeign">🔊 Idegen betűk lejátszása sorban<span class="btn-en">Play foreign letters in order</span></button>
+    <button type="button" class="secondary" id="stopAll">⏹ Leállítás<span class="btn-en">Stop</span></button>
+  </div>
+
+  <p class="audio-note" id="audioNote">Néhány hangfájl nem található — ellenőrizd, hogy minden mp3 fel van-e töltve az <code>audio</code> mappába.</p>
+
+  <div id="groupsWrap"></div>
+
+  <footer id="pageFooter" style="text-align:center;margin-top:0;font-size:12.5px;color:var(--muted);font-family:'Work Sans',sans-serif;"></footer>
+
+  <div class="video-wrap bottom">
     <iframe src="https://www.youtube.com/embed/oshiGBj46zA" title="Hungarian Vowel Harmony video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
   </div>
 
-  <div class="interactive-wrap">
-    <iframe src="https://learn-hungarian.gitlab.io/alphabet/14-vowels/" title="Hungarian Vowel Harmony" loading="lazy"></iframe>
-  </div>
+</div>
 
-</main>
-
-<div class="motif"></div>
+<div class="motif meadow"></div>
 <footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
 
 <script src="../shared/site-widgets.js"></script>
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
+<script>
+/* ---------------------------------------------------------------
+   Adatok: a teljes 44 betűs magyar ábécé, négy csoportban.
+   Minden betűnél a "name" mező a betű kiejtett NEVE (ahogy
+   felmondáskor mondjuk, pl. B -> "bé") — ez egyezik az
+   audio/<név>.mp3 fájlnevekkel.
+----------------------------------------------------------------*/
+const GROUPS = [
+  {
+    hu: "magánhangzók", en: "vowels", emoji: "🔤", accent: "var(--paprika-dark)",
+    desc: {
+      hu: "A magyar 14 magánhangzója — a rövid és hosszú párok, valamint az umlautos (ö/ő, ü/ű) alakok.",
+      en: "The 14 Hungarian vowels — short/long pairs, plus the umlaut (ö/ő, ü/ű) forms."
+    },
+    letters: [
+      { glyph: "A", name: "a" },
+      { glyph: "Á", name: "á" },
+      { glyph: "E", name: "e" },
+      { glyph: "É", name: "é" },
+      { glyph: "I", name: "i" },
+      { glyph: "Í", name: "í" },
+      { glyph: "O", name: "o" },
+      { glyph: "Ó", name: "ó" },
+      { glyph: "Ö", name: "ö" },
+      { glyph: "Ő", name: "ő" },
+      { glyph: "U", name: "u" },
+      { glyph: "Ú", name: "ú" },
+      { glyph: "Ü", name: "ü" },
+      { glyph: "Ű", name: "ű" },
+    ]
+  },
+  {
+    hu: "mássalhangzók", en: "consonants", emoji: "🔠", accent: "var(--mustard)",
+    desc: {
+      hu: "Az egyjegyű mássalhangzók — mindegyiknek saját kiejtett neve van, ahogy az ábécét felmondjuk.",
+      en: "The single-letter consonants — each has its own spoken name, used when reciting the alphabet."
+    },
+    letters: [
+      { glyph: "B", name: "bé" },
+      { glyph: "C", name: "cé" },
+      { glyph: "D", name: "dé" },
+      { glyph: "F", name: "ef" },
+      { glyph: "G", name: "gé" },
+      { glyph: "H", name: "há" },
+      { glyph: "J", name: "jé" },
+      { glyph: "K", name: "ká" },
+      { glyph: "L", name: "el" },
+      { glyph: "M", name: "em" },
+      { glyph: "N", name: "en" },
+      { glyph: "P", name: "pé" },
+      { glyph: "R", name: "er" },
+      { glyph: "S", name: "es" },
+      { glyph: "T", name: "té" },
+      { glyph: "V", name: "vé" },
+      { glyph: "Z", name: "zé" },
+    ]
+  },
+  {
+    hu: "betűkapcsolatok", en: "digraphs", emoji: "🔗", accent: "var(--paprika)",
+    desc: {
+      hu: "A magyar nyelvtan ezeket a két (vagy három) betűből álló kapcsolatokat önálló betűként kezeli — nem választhatók szét sorvégi elválasztáskor sem.",
+      en: "Hungarian grammar treats these two- (or three-) letter combinations as single letters in their own right — they can't even be split at a line break."
+    },
+    letters: [
+      { glyph: "Cs", name: "csé" },
+      { glyph: "Dz", name: "dzé" },
+      { glyph: "Dzs", name: "dzsé" },
+      { glyph: "Gy", name: "gyé" },
+      { glyph: "Ly", name: "el-ipszilon" },
+      { glyph: "Ny", name: "eny" },
+      { glyph: "Sz", name: "esz" },
+      { glyph: "Ty", name: "tyé" },
+      { glyph: "Zs", name: "zsé" },
+    ]
+  },
+  {
+    hu: "idegen eredetű betűk", en: "foreign-origin letters", emoji: "🌐", accent: "var(--meadow-dark, var(--meadow))",
+    desc: {
+      hu: "A „kisebb” ábécében nem szerepelnek — csak idegen szavakban és családnevekben fordulnak elő.",
+      en: "Not part of the \"smaller\" (basic) alphabet — these only appear in loanwords and family names."
+    },
+    letters: [
+      { glyph: "Q", name: "kú" },
+      { glyph: "W", name: "dupla vé" },
+      { glyph: "X", name: "iksz" },
+      { glyph: "Y", name: "ipszilon" },
+    ]
+  },
+];
+
+/* ---------------- hangfájl-lejátszás (mp3), NFC/NFD próba, beszédszintézis tartalék ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){ pickHungarianVoice(); window.speechSynthesis.onvoiceschanged = pickHungarianVoice; }
+
+let cancelRequested = false;
+
+function speakFallback(text){
+  return new Promise(resolve => {
+    if(!speechSupported){ resolve(); return; }
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'hu-HU';
+      if(huVoice) utter.voice = huVoice;
+      utter.rate = 0.9;
+      let settled = false;
+      const finish = () => { if(settled) return; settled = true; resolve(); };
+      utter.onend = finish;
+      utter.onerror = finish;
+      window.speechSynthesis.speak(utter);
+      window.speechSynthesis.resume();
+      setTimeout(finish, Math.max(2500, text.length * 220));
+    }, 30);
+  });
+}
+
+function tryPlayUrl(url){
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let settled = false;
+    const finish = (ok) => { if(!settled){ settled = true; resolve(ok); } };
+    audio.addEventListener('ended', () => finish(true));
+    audio.addEventListener('error', () => finish(false));
+    audio.play().catch(() => finish(false));
+  });
+}
+
+async function speak(text, {onEnd} = {}){
+  const noSpace = text.replace(/\s+/g, '');
+  const rawCandidates = [text, noSpace];
+  const candidates = [];
+  rawCandidates.forEach(raw => {
+    candidates.push(raw);
+    if (typeof raw.normalize === 'function') {
+      candidates.push(raw.normalize('NFC'));
+      candidates.push(raw.normalize('NFD'));
+    }
+  });
+  const uniqueCandidates = candidates.filter((v, i, arr) => arr.indexOf(v) === i);
+
+  for (const candidate of uniqueCandidates) {
+    const ok = await tryPlayUrl(`audio/${encodeURIComponent(candidate)}.mp3`);
+    if (ok) { if (onEnd) onEnd(); return; }
+  }
+
+  document.getElementById('audioNote').classList.add('show');
+  await speakFallback(text);
+  if (onEnd) onEnd();
+}
+
+/* ---------------- felépítés ---------------- */
+const groupsWrap = document.getElementById('groupsWrap');
+
+GROUPS.forEach((group, gIdx) => {
+  const card = document.createElement('div');
+  card.className = 'group-card';
+  card.style.setProperty('--group-accent', group.accent);
+
+  card.innerHTML = `
+    <span class="group-number">№ ${gIdx + 1}/${GROUPS.length}</span>
+    <div class="group-head">
+      <div class="group-emoji">${group.emoji}</div>
+      <div class="group-hu">${group.hu}</div>
+      <div class="group-en">${group.en}</div>
+      <p class="group-desc">${group.desc.hu}<span class="translation">${group.desc.en}</span></p>
+      <span class="group-count">${group.letters.length} betű ebben a csoportban</span>
+    </div>
+    <div class="letters-caption">Kattints a hangszóróra a betű nevének meghallgatásához<span class="translation">Click the speaker icon to hear the letter's name</span></div>
+    <div class="letters-grid">
+      ${group.letters.map((l) => `
+        <div class="letter-card" data-name="${l.name}">
+          <div class="letter-glyph">${l.glyph}</div>
+          <div class="letter-name">${l.name}</div>
+          <button type="button" class="letter-speak" data-text="${l.name}" title="Kiejtés meghallgatása / Listen to pronunciation">🔊</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  groupsWrap.appendChild(card);
+});
+
+const totalLetters = GROUPS.reduce((sum, g) => sum + g.letters.length, 0);
+document.getElementById('pageFooter').innerHTML =
+  `${GROUPS.map(g => `${g.letters.length} ${g.hu}`).join(' · ')} — összesen ${totalLetters} betű, mindegyik meghallgatható.
+   <span style="display:block;margin-top:3px;font-style:italic;">${GROUPS.map(g => `${g.letters.length} ${g.en}`).join(' · ')} — ${totalLetters} letters in total, all with audio.</span>`;
+
+document.querySelectorAll('.letter-speak').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.letter-card');
+    card.classList.add('playing');
+    speak(btn.dataset.text, { onEnd: () => card.classList.remove('playing') });
+  });
+});
+
+async function playSequence(buttons){
+  cancelRequested = false;
+  for(const btn of buttons){
+    if(cancelRequested) break;
+    const card = btn.closest('.letter-card');
+    card.classList.add('playing');
+    await speak(btn.dataset.text);
+    card.classList.remove('playing');
+    if(cancelRequested) break;
+    await new Promise(r => setTimeout(r, 160));
+  }
+  cancelRequested = false;
+}
+
+function wirePlayAllButton(buttonId, groupIndex){
+  document.getElementById(buttonId).addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    const buttons = Array.from(groupsWrap.children[groupIndex].querySelectorAll('.letter-speak'));
+    await playSequence(buttons);
+    btn.disabled = false;
+  });
+}
+
+wirePlayAllButton('playAllVowels', 0);
+wirePlayAllButton('playAllConsonants', 1);
+wirePlayAllButton('playAllDigraphs', 2);
+wirePlayAllButton('playAllForeign', 3);
+
+document.getElementById('stopAll').addEventListener('click', () => {
+  cancelRequested = true;
+  if(speechSupported) window.speechSynthesis.cancel();
+  document.querySelectorAll('.letter-card.playing').forEach(c => c.classList.remove('playing'));
+  document.querySelectorAll('.master-row button').forEach(b => { if (b.id !== 'stopAll') b.disabled = false; });
+});
+</script>
 </body>
 </html>
