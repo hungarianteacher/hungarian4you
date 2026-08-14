@@ -5,6 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>My Hungarian Language Journey — Hungarian4You</title>
 <link rel="stylesheet" href="style.css">
+<style>
+.tile-disabled{
+  position: relative;
+  cursor: default;
+  opacity: 0.6;
+  filter: grayscale(35%);
+  pointer-events: none;
+}
+.tile-disabled:hover{
+  transform: none;
+  box-shadow: none;
+}
+.coming-soon-tag{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--ink, #2b2420);
+  color: #fff;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  opacity: 0.9;
+}
+</style>
 </head>
 <body>
 
@@ -55,11 +83,12 @@
         <span class="tile-title">The Hungarian Alphabet</span>
         <span class="tile-sub">A magyar ábécé</span>
       </a>
-      <a class="tile" href="vocabulary-szokincs/" style="--tile-color: var(--mustard);">
+      <div class="tile tile-disabled" style="--tile-color: var(--mustard);">
+        <span class="coming-soon-tag">Hamarosan / Coming Soon</span>
         <span class="tile-index">ALAPOK / BASICS</span>
         <span class="tile-title">Vocabulary</span>
         <span class="tile-sub">Szókincs</span>
-      </a>
+      </div>
       <a class="tile" href="numbers-1-to-2000-years/" style="--tile-color: var(--mustard);">
         <span class="tile-index">ALAPOK / BASICS</span>
         <span class="tile-title">Numbers 1–2000 &amp; Years</span>
@@ -114,26 +143,30 @@
     <h2 class="section-title">Gyakorlás <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Practice</span></h2>
     <p class="section-sub">Olvasási gyakorlatok, leckék és nyelvtörők. — Reading exercises, lessons and tongue twisters.</p>
     <div class="menu-grid">
-      <a class="tile" href="reading-exercises/" style="--tile-color: var(--paprika);">
+      <div class="tile tile-disabled" style="--tile-color: var(--paprika);">
+        <span class="coming-soon-tag">Hamarosan / Coming Soon</span>
         <span class="tile-index">GYAKORLÁS / PRACTICE</span>
         <span class="tile-title">Reading Exercises</span>
         <span class="tile-sub">Kezdő és haladó szintű szövegek</span>
-      </a>
-      <a class="tile" href="lessons/" style="--tile-color: var(--paprika);">
+      </div>
+      <div class="tile tile-disabled" style="--tile-color: var(--paprika);">
+        <span class="coming-soon-tag">Hamarosan / Coming Soon</span>
         <span class="tile-index">GYAKORLÁS / PRACTICE</span>
         <span class="tile-title">Lessons</span>
         <span class="tile-sub">Leckék</span>
-      </a>
-      <a class="tile" href="exercises-gyakorlatok/" style="--tile-color: var(--paprika);">
+      </div>
+      <div class="tile tile-disabled" style="--tile-color: var(--paprika);">
+        <span class="coming-soon-tag">Hamarosan / Coming Soon</span>
         <span class="tile-index">GYAKORLÁS / PRACTICE</span>
         <span class="tile-title">Exercises</span>
         <span class="tile-sub">Gyakorlatok</span>
-      </a>
-      <a class="tile" href="tongue-twisters/" style="--tile-color: var(--paprika);">
+      </div>
+      <div class="tile tile-disabled" style="--tile-color: var(--paprika);">
+        <span class="coming-soon-tag">Hamarosan / Coming Soon</span>
         <span class="tile-index">GYAKORLÁS / PRACTICE</span>
         <span class="tile-title">Tongue Twisters</span>
         <span class="tile-sub">Nyelvtörők</span>
-      </a>
+      </div>
       <a class="tile" href="filler-words/" style="--tile-color: var(--paprika);">
         <span class="tile-index">GYAKORLÁS / PRACTICE</span>
         <span class="tile-title">Filler Words</span>
