@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Töltelékszavak — Hungarian Filler Words (C1) | Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+:root{
+  --fw-line:#e9dcc8;
+  --fw-accent-soft:#f3e0da;
+  --fw-green-soft:#e1eee6;
+  --fw-muted:#7a6f63;
+}
+.fw-lead{
+  font-size:1.08rem;
+  color:#4a4038;
+  background:var(--card);
+  border:1px solid var(--fw-line);
+  border-radius:10px;
+  padding:22px 26px;
+  max-width:900px;
+  margin:0 auto 34px;
+}
+.fw-toc{
+  background:var(--card);
+  border:1px solid var(--fw-line);
+  border-radius:12px;
+  padding:22px 26px;
+  max-width:900px;
+  margin:0 auto 40px;
+}
+.fw-toc h3{
+  font-family:"Work Sans",Arial,sans-serif;
+  font-size:.85rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--paprika);
+  margin:0 0 12px;
+}
+.fw-toc ol{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px 20px;
+}
+.fw-toc a{
+  font-family:"Work Sans",Arial,sans-serif;
+  font-size:.9rem;
+  color:var(--ink,#2b2420);
+  text-decoration:none;
+  display:flex;
+  gap:8px;
+  align-items:baseline;
+}
+.fw-toc a:hover{ color:var(--paprika); }
+.fw-toc-num{
+  font-size:.68rem;
+  background:var(--fw-accent-soft);
+  color:var(--paprika);
+  padding:2px 6px;
+  border-radius:10px;
+}
+.fw-toc-en{ color:var(--fw-muted); font-weight:400; font-size:.82rem; }
+
+.fw-section{ max-width:900px; margin:0 auto 56px; }
+.fw-section h2{
+  font-family:"Fraunces",Georgia,serif;
+  font-size:1.4rem;
+  color:var(--meadow-dark,#1E4A34);
+  border-left:5px solid var(--paprika);
+  padding-left:14px;
+  margin:0 0 10px;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+}
+.fw-cat-num{
+  font-family:"Work Sans",Arial,sans-serif;
+  font-size:.72rem;
+  background:var(--meadow);
+  color:#fff;
+  padding:3px 8px;
+  border-radius:20px;
+  letter-spacing:.03em;
+}
+.fw-cat-en{ font-weight:400; font-size:.95rem; color:var(--fw-muted); }
+.fw-cat-intro{ font-size:.98rem; color:#4a4038; margin-bottom:20px; max-width:74ch; }
+
+.fw-card-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.fw-word-card{
+  background:var(--card);
+  border:1px solid var(--fw-line);
+  border-radius:12px;
+  padding:16px 20px;
+}
+.fw-word-card .top{
+  display:flex; align-items:baseline; justify-content:space-between;
+  flex-wrap:wrap; gap:6px;
+}
+.fw-hu-word{ font-family:"Fraunces",Georgia,serif; font-size:1.28rem; font-weight:700; color:var(--paprika); }
+.fw-en-equiv{
+  font-family:"Work Sans",Arial,sans-serif; font-size:.78rem; color:var(--meadow-dark,#1E4A34);
+  background:var(--fw-accent-soft); padding:3px 9px; border-radius:20px; white-space:nowrap;
+}
+.fw-pron{ font-family:"Work Sans",Arial,sans-serif; font-size:.78rem; color:var(--fw-muted); margin-top:2px; }
+.fw-usage{ margin:8px 0; font-size:.94rem; }
+.fw-example{
+  background:var(--bg); border-left:3px solid var(--meadow); padding:8px 12px;
+  border-radius:0 6px 6px 0; font-size:.92rem;
+}
+.fw-example .hu{ font-style:italic; display:block; }
+.fw-example .en{ color:var(--fw-muted); display:block; margin-top:2px; }
+.fw-tag{
+  font-family:"Work Sans",Arial,sans-serif; font-size:.68rem; text-transform:uppercase;
+  letter-spacing:.05em; padding:2px 8px; border-radius:4px; white-space:nowrap;
+}
+.fw-tag.casual{ background:var(--fw-green-soft); color:var(--meadow-dark,#1E4A34); }
+.fw-tag.neutral{ background:#f0e9e2; color:var(--fw-muted); }
+.fw-tag.formal{ background:#e6ecf1; color:#2b4a6b; }
+
+.fw-dialogue{
+  background:var(--card); border:1px solid var(--fw-line); border-radius:12px; padding:26px 30px;
+}
+.fw-dialogue p{ margin:10px 0; font-size:1rem; }
+.fw-dialogue .speaker{ font-weight:700; color:var(--meadow-dark,#1E4A34); }
+.fw-dialogue .filler{ color:var(--paprika); font-weight:700; }
+.fw-dialogue .en-line{ color:var(--fw-muted); font-size:.9rem; margin:2px 0 14px; }
+
+.fw-style-note{ background:var(--fw-green-soft); border-radius:12px; padding:22px 26px; }
+.fw-style-note h4{ margin-top:0; font-family:"Work Sans",Arial,sans-serif; color:var(--meadow-dark,#1E4A34); font-size:1rem; }
+.fw-style-note h4:not(:first-child){ margin-top:16px; }
+
+.fw-tips{ background:var(--fw-accent-soft); border-radius:12px; padding:22px 26px; }
+.fw-tips ul{ margin:0; padding-left:20px; }
+.fw-tips li{ margin-bottom:10px; }
+
+table.fw-quick-ref{
+  width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--fw-line);
+  border-radius:12px; overflow:hidden; font-size:.9rem;
+}
+table.fw-quick-ref th{
+  font-family:"Work Sans",Arial,sans-serif; text-align:left; background:var(--meadow); color:#fff;
+  padding:10px 14px; font-size:.75rem; text-transform:uppercase; letter-spacing:.05em;
+}
+table.fw-quick-ref td{ padding:9px 14px; border-top:1px solid var(--fw-line); }
+table.fw-quick-ref tr:nth-child(even) td{ background:#fbf8f4; }
+.fw-qr-hu{ font-weight:700; color:var(--paprika); }
+.fw-qr-cat{ color:var(--fw-muted); font-size:.82rem; }
+
+@media (max-width:640px){
+  .fw-card-grid{ grid-template-columns:1fr; }
+  .fw-toc ol{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb" style="max-width:900px;margin:0 auto;padding:14px 24px;font-family:'Work Sans',Arial,sans-serif;font-size:.85rem;">
+  <a href="../">Főoldal / Home</a> &rsaquo; <span>Filler Words</span>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">Gyakorlás &middot; Practice &middot; C1 szint</span>
+  <h1 class="title">Töltelékszavak</h1>
+  <p class="lede">
+    A magyar beszélt nyelv apró, jelentés nélküli — mégis nélkülözhetetlen — szavai.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">The small words that don't add dictionary content, but carry hesitation, emphasis, hedging and structure in natural Hungarian speech.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+<p class="fw-lead">
+At C1 level, grammar and vocabulary are rarely the bottleneck — <strong>naturalness</strong> is.
+One of the fastest ways to close that last gap is mastering <strong>töltelékszavak</strong>
+("filling words"): the small words and phrases that don't add dictionary content but carry
+hesitation, emphasis, hedging, politeness, and structure. Native Hungarian speech — and a
+surprising amount of semi-formal writing — is threaded through with them. This guide collects
+47 of them, grouped by what each word actually <em>does</em> in a sentence, with pronunciation,
+register, and real example sentences, so you can reach for the right one instead of defaulting
+to <em>hát</em> and <em>szóval</em> every time.
+</p>
+
+<nav class="fw-toc">
+  <h3>Tartalom / Contents</h3>
+  <ol>
+    <li><a href="#hesitation"><span class="fw-toc-num">01</span> Tiszta hezitációs hangok <span class="fw-toc-en">Pure hesitation sounds</span></a></li>
+    <li><a href="#openers"><span class="fw-toc-num">02</span> Beszédindítók <span class="fw-toc-en">Conversation openers</span></a></li>
+    <li><a href="#connectors"><span class="fw-toc-num">03</span> Logikai kötőszavak, töltelékként <span class="fw-toc-en">Logical connectors as filler</span></a></li>
+    <li><a href="#hedges"><span class="fw-toc-num">04</span> Óvatossági szavak, finomítók <span class="fw-toc-en">Hedges and softeners</span></a></li>
+    <li><a href="#tags"><span class="fw-toc-num">05</span> Megerősítést kereső szavak <span class="fw-toc-en">Tag words and confirmation-seekers</span></a></li>
+    <li><a href="#approximators"><span class="fw-toc-num">06</span> Elnagyoló, listát lezáró kifejezések <span class="fw-toc-en">Approximators and trailing expressions</span></a></li>
+    <li><a href="#reformulation"><span class="fw-toc-num">07</span> Újrafogalmazó kifejezések <span class="fw-toc-en">Reformulation markers</span></a></li>
+    <li><a href="#shifters"><span class="fw-toc-num">08</span> Témaváltó kifejezések <span class="fw-toc-en">Topic shifters</span></a></li>
+    <li><a href="#closers"><span class="fw-toc-num">09</span> Lezáró, belenyugvó kifejezések <span class="fw-toc-en">Closing and resignation markers</span></a></li>
+    <li><a href="#reactions"><span class="fw-toc-num">10</span> Reakciószavak, indulatszók <span class="fw-toc-en">Reaction words and interjections</span></a></li>
+  </ol>
+</nav>
+
+<p class="fw-cat-intro" style="max-width:900px;margin:0 auto 36px;">
+A note on <strong>register</strong> before you dive in: each word below is tagged
+<span class="fw-tag casual">casual</span> (friends, family, informal chat),
+<span class="fw-tag neutral">neutral</span> (works almost everywhere, spoken and written), or
+<span class="fw-tag formal">formal</span> (lectures, essays, interviews, professional speech).
+At C1, choosing the right register is often more important than choosing the right word.
+</p>
+
+<section id="hesitation" class="fw-section">
+  <h2><span class="fw-cat-num">01</span> Tiszta hezitációs hangok <span class="fw-cat-en">&mdash; Pure hesitation sounds</span></h2>
+  <p class="fw-cat-intro">These carry no meaning at all — they simply hold the floor while the speaker thinks. Every language has them; Hungarian's just sound different from English's "um" and "uh."</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">ő…</span><span class="fw-en-equiv">&asymp; uh…</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;a drawn-out "ur" sound&rdquo;</div>
+      <p class="fw-usage">The most neutral hesitation sound, roughly Hungarian's version of English "uh." Purely acoustic — no grammatical role at all. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Ez… ő… nem is olyan egyszerű.</span><span class="en">This… uh… isn't so simple.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">öö</span><span class="fw-en-equiv">&asymp; um…</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;elongated "ur", often nasal&rdquo;</div>
+      <p class="fw-usage">Slightly longer and more drawn out than <em>ő</em>, used when the pause is longer — searching harder for a word or an idea. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Öö, hogy is kezdjem…</span><span class="en">Um, how should I start this…</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hm / hmm</span><span class="fw-en-equiv">&asymp; hmm</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;a closed-mouth hum&rdquo;</div>
+      <p class="fw-usage">A thinking sound, often before a considered answer or a mild objection — the same function it has in English. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Hm, ezen még gondolkodnom kell.</span><span class="en">Hmm, I need to think about that.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">khm</span><span class="fw-en-equiv">&asymp; ahem</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;a small throat-clear&rdquo;</div>
+      <p class="fw-usage">A stalling cough-like sound, sometimes used self-consciously before saying something awkward or before correcting oneself. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Khm, szóval erről lenne szó.</span><span class="en">Ahem, so, this is what it's about.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">izé</span><span class="fw-en-equiv">&asymp; thingy / whatchamacallit / um</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;EE-zeh&rdquo;</div>
+      <p class="fw-usage">Hungarian's most famous filler — a genuine placeholder that can stand in for almost any noun or verb the speaker can't retrieve, as well as a pure hesitation sound. Ubiquitous in speech, avoided in writing. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Add ide azt az izét! Nem, most nem izélek, dolgozom.</span><span class="en">Hand me that thingy! No, I'm not doing... that thing right now, I'm working.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="openers" class="fw-section">
+  <h2><span class="fw-cat-num">02</span> Beszédindítók <span class="fw-cat-en">&mdash; Conversation openers</span></h2>
+  <p class="fw-cat-intro">These sit at the very front of a sentence and signal that a response, a story, or a new thought is coming.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hát</span><span class="fw-en-equiv">&asymp; well… / so…</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;haht&rdquo;</div>
+      <p class="fw-usage">The single most frequent Hungarian filler. Opens almost any kind of sentence, hedging, softening, or simply buying time before the real content arrives. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Hát, nem is tudom, mit mondjak.</span><span class="en">Well, I don't really know what to say.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">nos</span><span class="fw-en-equiv">&asymp; well, then…</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nosh&rdquo;</div>
+      <p class="fw-usage">A more formal, almost literary cousin of <em>hát</em>. Common in interviews, presentations, and written dialogue rather than everyday chat. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Nos, kezdjük az elején.</span><span class="en">Well then, let's start from the beginning.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">na</span><span class="fw-en-equiv">&asymp; well / alright / c'mon</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah&rdquo;</div>
+      <p class="fw-usage">A short, punchy attention-getter or reaction word, often carrying mild impatience, resignation, or encouragement depending on tone. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Na, akkor induljunk.</span><span class="en">Alright then, let's get going.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">namost / na most</span><span class="fw-en-equiv">&asymp; now then / so now</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah-MOSHT&rdquo;</div>
+      <p class="fw-usage">Combines <em>na</em> and <em>most</em> ("now") to mark a transition — often used when moving from small talk to the actual point. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Namost, térjünk a tárgyra.</span><span class="en">Now then, let's get to the point.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hát akkor</span><span class="fw-en-equiv">&asymp; so then / well then</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;haht AH-kor&rdquo;</div>
+      <p class="fw-usage">A combination that signals a conclusion or a decision is coming after some back-and-forth. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Hát akkor, holnap találkozunk.</span><span class="en">So then, we'll meet tomorrow.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="connectors" class="fw-section">
+  <h2><span class="fw-cat-num">03</span> Logikai kötőszavak, töltelékként <span class="fw-cat-en">&mdash; Logical connectors used as filler</span></h2>
+  <p class="fw-cat-intro">These are "real" words with genuine logical meaning, but in fast speech they're often bleached into near-empty connectors — very close to how English overuses "basically" or "essentially." C1 learners should know both the literal and the filler use.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">szóval</span><span class="fw-en-equiv">&asymp; so / so basically</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;SOH-vahl&rdquo;</div>
+      <p class="fw-usage">Literally "with word(s)." The default way to summarize, restart a thought, or move a story forward — Hungarian's all-purpose "so." <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Szóval, ahogy mondtam, ma nem érek rá.</span><span class="en">So, like I said, I'm not free today.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">tehát</span><span class="fw-en-equiv">&asymp; so / therefore</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;TEH-haht&rdquo;</div>
+      <p class="fw-usage">A logical connector that sounds more organized than <em>szóval</em> — the "therefore" of casual "so." Common in lectures, arguments, and written prose. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">A bolt zárva van, tehát holnap kell visszamennünk.</span><span class="en">The shop is closed, so we'll have to go back tomorrow.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">eszerint</span><span class="fw-en-equiv">&asymp; according to this / so it seems</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;ES-eh-rint&rdquo;</div>
+      <p class="fw-usage">Literally "according to this." Used to draw a conclusion from what was just said — slightly more formal and precise than <em>szóval</em>. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Eszerint mégsem jön el.</span><span class="en">So it seems he's not coming after all.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">tulajdonképpen</span><span class="fw-en-equiv">&asymp; actually / strictly speaking</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;TOO-lai-don-kayp-pen&rdquo;</div>
+      <p class="fw-usage">Marks a correction, clarification, or a truth that's slightly different from what was implied — very close to English "actually" as a discourse marker. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Tulajdonképpen igazad van.</span><span class="en">Actually, you're right.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">voltaképpen</span><span class="fw-en-equiv">&asymp; in fact / essentially</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;VOAL-tah-kayp-pen&rdquo;</div>
+      <p class="fw-usage">A more literary sibling of <em>tulajdonképpen</em>, common in essays, journalism, and careful spoken argument. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Voltaképpen ugyanarról van szó.</span><span class="en">In fact, it's the same thing.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">lényegében</span><span class="fw-en-equiv">&asymp; essentially / basically</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;LAY-nyeg-eh-ben&rdquo;</div>
+      <p class="fw-usage">From <em>lényeg</em> ("essence"). Signals that what follows is a simplified, core version of a more complex reality. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Lényegében egyetértünk.</span><span class="en">We essentially agree.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">gyakorlatilag</span><span class="fw-en-equiv">&asymp; basically / practically</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;DYAH-kor-lah-tee-log&rdquo;</div>
+      <p class="fw-usage">Literally "practically speaking." Has drifted into filler territory among younger and educated speakers, much like English "basically" is overused today. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Gyakorlatilag kész vagyok, csak indulnom kell.</span><span class="en">I'm basically ready, I just need to head out.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="hedges" class="fw-section">
+  <h2><span class="fw-cat-num">04</span> Óvatossági szavak, finomítók <span class="fw-cat-en">&mdash; Hedges and softeners</span></h2>
+  <p class="fw-cat-intro">These soften a claim, signal uncertainty, or leave room for being wrong — an important register skill at C1, where sounding too blunt or too certain can feel unnatural in Hungarian conversation.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">mondjuk</span><span class="fw-en-equiv">&asymp; well, actually / let's say</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;MOAN-dyook&rdquo;</div>
+      <p class="fw-usage">Literally "let's say," from <em>mondani</em> (to say). As a genuine phrase it introduces an example; as a filler it softly introduces a counterpoint or afterthought. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Mondjuk, igazad is lehet.</span><span class="en">Well, actually, you might be right.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">gondolom</span><span class="fw-en-equiv">&asymp; I guess / I suppose</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;GON-doh-lom&rdquo;</div>
+      <p class="fw-usage">Literally "I think it." Softens a statement into a guess, often used when the speaker is fairly confident but wants to leave room for correction. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Gondolom, ezt te is tudtad.</span><span class="en">I guess you knew this too.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">valahogy</span><span class="fw-en-equiv">&asymp; somehow / kind of</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;VAH-lah-hoy&rdquo;</div>
+      <p class="fw-usage">Literally "somehow." Used to hedge a feeling or judgment that's hard to pin down precisely. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Ez valahogy furcsának tűnik.</span><span class="en">This somehow feels strange.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">bizonyos értelemben</span><span class="fw-en-equiv">&asymp; in a sense</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;BEE-zoh-nyosh EHR-teh-lem-ben&rdquo;</div>
+      <p class="fw-usage">A more academic hedge, used to qualify a claim as true only from a certain angle — common in essays, debates, and careful spoken argument. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Bizonyos értelemben mindketten igazat mondanak.</span><span class="en">In a sense, they're both telling the truth.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">amolyan</span><span class="fw-en-equiv">&asymp; a sort of / a kind of</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;AH-moh-lyahn&rdquo;</div>
+      <p class="fw-usage">Hedges a description that isn't quite exact — similar to "a sort of" before a noun in English. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Ez amolyan félig kész terv.</span><span class="en">It's a sort of half-finished plan.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">egyfajta</span><span class="fw-en-equiv">&asymp; a kind of / a type of</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;EDJ-fai-tah&rdquo;</div>
+      <p class="fw-usage">Very close to <em>amolyan</em>, literally "a kind of." Slightly more common in writing and careful speech. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Egyfajta megkönnyebbülést éreztem.</span><span class="en">I felt a kind of relief.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tags" class="fw-section">
+  <h2><span class="fw-cat-num">05</span> Megerősítést kereső szavak <span class="fw-cat-en">&mdash; Tag words and confirmation-seekers</span></h2>
+  <p class="fw-cat-intro">These invite the listener into the conversation, checking agreement or shared knowledge — a very Hungarian conversational habit that keeps dialogue feeling collaborative.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">ugye</span><span class="fw-en-equiv">&asymp; right? / isn't it / you know</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;OO-dyeh&rdquo;</div>
+      <p class="fw-usage">A tag word seeking agreement or confirmation, like English "right?" — but also dropped mid-sentence just to keep the listener engaged, with no direct English equivalent in that position. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Te is jössz a buliba, ugye?</span><span class="en">You're coming to the party too, right?</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">tudod</span><span class="fw-en-equiv">&asymp; you know</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;TOO-dohd&rdquo;</div>
+      <p class="fw-usage">Literally "you know" (from <em>tudni</em>, to know). Used exactly like the English filler — checking the listener is following, or softening a personal remark. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Tudod, nem is olyan egyszerű ez az egész.</span><span class="en">You know, this whole thing isn't so simple.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">na ugye</span><span class="fw-en-equiv">&asymp; see, right? / told you</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah OO-dyeh&rdquo;</div>
+      <p class="fw-usage">Combines <em>na</em> and <em>ugye</em> into a satisfied "I told you so" — used when something confirms what the speaker predicted. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Na ugye, megmondtam, hogy esni fog!</span><span class="en">See, right? I told you it would rain!</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="approximators" class="fw-section">
+  <h2><span class="fw-cat-num">06</span> Elnagyoló, listát lezáró kifejezések <span class="fw-cat-en">&mdash; Approximators and trailing expressions</span></h2>
+  <p class="fw-cat-intro">These trail off a list or a description rather than finishing it precisely — Hungarian's answer to English "and stuff," "or whatever," and "etc."</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">meg minden</span><span class="fw-en-equiv">&asymp; and everything / and all that</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;meg MIN-den&rdquo;</div>
+      <p class="fw-usage">Tacked onto the end of a list to imply there's more, unspecified, similar content. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Vittünk sátrat, hálózsákot, meg minden.</span><span class="en">We brought a tent, a sleeping bag, and everything.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">meg ilyenek</span><span class="fw-en-equiv">&asymp; and such things / and stuff like that</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;meg EE-lyen-ek&rdquo;</div>
+      <p class="fw-usage">Very close to <em>meg minden</em>, literally "and such ones." <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Szeretek főzni, sütni, meg ilyenek.</span><span class="en">I like cooking, baking, and stuff like that.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">vagy ilyesmi</span><span class="fw-en-equiv">&asymp; or something like that</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;vaj EE-lyesh-mee&rdquo;</div>
+      <p class="fw-usage">Softens a guess or an approximate description, similar to English "or something." <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Azt hiszem, orvos vagy ilyesmi.</span><span class="en">I think he's a doctor or something like that.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">vagy mi</span><span class="fw-en-equiv">&asymp; or whatever</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;vaj mee&rdquo;</div>
+      <p class="fw-usage">A blunter, more dismissive version of <em>vagy ilyesmi</em> — literally "or what." <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Menjünk moziba, vagy mi.</span><span class="en">Let's go to the movies, or whatever.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">ilyesmi</span><span class="fw-en-equiv">&asymp; something like this/that</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;EE-lyesh-mee&rdquo;</div>
+      <p class="fw-usage">A standalone approximator, often closing a description that the speaker doesn't want to spell out fully. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Egy kis félreértés történt, ilyesmi.</span><span class="en">There was a small misunderstanding, something like that.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">satöbbi (stb.)</span><span class="fw-en-equiv">&asymp; etcetera</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;SHAH-teub-bee&rdquo;</div>
+      <p class="fw-usage">The written-friendly "etc." — less a spoken filler and more a list-closer used in both speech and writing, unlike the more casual options above. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Kell hozzá liszt, cukor, tojás, satöbbi.</span><span class="en">You need flour, sugar, eggs, etcetera.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="reformulation" class="fw-section">
+  <h2><span class="fw-cat-num">07</span> Újrafogalmazó kifejezések <span class="fw-cat-en">&mdash; Reformulation markers</span></h2>
+  <p class="fw-cat-intro">These buy time while the speaker searches for a better way to say something, or flag that a phrase is deliberately loose. Several of them — <em>úgymond</em>, <em>mondhatni</em> — are common in more formal or written C1-level Hungarian.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hogy is mondjam</span><span class="fw-en-equiv">&asymp; how should I put it</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;hoy ish MOAN-dyahm&rdquo;</div>
+      <p class="fw-usage">A classic stalling phrase used while searching for the right word, especially before saying something delicate. Pairs naturally with <em>hát</em> or <em>izé</em>. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Ő, hogy is mondjam, kicsit különc.</span><span class="en">He is, how should I put it, a bit eccentric.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hogy úgy mondjam</span><span class="fw-en-equiv">&asymp; so to speak</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;hoy oog MOAN-dyahm&rdquo;</div>
+      <p class="fw-usage">Literally "so that I put it that way." Marks a phrase as figurative or slightly unusual, much like English "so to speak." <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">A projekt, hogy úgy mondjam, hajszálon múlt.</span><span class="en">The project, so to speak, hung by a thread.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">úgymond</span><span class="fw-en-equiv">&asymp; so to speak / as it were</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;OOG-moand&rdquo;</div>
+      <p class="fw-usage">A single-word, more literary equivalent of <em>hogy úgy mondjam</em> — very common in essays, journalism, and formal speech. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">A cég, úgymond, új korszakba lépett.</span><span class="en">The company has, so to speak, entered a new era.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">mondhatni</span><span class="fw-en-equiv">&asymp; one might say / you could say</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;MOND-haht-nee&rdquo;</div>
+      <p class="fw-usage">Literally "one can say." Marks a slightly bold or figurative claim as reasonable, often in written or semi-formal Hungarian. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">A film, mondhatni, korszakalkotó volt.</span><span class="en">The film was, one might say, groundbreaking.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">jobban mondva</span><span class="fw-en-equiv">&asymp; or rather / to put it better</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;YOB-bahn MOND-vah&rdquo;</div>
+      <p class="fw-usage">Used to correct or sharpen a previous statement mid-sentence — "or rather" in English. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Sietnünk kell, jobban mondva, most azonnal indulnunk kell.</span><span class="en">We need to hurry — or rather, we need to leave right now.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="shifters" class="fw-section">
+  <h2><span class="fw-cat-num">08</span> Témaváltó kifejezések <span class="fw-cat-en">&mdash; Topic shifters</span></h2>
+  <p class="fw-cat-intro">These signal a turn in the conversation — a new topic, an aside, or a return to the main thread.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">amúgy</span><span class="fw-en-equiv">&asymp; by the way / anyway</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;AH-mooj&rdquo;</div>
+      <p class="fw-usage">Used to change topics, add an aside, or steer a conversation back on track — the Hungarian cousin of "anyway" or "by the way." <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Amúgy, láttad már az új filmet?</span><span class="en">By the way, have you seen the new film yet?</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">egyébként</span><span class="fw-en-equiv">&asymp; by the way / incidentally</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;EH-djeb-kent&rdquo;</div>
+      <p class="fw-usage">A slightly more formal alternative to <em>amúgy</em>, common in both speech and writing. <span class="fw-tag formal">formal</span></p>
+      <div class="fw-example"><span class="hu">Egyébként köszönöm a segítséget.</span><span class="en">By the way, thank you for the help.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">apropó</span><span class="fw-en-equiv">&asymp; speaking of which</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;AH-proh-poh&rdquo;</div>
+      <p class="fw-usage">Borrowed from French <em>à propos</em>. Introduces a topic triggered by something just mentioned. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Apropó utazás, foglaltál már jegyet?</span><span class="en">Speaking of the trip, have you booked a ticket yet?</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="closers" class="fw-section">
+  <h2><span class="fw-cat-num">09</span> Lezáró, belenyugvó kifejezések <span class="fw-cat-en">&mdash; Closing and resignation markers</span></h2>
+  <p class="fw-cat-intro">These wrap up a topic, concede a point, or signal that the speaker is moving on, sometimes with a hint of reluctance.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">na jó</span><span class="fw-en-equiv">&asymp; well, okay / fine then</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah yoh&rdquo;</div>
+      <p class="fw-usage">A soft concession — closing off a topic or grudgingly agreeing, similar to sighing "well, okay" or "fine" in English. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Na jó, legyen a te igazad.</span><span class="en">Alright, fine, have it your way.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">na mindegy</span><span class="fw-en-equiv">&asymp; anyway, never mind</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah MIN-degy&rdquo;</div>
+      <p class="fw-usage">Signals the speaker is dropping a point rather than pursuing it further. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Na mindegy, majd holnap megbeszéljük.</span><span class="en">Anyway, never mind, we'll talk about it tomorrow.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">hát azért</span><span class="fw-en-equiv">&asymp; well, because… / still</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;haht AH-zairt&rdquo;</div>
+      <p class="fw-usage">Introduces a mild but unresolved objection — the speaker concedes a point while still holding onto a reservation. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Hát azért ez elég furcsa döntés volt.</span><span class="en">Well, still, that was a pretty strange decision.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="reactions" class="fw-section">
+  <h2><span class="fw-cat-num">10</span> Reakciószavak, indulatszók <span class="fw-cat-en">&mdash; Reaction words and interjections</span></h2>
+  <p class="fw-cat-intro">Short, reflexive words that react to what was just said — agreement, mild surprise, or pushback.</p>
+  <div class="fw-card-grid">
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">persze</span><span class="fw-en-equiv">&asymp; of course / sure</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;PEHR-seh&rdquo;</div>
+      <p class="fw-usage">A genuine word ("of course") that also works as a quick filler of agreement, often used to fill a beat before continuing. <span class="fw-tag neutral">neutral</span></p>
+      <div class="fw-example"><span class="hu">Persze, hát ez világos.</span><span class="en">Of course, well, that's obvious.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">jé</span><span class="fw-en-equiv">&asymp; oh! / huh, look at that</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;yay&rdquo;</div>
+      <p class="fw-usage">A short interjection of mild surprise, often at something small and unexpected. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Jé, de rég láttalak!</span><span class="en">Oh! It's been so long since I've seen you!</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">ja / hát ja</span><span class="fw-en-equiv">&asymp; oh, yeah / right, yeah</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;yah / haht yah&rdquo;</div>
+      <p class="fw-usage">A casual acknowledgment, often marking that the speaker just remembered or realized something. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Ja, tényleg, elfelejtettem szólni.</span><span class="en">Oh, right, I forgot to mention it.</span></div>
+    </div>
+    <div class="fw-word-card">
+      <div class="top"><span class="fw-hu-word">na ne már</span><span class="fw-en-equiv">&asymp; come on now / you're kidding</span></div>
+      <div class="fw-pron">pronounced roughly &ldquo;nah neh mahr&rdquo;</div>
+      <p class="fw-usage">An informal reaction of mild disbelief or protest — closer to English "come on" than to a true filler, but extremely common in spoken Hungarian. <span class="fw-tag casual">casual</span></p>
+      <div class="fw-example"><span class="hu">Na ne már, ezt most komolyan mondod?</span><span class="en">Come on now, are you serious?</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="dialogue" class="fw-section">
+  <h2><span class="fw-cat-num">&#9679;</span> Minta-párbeszéd <span class="fw-cat-en">&mdash; Sample dialogue</span></h2>
+  <p class="fw-cat-intro">A short, casual exchange showing many of these words layered together the way they actually occur in speech — natives rarely use just one at a time.</p>
+  <div class="fw-dialogue">
+    <p><span class="speaker">Kata:</span> <span class="filler">Hát</span>, nem is tudom, <span class="filler">izé</span>, elmenjünk-e ma este.</p>
+    <p class="en-line">Well, I don't know, um, if we should go out tonight.</p>
+    <p><span class="speaker">Peti:</span> <span class="filler">Szóval</span> te nem akarsz jönni, <span class="filler">ugye</span>?</p>
+    <p class="en-line">So you don't want to come, right?</p>
+    <p><span class="speaker">Kata:</span> <span class="filler">Mondjuk</span>, fáradt vagyok, de <span class="filler">na jó</span>, menjünk.</p>
+    <p class="en-line">Well actually, I'm tired, but fine, let's go.</p>
+    <p><span class="speaker">Peti:</span> <span class="filler">Na</span>, ez az! <span class="filler">Amúgy</span>, <span class="filler">tudod</span>, ismered az új helyet a sarkon?</p>
+    <p class="en-line">Alright, that's the spirit! By the way, you know, do you know the new place on the corner?</p>
+    <p><span class="speaker">Kata:</span> <span class="filler">Hogy is mondjam</span>… <span class="filler">gyakorlatilag</span> minden nap arra járok, <span class="filler">meg minden</span>.</p>
+    <p class="en-line">How should I put it… I basically walk by there every day, and everything.</p>
+    <p><span class="speaker">Peti:</span> <span class="filler">Na ne már</span>, ezt eddig miért nem mondtad?!</p>
+    <p class="en-line">Come on now, why didn't you say so before?!</p>
+  </div>
+</section>
+
+<section id="style" class="fw-section">
+  <h2><span class="fw-cat-num">&#9679;</span> Regiszter és stílus <span class="fw-cat-en">&mdash; Register and style at C1</span></h2>
+  <div class="fw-style-note">
+    <h4>Spoken vs. written Hungarian</h4>
+    <p>Most of the words above belong to <strong>spoken</strong> Hungarian and should be avoided in formal writing (essays, official letters, reports). A handful — <em>úgymond</em>, <em>mondhatni</em>, <em>tulajdonképpen</em>, <em>voltaképpen</em>, <em>lényegében</em>, <em>bizonyos értelemben</em> — cross over comfortably into semi-formal and even academic writing, which makes them especially valuable at C1: they let you hedge and reformulate in an essay the way a native writer would, rather than leaning on English-influenced phrasing.</p>
+    <h4>Stacking fillers</h4>
+    <p>Notice in the dialogue above that speakers rarely use a single filler at a time — <em>hát, izé</em> or <em>hogy is mondjam… gyakorlatilag</em> pile up naturally. As a learner, resist the urge to stack more than two; native-like stacking comes with exposure, and overdoing it early can sound like stalling rather than natural hesitation.</p>
+    <h4>Regional and generational variation</h4>
+    <p>Some fillers skew younger or more urban (<em>gyakorlatilag</em>, <em>amolyan</em> as a filler), while others are heard across all generations (<em>hát</em>, <em>szóval</em>, <em>na</em>). Formal markers like <em>voltaképpen</em> and <em>úgymond</em> are more common among educated, Budapest-influenced speech and in the media than in casual small-town conversation — worth bearing in mind if you're modeling your Hungarian on a specific speaker or region.</p>
+  </div>
+</section>
+
+<section id="quickref" class="fw-section">
+  <h2><span class="fw-cat-num">&#9679;</span> Gyors áttekintő táblázat <span class="fw-cat-en">&mdash; Quick reference table</span></h2>
+  <p class="fw-cat-intro">All 47 words at a glance, for review.</p>
+  <table class="fw-quick-ref">
+    <thead><tr><th>Hungarian</th><th>English equivalent</th><th>Register</th><th>Category</th></tr></thead>
+    <tbody>
+      <tr><td class="fw-qr-hu">ő…</td><td>uh…</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Tiszta hezitációs hangok</td></tr>
+      <tr><td class="fw-qr-hu">öö</td><td>um…</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Tiszta hezitációs hangok</td></tr>
+      <tr><td class="fw-qr-hu">hm / hmm</td><td>hmm</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Tiszta hezitációs hangok</td></tr>
+      <tr><td class="fw-qr-hu">khm</td><td>ahem</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Tiszta hezitációs hangok</td></tr>
+      <tr><td class="fw-qr-hu">izé</td><td>thingy / whatchamacallit / um</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Tiszta hezitációs hangok</td></tr>
+      <tr><td class="fw-qr-hu">hát</td><td>well… / so…</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Beszédindítók</td></tr>
+      <tr><td class="fw-qr-hu">nos</td><td>well, then…</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Beszédindítók</td></tr>
+      <tr><td class="fw-qr-hu">na</td><td>well / alright / c'mon</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Beszédindítók</td></tr>
+      <tr><td class="fw-qr-hu">namost / na most</td><td>now then / so now</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Beszédindítók</td></tr>
+      <tr><td class="fw-qr-hu">hát akkor</td><td>so then / well then</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Beszédindítók</td></tr>
+      <tr><td class="fw-qr-hu">szóval</td><td>so / so basically</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">tehát</td><td>so / therefore</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">eszerint</td><td>according to this / so it seems</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">tulajdonképpen</td><td>actually / strictly speaking</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">voltaképpen</td><td>in fact / essentially</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">lényegében</td><td>essentially / basically</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">gyakorlatilag</td><td>basically / practically</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Logikai kötőszavak, töltelékként</td></tr>
+      <tr><td class="fw-qr-hu">mondjuk</td><td>well, actually / let's say</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">gondolom</td><td>I guess / I suppose</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">valahogy</td><td>somehow / kind of</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">bizonyos értelemben</td><td>in a sense</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">amolyan</td><td>a sort of / a kind of</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">egyfajta</td><td>a kind of / a type of</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Óvatossági szavak, finomítók</td></tr>
+      <tr><td class="fw-qr-hu">ugye</td><td>right? / isn't it / you know</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Megerősítést kereső szavak</td></tr>
+      <tr><td class="fw-qr-hu">tudod</td><td>you know</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Megerősítést kereső szavak</td></tr>
+      <tr><td class="fw-qr-hu">na ugye</td><td>see, right? / told you</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Megerősítést kereső szavak</td></tr>
+      <tr><td class="fw-qr-hu">meg minden</td><td>and everything / and all that</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">meg ilyenek</td><td>and such things / and stuff like that</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">vagy ilyesmi</td><td>or something like that</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">vagy mi</td><td>or whatever</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">ilyesmi</td><td>something like this/that</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">satöbbi (stb.)</td><td>etcetera</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Elnagyoló, listát lezáró kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">hogy is mondjam</td><td>how should I put it</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Újrafogalmazó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">hogy úgy mondjam</td><td>so to speak</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Újrafogalmazó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">úgymond</td><td>so to speak / as it were</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Újrafogalmazó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">mondhatni</td><td>one might say / you could say</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Újrafogalmazó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">jobban mondva</td><td>or rather / to put it better</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Újrafogalmazó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">amúgy</td><td>by the way / anyway</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Témaváltó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">egyébként</td><td>by the way / incidentally</td><td><span class="fw-tag formal">formal</span></td><td class="fw-qr-cat">Témaváltó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">apropó</td><td>speaking of which</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Témaváltó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">na jó</td><td>well, okay / fine then</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Lezáró, belenyugvó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">na mindegy</td><td>anyway, never mind</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Lezáró, belenyugvó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">hát azért</td><td>well, because… / still</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Lezáró, belenyugvó kifejezések</td></tr>
+      <tr><td class="fw-qr-hu">persze</td><td>of course / sure</td><td><span class="fw-tag neutral">neutral</span></td><td class="fw-qr-cat">Reakciószavak, indulatszók</td></tr>
+      <tr><td class="fw-qr-hu">jé</td><td>oh! / huh, look at that</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Reakciószavak, indulatszók</td></tr>
+      <tr><td class="fw-qr-hu">ja / hát ja</td><td>oh, yeah / right, yeah</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Reakciószavak, indulatszók</td></tr>
+      <tr><td class="fw-qr-hu">na ne már</td><td>come on now / you're kidding</td><td><span class="fw-tag casual">casual</span></td><td class="fw-qr-cat">Reakciószavak, indulatszók</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="tips" class="fw-section">
+  <h2><span class="fw-cat-num">&#9679;</span> Tanácsok a természetes használathoz <span class="fw-cat-en">&mdash; Tips for sounding natural</span></h2>
+  <div class="fw-tips">
+    <ul>
+      <li><strong>Build outward from the essentials.</strong> If you only add three, make them <em>hát</em>, <em>szóval</em>, and <em>ugye</em> — they're neutral, extremely frequent, and hard to overuse.</li>
+      <li><strong>Match register to context.</strong> Save <em>izé</em>, <em>na</em>, <em>na jó</em>, and <em>na ne már</em> for friends and casual settings; reach for <em>tehát</em>, <em>voltaképpen</em>, and <em>úgymond</em> in presentations, interviews, or essays.</li>
+      <li><strong>Use hedges to sound more Hungarian, not less confident.</strong> Words like <em>mondjuk</em>, <em>gondolom</em>, and <em>bizonyos értelemben</em> are not signs of weak language skills — native speakers use them constantly to sound thoughtful rather than blunt.</li>
+      <li><strong>Don't overload one sentence.</strong> Native speakers space fillers out; stacking three or four in a row can sound like you're stalling rather than speaking naturally.</li>
+      <li><strong>Read and listen actively.</strong> Interviews, podcasts, and talk shows are full of the formal-register markers (<em>tulajdonképpen</em>, <em>lényegében</em>, <em>mondhatni</em>); everyday conversation and vlogs are better for the casual set (<em>izé</em>, <em>na</em>, <em>meg minden</em>).</li>
+      <li><strong>Use <em>ugye</em> to sound engaged.</strong> Dropping it into a sentence signals you expect the listener to agree or already know what you mean — a very Hungarian conversational habit that has no single English equivalent.</li>
+      <li><strong>In writing, prune ruthlessly.</strong> Even the formal-register words should be used sparingly in essays — one or two per page is natural; more starts to read as padding, exactly as overusing "basically" or "essentially" would in English academic writing.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<div class="motif meadow"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+</body>
+</html>
