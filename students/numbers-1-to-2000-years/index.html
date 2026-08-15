@@ -654,17 +654,6 @@ function toggleNum(n, card) {
   playAudio(n, numbers[n-1].hu);
   card.classList.add('playing');
   setTimeout(() => card.classList.remove('playing'), 1200);
-
-  const panel = document.getElementById('detail-panel');
-  if (currentNum === n && panel.classList.contains('open')) {
-    panel.classList.remove('open');
-    document.querySelectorAll('.num-card').forEach(c => c.classList.remove('playing'));
-    currentNum = null;
-    return;
-  }
-  currentNum = n;
-  openPanel(n);
-  setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'start' }), 80);
 }
 
 function openPanel(n) {
