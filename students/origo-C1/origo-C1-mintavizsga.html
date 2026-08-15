@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORIGO C1 mintavizsga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf6ee;
+    --paper-line:#e4dbc8;
+    --ink:#242019;
+    --ink-soft:#5c5546;
+    --red:#a83a2f;
+    --red-soft:#f3e2de;
+    --green:#2f6b4f;
+    --green-soft:#e1ede4;
+    --gold:#b8902e;
+    --card:#ffffff;
+    --shadow: 0 1px 2px rgba(36,32,25,.06), 0 8px 24px rgba(36,32,25,.06);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image: repeating-linear-gradient(transparent, transparent 39px, var(--paper-line) 40px);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.55;
+    padding:0 0 100px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* HERO */
+  header.hero{
+    padding:52px 24px 30px;
+    border-bottom:3px double var(--ink);
+    margin-bottom:20px;
+    background:var(--paper);
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--red); font-weight:700; margin:0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(28px,4vw,40px); margin:0 0 12px; letter-spacing:-.01em;
+  }
+  .subtitle{color:var(--ink-soft); font-size:16px; max-width:60ch; margin:0;}
+  .meta-row{display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; font-size:13.5px; color:var(--ink-soft);}
+  .meta-row span{border:1px solid var(--paper-line); border-radius:100px; padding:5px 12px; background:#fff;}
+
+  /* TOC nav */
+  nav.toc{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,246,238,.95);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+    padding:10px 24px;
+    display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
+    margin-bottom:36px;
+  }
+  nav.toc a{
+    font-size:12.5px; font-weight:700; color:var(--ink-soft);
+    text-decoration:none; padding:7px 13px; border-radius:100px;
+    border:1px solid transparent;
+  }
+  nav.toc a:hover{border-color:var(--paper-line); color:var(--ink);}
+
+  /* PART HEADER */
+  .part-head{
+    display:flex; align-items:baseline; gap:14px; margin:64px 0 6px;
+    scroll-margin-top:60px;
+  }
+  .part-num{
+    font-family:'Fraunces', serif; font-size:15px; color:var(--red); font-weight:700; letter-spacing:.04em;
+  }
+  .part-head h2{font-family:'Fraunces', serif; font-size:25px; font-weight:600; margin:0;}
+  .part-points{margin-left:auto; font-size:12.5px; color:var(--ink-soft); white-space:nowrap;}
+  .part-intro{color:var(--ink-soft); font-size:14.5px; margin:6px 0 24px; padding-bottom:18px; border-bottom:1px solid var(--paper-line);}
+
+  .section{margin-bottom:44px; scroll-margin-top:60px;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:6px;}
+  .section-num{font-family:'Fraunces', serif; font-size:14px; color:var(--red); font-weight:700; letter-spacing:.04em;}
+  .section h3{font-family:'Fraunces', serif; font-size:19px; font-weight:600; margin:0;}
+  .section-instructions{color:var(--ink-soft); font-size:14.5px; margin:6px 0 20px; padding-bottom:16px; border-bottom:1px solid var(--paper-line);}
+  .points-tag{margin-left:auto; font-size:12.5px; color:var(--ink-soft); white-space:nowrap;}
+
+  /* AUDIO */
+  .audio-card{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:22px;
+  }
+  .audio-card h4{font-family:'Fraunces', serif; font-size:16px; margin:0 0 12px; font-weight:600; display:flex; align-items:center; gap:10px;}
+  .play-count{
+    font-size:12px; font-weight:700; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--paper-line); border-radius:100px;
+    padding:3px 10px; margin-left:auto;
+  }
+  .play-count.exhausted{color:var(--red); border-color:var(--red);}
+  audio{width:100%;}
+  audio.locked{opacity:.45; pointer-events:none;}
+
+  /* STATEMENTS (TF) */
+  .statement{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:16px; box-shadow:var(--shadow);
+  }
+  .statement-text{flex:1; font-size:15px;}
+  .statement-num{font-family:'Fraunces', serif; color:var(--ink-soft); font-size:13px; width:20px; flex-shrink:0;}
+  .tf-toggle{display:flex; gap:6px; flex-shrink:0;}
+  .tf-btn{
+    font-size:13px; font-weight:600; border:1.5px solid var(--paper-line); background:#fff; color:var(--ink-soft);
+    border-radius:6px; padding:7px 14px; cursor:pointer; transition:all .12s ease; font-family:inherit;
+  }
+  .tf-btn:hover{border-color:var(--ink-soft);}
+  .tf-btn.on{background:var(--ink); border-color:var(--ink); color:#fff;}
+  .statement.correct{border-color:var(--green); box-shadow:0 0 0 1.5px var(--green) inset, var(--shadow);}
+  .statement.incorrect{border-color:var(--red); box-shadow:0 0 0 1.5px var(--red) inset, var(--shadow);}
+  .fb-note{font-size:12.5px; margin-top:6px; display:none; color:var(--red);}
+  .statement.incorrect .fb-note{display:block;}
+
+  /* CLOZE (text in paragraph with inputs/selects) */
+  .cloze-block{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:24px 26px; box-shadow:var(--shadow); font-size:16px; line-height:2.15;
+  }
+  .cloze-block select, .cloze-block input.blank{
+    font-family:'Source Sans 3', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+    border:none; border-bottom:2px solid var(--gold); background:#fbf4e3;
+    border-radius:4px 4px 0 0; padding:2px 8px; margin:0 2px; cursor:pointer;
+  }
+  .cloze-block input.blank{cursor:text; width:110px; text-align:center;}
+  .cloze-block select.correct, .cloze-block input.blank.correct{border-bottom-color:var(--green); background:var(--green-soft);}
+  .cloze-block select.incorrect, .cloze-block input.blank.incorrect{border-bottom-color:var(--red); background:var(--red-soft);}
+  .wordbank{margin-top:18px; padding-top:14px; border-top:1px dashed var(--paper-line); font-size:13px; color:var(--ink-soft);}
+  .wordbank strong{color:var(--ink);}
+
+  /* generic list-style fill-in for numbered sentences */
+  .fillcard{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:20px 22px; box-shadow:var(--shadow); margin-bottom:14px;
+  }
+  .fillcard .prompt{font-size:15px; margin-bottom:10px;}
+  .fillcard .prompt b{font-weight:700;}
+  .inline-inputs input.blank{
+    font-family:'Source Sans 3', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+    border:none; border-bottom:2px solid var(--gold); background:#fbf4e3;
+    border-radius:4px 4px 0 0; padding:3px 8px; margin:0 3px; width:130px; text-align:center;
+  }
+  .inline-inputs input.blank.correct{border-bottom-color:var(--green); background:var(--green-soft);}
+  .inline-inputs input.blank.incorrect{border-bottom-color:var(--red); background:var(--red-soft);}
+  .blank-fb{font-size:12px; color:var(--red); display:none; margin-top:6px;}
+  .blank-fb.show{display:block;}
+
+  /* MCQ wrong-answer picker */
+  .mcq{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;}
+  .mcq .prompt{font-size:15px; margin-bottom:12px; font-weight:600;}
+  .mcq-options{display:flex; flex-direction:column; gap:8px;}
+  .mcq-opt{
+    display:flex; align-items:center; gap:10px; font-size:14.5px;
+    border:1.5px solid var(--paper-line); border-radius:7px; padding:9px 13px; cursor:pointer; background:#fff;
+    transition:all .12s ease;
+  }
+  .mcq-opt:hover{border-color:var(--ink-soft);}
+  .mcq-opt.on{border-color:var(--ink); background:#f5f1e6;}
+  .mcq-opt .letter{font-weight:700; color:var(--ink-soft); width:18px;}
+  .mcq.correct .mcq-opt.on{border-color:var(--green); background:var(--green-soft);}
+  .mcq.incorrect .mcq-opt.on{border-color:var(--red); background:var(--red-soft);}
+  .mcq-fb{font-size:12.5px; color:var(--red); margin-top:8px; display:none;}
+  .mcq.incorrect .mcq-fb{display:block;}
+
+  /* Open / self-graded items */
+  .open-card{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:20px 22px; box-shadow:var(--shadow); margin-bottom:14px;}
+  .open-card .prompt{font-size:15px; margin-bottom:10px; font-weight:600;}
+  .open-card textarea, .open-card input.opentext{
+    width:100%; font-family:inherit; font-size:14.5px; padding:10px 12px;
+    border:1.5px solid var(--paper-line); border-radius:7px; resize:vertical; background:#fffdf8;
+  }
+  .open-card textarea{min-height:64px;}
+  .open-actions{display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap;}
+  .btn-sm{
+    font-size:13px; font-weight:700; border:1.5px solid var(--paper-line); background:#fff; color:var(--ink-soft);
+    border-radius:7px; padding:7px 14px; cursor:pointer; font-family:inherit;
+  }
+  .btn-sm:hover{color:var(--ink); border-color:var(--ink-soft);}
+  .sample-box{
+    display:none; margin-top:12px; padding:12px 14px; background:var(--green-soft);
+    border-left:3px solid var(--green); border-radius:4px; font-size:13.5px; color:#274b3a;
+  }
+  .sample-box.show{display:block;}
+  .self-grade{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-left:auto;}
+  .self-grade select{font-family:inherit; font-size:13px; padding:4px 8px; border-radius:6px; border:1.5px solid var(--paper-line);}
+  .self-note{font-size:11.5px; color:var(--ink-soft); font-style:italic;}
+
+  /* Letter writing */
+  .letter-topics{display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
+  .topic-btn{
+    flex:1; min-width:220px; text-align:left; background:var(--card); border:1.5px solid var(--paper-line);
+    border-radius:10px; padding:16px 18px; cursor:pointer; font-family:inherit; box-shadow:var(--shadow);
+  }
+  .topic-btn.active{border-color:var(--ink); background:#f5f1e6;}
+  .topic-btn h4{font-family:'Fraunces', serif; font-size:15.5px; margin:0 0 8px;}
+  .topic-btn ul{margin:0; padding-left:18px; font-size:13px; color:var(--ink-soft);}
+  .topic-btn li{margin-bottom:3px;}
+  .letter-card{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:22px 24px; box-shadow:var(--shadow);}
+  .letter-card textarea{width:100%; min-height:220px; font-family:inherit; font-size:15px; line-height:1.7; padding:14px; border:1.5px solid var(--paper-line); border-radius:8px; resize:vertical; background:#fffdf8;}
+  .letter-meta{display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12.5px; color:var(--ink-soft);}
+  .letter-meta.warn{color:var(--red); font-weight:700;}
+
+  /* Sorting / table classification */
+  .sort-wrap{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
+  .sort-pool, .sort-col{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); min-height:120px;}
+  .sort-pool h5, .sort-col h5{font-family:'Fraunces', serif; font-size:14px; margin:0 0 10px; font-weight:600; color:var(--ink-soft);}
+  .sort-item{
+    background:#fbf4e3; border:1.5px solid var(--gold); border-radius:7px; padding:8px 10px; margin-bottom:8px;
+    font-size:13.5px; cursor:grab; user-select:none;
+  }
+  .sort-item.correct{border-color:var(--green); background:var(--green-soft);}
+  .sort-item.incorrect{border-color:var(--red); background:var(--red-soft);}
+  .sort-col.drag-over{background:#f5f1e6;}
+  @media (max-width:640px){.sort-wrap{grid-template-columns:1fr;}}
+
+  /* Check bar per section */
+  .check-bar{display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap;}
+  .btn{font-weight:700; font-size:14px; border:none; border-radius:8px; padding:11px 20px; cursor:pointer; font-family:inherit; transition:transform .1s ease;}
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1.5px solid var(--paper-line); font-weight:700; font-size:13.5px; border-radius:8px; padding:10px 18px; cursor:pointer; font-family:inherit;}
+  .btn-ghost:hover{color:var(--ink); border-color:var(--ink-soft);}
+  .score-pill{font-size:13.5px; font-weight:700; padding:7px 15px; border-radius:100px; background:#fff; border:1.5px solid var(--paper-line);}
+
+  /* Global summary */
+  .final-summary{margin-top:70px; padding:40px 32px; text-align:center; background:var(--ink); color:var(--paper); border-radius:16px;}
+  .final-summary .big{font-family:'Fraunces', serif; font-size:58px; font-weight:700; line-height:1; margin-bottom:8px;}
+  .final-summary .big span{color:var(--gold); font-size:.5em;}
+  .final-summary p{color:#d8d2c4; margin:8px 0 0; font-size:14.5px;}
+  .breakdown{display:flex; justify-content:center; gap:22px; margin-top:22px; flex-wrap:wrap; font-size:13px; color:#c9c2ae;}
+  .breakdown b{color:#fff; display:block; font-size:16px; font-family:'Fraunces', serif;}
+  .final-summary .btn-ghost{margin-top:24px; border-color:#514c3f; color:#d8d2c4;}
+  .final-summary .btn-ghost:hover{color:#fff; border-color:#8a8368;}
+
+  footer{max-width:760px; margin:60px auto 0; padding:0 24px; font-size:12.5px; color:var(--ink-soft); text-align:center;}
+
+  @media (max-width:520px){
+    header.hero{padding:38px 20px 24px;}
+    .statement{flex-wrap:wrap;}
+    .tf-toggle{width:100%; justify-content:flex-end;}
+    .cloze-block{padding:18px 16px; font-size:15px; line-height:2.3;}
+    nav.toc{gap:4px; padding:8px 12px;}
+    nav.toc a{padding:6px 10px; font-size:11.5px;}
+  }
+</style></head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="padding:0;">
+    <p class="eyebrow">Magyar mint idegen nyelv · ORIGÓ · C1 felsőfok</p>
+    <h1>Mintavizsga — gyakorló</h1>
+    <p class="subtitle">A teljes írásbeli feladatsor és a hallott szövegértés egy oldalon. Oldja meg sorban az öt részt; a végén összesített pontszámot kap.</p>
+    <div class="meta-row">
+      <span>✎ 110 pont összesen</span>
+      <span>5 rész</span>
+      <span>🎧 hanganyagok max. 3× hallgathatók</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#nyelvismeret">I. Nyelvismeret</a>
+  <a href="#szovegertelmezes">II. Szövegértelmezés</a>
+  <a href="#fogalmazas">III. Fogalmazás</a>
+  <a href="#olvasas">IV. Olvasás</a>
+  <a href="#hallas">V. Hallás</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= I. NYELVISMERETI FELADATSOR ================= -->
+  <div class="part-head" id="nyelvismeret">
+    <span class="part-num">I. RÉSZ</span>
+    <h2>Nyelvismereti feladatsor</h2>
+    <span class="part-points">20 pont (40 egységből felezve)</span>
+  </div>
+  <p class="part-intro">Oldja meg az alábbi feladatokat!</p>
+
+  <section class="section" id="ny1">
+    <div class="section-head"><span class="section-num">1.</span><h3>Jelölje a helyes megoldást!</h3><span class="points-tag">10 pont</span></div>
+    <div class="mcq" id="ny1-1"><div class="prompt">1. … elmentél, itt nem változott semmi.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Mióta</div><div class="mcq-opt" data-letter="b">b. Mint</div>
+        <div class="mcq-opt" data-letter="c">c. Mire föl</div><div class="mcq-opt" data-letter="d">d. Amint</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. Mióta</b></div>
+    </div>
+    <div class="mcq" id="ny1-2"><div class="prompt">2. Azóta, … megismertem, mindig rá gondolok.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. minthogy</div><div class="mcq-opt" data-letter="b">b. mint</div>
+        <div class="mcq-opt" data-letter="c">c. hogy</div><div class="mcq-opt" data-letter="d">d. bár hogy</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>c. hogy</b></div>
+    </div>
+    <div class="mcq" id="ny1-3"><div class="prompt">3. … fogadjunk, hogy az Internazionale nyeri a mai meccset?</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Mihez</div><div class="mcq-opt" data-letter="b">b. Miről</div>
+        <div class="mcq-opt" data-letter="c">c. Mi</div><div class="mcq-opt" data-letter="d">d. Mibe</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>d. Mibe</b></div>
+    </div>
+    <div class="mcq" id="ny1-4"><div class="prompt">4. … , de a fiam nem hasonlít senkire.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Habár furcsa is</div><div class="mcq-opt" data-letter="b">b. Bármilyen furcsa is</div>
+        <div class="mcq-opt" data-letter="c">c. Bár furcsa is</div><div class="mcq-opt" data-letter="d">d. Bármilyen is furcsa</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. Bármilyen furcsa is</b></div>
+    </div>
+    <div class="mcq" id="ny1-5"><div class="prompt">5. … , hogy tévét néznél, inkább tanulnod kellene!</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Ahelyett</div><div class="mcq-opt" data-letter="b">b. Helyett</div>
+        <div class="mcq-opt" data-letter="c">c. Helyette</div><div class="mcq-opt" data-letter="d">d. Mihelyt</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. Ahelyett</b></div>
+    </div>
+    <div class="mcq" id="ny1-6"><div class="prompt">6. Azt kérték a gyerekek, … holnap az állatkertbe.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. megyünk el</div><div class="mcq-opt" data-letter="b">b. elmegyünk</div>
+        <div class="mcq-opt" data-letter="c">c. menjünk el</div><div class="mcq-opt" data-letter="d">d. elmenjünk</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>c. menjünk el</b></div>
+    </div>
+    <div class="mcq" id="ny1-7"><div class="prompt">7. … ideje, hogy hazamenjünk.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Legfőbb</div><div class="mcq-opt" data-letter="b">b. Nagy</div>
+        <div class="mcq-opt" data-letter="c">c. Fő</div><div class="mcq-opt" data-letter="d">d. Legjobb</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. Legfőbb</b></div>
+    </div>
+    <div class="mcq" id="ny1-8"><div class="prompt">8. … itt láttunk, sok jó ötletet meríthettünk.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Attól, amint</div><div class="mcq-opt" data-letter="b">b. Abból, amit</div>
+        <div class="mcq-opt" data-letter="c">c. Attól, amit</div><div class="mcq-opt" data-letter="d">d. Abból, amelyet</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. Abból, amit</b></div>
+    </div>
+    <div class="mcq" id="ny1-9"><div class="prompt">9. … jössz, szívesen látlak!</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Bár</div><div class="mcq-opt" data-letter="b">b. Valaha</div>
+        <div class="mcq-opt" data-letter="c">c. Amikor csak</div><div class="mcq-opt" data-letter="d">d. Valamikor</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>c. Amikor csak</b></div>
+    </div>
+    <div class="mcq" id="ny1-10"><div class="prompt">10. … is használni kell a biztonsági övet, aki hátul ül.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Neki</div><div class="mcq-opt" data-letter="b">b. Az</div>
+        <div class="mcq-opt" data-letter="c">c. Azért</div><div class="mcq-opt" data-letter="d">d. Annak</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>d. Annak</b></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(ny1Answers,'ny1-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny1-score">0 / 10</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny2">
+    <div class="section-head"><span class="section-num">2.</span><h3>Egészítse ki a mondatokat a zárójelben megadottak felhasználásával!</h3><span class="points-tag">5 pont</span></div>
+    <div class="fillcard">
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Bánatában" size="12"> elsírta magát. <i>(bánat)</i></div>
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Sértve" size="10"> érezte magát attól, amit hallott. <i>(sért)</i></div>
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Kézen" size="10"> fogva vezette kisfiát. <i>(kéz)</i></div>
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Nincs kihez" size="14"> fordulnom a problémáimmal. <i>(nincs ki)</i></div>
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Hetente" size="10"> hány alkalommal jársz úszni? <i>(hét)</i></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkGroup('ny2')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny2-score">0 / 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny3">
+    <div class="section-head"><span class="section-num">3.</span><h3>Kösse össze a mondatokat a megfelelő kötőszóval!</h3><span class="points-tag">5 pont</span></div>
+    <p class="section-instructions">Válassza ki, melyik kötőszópár illik az adott mondatba!</p>
+    <div id="ny3Items"></div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkNy3()">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny3-score">0 / 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny4">
+    <div class="section-head"><span class="section-num">4.</span><h3>Jelölje a helyes megoldást!</h3><span class="points-tag">5 pont</span></div>
+    <div class="mcq" id="ny4-1"><div class="prompt">Szegény, mint … .</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. a templom egere</div><div class="mcq-opt" data-letter="b">b. a ma született bárány</div>
+        <div class="mcq-opt" data-letter="c">c. aki kettőig sem tud számolni</div><div class="mcq-opt" data-letter="d">d. a kutya vacsorája</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. a templom egere</b></div>
+    </div>
+    <div class="mcq" id="ny4-2"><div class="prompt">… kellett körbejárni a tornatermet.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Négy láb</div><div class="mcq-opt" data-letter="b">b. Négy kéz</div>
+        <div class="mcq-opt" data-letter="c">c. Négy kéz és láb</div><div class="mcq-opt" data-letter="d">d. Négykézláb</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>d. Négykézláb</b></div>
+    </div>
+    <div class="mcq" id="ny4-3"><div class="prompt">… jobbkor nem jöhettél volna!</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. Soha</div><div class="mcq-opt" data-letter="b">b. Sohasem</div>
+        <div class="mcq-opt" data-letter="c">c. Sose</div><div class="mcq-opt" data-letter="d">d. Sem</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. Soha</b></div>
+    </div>
+    <div class="mcq" id="ny4-4"><div class="prompt">Nem igazi barát az, aki, ha baj van, … hagyja a társát.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. vajban</div><div class="mcq-opt" data-letter="b">b. cserben</div>
+        <div class="mcq-opt" data-letter="c">c. pechben</div><div class="mcq-opt" data-letter="d">d. szabadon</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. cserben</b></div>
+    </div>
+    <div class="mcq" id="ny4-5"><div class="prompt">Jobb ma egy … , mint holnap egy … .</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. véreb … túzok</div><div class="mcq-opt" data-letter="b">b. veréb … túzok</div>
+        <div class="mcq-opt" data-letter="c">c. túzok … galamb</div><div class="mcq-opt" data-letter="d">d. csirke … pulyka</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. veréb … túzok</b></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(ny4Answers,'ny4-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny4-score">0 / 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny5">
+    <div class="section-head"><span class="section-num">5.</span><h3>Alkosson tagadó mondatokat!</h3><span class="points-tag">5 pont</span></div>
+    <div class="fillcard">
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Nincs" size="10"> kedvem a hétvégén is dolgozni. <span style="color:#5c5546;font-size:12px;">(vagy: Semmi)</span></div>
+      <div class="prompt inline-inputs">István egy önző alak! Soha <input class="blank" data-ans="senkinek nem" size="14"> segít.</div>
+      <div class="prompt inline-inputs"><input class="blank" data-ans="Sem" size="8"> moziba, <input class="blank" data-ans="sem" size="8"> a barátaidhoz nem mehetsz, amíg nem írod meg a leckét.</div>
+      <div class="prompt inline-inputs">Egyest kaptál, ezért akkor <input class="blank" data-ans="sem" size="8"> mehetsz moziba, ha készen vagy a leckével.</div>
+      <div class="prompt inline-inputs">Fogalmam <input class="blank" data-ans="sincs" size="8"> róla, hogy honnan jött ez az ember.</div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkGroup('ny5')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny5-score">0 / 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny6">
+    <div class="section-head"><span class="section-num">6.</span><h3>Húzza alá a tartalmilag a szövegbe illő szót!</h3><span class="points-tag">5 pont</span></div>
+    <div class="mcq" id="ny6-1"><div class="prompt">… meg, hogy senkinek nem mondod el a titkunkat!</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">Esküdözz</div><div class="mcq-opt" data-letter="b">Esküdj</div>
+        <div class="mcq-opt" data-letter="c">Eskess</div><div class="mcq-opt" data-letter="d">Esdekelj</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>Esküdj</b></div>
+    </div>
+    <div class="mcq" id="ny6-2"><div class="prompt">… megmondtam neki, hogy ilyesmi többé nem fordulhat elő.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">Kerek-perec</div><div class="mcq-opt" data-letter="b">Derekasan</div>
+        <div class="mcq-opt" data-letter="c">Kerekdeden</div><div class="mcq-opt" data-letter="d">Tip-top</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>Kerek-perec</b></div>
+    </div>
+    <div class="mcq" id="ny6-3"><div class="prompt">… nézték az ókori romokat.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">Elalélva</div><div class="mcq-opt" data-letter="b">Álmélkodva</div>
+        <div class="mcq-opt" data-letter="c">Álmélva</div><div class="mcq-opt" data-letter="d">Álmélkodván</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>Álmélkodva</b></div>
+    </div>
+    <div class="mcq" id="ny6-4"><div class="prompt">A tűz lángja még … egyet, aztán kialudt.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">lobogott</div><div class="mcq-opt" data-letter="b">lobbant</div>
+        <div class="mcq-opt" data-letter="c">libbent</div><div class="mcq-opt" data-letter="d">lebbent</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>lobbant</b></div>
+    </div>
+    <div class="mcq" id="ny6-5"><div class="prompt">… megyünk a télből.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">Kinn</div><div class="mcq-opt" data-letter="b">Ki</div>
+        <div class="mcq-opt" data-letter="c">Kifelé</div><div class="mcq-opt" data-letter="d">Kívül</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>Kifelé</b></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(ny6Answers,'ny6-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny6-score">0 / 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny7">
+    <div class="section-head"><span class="section-num">7.</span><h3>Egészítse ki a mondatokat!</h3><span class="points-tag">5 pont</span></div>
+    <div class="fillcard">
+      <div class="prompt inline-inputs">– Ha megint <input class="blank" data-ans="meg" size="6">feledkezel magadról, és kiabálni kezdesz, nem állok veled többé <input class="blank" data-ans="szóba" size="8">!</div>
+      <div class="prompt inline-inputs">– Miért bántál olyan durván azzal az ismeretlennel?<br>– Azért kiabáltam <input class="blank" data-ans="rá" size="6">, mert durván <input class="blank" data-ans="meg,el,félre" size="8">lökött.</div>
+      <div class="prompt inline-inputs">Ha nem sietsz, <input class="blank" data-ans="le" size="6"> fogjuk késni a vonatot!</div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkGroup('ny7')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny7-score">0 / 5</span>
+    </div>
+  </section>
+
+  <!-- ================= II. SZÖVEGÉRTELMEZÉS ================= -->
+  <div class="part-head" id="szovegertelmezes">
+    <span class="part-num">II. RÉSZ</span>
+    <h2>Szövegértelmezés</h2>
+    <span class="part-points">20 pont · önértékelés</span>
+  </div>
+  <p class="part-intro">Az alábbi rövid hír elolvasása után fogalmazza meg véleményét az olvasott témáról! A fogalmazás terjedelme: 20–25 sor.</p>
+
+  <div class="letter-card">
+    <div class="prompt" style="font-weight:700; margin-bottom:10px;">Automata bevásárlókosár</div>
+    <p style="font-size:14.5px; color:var(--ink-soft); line-height:1.7; margin-bottom:16px;">
+      Két magyar diák elkészítette a Market Box elnevezésű automata bevásárlókosarat, amely a telefonfülke méretű szupermarket tartozéka lesz. Az új kerekes kosár monitorral lesz fölszerelve, és kórházakban, cégek folyosóin fogják elhelyezni. A vásárló a képernyőn megjelenő virtuális folyosón a virtuális árucikkek között haladva dönt, hogy mit óhajt megvásárolni, és milyen boltba kíván ezután betérni. Maguk az árucikkek nem kerülnek majd a kocsikba.<br>
+      Ezt a virtuális vásárlást követően valódi bankkártyával valódi kasszánál fizet. Ott megrendelheti, hogy mikor és hol legyen az áru.
+    </p>
+    <textarea id="opinionText" placeholder="Fejtse ki a véleményét (20–25 sor)…"></textarea>
+    <div class="letter-meta" id="opinionMeta">0 sor · ajánlott: 20–25 sor</div>
+    <div class="open-actions">
+      <button class="btn-sm" onclick="toggleSample(this,'opinionSample')">Minta fogalmazás mutatása</button>
+      <label class="self-grade">Önértékelés: <select id="opinionGrade">
+        <option value="0">– válasszon –</option>
+        <option value="20">Kiváló (20)</option>
+        <option value="16">Jó (16)</option>
+        <option value="12">Megfelelő (12)</option>
+        <option value="8">Gyenge (8)</option>
+        <option value="0">Nem írtam (0)</option>
+      </select></label>
+    </div>
+    <div class="sample-box" id="opinionSample">
+      A hír egy új vásárlási lehetőséget mutat be. A Market Box a számítástechnikai piac legújabb találmánya. Működése nagyon hasonló az internetes, on-line áruházakéhoz. Az on-line áruházak úgy működnek, hogy az áruház internetes oldalán regisztrálnunk kell magunkat, ezután beléphetünk a virtuális áruházba. Egy on-line áruházban kereshetünk a termékek fajtái szerint, például italok vagy kozmetikai cikkek között. A választott kategóriában újabb csoportokra kattinthatunk, például az ásványvizekre vagy a sörökre. A megjelenő listáról lehet terméket választani. De arra is van lehetőség, hogy konkrét terméket keressünk az áruházban. A termékek mellett megjelenik egy kosár, amibe jelképesen bele kell tenni a kiválasztott árukat. Fizetni többféleképpen lehet: bankszámlaszám megadásával vagy az áru kiszállításakor.<br><br>
+      A magyar diákok találmánya is ezen az elven működik. A különbség annyi, hogy a kosár monitorán keresztül lehet követni a termékeket, és nem lista alapján kell választani. Fizetni pedig személyesen kell. Felvetődik a kérdés, hogy miért kellett feltalálni egy újabb változatot. Miért ne lehetne továbbra is számítógépen keresztül intézni az ilyen jellegű vásárlásokat, ha nem akarunk elmenni a boltba. Miért jobb, ha a monitor helyett egy telefonfülke méretű virtuális boltban nézelődünk? A megoldás talán az lehet, hogy kórházakban és cégeknél akarják elhelyezni a Market Boxokat. Olyan helyeken tehát, ahol magánjellegű ügyek intézésére nem feltétlenül áll rendelkezésre személyi számítógép, internet-elérési lehetőség. Bár nem tudom, az idős betegek hogyan fogják tudni használni ezt a modern berendezést, és hogy egyáltalán megéri-e így vásárolniuk. Mindenképpen kényelmes megoldást kínál a Market Box, de én jobban szeretek egy igazi áruházban nézelődni, a kezembe venni az árukat, esetleg megnézem azt is, mit vesznek mások. Mindig sok dolgom van, de azért nem vagyok annyira elfoglalt ember, hogy boltba se tudjak menni.
+    </div>
+  </div>
+
+  <!-- ================= III. IRÁNYÍTOTT FOGALMAZÁS ================= -->
+  <div class="part-head" id="fogalmazas">
+    <span class="part-num">III. RÉSZ</span>
+    <h2>Irányított fogalmazás</h2>
+    <span class="part-points">20 pont · önértékelés</span>
+  </div>
+  <p class="part-intro">Válasszon ki egy témát, és írjon egy 20–25 soros levelet! Érintse az összes irányítási szempontot, és ügyeljen arra, hogy fogalmazása összefüggő legyen! Ne feledkezzen meg a levél szokásos kellékeiről sem (megszólítás, üdvözlés, dátum, aláírás)!</p>
+
+  <div class="letter-topics">
+    <button class="topic-btn active" onclick="selectTopic(this)">
+      <h4>I. téma</h4>
+      <ul>
+        <li>Egy rádióadásból értesült: több országban káromkodásmentes napot tartanak</li>
+        <li>Levelet ír a rádió szerkesztőségének</li>
+        <li>Véleménye a kezdeményezésről és esélyeiről</li>
+        <li>Saját tapasztalatai, megfigyelései környezetéről</li>
+        <li>Saját álláspontja: kell-e, szükséges-e, illik-e káromkodni</li>
+      </ul>
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this)">
+      <h4>II. téma</h4>
+      <ul>
+        <li>Magyarországon él, olvasott a bűncselekmények elszaporodásáról</li>
+        <li>Olvasói levelet ír a lapnak</li>
+        <li>Személyes tapasztalatai (pl. autólopás)</li>
+        <li>A maffia típusú bűnszövetkezetek elterjedésének okai, működési területei</li>
+        <li>A bűnözés hatása az idegenforgalomra, saját javaslatai</li>
+      </ul>
+    </button>
+  </div>
+
+  <div class="letter-card">
+    <textarea id="letterText" placeholder="Tisztelt Szerkesztőség!&#10;&#10;…&#10;&#10;Üdvözlettel,&#10;(Az Ön neve)"></textarea>
+    <div class="letter-meta" id="letterMeta">0 sor · ajánlott: 20–25 sor</div>
+    <div class="open-actions">
+      <button class="btn-sm" onclick="toggleSample(this,'letterSample1')">Minta levél (I. téma)</button>
+      <button class="btn-sm" onclick="toggleSample(this,'letterSample2')">Minta levél (II. téma)</button>
+      <label class="self-grade">Önértékelés: <select id="letterGrade">
+        <option value="0">– válasszon –</option>
+        <option value="20">Kiváló (20)</option>
+        <option value="16">Jó (16)</option>
+        <option value="12">Megfelelő (12)</option>
+        <option value="8">Gyenge (8)</option>
+        <option value="0">Nem írtam (0)</option>
+      </select></label>
+    </div>
+    <div class="sample-box" id="letterSample1">
+      Tisztelt Szerkesztőség!<br><br>
+      A tegnapi adásukból értesültem a külföldi kezdeményezésről. Nem tudom, hogy mennyire lehet sikeres és népszerű egy ilyen kezdeményezés, de ártani semmiképp sem árthat. Kétségtelen, hogy vannak nagyobb problémák a világban, de a bántó szavak és a gyűlölködés is komoly problémákat szülhetnek.<br>
+      Ha felszállok egy tömegközlekedési eszközre, ha bekapcsolom a tévét, vagy elolvasok egy internetes fórumot, mindenhol találkozom trágár kifejezésekkel. Meggyőződésem, hogy többé-kevésbé mindenki káromkodik nemtől, kortól és végzettségtől függetlenül. A káromkodás annyira jelen van a mindennapi életben, hogy szinte természetesnek tűnik, észre sem veszi az ember. Persze olykor megüti az ember fülét egy-egy durva kifejezés, főleg, ha egy kislány, vagy egy elegáns hölgy szájából hangzik el.<br>
+      Tinédzserkoromban én is sokat káromkodtam, mert követtem barátaim, kortársaim példáját, és persze hatással voltak rám kedvenc külföldi filmjeim és dalaim is. Sokszor hallottam, hogy magyarul igazán jól lehet káromkodni, de külföldi nyaralásaim és tanulmányaim során, és persze a külföldi médiából megtapasztaltam, hogy káromkodás tekintetében nincs igazán különbség a magyarországi és a külföldi fiatalok között.<br>
+      Amilyen könnyen szoktam rá a káromkodásra, olyan nehéz volt leszokni róla. Egyszer csak rádöbbentem, hogy a káromkodás nem olyan menő dolog, mint ahogy azt gondoltam, és hogy rossz benyomást keltek azokban, akiknek igazán számít a véleménye.<br>
+      Az alkalomnak megfelelő viselkedés részét képezi a megfelelő beszédmód is. Ne feledjük, a stílus maga az ember. Mint oly sok esetben, itt is a mértéktartást tartom a legfontosabbnak.<br><br>
+      Üdvözlettel,<br>Ilona
+    </div>
+    <div class="sample-box" id="letterSample2">
+      Tisztelt Szerkesztőség!<br><br>
+      Nagy érdeklődéssel olvastam múlt heti írásukat, amiben a bűnözés növekedéséről írtak. Sajnos erről én is szereztem tapasztalatokat.<br>
+      Már öt éve élek Magyarországon, és látom, hogy sokat változik az élet. Kár, hogy nem minden területen jó irányban. Pár hónapja ellopták az autómat. A ház előtt állt, be volt zárva, és a riasztót is bekapcsoltam. Mégis elvitték. Amikor észrevettem, hogy nincs ott a kocsi, bejelentettem a rendőrségen. Ott egyáltalán nem csodálkoztak. Kedvesen elmagyarázták, hogy egész maffiák foglalkoznak autólopással: megrendelés alapján kiválasztják az autót, ellopják, eltüntetik a motorszámot, és hamis rendszámmal és papírokkal átadják annak, aki megrendelte. A legtöbb lopott autót külföldre viszik.<br>
+      Én ezt nem értem. Ha a rendőrség ezt tudja, akkor miért nem akadályozzák meg a lopásokat? Miért nem fogják el a tolvajokat? Úgy hallottam, hogy főleg a Balaton mellett és a nagyvárosokban tűnnek el az autók. Lehet, hogy ezért csökken a turisták száma Magyarországon? Több rendőrnek kellene lenni kint az utcán, szigorúbban kellene büntetni a tolvajokat, a határokon pedig ellenőrizni kellene a kocsikat.<br>
+      Tudom, vannak más problémák is, a kábítószer, a prostitúció, a korrupció. A külföldieket azonban mégis leginkább az autólopások zavarják. Önök szerint mi a megoldás?<br><br>
+      Tisztelettel:<br>Willy Staal
+    </div>
+  </div>
+
+  <!-- ================= IV. OLVASOTT SZÖVEG ÉRTÉSE ================= -->
+  <div class="part-head" id="olvasas">
+    <span class="part-num">IV. RÉSZ</span>
+    <h2>Olvasott szöveg értése</h2>
+    <span class="part-points">20 pont</span>
+  </div>
+
+  <section class="section" id="ov-a">
+    <div class="section-head"><span class="section-num">IV/A</span><h3>A pánik természete és a menekülés esélyei</h3><span class="points-tag">10 pont</span></div>
+    <p class="section-instructions">Írjon <b>1</b>-es számot, ha az állítás a cikkben leírtakkal azonos tartalmú; <b>2</b>-est, ha ellentétes; <b>3</b>-ast, ha nincs szó erről! (A teljes olvasmány a feltöltött PDF-ben található.)</p>
+    <div id="ovaItems"></div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(ovaAnswers,'ova-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ova-score">0 / 10</span>
+    </div>
+  </section>
+
+  <section class="section" id="ov-b">
+    <div class="section-head"><span class="section-num">IV/B</span><h3>Arany János Tehetséggondozó Program</h3><span class="points-tag">10 pont</span></div>
+    <p class="section-instructions"><b>Feleljen röviden a kérdésekre!</b> (4 pont, önértékelés)</p>
+    <div class="open-card" data-max="2">
+      <div class="prompt">1. Milyen lényeges célokat szeretne elérni az Oktatási Minisztérium?</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></label>
+      </div>
+      <div class="sample-box">A hátrányos helyzetű, leszakadó térségek felzárkóztatását, a vidéki értelmiség megerősítését és az ott lakó gyermekek esélyeinek javítását.</div>
+    </div>
+    <div class="open-card" data-max="2">
+      <div class="prompt">2. Mire szolgál az úgynevezett „nulladik év”?</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></label>
+      </div>
+      <div class="sample-box">Főleg az idegen nyelvek, a műveltség és a számítástechnika területén való felzárkóztatásra, illetve a tanulók mentálhigiénés képzésére és személyiségfejlesztésére.</div>
+    </div>
+    <div class="check-bar">
+      <span class="self-note">Önértékelt pontok.</span>
+      <span class="score-pill" id="ovb1-score">0 / 4</span>
+    </div>
+
+    <p class="section-instructions" style="margin-top:22px;"><b>Válassza a helyes megoldást!</b> (6 pont)</p>
+    <div class="mcq" id="ovb2-1"><div class="prompt">1. A tanulók pénzbeli támogatást kapnak a….</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. minisztériumtól</div><div class="mcq-opt" data-letter="b">b. falusi önkormányzattól</div><div class="mcq-opt" data-letter="c">c. szponzoroktól</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. falusi önkormányzattól</b></div>
+    </div>
+    <div class="mcq" id="ovb2-2"><div class="prompt">2. A támogatás ... vonatkozik.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. a négyéves középiskolai oktatásra</div><div class="mcq-opt" data-letter="b">b. a nulladik évre és a négyéves középiskolai oktatásra</div><div class="mcq-opt" data-letter="c">c. a nulladik évre</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. a nulladik évre és a négyéves középiskolai oktatásra</b></div>
+    </div>
+    <div class="mcq" id="ovb2-3"><div class="prompt">3. A támogatási rendszer kb. 600 ... terjed ki.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. kistelepülésre</div><div class="mcq-opt" data-letter="b">b. iskolára</div><div class="mcq-opt" data-letter="c">c. hátrányos helyzetű gyerekre</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>c. hátrányos helyzetű gyerekre</b></div>
+    </div>
+    <div class="mcq" id="ovb2-4"><div class="prompt">4. A részletes programot márciusban ... .</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. kezdik el kidolgozni</div><div class="mcq-opt" data-letter="b">b. indítják el</div><div class="mcq-opt" data-letter="c">c. fejezik be</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>a. kezdik el kidolgozni</b></div>
+    </div>
+    <div class="mcq" id="ovb2-5"><div class="prompt">5. A Pest megyei gyerekek csak más megyékben vehetik igénybe a kedvezményeket, mert ...</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. nem maradt elegendő támogatási összeg</div><div class="mcq-opt" data-letter="b">b. túl jó körülmények között működő települések akarták igénybe venni a támogatást</div><div class="mcq-opt" data-letter="c">c. a támogatásból csak a fővárostól távoli települések részesülhetnek</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b.</b></div>
+    </div>
+    <div class="mcq" id="ovb2-6"><div class="prompt">6. A tehetséggondozó program nagy érdeklődést keltett: ... megyéből voltak jelentkezők.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">a. csaknem az összes</div><div class="mcq-opt" data-letter="b">b. minden</div><div class="mcq-opt" data-letter="c">c. főleg a kelet-magyarországi</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>b. minden</b></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(ovb2Answers,'ovb2-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ovb2-score">0 / 6</span>
+    </div>
+  </section>
+
+  <!-- ================= V. HALLOTT SZÖVEG ÉRTÉSE ================= -->
+  <div class="part-head" id="hallas">
+    <span class="part-num">V. RÉSZ</span>
+    <h2>Hallott szöveg értése</h2>
+    <span class="part-points">30 pont (16+14)</span>
+  </div>
+  <p class="part-intro">Mindkét hanganyag legfeljebb 3-szor hallgatható meg.</p>
+
+  <section class="section" id="h1">
+    <div class="section-head"><span class="section-num">1. szöveg</span><h3>Barics Ernő szótára</h3><span class="points-tag">16 pont</span></div>
+    <div class="audio-card">
+      <h4>🎧 1. szöveg <span class="play-count" id="pc1">3/3 lejátszás</span></h4>
+      <audio controls preload="metadata" id="audio1"><source src="c1_szoveg1.mp3" type="audio/mpeg"></audio>
+    </div>
+    <p class="section-instructions"><b>1. Töltse ki a táblázatot!</b> (14 pont, önértékelés)</p>
+    <div id="h1t1"></div>
+    <div class="check-bar">
+      <span class="self-note">Önértékelt pontok.</span>
+      <span class="score-pill" id="h1t1-score">0 / 14</span>
+    </div>
+
+    <p class="section-instructions" style="margin-top:22px;"><b>2. Melyik kifejezéssel jön létre igaz mondat?</b> (2 pont)</p>
+    <div class="mcq" id="h1t2-1"><div class="prompt">1. Barics Ernő ___ készített szótárt.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">eddig még nem</div><div class="mcq-opt" data-letter="b">már</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>már</b></div>
+    </div>
+    <div class="mcq" id="h1t2-2"><div class="prompt">2. A horvát és a magyar nyelv ___</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">közeli kapcsolatban van</div><div class="mcq-opt" data-letter="b">nincs közeli kapcsolatban</div>
+      </div><div class="mcq-fb">Helyes válasz: <b>nincs közeli kapcsolatban</b></div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="runMCQSet(h1t2Answers,'h1t2-score')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="h1t2-score">0 / 2</span>
+    </div>
+  </section>
+
+  <section class="section" id="h2">
+    <div class="section-head"><span class="section-num">2. szöveg</span><h3>Dr. Bodnár Gabriella</h3><span class="points-tag">14 pont</span></div>
+    <div class="audio-card">
+      <h4>🎧 2. szöveg <span class="play-count" id="pc2">3/3 lejátszás</span></h4>
+      <audio controls preload="metadata" id="audio2"><source src="c1_szoveg2.mp3" type="audio/mpeg"></audio>
+    </div>
+    <p class="section-instructions"><b>1. Igazak vagy hamisak az alábbi kijelentések?</b> (6 pont)</p>
+    <div id="h2t1"></div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkH2TF()">Feladat ellenőrzése</button>
+      <span class="score-pill" id="h2t1-score">0 / 6</span>
+    </div>
+
+    <p class="section-instructions" style="margin-top:22px;"><b>2. Töltse ki a táblázatot!</b> (8 pont, önértékelés)</p>
+    <div id="h2t2"></div>
+    <div class="check-bar">
+      <span class="self-note">Önértékelt pontok.</span>
+      <span class="score-pill" id="h2t2-score">0 / 8</span>
+    </div>
+  </section>
+
+  <!-- ================= GLOBAL SUMMARY ================= -->
+  <div class="check-bar" style="margin-top:40px;">
+    <button class="btn btn-primary" onclick="checkEverything()">Teljes vizsga ellenőrzése</button>
+    <button class="btn btn-ghost" onclick="location.reload()">Újrakezdés</button>
+  </div>
+
+  <div class="final-summary" id="finalSummary" style="display:none;">
+    <div class="big" id="finalScore">0<span>/110</span></div>
+    <p id="finalMsg">Nézze át a piros jelölésű válaszokat.</p>
+    <div class="breakdown" id="breakdown"></div>
+    <button class="btn-ghost" onclick="location.reload()">Új próbálkozás</button>
+  </div>
+
+</div>
+
+<footer>Forrás: ELTE ORIGÓ Nyelvi Centrum — Magyar mint idegen nyelv, C1 felsőfok, mintavizsga · gyakorló változat</footer>
+
+<script>
+/* ============ AUDIO PLAY LIMITER ============ */
+function limitPlays(audioId, pillId, maxPlays){
+  const audio = document.getElementById(audioId);
+  const pill = document.getElementById(pillId);
+  let plays = 0, counted = false;
+  audio.addEventListener('play', () => {
+    if (!counted){ plays++; counted = true; pill.textContent = (maxPlays-plays) + '/' + maxPlays + ' lejátszás hátra'; if (plays >= maxPlays) pill.classList.add('exhausted'); }
+    if (plays > maxPlays){ audio.pause(); audio.classList.add('locked'); }
+  });
+  audio.addEventListener('ended', () => { counted = false; });
+  audio.addEventListener('pause', () => { if (audio.currentTime > 0 && !audio.ended) counted = false; });
+}
+limitPlays('audio1','pc1',3);
+limitPlays('audio2','pc2',3);
+
+function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+
+/* ============ Fill-in-blank groups ============ */
+function checkGroup(prefix){
+  let correct = 0, total = 0;
+  document.querySelectorAll('#'+prefix+' input.blank').forEach(inp => {
+    total++; inp.classList.remove('correct','incorrect');
+    const answers = (inp.dataset.ans||'').split(',').map(norm);
+    if (answers.includes(norm(inp.value))){ inp.classList.add('correct'); correct++; }
+    else { inp.classList.add('incorrect'); }
+  });
+  document.getElementById(prefix+'-score').textContent = correct + ' / ' + total;
+  return {correct, total};
+}
+
+/* ============ Generic MCQ ============ */
+document.querySelectorAll('.mcq-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const group = opt.closest('.mcq');
+    group.querySelectorAll('.mcq-opt').forEach(o => o.classList.remove('on'));
+    opt.classList.add('on');
+    group.classList.remove('correct','incorrect');
+  });
+});
+const ny1Answers = {'ny1-1':'a','ny1-2':'c','ny1-3':'d','ny1-4':'b','ny1-5':'a','ny1-6':'c','ny1-7':'a','ny1-8':'b','ny1-9':'c','ny1-10':'d'};
+const ny4Answers = {'ny4-1':'a','ny4-2':'d','ny4-3':'a','ny4-4':'b','ny4-5':'b'};
+const ny6Answers = {'ny6-1':'b','ny6-2':'a','ny6-3':'b','ny6-4':'b','ny6-5':'c'};
+const ovb2Answers = {'ovb2-1':'b','ovb2-2':'b','ovb2-3':'c','ovb2-4':'a','ovb2-5':'b','ovb2-6':'b'};
+const h1t2Answers = {'h1t2-1':'b','h1t2-2':'b'};
+function runMCQSet(answerMap, scoreId){
+  let correct = 0; const ids = Object.keys(answerMap);
+  ids.forEach(id => {
+    const group = document.getElementById(id);
+    const chosen = group.querySelector('.mcq-opt.on');
+    group.classList.remove('correct','incorrect');
+    if (chosen && chosen.dataset.letter === answerMap[id]){ group.classList.add('correct'); correct++; }
+    else { group.classList.add('incorrect'); }
+  });
+  document.getElementById(scoreId).textContent = correct + ' / ' + ids.length;
+  return {correct, total: ids.length};
+}
+
+/* ============ I.3 connector matching ============ */
+const ny3Data = [
+  {text:"… ….. halogatta a válaszadást, amíg más kapta meg az állást.", ans:"addig"},
+  {text:"….. felveszed a kesztyűt, ….. nem, de most már indulnunk kell!", ans:"vagy"},
+  {text:"….. hiszed, ….. nem, felvettek az egyetemre.", ans:"akar"},
+  {text:"….. idősebb az ember, ….. több az élettapasztalata.", ans:"minel"},
+  {text:"….. itt bukkan fel, ….. ott. Én mindenesetre már régen nem láttam.", ans:"hol"},
+];
+const ny3Options = [
+  {v:"addig", l:"Addig-addig"},
+  {v:"vagy", l:"Vagy … vagy"},
+  {v:"akar", l:"Akár … akár"},
+  {v:"minel", l:"Minél … annál"},
+  {v:"hol", l:"Hol … hol"},
+];
+function buildNy3(){
+  const c = document.getElementById('ny3Items');
+  ny3Data.forEach((item, i) => {
+    const row = document.createElement('div');
+    row.className = 'fillcard';
+    row.id = 'ny3-'+i;
+    row.dataset.ans = item.ans;
+    row.innerHTML = `
+      <div class="prompt">${i+1}. ${item.text}</div>
+      <select class="ny3-select">
+        <option value="">— válasszon kötőszópárt —</option>
+        ${ny3Options.map(o => `<option value="${o.v}">${o.l}</option>`).join('')}
+      </select>
+    `;
+    c.appendChild(row);
+  });
+}
+buildNy3();
+function checkNy3(){
+  let correct = 0;
+  document.querySelectorAll('#ny3Items .fillcard').forEach(row => {
+    const sel = row.querySelector('select');
+    row.classList.remove('correct-row','incorrect-row');
+    sel.style.borderColor = '';
+    if (sel.value === row.dataset.ans){
+      correct++; sel.style.borderColor = 'var(--green)'; sel.style.background='var(--green-soft)';
+    } else {
+      sel.style.borderColor = 'var(--red)'; sel.style.background='var(--red-soft)';
+    }
+  });
+  document.getElementById('ny3-score').textContent = correct + ' / 5';
+  return {correct, total:5};
+}
+
+/* ============ Open / self-graded ============ */
+function toggleSample(btn, forceId){
+  let box;
+  if (forceId){ box = document.getElementById(forceId); }
+  else { box = btn.parentElement.parentElement.querySelector('.sample-box'); }
+  box.classList.toggle('show');
+}
+function sumOpenGroup(container){
+  let sum = 0, max = 0;
+  document.querySelectorAll('#'+container+' .open-card').forEach(card => {
+    const sel = card.querySelector('.self-select');
+    if (sel){ sum += parseInt(sel.value||0); max += parseInt(card.dataset.max||0); }
+  });
+  return {sum, max};
+}
+function refreshOpenScore(container, scoreId){
+  const r = sumOpenGroup(container);
+  document.getElementById(scoreId).textContent = r.sum + ' / ' + r.max;
+}
+['ov-b','h1t1'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', e => {
+    if (e.target.classList.contains('self-select')){
+      if (id === 'ov-b') refreshOpenScore('ov-b','ovb1-score');
+    }
+  });
+});
+
+/* ============ II / III letter & opinion meta ============ */
+function selectTopic(btn){
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function attachLineCounter(textareaId, metaId, min, max){
+  const el = document.getElementById(textareaId);
+  el.addEventListener('input', () => {
+    const lines = el.value.split('\n').filter(l => l.trim().length>0).length;
+    const meta = document.getElementById(metaId);
+    meta.textContent = lines + ' sor · ajánlott: ' + min + '–' + max + ' sor';
+    meta.classList.toggle('warn', lines>0 && (lines<min || lines>max));
+  });
+}
+attachLineCounter('opinionText','opinionMeta',20,25);
+attachLineCounter('letterText','letterMeta',20,25);
+
+/* ============ IV/A pánik cikk (1/2/3) ============ */
+const ovaData = [
+  "Eddig főleg társadalomtudósok foglalkoztak a pánikjelenséggel.",
+  "A közlekedési és építési szakemberek szerint az egyéneknek kiemelt szerepük van a pánik kialakulásában.",
+  "Vicsek Tamás megközelítésében az a szokatlan, hogy természettudományi módszereket alkalmaz társadalmi jelenségre.",
+  "Vizsgálati eredményeiket a valóságban ellenőrzik.",
+  "Veszélyhelyzetben az egyedek fizikai ereje megsokszorozódik.",
+  "Pánik esetén a legtöbb ember azt teszi, amit a többiektől lát.",
+  "A terelőkkel ellátott kijárat fokozza a kijutás nehézségét.",
+  "Ezeket a kutatási eredményeket már felhasználják a tervezésben.",
+  "Tömegben annak van esélye menekülésre, aki észreveszi a másik kijáratot.",
+  "A pánikmentesre tervezett utak és épületek megépítése hosszú távon megtérül.",
+];
+const ovaAnswerKey = ['1','2','1','2','3','1','2','3','3','1'];
+const ovaAnswers = {};
+function buildOva(){
+  const c = document.getElementById('ovaItems');
+  ovaData.forEach((text, i) => {
+    const id = 'ova-'+i;
+    ovaAnswers[id] = ovaAnswerKey[i];
+    const row = document.createElement('div');
+    row.className = 'mcq';
+    row.id = id;
+    row.innerHTML = `
+      <div class="prompt">${i+1}. ${text}</div>
+      <div class="mcq-options" style="flex-direction:row; gap:8px;">
+        <div class="mcq-opt" data-letter="1" style="flex:1;text-align:center;">1 (azonos)</div>
+        <div class="mcq-opt" data-letter="2" style="flex:1;text-align:center;">2 (ellentétes)</div>
+        <div class="mcq-opt" data-letter="3" style="flex:1;text-align:center;">3 (nincs szó)</div>
+      </div>
+    `;
+    c.appendChild(row);
+  });
+  document.querySelectorAll('#ovaItems .mcq-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const group = opt.closest('.mcq');
+      group.querySelectorAll('.mcq-opt').forEach(o => o.classList.remove('on'));
+      opt.classList.add('on');
+      group.classList.remove('correct','incorrect');
+    });
+  });
+}
+buildOva();
+
+/* ============ V.1/1 Barics Ernő táblázat – self-graded ============ */
+const h1t1Data = [
+  {q:"Barics Ernő szótárát a) … és b) … számára írta.", a:"a) kisebbségi önkormányzatok tagjai; b) a kétnyelvűek", max:2},
+  {q:"A szótárban azért szerepelnek új szavak, mert a) …, és b) …", a:"a) a rendszerváltozás után keletkeztek új fogalmak; b) olyan szavak is újra megjelentek, amiket korábban használt az irodalmi nyelv, de az utóbbi évtizedekben visszaszorították", max:4},
+  {q:"Barics Ernő szótárában nincs: a) …, és b) …", a:"a) kiejtési útmutató; b) nyelvtani útmutató", max:2},
+  {q:"Barics Ernő szótárában van (bármelyik 6 elég): két ország fontosabb statisztikai adatai / a 2 ország minisztériumai / a két ország pártjai / állami és egyházi ünnepek / a horvát kisebbségi önkormányzatok képviselőinek esküszövege / magyar települések horvát neve / étlapok / önéletrajz-minták", a:"(bármelyik 6 helyes válasz teljes pontot ér)", max:6},
+];
+function buildH1T1(){
+  const c = document.getElementById('h1t1');
+  h1t1Data.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'open-card';
+    card.dataset.max = item.max;
+    const optionsHtml = Array.from({length:item.max+1},(_,n)=>`<option value="${n}">${n}</option>`).join('');
+    card.innerHTML = `
+      <div class="prompt">${item.q}</div>
+      <textarea placeholder="Írja ide a válaszát…"></textarea>
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz</button>
+        <label class="self-grade">Pontozás: <select class="self-select">${optionsHtml}</select></label>
+      </div>
+      <div class="sample-box">${item.a}</div>
+    `;
+    c.appendChild(card);
+  });
+}
+buildH1T1();
+document.getElementById('h1t1').addEventListener('change', () => refreshOpenScore('h1t1','h1t1-score'));
+
+/* ============ V.2/1 Bodnár Gabriella TF ============ */
+const h2tfData = [
+  {text:"1. Dr. Bodnár Gabriella az egyetemen először pszichológus végzettséget szerzett.", answer:false},
+  {text:"2. Dr. Bodnár Gabriellától minden hallgató személyre szabott „receptet” kap problémái orvoslására.", answer:false},
+  {text:"3. Dr. Bodnár Gabriellához nemcsak személyesen fordulhatnak a kollégisták gondjaikkal.", answer:true},
+  {text:"4. Magyarországon az egyház ma már egyáltalán nem tud segíteni az életvezetési problémák megoldásában.", answer:false},
+  {text:"5. Magyarországon ma éppen azoknak nincs elegendő pénzük a kezelésre, akik leginkább rá lennének szorulva.", answer:true},
+  {text:"6. Dr. Bodnár Gabriella eredetileg szociális gondozónak készült.", answer:false},
+];
+let h2tfSel = new Array(h2tfData.length).fill(null);
+function buildH2TF(){
+  const c = document.getElementById('h2t1');
+  h2tfData.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'statement';
+    row.id = 'h2tf-'+i;
+    row.innerHTML = `
+      <span class="statement-num">${i+1}.</span>
+      <span class="statement-text">${s.text}
+        <div class="fb-note">Helyes válasz: <strong>${s.answer ? 'Igaz' : 'Hamis'}</strong></div>
+      </span>
+      <div class="tf-toggle">
+        <button class="tf-btn" onclick="selectH2TF(${i}, true)" id="h2tf-${i}-true">Igaz</button>
+        <button class="tf-btn" onclick="selectH2TF(${i}, false)" id="h2tf-${i}-false">Hamis</button>
+      </div>`;
+    c.appendChild(row);
+  });
+}
+function selectH2TF(i, val){
+  h2tfSel[i] = val;
+  document.getElementById('h2tf-'+i+'-true').classList.toggle('on', val === true);
+  document.getElementById('h2tf-'+i+'-false').classList.toggle('on', val === false);
+  document.getElementById('h2tf-'+i).classList.remove('correct','incorrect');
+}
+function checkH2TF(){
+  let correct = 0;
+  h2tfData.forEach((s, i) => {
+    const row = document.getElementById('h2tf-'+i);
+    row.classList.remove('correct','incorrect');
+    if (h2tfSel[i] === s.answer){ row.classList.add('correct'); correct++; }
+    else { row.classList.add('incorrect'); }
+  });
+  document.getElementById('h2t1-score').textContent = correct + ' / 6';
+  return {correct, total:6};
+}
+buildH2TF();
+
+/* ============ V.2/2 Bodnár Gabriella táblázat – self-graded ============ */
+const h2t2Data = [
+  {q:"Az emberek kapcsolatteremtés tekintetében kétféle típushoz tartoznak: a) …, és b) …", a:"a) Akik hatékonyan tudják közvetíteni a másik felé mindazt, amit szeretnének elérni (igényeiket, céljaikat, vágyaikat). b) Akik nem, vagy csak kevésbé hatékonyak a kommunikációban.", max:4},
+  {q:"Az egyetem elvégzése után dr. Bodnár Gabriella a következő készségek fejlesztését tanulmányozta: a) …, b) …", a:"a) kommunikációs készség; b) konfliktusmegoldó készség", max:2},
+  {q:"A következő életvezetési gondokról esik szó: a) …, b) …", a:"a) hogyan érzed magad a társkapcsolatokban; b) milyen hatékonyan, milyen módszer alapján tudsz tanulni", max:2},
+];
+function buildH2T2(){
+  const c = document.getElementById('h2t2');
+  h2t2Data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'open-card';
+    card.dataset.max = item.max;
+    const optionsHtml = Array.from({length:item.max+1},(_,n)=>`<option value="${n}">${n}</option>`).join('');
+    card.innerHTML = `
+      <div class="prompt">${item.q}</div>
+      <textarea placeholder="Írja ide a válaszát…"></textarea>
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz</button>
+        <label class="self-grade">Pontozás: <select class="self-select">${optionsHtml}</select></label>
+      </div>
+      <div class="sample-box">${item.a}</div>
+    `;
+    c.appendChild(card);
+  });
+}
+buildH2T2();
+document.getElementById('h2t2').addEventListener('change', () => refreshOpenScore('h2t2','h2t2-score'));
+
+/* ============ GLOBAL SCORE ============ */
+function checkEverything(){
+  const ny1 = runMCQSet(ny1Answers,'ny1-score');
+  const ny2 = checkGroup('ny2');
+  const ny3 = checkNy3();
+  const ny4 = runMCQSet(ny4Answers,'ny4-score');
+  const ny5 = checkGroup('ny5');
+  const ny6 = runMCQSet(ny6Answers,'ny6-score');
+  const ny7 = checkGroup('ny7');
+  const opinionGrade = parseInt(document.getElementById('opinionGrade').value || 0);
+  const letterGrade = parseInt(document.getElementById('letterGrade').value || 0);
+  refreshOpenScore('ov-b','ovb1-score'); const ovb1 = sumOpenGroup('ov-b');
+  const ova = runMCQSet(ovaAnswers,'ova-score');
+  const ovb2 = runMCQSet(ovb2Answers,'ovb2-score');
+  refreshOpenScore('h1t1','h1t1-score'); const h1t1 = sumOpenGroup('h1t1');
+  const h1t2 = runMCQSet(h1t2Answers,'h1t2-score');
+  const h2t1 = checkH2TF();
+  refreshOpenScore('h2t2','h2t2-score'); const h2t2 = sumOpenGroup('h2t2');
+
+  const rawI = ny1.correct + ny2.correct + ny3.correct + ny4.correct + ny5.correct + ny6.correct + ny7.correct; // out of 40
+  const partI = Math.round((rawI/2)*10)/10; // scaled to 20
+  const partII = opinionGrade;
+  const partIII = letterGrade;
+  const partIV = ova.correct + ovb1.sum + ovb2.correct;
+  const partV = h1t1.sum + h1t2.correct + h2t1.correct + h2t2.sum;
+  const total = Math.round((partI + partII + partIII + partIV + partV)*10)/10;
+
+  document.getElementById('finalScore').innerHTML = total + '<span>/110</span>';
+  document.getElementById('breakdown').innerHTML = `
+    <div><b>${partI}/20</b>I. Nyelvismeret</div>
+    <div><b>${partII}/20</b>II. Szövegértelmezés</div>
+    <div><b>${partIII}/20</b>III. Fogalmazás</div>
+    <div><b>${partIV}/20</b>IV. Olvasás</div>
+    <div><b>${partV}/30</b>V. Hallás</div>
+  `;
+  const msg = document.getElementById('finalMsg');
+  if (total >= 93) msg.textContent = 'Kiváló eredmény!';
+  else if (total >= 66) msg.textContent = 'Ez C1 szinten jó teljesítmény — nézze át a pirossal jelölt részeket.';
+  else msg.textContent = 'Érdemes átismételni a piros jelölésű feladatokat, és újra nekifutni.';
+
+  const finalBox = document.getElementById('finalSummary');
+  finalBox.style.display = 'block';
+  finalBox.scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+
+</body>
+</html>
