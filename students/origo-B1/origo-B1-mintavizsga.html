@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORIGO B1 mintavizsga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf6ee;
+    --paper-line:#e4dbc8;
+    --ink:#242019;
+    --ink-soft:#5c5546;
+    --red:#a83a2f;
+    --red-soft:#f3e2de;
+    --green:#2f6b4f;
+    --green-soft:#e1ede4;
+    --gold:#b8902e;
+    --card:#ffffff;
+    --shadow: 0 1px 2px rgba(36,32,25,.06), 0 8px 24px rgba(36,32,25,.06);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image: repeating-linear-gradient(transparent, transparent 39px, var(--paper-line) 40px);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.55;
+    padding:0 0 100px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  /* HERO */
+  header.hero{
+    padding:52px 24px 30px;
+    border-bottom:3px double var(--ink);
+    margin-bottom:20px;
+    background:var(--paper);
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--red); font-weight:700; margin:0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(28px,4vw,40px); margin:0 0 12px; letter-spacing:-.01em;
+  }
+  .subtitle{color:var(--ink-soft); font-size:16px; max-width:60ch; margin:0;}
+  .meta-row{display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; font-size:13.5px; color:var(--ink-soft);}
+  .meta-row span{border:1px solid var(--paper-line); border-radius:100px; padding:5px 12px; background:#fff;}
+
+  /* TOC nav */
+  nav.toc{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,246,238,.95);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+    padding:10px 24px;
+    display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
+    margin-bottom:36px;
+  }
+  nav.toc a{
+    font-size:12.5px; font-weight:700; color:var(--ink-soft);
+    text-decoration:none; padding:7px 13px; border-radius:100px;
+    border:1px solid transparent;
+  }
+  nav.toc a:hover{border-color:var(--paper-line); color:var(--ink);}
+
+  /* PART HEADER */
+  .part-head{
+    display:flex; align-items:baseline; gap:14px; margin:64px 0 6px;
+    scroll-margin-top:60px;
+  }
+  .part-num{
+    font-family:'Fraunces', serif; font-size:15px; color:var(--red); font-weight:700; letter-spacing:.04em;
+  }
+  .part-head h2{font-family:'Fraunces', serif; font-size:25px; font-weight:600; margin:0;}
+  .part-points{margin-left:auto; font-size:12.5px; color:var(--ink-soft); white-space:nowrap;}
+  .part-intro{color:var(--ink-soft); font-size:14.5px; margin:6px 0 24px; padding-bottom:18px; border-bottom:1px solid var(--paper-line);}
+
+  .section{margin-bottom:44px; scroll-margin-top:60px;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:6px;}
+  .section-num{font-family:'Fraunces', serif; font-size:14px; color:var(--red); font-weight:700; letter-spacing:.04em;}
+  .section h3{font-family:'Fraunces', serif; font-size:19px; font-weight:600; margin:0;}
+  .section-instructions{color:var(--ink-soft); font-size:14.5px; margin:6px 0 20px; padding-bottom:16px; border-bottom:1px solid var(--paper-line);}
+  .points-tag{margin-left:auto; font-size:12.5px; color:var(--ink-soft); white-space:nowrap;}
+
+  /* AUDIO */
+  .audio-card{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:18px 20px; box-shadow:var(--shadow); margin-bottom:22px;
+  }
+  .audio-card h4{font-family:'Fraunces', serif; font-size:16px; margin:0 0 12px; font-weight:600; display:flex; align-items:center; gap:10px;}
+  .play-count{
+    font-size:12px; font-weight:700; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--paper-line); border-radius:100px;
+    padding:3px 10px; margin-left:auto;
+  }
+  .play-count.exhausted{color:var(--red); border-color:var(--red);}
+  audio{width:100%;}
+  audio.locked{opacity:.45; pointer-events:none;}
+
+  /* STATEMENTS (TF) */
+  .statement{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:16px; box-shadow:var(--shadow);
+  }
+  .statement-text{flex:1; font-size:15px;}
+  .statement-num{font-family:'Fraunces', serif; color:var(--ink-soft); font-size:13px; width:20px; flex-shrink:0;}
+  .tf-toggle{display:flex; gap:6px; flex-shrink:0;}
+  .tf-btn{
+    font-size:13px; font-weight:600; border:1.5px solid var(--paper-line); background:#fff; color:var(--ink-soft);
+    border-radius:6px; padding:7px 14px; cursor:pointer; transition:all .12s ease; font-family:inherit;
+  }
+  .tf-btn:hover{border-color:var(--ink-soft);}
+  .tf-btn.on{background:var(--ink); border-color:var(--ink); color:#fff;}
+  .statement.correct{border-color:var(--green); box-shadow:0 0 0 1.5px var(--green) inset, var(--shadow);}
+  .statement.incorrect{border-color:var(--red); box-shadow:0 0 0 1.5px var(--red) inset, var(--shadow);}
+  .fb-note{font-size:12.5px; margin-top:6px; display:none; color:var(--red);}
+  .statement.incorrect .fb-note{display:block;}
+
+  /* CLOZE (text in paragraph with inputs/selects) */
+  .cloze-block{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:24px 26px; box-shadow:var(--shadow); font-size:16px; line-height:2.15;
+  }
+  .cloze-block select, .cloze-block input.blank{
+    font-family:'Source Sans 3', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+    border:none; border-bottom:2px solid var(--gold); background:#fbf4e3;
+    border-radius:4px 4px 0 0; padding:2px 8px; margin:0 2px; cursor:pointer;
+  }
+  .cloze-block input.blank{cursor:text; width:110px; text-align:center;}
+  .cloze-block select.correct, .cloze-block input.blank.correct{border-bottom-color:var(--green); background:var(--green-soft);}
+  .cloze-block select.incorrect, .cloze-block input.blank.incorrect{border-bottom-color:var(--red); background:var(--red-soft);}
+  .wordbank{margin-top:18px; padding-top:14px; border-top:1px dashed var(--paper-line); font-size:13px; color:var(--ink-soft);}
+  .wordbank strong{color:var(--ink);}
+
+  /* generic list-style fill-in for numbered sentences */
+  .fillcard{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:10px;
+    padding:20px 22px; box-shadow:var(--shadow); margin-bottom:14px;
+  }
+  .fillcard .prompt{font-size:15px; margin-bottom:10px;}
+  .fillcard .prompt b{font-weight:700;}
+  .inline-inputs input.blank{
+    font-family:'Source Sans 3', sans-serif; font-size:14px; font-weight:600; color:var(--ink);
+    border:none; border-bottom:2px solid var(--gold); background:#fbf4e3;
+    border-radius:4px 4px 0 0; padding:3px 8px; margin:0 3px; width:130px; text-align:center;
+  }
+  .inline-inputs input.blank.correct{border-bottom-color:var(--green); background:var(--green-soft);}
+  .inline-inputs input.blank.incorrect{border-bottom-color:var(--red); background:var(--red-soft);}
+  .blank-fb{font-size:12px; color:var(--red); display:none; margin-top:6px;}
+  .blank-fb.show{display:block;}
+
+  /* MCQ wrong-answer picker */
+  .mcq{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:18px 20px; box-shadow:var(--shadow); margin-bottom:14px;}
+  .mcq .prompt{font-size:15px; margin-bottom:12px; font-weight:600;}
+  .mcq-options{display:flex; flex-direction:column; gap:8px;}
+  .mcq-opt{
+    display:flex; align-items:center; gap:10px; font-size:14.5px;
+    border:1.5px solid var(--paper-line); border-radius:7px; padding:9px 13px; cursor:pointer; background:#fff;
+    transition:all .12s ease;
+  }
+  .mcq-opt:hover{border-color:var(--ink-soft);}
+  .mcq-opt.on{border-color:var(--ink); background:#f5f1e6;}
+  .mcq-opt .letter{font-weight:700; color:var(--ink-soft); width:18px;}
+  .mcq.correct .mcq-opt.on{border-color:var(--green); background:var(--green-soft);}
+  .mcq.incorrect .mcq-opt.on{border-color:var(--red); background:var(--red-soft);}
+  .mcq-fb{font-size:12.5px; color:var(--red); margin-top:8px; display:none;}
+  .mcq.incorrect .mcq-fb{display:block;}
+
+  /* Open / self-graded items */
+  .open-card{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:20px 22px; box-shadow:var(--shadow); margin-bottom:14px;}
+  .open-card .prompt{font-size:15px; margin-bottom:10px; font-weight:600;}
+  .open-card textarea, .open-card input.opentext{
+    width:100%; font-family:inherit; font-size:14.5px; padding:10px 12px;
+    border:1.5px solid var(--paper-line); border-radius:7px; resize:vertical; background:#fffdf8;
+  }
+  .open-card textarea{min-height:64px;}
+  .open-actions{display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap;}
+  .btn-sm{
+    font-size:13px; font-weight:700; border:1.5px solid var(--paper-line); background:#fff; color:var(--ink-soft);
+    border-radius:7px; padding:7px 14px; cursor:pointer; font-family:inherit;
+  }
+  .btn-sm:hover{color:var(--ink); border-color:var(--ink-soft);}
+  .sample-box{
+    display:none; margin-top:12px; padding:12px 14px; background:var(--green-soft);
+    border-left:3px solid var(--green); border-radius:4px; font-size:13.5px; color:#274b3a;
+  }
+  .sample-box.show{display:block;}
+  .self-grade{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin-left:auto;}
+  .self-grade select{font-family:inherit; font-size:13px; padding:4px 8px; border-radius:6px; border:1.5px solid var(--paper-line);}
+  .self-note{font-size:11.5px; color:var(--ink-soft); font-style:italic;}
+
+  /* Letter writing */
+  .letter-topics{display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
+  .topic-btn{
+    flex:1; min-width:220px; text-align:left; background:var(--card); border:1.5px solid var(--paper-line);
+    border-radius:10px; padding:16px 18px; cursor:pointer; font-family:inherit; box-shadow:var(--shadow);
+  }
+  .topic-btn.active{border-color:var(--ink); background:#f5f1e6;}
+  .topic-btn h4{font-family:'Fraunces', serif; font-size:15.5px; margin:0 0 8px;}
+  .topic-btn ul{margin:0; padding-left:18px; font-size:13px; color:var(--ink-soft);}
+  .topic-btn li{margin-bottom:3px;}
+  .letter-card{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:22px 24px; box-shadow:var(--shadow);}
+  .letter-card textarea{width:100%; min-height:220px; font-family:inherit; font-size:15px; line-height:1.7; padding:14px; border:1.5px solid var(--paper-line); border-radius:8px; resize:vertical; background:#fffdf8;}
+  .letter-meta{display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12.5px; color:var(--ink-soft);}
+  .letter-meta.warn{color:var(--red); font-weight:700;}
+
+  /* Sorting / table classification */
+  .sort-wrap{display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;}
+  .sort-pool, .sort-col{background:var(--card); border:1px solid var(--paper-line); border-radius:10px; padding:14px 16px; box-shadow:var(--shadow); min-height:120px;}
+  .sort-pool h5, .sort-col h5{font-family:'Fraunces', serif; font-size:14px; margin:0 0 10px; font-weight:600; color:var(--ink-soft);}
+  .sort-item{
+    background:#fbf4e3; border:1.5px solid var(--gold); border-radius:7px; padding:8px 10px; margin-bottom:8px;
+    font-size:13.5px; cursor:grab; user-select:none;
+  }
+  .sort-item.correct{border-color:var(--green); background:var(--green-soft);}
+  .sort-item.incorrect{border-color:var(--red); background:var(--red-soft);}
+  .sort-col.drag-over{background:#f5f1e6;}
+  @media (max-width:640px){.sort-wrap{grid-template-columns:1fr;}}
+
+  /* Check bar per section */
+  .check-bar{display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap;}
+  .btn{font-weight:700; font-size:14px; border:none; border-radius:8px; padding:11px 20px; cursor:pointer; font-family:inherit; transition:transform .1s ease;}
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1.5px solid var(--paper-line); font-weight:700; font-size:13.5px; border-radius:8px; padding:10px 18px; cursor:pointer; font-family:inherit;}
+  .btn-ghost:hover{color:var(--ink); border-color:var(--ink-soft);}
+  .score-pill{font-size:13.5px; font-weight:700; padding:7px 15px; border-radius:100px; background:#fff; border:1.5px solid var(--paper-line);}
+
+  /* Global summary */
+  .final-summary{margin-top:70px; padding:40px 32px; text-align:center; background:var(--ink); color:var(--paper); border-radius:16px;}
+  .final-summary .big{font-family:'Fraunces', serif; font-size:58px; font-weight:700; line-height:1; margin-bottom:8px;}
+  .final-summary .big span{color:var(--gold); font-size:.5em;}
+  .final-summary p{color:#d8d2c4; margin:8px 0 0; font-size:14.5px;}
+  .breakdown{display:flex; justify-content:center; gap:22px; margin-top:22px; flex-wrap:wrap; font-size:13px; color:#c9c2ae;}
+  .breakdown b{color:#fff; display:block; font-size:16px; font-family:'Fraunces', serif;}
+  .final-summary .btn-ghost{margin-top:24px; border-color:#514c3f; color:#d8d2c4;}
+  .final-summary .btn-ghost:hover{color:#fff; border-color:#8a8368;}
+
+  footer{max-width:760px; margin:60px auto 0; padding:0 24px; font-size:12.5px; color:var(--ink-soft); text-align:center;}
+
+  @media (max-width:520px){
+    header.hero{padding:38px 20px 24px;}
+    .statement{flex-wrap:wrap;}
+    .tf-toggle{width:100%; justify-content:flex-end;}
+    .cloze-block{padding:18px 16px; font-size:15px; line-height:2.3;}
+    nav.toc{gap:4px; padding:8px 12px;}
+    nav.toc a{padding:6px 10px; font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="padding:0;">
+    <p class="eyebrow">Magyar mint idegen nyelv · ORIGÓ · B1 alapfok</p>
+    <h1>Mintavizsga — gyakorló</h1>
+    <p class="subtitle">A teljes írásbeli feladatsor és a hallott szövegértés egy oldalon. Oldja meg sorban a négy részt; a végén összesített pontszámot kap.</p>
+    <div class="meta-row">
+      <span>✎ 70 pont összesen</span>
+      <span>4 rész</span>
+      <span>🎧 hanganyagok max. 3× hallgathatók</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#nyelvismeret">I. Nyelvismeret</a>
+  <a href="#fogalmazas">II. Fogalmazás</a>
+  <a href="#olvasas">III. Olvasás</a>
+  <a href="#hallas">IV. Hallás</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= I. NYELVISMERETI FELADATSOR ================= -->
+  <div class="part-head" id="nyelvismeret">
+    <span class="part-num">I. RÉSZ</span>
+    <h2>Nyelvismereti feladatsor</h2>
+    <span class="part-points">20 pont</span>
+  </div>
+  <p class="part-intro">Oldja meg az alábbi négy feladatot!</p>
+
+  <section class="section" id="ny1">
+    <div class="section-head"><span class="section-num">1.</span><h3>Egészítse ki a mondatokat a zárójelben megadott szavak megfelelő alakjával!</h3><span class="points-tag">10 pont</span></div>
+    <div class="fillcard">
+      <div class="prompt inline-inputs" id="ny1-1">1. Magas, barna (haj) <input class="blank" data-ans="hajú" size="8"> , kék (szem) <input class="blank" data-ans="szemű" size="8"> férfi barátnőt keres.</div>
+      <div class="prompt inline-inputs" id="ny1-2">2. Ma egész délután (nap) <input class="blank" data-ans="napos" size="8"> idő lesz.</div>
+      <div class="prompt inline-inputs" id="ny1-3">3. A ma (reggel) <input class="blank" data-ans="reggeli" size="8"> híreket sajnos nem hallottam.</div>
+      <div class="prompt inline-inputs" id="ny1-4">4. Szeretnék venni egy (család) <input class="blank" data-ans="családi" size="8"> házat a Balatonnál.</div>
+      <div class="prompt inline-inputs" id="ny1-5">5. Én ma este háromnegyed (hét) <input class="blank" data-ans="hétkor" size="8"> (mozi) <input class="blank" data-ans="moziba" size="8"> megyek. És te hova (megy) <input class="blank" data-ans="mész" size="8">?</div>
+      <div class="prompt inline-inputs" id="ny1-6">6. Holnap délutánra (vendégek) <input class="blank" data-ans="vendégeket" size="10"> várok, nem (tud) <input class="blank" data-ans="tudok" size="8"> tanulni.</div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkGroup('ny1')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny1-score">0 / 10</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny2">
+    <div class="section-head"><span class="section-num">2.</span><h3>Válaszoljon múlt időben!</h3><span class="points-tag">3 pont · önértékelés</span></div>
+    <p class="section-instructions">Több megoldás is lehetséges — írja be a választ, majd hasonlítsa össze a mintaválasszal, és jelölje, hogy jónak találja-e.</p>
+    <div class="open-card" data-max="1">
+      <div class="prompt">1. – Nem beszélsz a szüleiddel? –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Tegnap már beszéltem (velük).</div>
+    </div>
+    <div class="open-card" data-max="1">
+      <div class="prompt">2. – Igyon egy kávét! –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Köszönöm, már ittam.</div>
+    </div>
+    <div class="open-card" data-max="1">
+      <div class="prompt">3. – Gyerekek, most már feküdjetek le! –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Már lefeküdtünk!</div>
+    </div>
+    <div class="check-bar">
+      <span class="self-note">Az önértékelt pontok a végösszegbe is beszámítanak.</span>
+      <span class="score-pill" id="ny2-score">0 / 3</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny3">
+    <div class="section-head"><span class="section-num">3.</span><h3>Melyik a ROSSZ megoldás? Jelölje!</h3><span class="points-tag">3 pont</span></div>
+    <div class="mcq" id="ny3-1">
+      <div class="prompt">1. A futballmeccs ... lesz.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">‹a›&nbsp; vasárnap</div>
+        <div class="mcq-opt" data-letter="b">‹b›&nbsp; szombaton</div>
+        <div class="mcq-opt" data-letter="c">‹c›&nbsp; ezen a héten</div>
+        <div class="mcq-opt" data-letter="d">‹d›&nbsp; holnapon</div>
+      </div>
+      <div class="mcq-fb">Helyes válasz: <b>d) holnapon</b> — helyesen: „holnap”.</div>
+    </div>
+    <div class="mcq" id="ny3-2">
+      <div class="prompt">2. András és Anita ... jönnek.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">‹a›&nbsp; Budapestről</div>
+        <div class="mcq-opt" data-letter="b">‹b›&nbsp; Londonból</div>
+        <div class="mcq-opt" data-letter="c">‹c›&nbsp; a pályaudvarból</div>
+        <div class="mcq-opt" data-letter="d">‹d›&nbsp; az iskolából</div>
+      </div>
+      <div class="mcq-fb">Helyes válasz: <b>c) a pályaudvarból</b> — helyesen: „a pályaudvarról”.</div>
+    </div>
+    <div class="mcq" id="ny3-3">
+      <div class="prompt">3. A fiú ... az anyjának.</div>
+      <div class="mcq-options">
+        <div class="mcq-opt" data-letter="a">‹a›&nbsp; vesz</div>
+        <div class="mcq-opt" data-letter="b">‹b›&nbsp; ír</div>
+        <div class="mcq-opt" data-letter="c">‹c›&nbsp; telefonál</div>
+        <div class="mcq-opt" data-letter="d">‹d›&nbsp; segít</div>
+      </div>
+      <div class="mcq-fb">Helyes válasz: <b>a) vesz</b> — helyesen: „vesz neki (valamit)”, nem „vesz az anyjának”.</div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkMCQGroup('ny3')">Feladat ellenőrzése</button>
+      <span class="score-pill" id="ny3-score">0 / 3</span>
+    </div>
+  </section>
+
+  <section class="section" id="ny4">
+    <div class="section-head"><span class="section-num">4.</span><h3>Mit mond a következő helyzetekben?</h3><span class="points-tag">4 pont · önértékelés</span></div>
+    <p class="section-instructions">Több megoldás is lehetséges.</p>
+    <div class="open-card" data-max="1">
+      <div class="prompt">1. – Elnézést, szabad ez a két hely? –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Nem, már foglalt. / Igen, tessék.</div>
+    </div>
+    <div class="open-card" data-max="1">
+      <div class="prompt">2. – Üljünk be egy cukrászdába! –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Jó ötlet!</div>
+    </div>
+    <div class="open-card" data-max="1">
+      <div class="prompt">3. – Kié lesz ez a sok sütemény? –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Attiláé; (ma van a születésnapja).</div>
+    </div>
+    <div class="open-card" data-max="1">
+      <div class="prompt">4. – Miért tanulsz magyarul? –</div>
+      <input class="opentext" placeholder="Írja ide a válaszát…">
+      <div class="open-actions">
+        <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+        <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option></select></label>
+      </div>
+      <div class="sample-box">Mert itt szeretnék egyetemre járni.</div>
+    </div>
+    <div class="check-bar">
+      <span class="self-note">Az önértékelt pontok a végösszegbe is beszámítanak.</span>
+      <span class="score-pill" id="ny4-score">0 / 4</span>
+    </div>
+  </section>
+
+  <!-- ================= II. IRÁNYÍTOTT FOGALMAZÁS ================= -->
+  <div class="part-head" id="fogalmazas">
+    <span class="part-num">II. RÉSZ</span>
+    <h2>Irányított fogalmazás</h2>
+    <span class="part-points">20 pont · önértékelés</span>
+  </div>
+  <p class="part-intro">Írjon levelet az egyik témáról magyarul 13–15 sorban! A levélben legyen benne minden megadott információ, és vegye figyelembe a levélírás szabályait (megszólítás, üdvözlés, dátum, aláírás)!</p>
+
+  <div class="letter-topics">
+    <button class="topic-btn active" onclick="selectTopic(this,1)">
+      <h4>I. téma</h4>
+      <ul>
+        <li>Jövő hétvégén meglátogatja Önt barátja/barátnője</li>
+        <li>Együtt elmennek egy koncertre</li>
+        <li>Milyen zenét, zenekart hallgatnak, és miért ajánlja</li>
+        <li>Hogyan, mikor veszik meg a jegyeket</li>
+        <li>Mit csinálnak a koncert után</li>
+      </ul>
+    </button>
+    <button class="topic-btn" onclick="selectTopic(this,2)">
+      <h4>II. téma</h4>
+      <ul>
+        <li>Ön 10 órakor akart találkozni, de csak fél 11-re ért oda</li>
+        <li>Bocsánatot kér</li>
+        <li>Miért indult el későn, hogyan utazott</li>
+        <li>Mi történt az úton, milyen volt a forgalom</li>
+        <li>Mikor, hol találkoznak legközelebb</li>
+      </ul>
+    </button>
+  </div>
+
+  <div class="letter-card">
+    <textarea id="letterText" placeholder="Kedves …!&#10;&#10;…&#10;&#10;Szia,&#10;(Az Ön neve)&#10;Budapest, (dátum)"></textarea>
+    <div class="letter-meta" id="letterMeta">0 sor · ajánlott: 13–15 sor</div>
+    <div class="open-actions">
+      <button class="btn-sm" onclick="toggleSample(this, 'letterSample')">Minta levél mutatása (I. téma)</button>
+      <label class="self-grade">Önértékelés: <select id="letterGrade" onchange="updateGlobalScore()">
+        <option value="0">– válasszon –</option>
+        <option value="20">Kiváló (20)</option>
+        <option value="16">Jó (16)</option>
+        <option value="12">Megfelelő (12)</option>
+        <option value="8">Gyenge (8)</option>
+        <option value="0">Nem írtam (0)</option>
+      </select></label>
+    </div>
+    <div class="sample-box" id="letterSample">
+      Kedves Boglárka!<br><br>
+      Nagyon örülök, hogy hétvégén újra találkozunk. Régen voltál már Budapesten! Tudod, mit fogunk csinálni? Délben egy étteremben ebédelünk, délután sétálunk a várban vagy a Városligetben, beszélgetünk egy presszóban, este pedig koncertre megyünk.<br>
+      Tudom, hogy szereted a rockzenét, ezért egy rockkoncertre gondoltam. A Wigwam Rock Klubban szombat este a Hooligans együttes játszik. Még nem nagyon ismerem őket, a magyar barátaim ajánlották és adtak egy CD-t is. Meghallgattam, tényleg nagyon jó, kemény, de vidám zene. A szöveget nem mindig értem, de te majd segítesz. Szerintem neked is tetszik majd. A jegyeket csak a koncert előtt vesszük meg. Még nem tudom, hogy ketten megyünk vagy jönnek még más barátaim is a kollégiumból. A koncert este 9-kor kezdődik és legalább 11-ig tart. Utána még ott maradhatunk a klubban, reggel 4-ig nyitva van! Addig aludj sokat, mert szombat éjjel nem alszunk!<br>
+      Remélem, jó programot terveztem! Akkor szombat délelőtt 10.35-kor várlak a Keleti pályaudvaron.<br><br>
+      Szia:<br>Chris<br>Budapest, 2003. január 20.
+    </div>
+  </div>
+
+  <!-- ================= III. OLVASOTT SZÖVEG ÉRTÉSE ================= -->
+  <div class="part-head" id="olvasas">
+    <span class="part-num">III. RÉSZ</span>
+    <h2>Olvasott szöveg értése</h2>
+    <span class="part-points">20 pont</span>
+  </div>
+
+  <section class="section" id="ov-a">
+    <div class="section-head"><span class="section-num">III/A</span><h3>Az állatkert szövege</h3><span class="points-tag">15 pont</span></div>
+    <p class="section-instructions">Olvassa el a szöveget, és oldja meg a feladatokat! (A szöveg terjedelme miatt itt csak a kiegészítendő összefoglaló és a kérdések szerepelnek — a teljes olvasmány a feltöltött PDF-ben található.)</p>
+
+    <div class="cloze-block" id="ovaCloze"></div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkCloze('ovaCloze','ova-score',11)">Kiegészítés ellenőrzése</button>
+      <span class="score-pill" id="ova-score">0 / 11</span>
+    </div>
+
+    <div style="margin-top:22px;">
+      <div class="open-card" data-max="2">
+        <div class="prompt">1. Miért nem volt régen zsiráf, elefánt és víziló a budapesti állatkertben? (2 pont)</div>
+        <textarea placeholder="Írja ide a válaszát…"></textarea>
+        <div class="open-actions">
+          <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+          <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></label>
+        </div>
+        <div class="sample-box">Mert sokba került a beszerzésük. / Mert drágán lehetett megvenni őket, és az ellátásuk is drága volt.</div>
+      </div>
+      <div class="open-card" data-max="2">
+        <div class="prompt">2. Mit szeretnének az állatkert dolgozói? (2 pont)</div>
+        <textarea placeholder="Írja ide a válaszát…"></textarea>
+        <div class="open-actions">
+          <button class="btn-sm" onclick="toggleSample(this)">Mintaválasz mutatása</button>
+          <label class="self-grade">Pontozás: <select class="self-select"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></label>
+        </div>
+        <div class="sample-box">Hogy minden fővárosi diák évente legalább egyszer elmenjen az állatkertbe.</div>
+      </div>
+    </div>
+    <div class="check-bar">
+      <span class="self-note">A két kérdés önértékelt pontja is a végösszegbe számít.</span>
+      <span class="score-pill" id="ova-open-score">0 / 4</span>
+    </div>
+  </section>
+
+  <section class="section" id="ov-b">
+    <div class="section-head"><span class="section-num">III/B</span><h3>Divatcikk — szoknya vagy nadrág</h3><span class="points-tag">5 pont</span></div>
+    <p class="section-instructions">Olvassa el a szöveget, és húzza a megfelelő oszlopba az elemeket (vagy koppintson rájuk, majd a célmezőre)!</p>
+
+    <div class="sort-wrap">
+      <div class="sort-pool" id="sortPool">
+        <h5>Elemek</h5>
+      </div>
+      <div class="sort-col" id="sortCol1" data-target="mindenkinek">
+        <h5>Mindenkinek jól áll</h5>
+      </div>
+      <div class="sort-col" id="sortCol2" data-target="nem_mindenkinek">
+        <h5>Nem mindenkinek áll jól</h5>
+      </div>
+    </div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkSort()">Besorolás ellenőrzése</button>
+      <button class="btn-ghost" style="font-size:12.5px;padding:7px 14px;" onclick="resetSort()">Visszaállítás</button>
+      <span class="score-pill" id="sort-score">0 / 5</span>
+    </div>
+  </section>
+
+  <!-- ================= IV. HALLOTT SZÖVEG ÉRTÉSE ================= -->
+  <div class="part-head" id="hallas">
+    <span class="part-num">IV. RÉSZ</span>
+    <h2>Hallott szöveg értése</h2>
+    <span class="part-points">20 pont</span>
+  </div>
+  <p class="part-intro">Mindkét hanganyag legfeljebb 3-szor hallgatható meg.</p>
+
+  <section class="section" id="h1">
+    <div class="section-head"><span class="section-num">1.</span><h3>Igaz vagy hamis?</h3><span class="points-tag">10 pont</span></div>
+    <div class="audio-card">
+      <h4>🎧 1. szöveg <span class="play-count" id="pc1">3/3 lejátszás</span></h4>
+      <audio controls preload="metadata" id="audio1"><source src="szoveg1.mp3" type="audio/mpeg"></audio>
+    </div>
+    <p class="section-instructions">Hallgassa meg az 1. szöveget, és döntse el, hogy az alábbi állítások igazak vagy hamisak!</p>
+    <div id="tfContainer"></div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkTF()">Feladat ellenőrzése</button>
+      <span class="score-pill" id="h1-score">0 / 10</span>
+    </div>
+  </section>
+
+  <section class="section" id="h2">
+    <div class="section-head"><span class="section-num">2.</span><h3>Egészítse ki a szöveget!</h3><span class="points-tag">10 pont</span></div>
+    <div class="audio-card">
+      <h4>🎧 2. szöveg <span class="play-count" id="pc2">3/3 lejátszás</span></h4>
+      <audio controls preload="metadata" id="audio2"><source src="szoveg2.mp3" type="audio/mpeg"></audio>
+    </div>
+    <p class="section-instructions">Hallgassa meg a 2. szöveget, és a legördülő listákból válassza ki a mondatokba illő szót a megfelelő alakban!</p>
+    <div class="cloze-block" id="clozeBlock"></div>
+    <div class="wordbank"><strong>Szólista:</strong> babakocsi, bicikli, fiú, idő, játékhelikopter, játékok, kertes ház, lány, műsorvezető, nagy</div>
+    <div class="check-bar">
+      <button class="btn btn-ghost btn-sm" onclick="checkCloze('clozeBlock','h2-score',10)">Feladat ellenőrzése</button>
+      <span class="score-pill" id="h2-score">0 / 10</span>
+    </div>
+  </section>
+
+  <!-- ================= GLOBAL SUMMARY ================= -->
+  <div class="check-bar" style="margin-top:40px;">
+    <button class="btn btn-primary" onclick="checkEverything()">Teljes vizsga ellenőrzése</button>
+    <button class="btn btn-ghost" onclick="location.reload()">Újrakezdés</button>
+  </div>
+
+  <div class="final-summary" id="finalSummary" style="display:none;">
+    <div class="big" id="finalScore">0<span>/70</span></div>
+    <p id="finalMsg">Nézze át a piros jelölésű válaszokat.</p>
+    <div class="breakdown" id="breakdown"></div>
+    <button class="btn-ghost" onclick="location.reload()">Új próbálkozás</button>
+  </div>
+
+</div>
+
+<footer>Forrás: ELTE ORIGÓ Nyelvi Centrum — Magyar mint idegen nyelv, B1 alapfok, mintavizsga · gyakorló változat</footer>
+
+<script>
+/* ============ AUDIO PLAY LIMITER (3 lejátszás / hanganyag) ============ */
+function limitPlays(audioId, pillId, maxPlays){
+  const audio = document.getElementById(audioId);
+  const pill = document.getElementById(pillId);
+  let plays = 0;
+  let counted = false;
+  audio.addEventListener('play', () => {
+    if (!counted){
+      plays++;
+      counted = true;
+      pill.textContent = (maxPlays-plays) + '/' + maxPlays + ' lejátszás hátra';
+      if (plays >= maxPlays) pill.classList.add('exhausted');
+    }
+    if (plays > maxPlays){
+      audio.pause();
+    }
+  });
+  audio.addEventListener('ended', () => { counted = false; });
+  audio.addEventListener('pause', () => {
+    if (audio.currentTime > 0 && !audio.ended) counted = false;
+  });
+  audio.addEventListener('timeupdate', () => {
+    if (plays >= maxPlays && !audio.paused && audio.currentTime > 0.3){
+      // allow finishing current play, but block further replays after ended
+    }
+  });
+  audio.addEventListener('play', () => {
+    if (plays > maxPlays){
+      audio.pause();
+      audio.classList.add('locked');
+    }
+  });
+}
+limitPlays('audio1','pc1',3);
+limitPlays('audio2','pc2',3);
+
+/* ============ HELPERS ============ */
+function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+
+/* ============ I.1 FILL-IN (nyelvismeret) ============ */
+function checkGroup(prefix){
+  let correct = 0, total = 0;
+  document.querySelectorAll('#'+prefix+' .fillcard .blank, .fillcard').forEach(()=>{});
+  document.querySelectorAll('.fillcard input.blank').forEach(inp => {
+    total++;
+    inp.classList.remove('correct','incorrect');
+    if (norm(inp.value) === norm(inp.dataset.ans)){
+      inp.classList.add('correct'); correct++;
+    } else {
+      inp.classList.add('incorrect');
+    }
+  });
+  document.getElementById(prefix+'-score').textContent = correct + ' / ' + total;
+  return {correct, total};
+}
+
+/* ============ I.3 MCQ (rossz válasz) ============ */
+document.querySelectorAll('.mcq-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const group = opt.closest('.mcq');
+    group.querySelectorAll('.mcq-opt').forEach(o => o.classList.remove('on'));
+    opt.classList.add('on');
+    group.classList.remove('correct','incorrect');
+  });
+});
+const ny3answers = {'ny3-1':'d','ny3-2':'c','ny3-3':'a'};
+function checkMCQGroup(prefix){
+  let correct = 0;
+  Object.keys(ny3answers).forEach(id => {
+    const group = document.getElementById(id);
+    const chosen = group.querySelector('.mcq-opt.on');
+    group.classList.remove('correct','incorrect');
+    if (chosen && chosen.dataset.letter === ny3answers[id]){
+      group.classList.add('correct'); correct++;
+    } else {
+      group.classList.add('incorrect');
+    }
+  });
+  document.getElementById(prefix+'-score').textContent = correct + ' / 3';
+  return {correct, total:3};
+}
+
+/* ============ Open / self-graded items ============ */
+function toggleSample(btn, forceId){
+  let box;
+  if (forceId){ box = document.getElementById(forceId); }
+  else { box = btn.parentElement.parentElement.querySelector('.sample-box'); }
+  box.classList.toggle('show');
+}
+function sumOpenGroup(sectionId){
+  let sum = 0, max = 0;
+  document.querySelectorAll('#'+sectionId+' .open-card').forEach(card => {
+    const sel = card.querySelector('.self-select');
+    if (sel){ sum += parseInt(sel.value||0); max += parseInt(card.dataset.max||0); }
+  });
+  return {sum, max};
+}
+document.querySelectorAll('.self-select').forEach(sel => {
+  sel.addEventListener('change', () => {
+    updateOpenScores();
+    updateGlobalScore();
+  });
+});
+function updateOpenScores(){
+  const ny2 = sumOpenGroup('ny2');
+  document.getElementById('ny2-score').textContent = ny2.sum + ' / ' + (ny2.max || 3);
+  const ny4 = sumOpenGroup('ny4');
+  document.getElementById('ny4-score').textContent = ny4.sum + ' / ' + (ny4.max || 4);
+  const ova = sumOpenGroup('ov-a');
+  document.getElementById('ova-open-score').textContent = ova.sum + ' / ' + (ova.max || 4);
+}
+// fix section ids for open groups (ny2, ny4 sections don't have those exact ids on wrapping element)
+document.getElementById('ny2') && document.getElementById('ny2').setAttribute('id','ny2');
+document.getElementById('ny4') && document.getElementById('ny4').setAttribute('id','ny4');
+
+/* ============ II. Letter writing ============ */
+function selectTopic(btn, n){
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const letterTextEl = document.getElementById('letterText');
+letterTextEl.addEventListener('input', () => {
+  const lines = letterTextEl.value.split('\n').filter(l => l.trim().length>0).length;
+  const meta = document.getElementById('letterMeta');
+  meta.textContent = lines + ' sor · ajánlott: 13–15 sor';
+  meta.classList.toggle('warn', lines>0 && (lines<13 || lines>15));
+});
+
+/* ============ III/A cloze (állatkert) ============ */
+const ovaWordBank = null; // free text inputs, not select
+const ovaParts = [
+  "Magyarország első állatkertjét mintegy 150 éve alapították. Régen a budapesti állatkertben ",
+  {ans:["kevesebb"]}, " állat élt, mint ma. A látogatók akkor a ", {ans:["barnamedvét","a barnamedvét"]},
+  " szerették a legjobban. Manapság a zsiráfok, az elefántok és a vízilovak a legnépszerűbb állatok. A budapestiek ma is nagyon szeretik az állatkertet: tavaly az állatkertnek több mint ",
+  {ans:["egymillió","1millió","1 millió"]}, " látogatója volt, és a kert a ", {ans:["szponzoroktól"]},
+  " is kapott több tízmillió forintot. Egy belépőjegy ma ", {ans:["700"]}, " Ft-ba kerül. A diákoknak külön programokat szerveznek, biztosan érdekes például az Állatok akcióban, vagy a Medvemese című óra. A diákoknak nemcsak Magyarországon élő állatokról mesélnek az órákon, hanem például ",
+  {ans:["dél-amerikai","délamerikai","trópusi","őserdei"]}, " állatokról is. Az állatkerti órákat ",
+  {ans:["délelőtt","óránként"]}, " tartják, egy óráért egy csoport 5000 Ft-ot ", {ans:["fizet"]},
+  " . Nyáron tíznapos programot szerveznek a ", {ans:["nyugdíjasoknak","nyugdíjasok számára"]},
+  " is. Ők 350 Ft-ért vehetnek jegyet, napi ", {ans:["két","kettő"]}, " filmet láthatnak, és az állatkerti étteremben olcsón tudnak ", {ans:["ebédelni"]}, " is."
+];
+function buildTextCloze(containerId, parts){
+  const block = document.getElementById(containerId);
+  block.innerHTML = '';
+  let idx = 0;
+  parts.forEach(part => {
+    if (typeof part === 'string'){
+      block.appendChild(document.createTextNode(part));
+    } else {
+      const inp = document.createElement('input');
+      inp.className = 'blank';
+      inp.id = containerId + '-blank-' + idx;
+      inp.dataset.answers = JSON.stringify(part.ans);
+      inp.size = Math.max(6, part.ans[0].length);
+      block.appendChild(inp);
+      idx++;
+    }
+  });
+}
+buildTextCloze('ovaCloze', ovaParts);
+
+function checkCloze(containerId, scoreId, max){
+  let correct = 0;
+  const inputs = document.querySelectorAll('#'+containerId+' input.blank, #'+containerId+' select');
+  inputs.forEach(el => {
+    el.classList.remove('correct','incorrect');
+    let ok = false;
+    if (el.tagName === 'SELECT'){
+      ok = norm(el.value) === norm(el.dataset.answer);
+    } else {
+      const answers = JSON.parse(el.dataset.answers || '[]');
+      ok = answers.some(a => norm(a) === norm(el.value));
+    }
+    if (ok){ el.classList.add('correct'); correct++; }
+    else { el.classList.add('incorrect'); }
+  });
+  document.getElementById(scoreId).textContent = correct + ' / ' + max;
+  return {correct, total:max};
+}
+
+/* ============ III/B sorting ============ */
+const sortItems = [
+  {text:"hosszú, fekete blézer (élénk szűk nadrággal)", target:"mindenkinek"},
+  {text:"hosszú ing (élénk szűk nadrággal)", target:"mindenkinek"},
+  {text:"műbőr szoknya", target:"mindenkinek"},
+  {text:"kockás szoknya", target:"nem_mindenkinek"},
+  {text:"bézs nadrág", target:"nem_mindenkinek"},
+  {text:"egyenes farmer", target:"nem_mindenkinek"},
+  {text:"szűk, rövid pulóver", target:"nem_mindenkinek"},
+];
+function buildSort(){
+  const pool = document.getElementById('sortPool');
+  pool.querySelectorAll('.sort-item').forEach(e=>e.remove());
+  sortItems.forEach((item,i) => {
+    const el = document.createElement('div');
+    el.className = 'sort-item';
+    el.draggable = true;
+    el.textContent = item.text;
+    el.dataset.target = item.target;
+    el.id = 'sortitem-'+i;
+    el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', el.id); });
+    el.addEventListener('click', () => {
+      // tap-to-cycle for mobile: pool -> col1 -> col2 -> pool
+      const parent = el.parentElement.id;
+      let next;
+      if (parent === 'sortPool') next = 'sortCol1';
+      else if (parent === 'sortCol1') next = 'sortCol2';
+      else next = 'sortPool';
+      document.getElementById(next).appendChild(el);
+    });
+    pool.appendChild(el);
+  });
+}
+[document.getElementById('sortPool'), document.getElementById('sortCol1'), document.getElementById('sortCol2')].forEach(col => {
+  col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
+  col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+  col.addEventListener('drop', e => {
+    e.preventDefault();
+    col.classList.remove('drag-over');
+    const id = e.dataTransfer.getData('text/plain');
+    const el = document.getElementById(id);
+    if (el) col.appendChild(el);
+  });
+});
+buildSort();
+function resetSort(){ buildSort(); document.getElementById('sort-score').textContent = '0 / 5'; }
+function checkSort(){
+  let correct = 0;
+  document.querySelectorAll('.sort-item').forEach(el => {
+    el.classList.remove('correct','incorrect');
+    const parentTarget = el.parentElement.dataset.target;
+    if (parentTarget === el.dataset.target){
+      el.classList.add('correct'); correct++;
+    } else {
+      el.classList.add('incorrect');
+    }
+  });
+  const score = Math.round((correct/7)*5*10)/10;
+  document.getElementById('sort-score').textContent = score + ' / 5';
+  return {correct: score, total:5};
+}
+
+/* ============ IV.1 True/False ============ */
+const statements = [
+  { text: "Három norvég turista elutazott Görögországba.", answer: false },
+  { text: "A turisták Rodoszba akartak utazni.", answer: true },
+  { text: "A turisták nem oda érkeztek meg, ahova utazni akartak.", answer: true },
+  { text: "A turisták követték el a hibát.", answer: true },
+  { text: "Az utazási irodában rosszul töltötték ki a jelentkezési lapot.", answer: false },
+  { text: "A repülőgépen nem figyeltek, amikor a pilóta bemondta az útirányt.", answer: false },
+  { text: "A gép dél-nyugati irányba repült.", answer: true },
+  { text: "Leszállás után tudták meg, mi a helyzet.", answer: true },
+  { text: "Végül egy 800 lakosú kisvárosba érkeztek.", answer: false },
+  { text: "Úgy döntöttek, hogy lemondanak a nyaralásról, és rögtön hazautaztak.", answer: true },
+];
+let tfSelections = new Array(statements.length).fill(null);
+function buildTF(){
+  const c = document.getElementById('tfContainer');
+  c.innerHTML = '';
+  statements.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'statement';
+    row.id = 'stmt-' + i;
+    row.innerHTML = `
+      <span class="statement-num">${i+1}.</span>
+      <span class="statement-text">${s.text}
+        <div class="fb-note">Helyes válasz: <strong>${s.answer ? 'Igaz' : 'Hamis'}</strong></div>
+      </span>
+      <div class="tf-toggle">
+        <button class="tf-btn" onclick="selectTF(${i}, true)" id="tf-${i}-true">Igaz</button>
+        <button class="tf-btn" onclick="selectTF(${i}, false)" id="tf-${i}-false">Hamis</button>
+      </div>`;
+    c.appendChild(row);
+  });
+}
+function selectTF(i, val){
+  tfSelections[i] = val;
+  document.getElementById('tf-'+i+'-true').classList.toggle('on', val === true);
+  document.getElementById('tf-'+i+'-false').classList.toggle('on', val === false);
+  document.getElementById('stmt-'+i).classList.remove('correct','incorrect');
+}
+function checkTF(){
+  let correct = 0;
+  statements.forEach((s, i) => {
+    const row = document.getElementById('stmt-'+i);
+    row.classList.remove('correct','incorrect');
+    if (tfSelections[i] === s.answer){ row.classList.add('correct'); correct++; }
+    else { row.classList.add('incorrect'); }
+  });
+  document.getElementById('h1-score').textContent = correct + ' / 10';
+  return {correct, total:10};
+}
+buildTF();
+
+/* ============ IV.2 cloze (select-based, István Nagy) ============ */
+const wordBank2 = ["babakocsi","bicikli","fiú","idő","játékhelikopter","játékok","kertes ház","lány","műsorvezető","nagy"];
+const clozeParts2 = [
+  "Nagy István ", {ans:"műsorvezetőként", disp:"műsorvezető"}, "ként dolgozik a televízióban. Budán él a feleségével egy ",
+  {ans:"kertes házban", disp:"kertes ház"}, ". Három gyereke van jelenleg, egy ",
+  {ans:"fiú", disp:"fiú"}, " és két ", {ans:"lány", disp:"lány"}, ". A negyedik gyerek születése alkalmából a legidősebb gyerek ",
+  {ans:"biciklit", disp:"bicikli"}, ", a fiú ", {ans:"játékhelikoptert", disp:"játékhelikopter"}, ", a legkisebb pedig ",
+  {ans:"babakocsit", disp:"babakocsi"}, " kapott ajándékba. A családot azonban nem az ajándékok, hanem az együtt eltöltött ",
+  {ans:"idő", disp:"idő"}, " és közös ", {ans:"játékok", disp:"játékok"}, " tartják össze. Nagy István és a felesége nem döntötték el már a házasságkötéskor, hogy ",
+  {ans:"nagy", disp:"nagy"}, " családjuk lesz, csak később alakult így."
+];
+function buildSelectCloze(containerId, parts, bank){
+  const block = document.getElementById(containerId);
+  block.innerHTML = '';
+  let idx = 0;
+  parts.forEach(part => {
+    if (typeof part === 'string'){
+      block.appendChild(document.createTextNode(part));
+    } else {
+      const sel = document.createElement('select');
+      sel.id = containerId + '-blank-' + idx;
+      sel.dataset.answer = part.ans;
+      sel.innerHTML = '<option value="">— válasszon —</option>' + bank.map(w => `<option value="${w}">${w}</option>`).join('');
+      block.appendChild(sel);
+      idx++;
+    }
+  });
+}
+buildSelectCloze('clozeBlock', clozeParts2, wordBank2);
+
+/* ============ GLOBAL SCORE ============ */
+function updateGlobalScore(){ /* live-not required, computed on final check */ }
+
+function checkEverything(){
+  const ny1 = checkGroup('ny1');
+  updateOpenScores();
+  const ny2 = sumOpenGroup('ny2');
+  const ny3 = checkMCQGroup('ny3');
+  const ny4 = sumOpenGroup('ny4');
+  const letterGrade = parseInt(document.getElementById('letterGrade').value || 0);
+  const ova = checkCloze('ovaCloze','ova-score',11);
+  const ovaOpen = sumOpenGroup('ov-a');
+  const sortRes = checkSort();
+  const h1 = checkTF();
+  const h2 = checkCloze('clozeBlock','h2-score',10);
+
+  const partI = ny1.correct + ny2.sum + ny3.correct + ny4.sum;
+  const partII = letterGrade;
+  const partIII = ova.correct + ovaOpen.sum + sortRes.correct;
+  const partIV = h1.correct + h2.correct;
+  const total = Math.round((partI + partII + partIII + partIV)*10)/10;
+
+  document.getElementById('finalScore').innerHTML = total + '<span>/70</span>';
+  document.getElementById('breakdown').innerHTML = `
+    <div><b>${partI}/20</b>I. Nyelvismeret</div>
+    <div><b>${partII}/20</b>II. Fogalmazás</div>
+    <div><b>${Math.round(partIII*10)/10}/20</b>III. Olvasás</div>
+    <div><b>${partIV}/20</b>IV. Hallás</div>
+  `;
+  const msg = document.getElementById('finalMsg');
+  if (total >= 60) msg.textContent = 'Kiváló eredmény!';
+  else if (total >= 42) msg.textContent = 'Ez B1 szinten jó teljesítmény — nézze át a pirossal jelölt részeket.';
+  else msg.textContent = 'Érdemes átismételni a piros jelölésű feladatokat, és újra nekifutni.';
+
+  const finalBox = document.getElementById('finalSummary');
+  finalBox.style.display = 'block';
+  finalBox.scrollIntoView({behavior:'smooth', block:'center'});
+}
+</script>
+
+</body>
+</html>
