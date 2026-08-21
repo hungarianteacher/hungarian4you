@@ -1334,7 +1334,7 @@ function playWord(idx, btn){
     speakFallback(item.hu, btn);
     return;
   }
-  const audio = new Audio(AUDIO_BASE + file);
+  const audio = new Audio(AUDIO_BASE + encodeURIComponent(file));
   currentAudio = audio;
   audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
   audio.addEventListener('error', () => { speakFallback(item.hu, btn); });
