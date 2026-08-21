@@ -600,6 +600,20 @@ function stopAudio(){
   }
   if(speechSupported) window.speechSynthesis.cancel();
 }
+/* Ékezetes fájlnevek: a fájlrendszertől/szervertől függően a kódban lévő
+   NFC (összevont, pl. "é" = 1 kódpont) string bájtban eltérhet a lemezen
+   lévő NFD (felbontott, pl. "e"+"´" = 2 kódpont) verziótól – ez tipikusan
+   macOS-ről feltöltött fájloknál fordul elő, és 404-et okoz. Ezért több
+   normalizálási/encode-olási változatot is kipróbálunk, mielőtt a
+   beszédszintézisre váltanánk.*/
+function buildAudioCandidates(file){
+  const raw = AUDIO_BASE + file;
+  const nfc = AUDIO_BASE + file.normalize('NFC');
+  const nfd = AUDIO_BASE + file.normalize('NFD');
+  const urls = [raw, nfc, nfd, encodeURI(raw), encodeURI(nfc), encodeURI(nfd)];
+  return [...new Set(urls)];
+}
+
 function playWord(idx, btn){
   stopAudio();
   const item = DATA[idx];
@@ -609,11 +623,23 @@ function playWord(idx, btn){
     speakFallback(item.hu, btn);
     return;
   }
-  const audio = new Audio(AUDIO_BASE + file);
-  currentAudio = audio;
-  audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
-  audio.addEventListener('error', () => { speakFallback(item.hu, btn); });
-  audio.play().catch(() => { speakFallback(item.hu, btn); });
+  const candidates = buildAudioCandidates(file);
+  let attempt = 0;
+
+  function tryNext(){
+    if(attempt >= candidates.length){
+      speakFallback(item.hu, btn);
+      return;
+    }
+    const audio = new Audio(candidates[attempt]);
+    attempt++;
+    currentAudio = audio;
+    audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
+    audio.addEventListener('error', tryNext);
+    audio.play().catch(tryNext);
+  }
+
+  tryNext();
 }
 
 function shuffleArr(arr){
