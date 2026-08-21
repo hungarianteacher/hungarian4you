@@ -461,9 +461,110 @@ const DATA = [
 
 const CATEGORIES = [...new Set(DATA.map(d => d.cat))];
 
+/* ---------------- felvett audio fájlok (DATA-val azonos sorrendben) ---------------- */
+const AUDIO_BASE = 'audio/';
+const AUDIO_FILES = [
+  "001_édesanya.mp3",
+  "002_édesapa.mp3",
+  "003_testvér.mp3",
+  "004_nagymama.mp3",
+  "005_nagypapa.mp3",
+  "006_feleség.mp3",
+  "007_férj.mp3",
+  "008_gyerek.mp3",
+  "009_unoka.mp3",
+  "010_rokon.mp3",
+  "011_szülő.mp3",
+  "012_szeretni.mp3",
+  "013_tanulni.mp3",
+  "014_tanár.mp3",
+  "015_diák.mp3",
+  "016_iskola.mp3",
+  "017_lecke.mp3",
+  "018_vizsga.mp3",
+  "019_jegyzetelni.mp3",
+  "020_könyv.mp3",
+  "021_osztály.mp3",
+  "022_tudni.mp3",
+  "023_érteni.mp3",
+  "024_házi-feladat.mp3",
+  "025_dolgozni.mp3",
+  "026_munkahely.mp3",
+  "027_főnök.mp3",
+  "028_kolléga.mp3",
+  "029_fizetés.mp3",
+  "030_állás.mp3",
+  "031_megbeszélés.mp3",
+  "032_határidő.mp3",
+  "033_projekt.mp3",
+  "034_tapasztalat.mp3",
+  "035_karrier.mp3",
+  "036_elintézni.mp3",
+  "037_enni.mp3",
+  "038_inni.mp3",
+  "039_kenyér.mp3",
+  "040_víz.mp3",
+  "041_leves.mp3",
+  "042_hús.mp3",
+  "043_zöldség.mp3",
+  "044_gyümölcs.mp3",
+  "045_reggeli.mp3",
+  "046_vacsora.mp3",
+  "047_éhes.mp3",
+  "048_finom.mp3",
+  "049_lakás.mp3",
+  "050_ház.mp3",
+  "051_konyha.mp3",
+  "052_hálószoba.mp3",
+  "053_bútor.mp3",
+  "054_takarítani.mp3",
+  "055_főzni.mp3",
+  "056_ajtó.mp3",
+  "057_ablak.mp3",
+  "058_kulcs.mp3",
+  "059_lakni.mp3",
+  "060_kényelmes.mp3",
+  "061_fej.mp3",
+  "062_kéz.mp3",
+  "063_láb.mp3",
+  "064_szív.mp3",
+  "065_fájni.mp3",
+  "066_beteg.mp3",
+  "067_egészséges.mp3",
+  "068_orvos.mp3",
+  "069_gyógyszer.mp3",
+  "070_kórház.mp3",
+  "071_pihenni.mp3",
+  "072_erős.mp3",
+  "073_ma.mp3",
+  "074_holnap.mp3",
+  "075_tegnap.mp3",
+  "076_hét.mp3",
+  "077_hónap.mp3",
+  "078_év.mp3",
+  "079_most.mp3",
+  "080_később.mp3",
+  "081_korán.mp3",
+  "082_későn.mp3",
+  "083_várni.mp3",
+  "084_sietni.mp3",
+  "085_utazni.mp3",
+  "086_vonat.mp3",
+  "087_repülőgép.mp3",
+  "088_autó.mp3",
+  "089_jegy.mp3",
+  "090_reptér.mp3",
+  "091_pályaudvar.mp3",
+  "092_megérkezni.mp3",
+  "093_indulni.mp3",
+  "094_térkép.mp3",
+  "095_útlevél.mp3",
+  "096_csomag.mp3",
+];
+
 const $ = id => document.getElementById(id);
 
-/* ---------------- felolvasás / speech synthesis ---------------- */
+/* ---------------- felolvasás / speech synthesis (tartalék, ha nincs audio fájl) ---------------- */
 const speechSupported = 'speechSynthesis' in window;
 let huVoice = null;
 function pickHungarianVoice(){
@@ -474,22 +575,45 @@ function pickHungarianVoice(){
 if(speechSupported){
   pickHungarianVoice();
   window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
-} else {
-  $('noSpeechNote').classList.add('show');
 }
-function speak(text, btn){
-  if(!speechSupported) return;
+function speakFallback(text, btn){
+  if(!speechSupported){ if(btn) btn.classList.remove('playing'); return; }
   window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = 'hu-HU';
   utter.rate = 0.9;
   if(huVoice) utter.voice = huVoice;
   if(btn){
-    btn.classList.add('playing');
     utter.onend = () => btn.classList.remove('playing');
     utter.onerror = () => btn.classList.remove('playing');
   }
   window.speechSynthesis.speak(utter);
+}
+
+/* ---------------- lejátszás: elsőként a felvett audio, hiba esetén TTS tartalék ---------------- */
+let currentAudio = null;
+function stopAudio(){
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+  if(speechSupported) window.speechSynthesis.cancel();
+}
+function playWord(idx, btn){
+  stopAudio();
+  const item = DATA[idx];
+  const file = AUDIO_FILES[idx];
+  if(btn) btn.classList.add('playing');
+  if(!file){
+    speakFallback(item.hu, btn);
+    return;
+  }
+  const audio = new Audio(AUDIO_BASE + file);
+  currentAudio = audio;
+  audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
+  audio.addEventListener('error', () => { speakFallback(item.hu, btn); });
+  audio.play().catch(() => { speakFallback(item.hu, btn); });
 }
 
 function shuffleArr(arr){
@@ -521,7 +645,7 @@ function initJumpSelect(){
 }
 
 function renderStudy(){
-  if(speechSupported) window.speechSynthesis.cancel();
+  stopAudio();
   const item = DATA[studyOrder[studyPos]];
   $('frontText').textContent = item.en;
   $('frontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
@@ -548,8 +672,7 @@ $('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.m
 $('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
 $('speakStudyBtn').addEventListener('click', (e) => {
   e.stopPropagation();
-  const item = DATA[studyOrder[studyPos]];
-  speak(item.hu, e.currentTarget);
+  playWord(studyOrder[studyPos], e.currentTarget);
 });
 
 /* ---------------- MODE SWITCH ---------------- */
@@ -595,7 +718,7 @@ function startQuiz(){
 }
 
 function renderQuiz(){
-  if(speechSupported) window.speechSynthesis.cancel();
+  stopAudio();
   const item = DATA[quizOrder[quizPos]];
   $('quizFrontText').textContent = item.en;
   $('quizFrontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
@@ -650,8 +773,7 @@ $('knowBtn').addEventListener('click', () => answerQuiz(true));
 $('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
 $('speakQuizBtn').addEventListener('click', (e) => {
   e.stopPropagation();
-  const item = DATA[quizOrder[quizPos]];
-  speak(item.hu, e.currentTarget);
+  playWord(quizOrder[quizPos], e.currentTarget);
 });
 
 /* ---------------- KEYBOARD ---------------- */
