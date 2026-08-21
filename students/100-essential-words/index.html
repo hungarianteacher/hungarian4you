@@ -605,7 +605,11 @@ function stopAudio(){
    lévő NFD (felbontott, pl. "e"+"´" = 2 kódpont) verziótól – ez tipikusan
    macOS-ről feltöltött fájloknál fordul elő, és 404-et okoz. Ezért több
    normalizálási/encode-olási változatot is kipróbálunk, mielőtt a
-   beszédszintézisre váltanánk.*/
+   beszédszintézisre váltanánk. Egy próbálkozás csak EGYSZER zárulhat le
+   (settled védőzászló) — ez akadályozza meg, hogy az 'error' esemény ÉS
+   a play() promise elutasítása is elindítsa a következő próbálkozást,
+   mert az két Audio objektumot indított el egyszerre (ez okozta a
+   visszhangot / dupla lejátszást).*/
 function buildAudioCandidates(file){
   const raw = AUDIO_BASE + file;
   const nfc = AUDIO_BASE + file.normalize('NFC');
@@ -614,32 +618,44 @@ function buildAudioCandidates(file){
   return [...new Set(urls)];
 }
 
-function playWord(idx, btn){
+function tryPlayUrl(url){
+  return new Promise((resolve) => {
+    const audio = new Audio(url);
+    let settled = false;
+    const finish = (ok) => {
+      if(settled) return;
+      settled = true;
+      if(!ok){ audio.pause(); }
+      resolve({ok, audio});
+    };
+    currentAudio = audio;
+    audio.addEventListener('ended', () => finish(true));
+    audio.addEventListener('error', () => finish(false));
+    audio.play().then(() => finish(true)).catch(() => finish(false));
+  });
+}
+
+async function playWord(idx, btn){
   stopAudio();
   const item = DATA[idx];
   const file = AUDIO_FILES[idx];
   if(btn) btn.classList.add('playing');
+  const finishBtn = () => { if(btn) btn.classList.remove('playing'); };
+
   if(!file){
     speakFallback(item.hu, btn);
     return;
   }
-  const candidates = buildAudioCandidates(file);
-  let attempt = 0;
 
-  function tryNext(){
-    if(attempt >= candidates.length){
-      speakFallback(item.hu, btn);
+  const candidates = buildAudioCandidates(file);
+  for(const url of candidates){
+    const {ok, audio} = await tryPlayUrl(url);
+    if(ok){
+      audio.addEventListener('ended', finishBtn, {once:true});
       return;
     }
-    const audio = new Audio(candidates[attempt]);
-    attempt++;
-    currentAudio = audio;
-    audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
-    audio.addEventListener('error', tryNext);
-    audio.play().catch(tryNext);
   }
-
-  tryNext();
+  speakFallback(item.hu, btn);
 }
 
 function shuffleArr(arr){
