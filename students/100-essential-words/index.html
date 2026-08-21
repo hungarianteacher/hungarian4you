@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Essential 100 — Szókincs — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- Videó ---------- */
+  .video-card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 14px;
+    padding: 18px;
+    margin: 32px 0 8px;
+    box-shadow: 0 10px 26px -18px rgba(43,33,24,0.35);
+  }
+  .video-card h2{
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    margin: 2px 4px 12px;
+    color: var(--paprika-dark, #7E2513);
+  }
+  .video-card .sub{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: -6px 4px 14px;
+  }
+  .video-frame{
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-frame iframe{
+    position: absolute; top:0; left:0; width:100%; height:100%; border:0;
+  }
+
+  /* ---------- App keret ---------- */
+  .app{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 24px clamp(16px,4vw,32px) 30px;
+    margin: 30px 0 10px;
+    box-shadow: 0 14px 34px -20px rgba(43,33,24,0.4);
+  }
+  .mode-switch{
+    display:flex; justify-content:center; gap:4px;
+    background: var(--bg, #FAF4E6);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 22px;
+  }
+  .mode-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding: 9px 20px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.6;
+    transition: .18s;
+  }
+  .mode-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .info-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:14px;
+  }
+  .cat-pill{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.78rem;
+    letter-spacing:.02em; color:#fff; background: var(--meadow);
+    padding: 7px 16px; border-radius:999px; max-width: 65%;
+  }
+  .counter{
+    font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;
+    color: var(--ink, #2b2420); opacity:.65;
+  }
+  select.jump{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.85rem;
+    padding: 8px 12px; border-radius:8px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; max-width: 240px;
+  }
+  .progress-track{
+    width:100%; height:6px; border-radius:6px; overflow:hidden;
+    background: rgba(43,33,24,0.08); margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--paprika), var(--mustard));
+    transition: width .3s ease;
+  }
+
+  .stage{ display:flex; justify-content:center; perspective:1600px; margin-bottom:20px; }
+  .card{
+    position:relative; width:min(680px,100%); height: clamp(260px, 36vw, 360px);
+    cursor:pointer; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: clamp(20px,4vw,40px);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    box-shadow: 0 14px 30px -18px rgba(43,33,24,0.4);
+  }
+  .face-front{ background: var(--bg, #FAF4E6); }
+  .face-back{ background: var(--meadow); color:#fdf9ef; transform: rotateY(180deg); }
+  .face-eyebrow{
+    font-family:'Work Sans', sans-serif; font-size:0.72rem; letter-spacing:.16em;
+    text-transform:uppercase; font-weight:700; opacity:.55; margin-bottom:14px;
+  }
+  .face-back .face-eyebrow{ color: var(--mustard); opacity:.95; }
+  .pos-tag{
+    font-family:'Work Sans', sans-serif; font-size:0.68rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; color:#fff;
+    background: var(--paprika); padding:3px 10px; border-radius:999px; margin-bottom:10px;
+  }
+  .face-back .pos-tag{ background: var(--gold, var(--mustard)); color: var(--ink,#241f1a); }
+  .face-text{
+    font-family:'Fraunces', serif; font-weight:600; font-size: clamp(20px,3.4vw,34px); line-height:1.2;
+  }
+  .face-front .face-text{ color: var(--paprika-dark, #7E2513); }
+  .face-example{
+    margin-top:14px; font-family:'Work Sans', sans-serif; font-size:0.85rem; line-height:1.5; opacity:.9; max-width: 460px;
+  }
+  .face-example .en{ display:block; opacity:.75; font-style:italic; margin-top:2px; }
+  .hint{ margin-top:16px; font-size:0.72rem; opacity:.5; font-weight:600; letter-spacing:.03em; font-family:'Work Sans', sans-serif; }
+  .face-back .hint{ color:#fdf9ef; opacity:.6; }
+  .speak-btn{
+    margin-top:14px; width:48px; height:48px; border-radius:50%;
+    border:2px solid rgba(253,249,239,0.5); background: rgba(253,249,239,0.14); color:#fdf9ef;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; transition:.15s;
+  }
+  .speak-btn:hover{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); transform: scale(1.06); }
+  .speak-btn.playing{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); animation: pulseGlow .9s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,147,26,.5);} 50%{ box-shadow:0 0 0 9px rgba(201,147,26,0);} }
+
+  .controls{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem;
+    border-radius:12px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); padding:12px 22px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn.primary{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .btn.ghost{ background:transparent; }
+  .btn.know{ background: var(--meadow); border-color: var(--meadow); color:#fff; }
+  .btn.dontknow{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .kbd-hint{ text-align:center; font-family:'Work Sans', sans-serif; font-size:0.78rem; opacity:.45; margin-top:4px; }
+
+  .score-tally{ display:flex; gap:18px; font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem; }
+  .score-tally .ok{ color: var(--meadow); }
+  .score-tally .no{ color: var(--paprika); }
+
+  .quiz-intro, .quiz-results{
+    text-align:center; padding: 20px clamp(10px,4vw,30px) 6px;
+  }
+  .quiz-intro p, .quiz-results p{ font-family:'Work Sans', sans-serif; font-size:0.92rem; opacity:.75; max-width:520px; margin:8px auto 20px; line-height:1.55; }
+  .quiz-intro select{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding:10px 16px; border-radius:10px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; margin-bottom:18px; max-width:100%;
+  }
+  .big-score{ font-family:'Fraunces', serif; font-weight:700; font-size: clamp(40px,7vw,64px); color: var(--paprika); margin: 6px 0; }
+  .missed-list{ text-align:left; max-height:260px; overflow-y:auto; margin: 14px auto 22px; max-width:520px; border-top:1.5px solid var(--border, rgba(43,33,24,0.16)); padding-top:14px; }
+  .missed-item{ display:flex; justify-content:space-between; gap:12px; padding:7px 4px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); font-family:'Work Sans', sans-serif; font-size:0.85rem; }
+  .missed-item b{ font-family:'Fraunces', serif; color: var(--paprika-dark, #7E2513); white-space:nowrap; }
+
+  .hidden{ display:none !important; }
+  .no-speech-note{
+    text-align:center; font-family:'Work Sans', sans-serif; font-size:0.82rem; color: var(--paprika-dark, #7E2513);
+    background: var(--bg, #FAF4E6); border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px;
+    padding:10px 16px; margin: 0 0 16px; display:none;
+  }
+  .no-speech-note.show{ display:block; }
+  .no-speech-note .translation{ display:block; margin-top:4px; opacity:.75; font-style:italic; }
+
+  @media (max-width:640px){
+    .info-bar{ flex-direction:column; align-items:flex-start; }
+    select.jump{ max-width:none; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / <a href="../vocabulary-szokincs/">Vocabulary</a> / The Essential 100
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">SZÓKINCS &middot; THE ESSENTIAL 100</span>
+  <h1 class="title">The Essential 100</h1>
+  <p class="lede">
+    100 szó — a magyar alapszókincs, amit mindenkinek tudnia kell.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">100 words — the core Hungarian vocabulary everyone should know.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <section class="video-card">
+    <h2>Bevezető videó <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Introduction Video</span></h2>
+    <p class="sub">Nézd meg, mielőtt nekikezdesz a kártyáknak. — Watch this before you start the flashcards.</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/a03LyjG--ec" title="The Essential 100 — bevezető videó" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="app">
+
+    <div class="mode-switch">
+      <button type="button" id="btnStudyMode" class="active">Tanulás</button>
+      <button type="button" id="btnQuizMode">Kvíz</button>
+    </div>
+
+    <p class="no-speech-note" id="noSpeechNote">
+      A böngésződ nem támogatja a hangos felolvasást, ezért a hangszóró gombok itt nem működnek.
+      <span class="translation">Your browser doesn't support speech synthesis, so the speaker buttons won't work here.</span>
+    </p>
+
+    <!-- STUDY MODE -->
+    <div id="studyView">
+      <div class="info-bar">
+        <span class="cat-pill" id="catLabel">—</span>
+        <select class="jump" id="jumpCat"></select>
+        <span class="counter"><span id="cardIndex">1</span> / <span id="cardTotal">100</span></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="studyProgress"></div></div>
+
+      <div class="stage">
+        <div class="card" id="studyCard">
+          <div class="face face-front">
+            <span class="face-eyebrow">English</span>
+            <span class="pos-tag" id="frontPos">noun</span>
+            <div class="face-text" id="frontText">—</div>
+            <div class="hint">Kattints a fordulásért · Space</div>
+          </div>
+          <div class="face face-back">
+            <span class="face-eyebrow">Magyarul</span>
+            <div class="face-text" id="backText">—</div>
+            <p class="face-example" id="backExample"></p>
+            <button type="button" class="speak-btn" id="speakStudyBtn" title="Kiejtés meghallgatása">🔊</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn wide" id="prevBtn">&larr; Előző</button>
+        <button type="button" class="btn primary wide" id="flipBtn">Fordítás</button>
+        <button type="button" class="btn wide" id="nextBtn">Következő &rarr;</button>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn ghost" id="shuffleBtn">🔀 Véletlen sorrend</button>
+        <button type="button" class="btn ghost" id="orderBtn">↺ Eredeti sorrend</button>
+      </div>
+      <p class="kbd-hint">Nyilak: lapozás · Szóköz: fordítás</p>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quizView" class="hidden">
+
+      <div id="quizIntro" class="quiz-intro">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz — válassz kategóriát</h2>
+        <p>Véletlenszerű sorrendben, flashcard formában. Fordítsd meg a kártyát, majd jelöld: tudtad-e a választ.<br>
+        <span style="opacity:.7; font-style:italic;">Random order flashcards. Flip the card, then mark whether you knew it.</span></p>
+        <select id="quizCatSelect"></select><br>
+        <button type="button" class="btn primary wide" id="startQuizBtn">Kvíz indítása</button>
+      </div>
+
+      <div id="quizPlay" class="hidden">
+        <div class="info-bar">
+          <span class="cat-pill" id="quizCatLabel">—</span>
+          <span class="score-tally"><span class="ok">✓ <span id="okCount">0</span></span><span class="no">✕ <span id="noCount">0</span></span></span>
+          <span class="counter"><span id="quizIndex">1</span> / <span id="quizTotal">100</span></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgress"></div></div>
+
+        <div class="stage">
+          <div class="card" id="quizCard">
+            <div class="face face-front">
+              <span class="face-eyebrow">English</span>
+              <span class="pos-tag" id="quizFrontPos">noun</span>
+              <div class="face-text" id="quizFrontText">—</div>
+              <div class="hint">Kattints a fordulásért · Space</div>
+            </div>
+            <div class="face face-back">
+              <span class="face-eyebrow">Magyarul</span>
+              <div class="face-text" id="quizBackText">—</div>
+              <p class="face-example" id="quizBackExample"></p>
+              <button type="button" class="speak-btn" id="speakQuizBtn" title="Kiejtés meghallgatása">🔊</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" id="answerRow" style="visibility:hidden;">
+          <button type="button" class="btn dontknow wide" id="dontKnowBtn">✕ Nem tudtam</button>
+          <button type="button" class="btn know wide" id="knowBtn">✓ Tudtam</button>
+        </div>
+        <p class="kbd-hint">Fordítsd meg a kártyát, majd válaszolj</p>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz eredménye</h2>
+        <div class="big-score"><span id="finalScore">0</span>/<span id="finalTotal">0</span></div>
+        <p>Helyes válaszok száma</p>
+        <div class="missed-list" id="missedList"></div>
+        <button type="button" class="btn primary wide" id="restartQuizBtn">Kvíz újra</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Adatok — The Essential 100 / Data — The Essential 100
+   pos: noun | verb | adj | adv
+----------------------------------------------------------------*/
+const POS_LABELS = {
+  noun: { hu: "főnév", en: "noun" },
+  verb: { hu: "ige", en: "verb" },
+  adj:  { hu: "melléknév", en: "adjective" },
+  adv:  { hu: "határozószó", en: "adverb" },
+};
+
+const DATA = [
+  // CSALÁD / FAMILY
+  { cat: "család", catEn: "family", hu: "édesanya", en: "mother", pos: "noun", exHu: "Az édesanyám orvos.", exEn: "My mother is a doctor." },
+  { cat: "család", catEn: "family", hu: "édesapa", en: "father", pos: "noun", exHu: "Az édesapám ma dolgozik.", exEn: "My father is working today." },
+  { cat: "család", catEn: "family", hu: "testvér", en: "sibling", pos: "noun", exHu: "Van egy testvérem.", exEn: "I have one sibling." },
+  { cat: "család", catEn: "family", hu: "nagymama", en: "grandmother", pos: "noun", exHu: "A nagymamám süteményt süt.", exEn: "My grandmother is baking a cake." },
+  { cat: "család", catEn: "family", hu: "nagypapa", en: "grandfather", pos: "noun", exHu: "A nagypapa a kertben van.", exEn: "Grandpa is in the garden." },
+  { cat: "család", catEn: "family", hu: "feleség", en: "wife", pos: "noun", exHu: "A feleségem tanár.", exEn: "My wife is a teacher." },
+  { cat: "család", catEn: "family", hu: "férj", en: "husband", pos: "noun", exHu: "A férjem mérnök.", exEn: "My husband is an engineer." },
+  { cat: "család", catEn: "family", hu: "gyerek", en: "child", pos: "noun", exHu: "Két gyerekünk van.", exEn: "We have two children." },
+  { cat: "család", catEn: "family", hu: "unoka", en: "grandchild", pos: "noun", exHu: "Az unokája nagyon aranyos.", exEn: "Her grandchild is very cute." },
+  { cat: "család", catEn: "family", hu: "rokon", en: "relative", pos: "noun", exHu: "Sok rokonunk lakik vidéken.", exEn: "Many of our relatives live in the countryside." },
+  { cat: "család", catEn: "family", hu: "szülő", en: "parent", pos: "noun", exHu: "A szülők ma jönnek.", exEn: "The parents are coming today." },
+  { cat: "család", catEn: "family", hu: "szeretni", en: "to love", pos: "verb", exHu: "Nagyon szeretem a családomat.", exEn: "I love my family very much." },
+
+  // TANULÁS ÉS ISKOLA / LEARNING & SCHOOL
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tanulni", en: "to study / to learn", pos: "verb", exHu: "Minden este tanulok.", exEn: "I study every evening." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tanár", en: "teacher", pos: "noun", exHu: "A tanár érthetően magyaráz.", exEn: "The teacher explains clearly." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "diák", en: "student", pos: "noun", exHu: "A diák felkészült a vizsgára.", exEn: "The student is prepared for the exam." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "iskola", en: "school", pos: "noun", exHu: "Az iskola nyolckor kezdődik.", exEn: "School starts at eight." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "lecke", en: "lesson", pos: "noun", exHu: "A mai lecke rövid volt.", exEn: "Today's lesson was short." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "vizsga", en: "exam", pos: "noun", exHu: "Holnap van a vizsgám.", exEn: "I have my exam tomorrow." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "jegyzetelni", en: "to take notes", pos: "verb", exHu: "Órán mindig jegyzetelek.", exEn: "I always take notes in class." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "könyv", en: "book", pos: "noun", exHu: "Ez egy érdekes könyv.", exEn: "This is an interesting book." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "osztály", en: "class / classroom", pos: "noun", exHu: "Az osztályunk huszonöt fős.", exEn: "Our class has twenty-five students." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tudni", en: "to know", pos: "verb", exHu: "Tudom a választ.", exEn: "I know the answer." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "érteni", en: "to understand", pos: "verb", exHu: "Nem értem ezt a szót.", exEn: "I don't understand this word." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "házi feladat", en: "homework", pos: "noun", exHu: "Sok házi feladatom van ma.", exEn: "I have a lot of homework today." },
+
+  // MUNKA / WORK
+  { cat: "munka", catEn: "work", hu: "dolgozni", en: "to work", pos: "verb", exHu: "Egy irodában dolgozom.", exEn: "I work in an office." },
+  { cat: "munka", catEn: "work", hu: "munkahely", en: "workplace", pos: "noun", exHu: "A munkahelyem közel van.", exEn: "My workplace is close by." },
+  { cat: "munka", catEn: "work", hu: "főnök", en: "boss", pos: "noun", exHu: "A főnököm elégedett velem.", exEn: "My boss is satisfied with me." },
+  { cat: "munka", catEn: "work", hu: "kolléga", en: "colleague", pos: "noun", exHu: "A kollégáim segítőkészek.", exEn: "My colleagues are helpful." },
+  { cat: "munka", catEn: "work", hu: "fizetés", en: "salary", pos: "noun", exHu: "A fizetés minden hónapban jön.", exEn: "The salary comes every month." },
+  { cat: "munka", catEn: "work", hu: "állás", en: "job", pos: "noun", exHu: "Új állást keresek.", exEn: "I'm looking for a new job." },
+  { cat: "munka", catEn: "work", hu: "megbeszélés", en: "meeting", pos: "noun", exHu: "A megbeszélés tízkor kezdődik.", exEn: "The meeting starts at ten." },
+  { cat: "munka", catEn: "work", hu: "határidő", en: "deadline", pos: "noun", exHu: "A határidő péntek.", exEn: "The deadline is Friday." },
+  { cat: "munka", catEn: "work", hu: "projekt", en: "project", pos: "noun", exHu: "Ez egy fontos projekt.", exEn: "This is an important project." },
+  { cat: "munka", catEn: "work", hu: "tapasztalat", en: "experience", pos: "noun", exHu: "Sok tapasztalatom van.", exEn: "I have a lot of experience." },
+  { cat: "munka", catEn: "work", hu: "karrier", en: "career", pos: "noun", exHu: "A karrierem fontos nekem.", exEn: "My career is important to me." },
+  { cat: "munka", catEn: "work", hu: "elintézni", en: "to take care of / to handle", pos: "verb", exHu: "Ezt még ma elintézem.", exEn: "I'll take care of this today." },
+
+  // ÉTEL ÉS ITAL / FOOD & DRINK
+  { cat: "étel és ital", catEn: "food & drink", hu: "enni", en: "to eat", pos: "verb", exHu: "Mindjárt eszünk.", exEn: "We're about to eat." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "inni", en: "to drink", pos: "verb", exHu: "Vizet iszom.", exEn: "I'm drinking water." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "kenyér", en: "bread", pos: "noun", exHu: "Friss kenyeret vettem.", exEn: "I bought fresh bread." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "víz", en: "water", pos: "noun", exHu: "Kérek egy pohár vizet.", exEn: "I'd like a glass of water." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "leves", en: "soup", pos: "noun", exHu: "A leves nagyon finom.", exEn: "The soup is very tasty." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "hús", en: "meat", pos: "noun", exHu: "Nem eszem húst.", exEn: "I don't eat meat." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "zöldség", en: "vegetable", pos: "noun", exHu: "Sok zöldséget eszünk.", exEn: "We eat a lot of vegetables." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "gyümölcs", en: "fruit", pos: "noun", exHu: "A gyümölcs egészséges.", exEn: "Fruit is healthy." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "reggeli", en: "breakfast", pos: "noun", exHu: "A reggeli hétkor van.", exEn: "Breakfast is at seven." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "vacsora", en: "dinner", pos: "noun", exHu: "A vacsora kész.", exEn: "Dinner is ready." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "éhes", en: "hungry", pos: "adj", exHu: "Nagyon éhes vagyok.", exEn: "I'm very hungry." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "finom", en: "delicious", pos: "adj", exHu: "Ez a torta nagyon finom.", exEn: "This cake is very delicious." },
+
+  // OTTHON / HOME
+  { cat: "otthon", catEn: "home", hu: "lakás", en: "apartment", pos: "noun", exHu: "A lakásunk kicsi, de kényelmes.", exEn: "Our apartment is small but comfortable." },
+  { cat: "otthon", catEn: "home", hu: "ház", en: "house", pos: "noun", exHu: "A ház a városban van.", exEn: "The house is in the city." },
+  { cat: "otthon", catEn: "home", hu: "konyha", en: "kitchen", pos: "noun", exHu: "A konyhában főzök.", exEn: "I cook in the kitchen." },
+  { cat: "otthon", catEn: "home", hu: "hálószoba", en: "bedroom", pos: "noun", exHu: "A hálószoba emeleten van.", exEn: "The bedroom is upstairs." },
+  { cat: "otthon", catEn: "home", hu: "bútor", en: "furniture", pos: "noun", exHu: "Új bútort vettünk.", exEn: "We bought new furniture." },
+  { cat: "otthon", catEn: "home", hu: "takarítani", en: "to clean", pos: "verb", exHu: "Szombaton takarítok.", exEn: "I clean on Saturdays." },
+  { cat: "otthon", catEn: "home", hu: "főzni", en: "to cook", pos: "verb", exHu: "Szeretek főzni.", exEn: "I like to cook." },
+  { cat: "otthon", catEn: "home", hu: "ajtó", en: "door", pos: "noun", exHu: "Csukd be az ajtót!", exEn: "Close the door!" },
+  { cat: "otthon", catEn: "home", hu: "ablak", en: "window", pos: "noun", exHu: "Nyisd ki az ablakot.", exEn: "Open the window." },
+  { cat: "otthon", catEn: "home", hu: "kulcs", en: "key", pos: "noun", exHu: "Elvesztettem a kulcsomat.", exEn: "I lost my key." },
+  { cat: "otthon", catEn: "home", hu: "lakni", en: "to live / to reside", pos: "verb", exHu: "Budapesten lakom.", exEn: "I live in Budapest." },
+  { cat: "otthon", catEn: "home", hu: "kényelmes", en: "comfortable", pos: "adj", exHu: "Ez egy kényelmes fotel.", exEn: "This is a comfortable armchair." },
+
+  // TEST ÉS EGÉSZSÉG / BODY & HEALTH
+  { cat: "test és egészség", catEn: "body & health", hu: "fej", en: "head", pos: "noun", exHu: "Fáj a fejem.", exEn: "My head hurts." },
+  { cat: "test és egészség", catEn: "body & health", hu: "kéz", en: "hand", pos: "noun", exHu: "Mosd meg a kezed!", exEn: "Wash your hands!" },
+  { cat: "test és egészség", catEn: "body & health", hu: "láb", en: "leg / foot", pos: "noun", exHu: "Fáradt a lábam.", exEn: "My legs are tired." },
+  { cat: "test és egészség", catEn: "body & health", hu: "szív", en: "heart", pos: "noun", exHu: "A szíve gyorsan ver.", exEn: "Her heart is beating fast." },
+  { cat: "test és egészség", catEn: "body & health", hu: "fájni", en: "to hurt", pos: "verb", exHu: "Fáj a torkom.", exEn: "My throat hurts." },
+  { cat: "test és egészség", catEn: "body & health", hu: "beteg", en: "sick", pos: "adj", exHu: "Ma beteg vagyok.", exEn: "I'm sick today." },
+  { cat: "test és egészség", catEn: "body & health", hu: "egészséges", en: "healthy", pos: "adj", exHu: "Egészséges életmódot élek.", exEn: "I live a healthy lifestyle." },
+  { cat: "test és egészség", catEn: "body & health", hu: "orvos", en: "doctor", pos: "noun", exHu: "El kell mennem az orvoshoz.", exEn: "I need to go to the doctor." },
+  { cat: "test és egészség", catEn: "body & health", hu: "gyógyszer", en: "medicine", pos: "noun", exHu: "Szedem a gyógyszert.", exEn: "I'm taking the medicine." },
+  { cat: "test és egészség", catEn: "body & health", hu: "kórház", en: "hospital", pos: "noun", exHu: "A kórház közel van.", exEn: "The hospital is nearby." },
+  { cat: "test és egészség", catEn: "body & health", hu: "pihenni", en: "to rest", pos: "verb", exHu: "Ma csak pihenek.", exEn: "Today I'm just resting." },
+  { cat: "test és egészség", catEn: "body & health", hu: "erős", en: "strong", pos: "adj", exHu: "Nagyon erős vagy.", exEn: "You are very strong." },
+
+  // IDŐ ÉS NAPTÁR / TIME & CALENDAR
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "ma", en: "today", pos: "adv", exHu: "Ma szép idő van.", exEn: "The weather is nice today." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "holnap", en: "tomorrow", pos: "adv", exHu: "Holnap dolgozom.", exEn: "I'm working tomorrow." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "tegnap", en: "yesterday", pos: "adv", exHu: "Tegnap moziban voltam.", exEn: "I was at the cinema yesterday." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "hét", en: "week", pos: "noun", exHu: "Jövő héten utazom.", exEn: "I'm traveling next week." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "hónap", en: "month", pos: "noun", exHu: "Ez a hónap gyorsan telt.", exEn: "This month went by fast." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "év", en: "year", pos: "noun", exHu: "Minden évben ide jövünk.", exEn: "We come here every year." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "most", en: "now", pos: "adv", exHu: "Most nincs időm.", exEn: "I don't have time right now." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "később", en: "later", pos: "adv", exHu: "Erről később beszélünk.", exEn: "We'll talk about this later." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "korán", en: "early", pos: "adv", exHu: "Ma korán kelek.", exEn: "I'm getting up early today." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "későn", en: "late", pos: "adv", exHu: "Későn érkeztem.", exEn: "I arrived late." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "várni", en: "to wait", pos: "verb", exHu: "Itt várlak.", exEn: "I'll wait for you here." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "sietni", en: "to hurry", pos: "verb", exHu: "Sietnünk kell.", exEn: "We need to hurry." },
+
+  // UTAZÁS ÉS KÖZLEKEDÉS / TRAVEL & TRANSPORT
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "utazni", en: "to travel", pos: "verb", exHu: "Szeretek külföldre utazni.", exEn: "I like to travel abroad." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "vonat", en: "train", pos: "noun", exHu: "A vonat késik.", exEn: "The train is late." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "repülőgép", en: "airplane", pos: "noun", exHu: "A repülőgép hamarosan felszáll.", exEn: "The airplane is about to take off." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "autó", en: "car", pos: "noun", exHu: "Autóval megyünk.", exEn: "We're going by car." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "jegy", en: "ticket", pos: "noun", exHu: "Megvettem a jegyet.", exEn: "I bought the ticket." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "reptér", en: "airport", pos: "noun", exHu: "A reptérre megyünk.", exEn: "We're going to the airport." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "pályaudvar", en: "train station", pos: "noun", exHu: "A pályaudvar a központban van.", exEn: "The train station is downtown." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "megérkezni", en: "to arrive", pos: "verb", exHu: "Este érkezünk meg.", exEn: "We'll arrive in the evening." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "indulni", en: "to depart / to set off", pos: "verb", exHu: "A vonat nyolckor indul.", exEn: "The train departs at eight." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "térkép", en: "map", pos: "noun", exHu: "Nézzük meg a térképet.", exEn: "Let's look at the map." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "útlevél", en: "passport", pos: "noun", exHu: "Ne felejtsd el az útleveled!", exEn: "Don't forget your passport!" },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "csomag", en: "luggage / package", pos: "noun", exHu: "A csomagom elég nehéz.", exEn: "My luggage is quite heavy." },
+];
+
+const CATEGORIES = [...new Set(DATA.map(d => d.cat))];
+
+const $ = id => document.getElementById(id);
+
+/* ---------------- felolvasás / speech synthesis ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){
+  pickHungarianVoice();
+  window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
+} else {
+  $('noSpeechNote').classList.add('show');
+}
+function speak(text, btn){
+  if(!speechSupported) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'hu-HU';
+  utter.rate = 0.9;
+  if(huVoice) utter.voice = huVoice;
+  if(btn){
+    btn.classList.add('playing');
+    utter.onend = () => btn.classList.remove('playing');
+    utter.onerror = () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------------- STUDY MODE ---------------- */
+let studyOrder = DATA.map((_, i) => i);
+let studyPos = 0;
+let studyFlipped = false;
+
+function initJumpSelect(){
+  const sel = $('jumpCat');
+  sel.innerHTML = '<option value="-1">Ugrás kategóriára…</option>' +
+    CATEGORIES.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+  sel.addEventListener('change', () => {
+    const idx = parseInt(sel.value, 10);
+    if(idx < 0) return;
+    const cat = CATEGORIES[idx];
+    const pos = studyOrder.findIndex(i => DATA[i].cat === cat);
+    if(pos >= 0){ studyPos = pos; renderStudy(); }
+    sel.value = "-1";
+  });
+}
+
+function renderStudy(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[studyOrder[studyPos]];
+  $('frontText').textContent = item.en;
+  $('frontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
+  $('backText').textContent = item.hu;
+  $('backExample').innerHTML = `${item.exHu}<span class="en">${item.exEn}</span>`;
+  $('catLabel').textContent = `${item.cat} / ${item.catEn}`;
+  $('cardIndex').textContent = studyPos + 1;
+  $('cardTotal').textContent = DATA.length;
+  $('studyProgress').style.width = ((studyPos + 1) / DATA.length * 100) + "%";
+  studyFlipped = false;
+  $('studyCard').classList.remove('flipped');
+  $('prevBtn').disabled = studyPos === 0;
+  $('nextBtn').disabled = studyPos === studyOrder.length - 1;
+}
+function flipStudy(){
+  studyFlipped = !studyFlipped;
+  $('studyCard').classList.toggle('flipped', studyFlipped);
+}
+$('studyCard').addEventListener('click', flipStudy);
+$('flipBtn').addEventListener('click', flipStudy);
+$('prevBtn').addEventListener('click', () => { if(studyPos > 0){ studyPos--; renderStudy(); } });
+$('nextBtn').addEventListener('click', () => { if(studyPos < studyOrder.length - 1){ studyPos++; renderStudy(); } });
+$('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.map((_, i) => i)); studyPos = 0; renderStudy(); });
+$('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
+$('speakStudyBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[studyOrder[studyPos]];
+  speak(item.hu, e.currentTarget);
+});
+
+/* ---------------- MODE SWITCH ---------------- */
+$('btnStudyMode').addEventListener('click', () => {
+  $('btnStudyMode').classList.add('active');
+  $('btnQuizMode').classList.remove('active');
+  $('studyView').classList.remove('hidden');
+  $('quizView').classList.add('hidden');
+});
+$('btnQuizMode').addEventListener('click', () => {
+  $('btnQuizMode').classList.add('active');
+  $('btnStudyMode').classList.remove('active');
+  $('quizView').classList.remove('hidden');
+  $('studyView').classList.add('hidden');
+});
+
+/* ---------------- QUIZ MODE ---------------- */
+let quizOrder = [];
+let quizPos = 0;
+let quizFlipped = false;
+let okCount = 0, noCount = 0;
+let missed = [];
+
+function initQuizCatSelect(){
+  const sel = $('quizCatSelect');
+  sel.innerHTML = '<option value="-1">Összes kategória (100 szó)</option>' +
+    CATEGORIES.map((c, i) => {
+      const n = DATA.filter(d => d.cat === c).length;
+      return `<option value="${i}">${c} (${n})</option>`;
+    }).join('');
+}
+
+function startQuiz(){
+  const catIdx = parseInt($('quizCatSelect').value, 10);
+  const pool = catIdx < 0 ? DATA.map((_, i) => i) : DATA.map((_, i) => i).filter(i => DATA[i].cat === CATEGORIES[catIdx]);
+  quizOrder = shuffleArr(pool);
+  quizPos = 0;
+  okCount = 0; noCount = 0; missed = [];
+  $('quizIntro').classList.add('hidden');
+  $('quizResults').classList.add('hidden');
+  $('quizPlay').classList.remove('hidden');
+  renderQuiz();
+}
+
+function renderQuiz(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[quizOrder[quizPos]];
+  $('quizFrontText').textContent = item.en;
+  $('quizFrontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
+  $('quizBackText').textContent = item.hu;
+  $('quizBackExample').innerHTML = `${item.exHu}<span class="en">${item.exEn}</span>`;
+  $('quizCatLabel').textContent = `${item.cat} / ${item.catEn}`;
+  $('quizIndex').textContent = quizPos + 1;
+  $('quizTotal').textContent = quizOrder.length;
+  $('quizProgress').style.width = ((quizPos) / quizOrder.length * 100) + "%";
+  $('okCount').textContent = okCount;
+  $('noCount').textContent = noCount;
+  quizFlipped = false;
+  $('quizCard').classList.remove('flipped');
+  $('answerRow').style.visibility = 'hidden';
+}
+function flipQuiz(){
+  quizFlipped = !quizFlipped;
+  $('quizCard').classList.toggle('flipped', quizFlipped);
+  if(quizFlipped){ $('answerRow').style.visibility = 'visible'; }
+}
+function answerQuiz(knewIt){
+  if(!quizFlipped) return;
+  const item = DATA[quizOrder[quizPos]];
+  if(knewIt){ okCount++; } else { noCount++; missed.push(item); }
+  if(quizPos < quizOrder.length - 1){
+    quizPos++;
+    renderQuiz();
+  } else {
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  $('quizPlay').classList.add('hidden');
+  $('quizResults').classList.remove('hidden');
+  $('finalScore').textContent = okCount;
+  $('finalTotal').textContent = quizOrder.length;
+  const list = $('missedList');
+  if(missed.length === 0){
+    list.innerHTML = '<p style="text-align:center; opacity:.6;">Minden kifejezést tudtál! 🎉</p>';
+  } else {
+    list.innerHTML = '<p style="opacity:.5; font-weight:600; margin-bottom:10px;">Ismételd át:</p>' +
+      missed.map(m => `<div class="missed-item"><span>${m.en}</span><b>${m.hu}</b></div>`).join('');
+  }
+}
+$('quizCard').addEventListener('click', flipQuiz);
+$('startQuizBtn').addEventListener('click', startQuiz);
+$('restartQuizBtn').addEventListener('click', () => {
+  $('quizResults').classList.add('hidden');
+  $('quizIntro').classList.remove('hidden');
+});
+$('knowBtn').addEventListener('click', () => answerQuiz(true));
+$('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
+$('speakQuizBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[quizOrder[quizPos]];
+  speak(item.hu, e.currentTarget);
+});
+
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener('keydown', e => {
+  const quizActive = !$('quizView').classList.contains('hidden');
+  if(quizActive){
+    if(!$('quizPlay').classList.contains('hidden')){
+      if(e.code === 'Space'){ e.preventDefault(); flipQuiz(); }
+      if(e.key === 'ArrowRight' && quizFlipped) answerQuiz(true);
+      if(e.key === 'ArrowLeft' && quizFlipped) answerQuiz(false);
+    }
+  } else {
+    if(e.code === 'Space'){ e.preventDefault(); flipStudy(); }
+    if(e.key === 'ArrowRight'){ $('nextBtn').click(); }
+    if(e.key === 'ArrowLeft'){ $('prevBtn').click(); }
+  }
+});
+
+/* ---------------- INIT ---------------- */
+initJumpSelect();
+initQuizCatSelect();
+renderStudy();
+</script>
+
+</body>
+</html>
