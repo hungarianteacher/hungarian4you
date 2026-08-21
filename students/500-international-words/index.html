@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Words You Already Know — 500 Nemzetközi Szó — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- App keret ---------- */
+  .app{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 24px clamp(16px,4vw,32px) 30px;
+    margin: 32px 0 10px;
+    box-shadow: 0 14px 34px -20px rgba(43,33,24,0.4);
+  }
+  .mode-switch{
+    display:flex; justify-content:center; gap:4px;
+    background: var(--bg, #FAF4E6);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 22px;
+  }
+  .mode-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding: 9px 20px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.6;
+    transition: .18s;
+  }
+  .mode-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .info-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:14px;
+  }
+  .cat-pill{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.78rem;
+    letter-spacing:.02em; color:#fff; background: var(--meadow);
+    padding: 7px 16px; border-radius:999px; max-width: 65%;
+  }
+  .counter{
+    font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;
+    color: var(--ink, #2b2420); opacity:.65;
+  }
+  select.jump{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.85rem;
+    padding: 8px 12px; border-radius:8px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; max-width: 240px;
+  }
+  .progress-track{
+    width:100%; height:6px; border-radius:6px; overflow:hidden;
+    background: rgba(43,33,24,0.08); margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--paprika), var(--mustard));
+    transition: width .3s ease;
+  }
+
+  .stage{ display:flex; justify-content:center; perspective:1600px; margin-bottom:20px; }
+  .card{
+    position:relative; width:min(680px,100%); height: clamp(240px, 32vw, 320px);
+    cursor:pointer; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: clamp(20px,4vw,40px);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    box-shadow: 0 14px 30px -18px rgba(43,33,24,0.4);
+  }
+  .face-front{ background: var(--bg, #FAF4E6); }
+  .face-back{ background: var(--meadow); color:#fdf9ef; transform: rotateY(180deg); }
+  .face-eyebrow{
+    font-family:'Work Sans', sans-serif; font-size:0.72rem; letter-spacing:.16em;
+    text-transform:uppercase; font-weight:700; opacity:.55; margin-bottom:14px;
+  }
+  .face-back .face-eyebrow{ color: var(--mustard); opacity:.95; }
+  .face-text{
+    font-family:'Fraunces', serif; font-weight:600; font-size: clamp(20px,3.6vw,38px); line-height:1.2;
+  }
+  .face-front .face-text{ color: var(--paprika-dark, #7E2513); }
+  .hint{ margin-top:18px; font-size:0.72rem; opacity:.5; font-weight:600; letter-spacing:.03em; font-family:'Work Sans', sans-serif; }
+  .face-back .hint{ color:#fdf9ef; opacity:.6; }
+  .speak-btn{
+    margin-top:16px; width:48px; height:48px; border-radius:50%;
+    border:2px solid rgba(253,249,239,0.5); background: rgba(253,249,239,0.14); color:#fdf9ef;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; transition:.15s;
+  }
+  .speak-btn:hover{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); transform: scale(1.06); }
+  .speak-btn.playing{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); animation: pulseGlow .9s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,147,26,.5);} 50%{ box-shadow:0 0 0 9px rgba(201,147,26,0);} }
+
+  .controls{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem;
+    border-radius:12px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); padding:12px 22px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn.primary{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .btn.ghost{ background:transparent; }
+  .btn.know{ background: var(--meadow); border-color: var(--meadow); color:#fff; }
+  .btn.dontknow{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .kbd-hint{ text-align:center; font-family:'Work Sans', sans-serif; font-size:0.78rem; opacity:.45; margin-top:4px; }
+
+  .score-tally{ display:flex; gap:18px; font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem; }
+  .score-tally .ok{ color: var(--meadow); }
+  .score-tally .no{ color: var(--paprika); }
+
+  .quiz-intro, .quiz-results{
+    text-align:center; padding: 20px clamp(10px,4vw,30px) 6px;
+  }
+  .quiz-intro p, .quiz-results p{ font-family:'Work Sans', sans-serif; font-size:0.92rem; opacity:.75; max-width:520px; margin:8px auto 20px; line-height:1.55; }
+  .quiz-intro select{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding:10px 16px; border-radius:10px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; margin-bottom:18px; max-width:100%;
+  }
+  .big-score{ font-family:'Fraunces', serif; font-weight:700; font-size: clamp(40px,7vw,64px); color: var(--paprika); margin: 6px 0; }
+  .missed-list{ text-align:left; max-height:260px; overflow-y:auto; margin: 14px auto 22px; max-width:520px; border-top:1.5px solid var(--border, rgba(43,33,24,0.16)); padding-top:14px; }
+  .missed-item{ display:flex; justify-content:space-between; gap:12px; padding:7px 4px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); font-family:'Work Sans', sans-serif; font-size:0.85rem; }
+  .missed-item b{ font-family:'Fraunces', serif; color: var(--paprika-dark, #7E2513); white-space:nowrap; }
+
+  .hidden{ display:none !important; }
+  .no-speech-note{
+    text-align:center; font-family:'Work Sans', sans-serif; font-size:0.82rem; color: var(--paprika-dark, #7E2513);
+    background: var(--bg, #FAF4E6); border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px;
+    padding:10px 16px; margin: 0 0 16px; display:none;
+  }
+  .no-speech-note.show{ display:block; }
+  .no-speech-note .translation{ display:block; margin-top:4px; opacity:.75; font-style:italic; }
+
+  @media (max-width:640px){
+    .info-bar{ flex-direction:column; align-items:flex-start; }
+    select.jump{ max-width:none; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / <a href="../vocabulary-szokincs/">Vocabulary</a> / Words You Already Know
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">SZÓKINCS &middot; WORDS YOU ALREADY KNOW</span>
+  <h1 class="title">Words You Already Know</h1>
+  <p class="lede">
+    500 nemzetközi szó — sokkal nagyobb a szókincsed magyarul, mint gondolnád.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">500 international words — you already know more Hungarian than you think.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <section class="app">
+
+    <div class="mode-switch">
+      <button type="button" id="btnStudyMode" class="active">Tanulás</button>
+      <button type="button" id="btnQuizMode">Kvíz</button>
+    </div>
+
+    <p class="no-speech-note" id="noSpeechNote">
+      A böngésződ nem támogatja a hangos felolvasást, ezért a hangszóró gombok itt nem működnek.
+      <span class="translation">Your browser doesn't support speech synthesis, so the speaker buttons won't work here.</span>
+    </p>
+
+    <!-- STUDY MODE -->
+    <div id="studyView">
+      <div class="info-bar">
+        <span class="cat-pill" id="catLabel">—</span>
+        <select class="jump" id="jumpCat"></select>
+        <span class="counter"><span id="cardIndex">1</span> / <span id="cardTotal">500</span></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="studyProgress"></div></div>
+
+      <div class="stage">
+        <div class="card" id="studyCard">
+          <div class="face face-front">
+            <span class="face-eyebrow">English</span>
+            <div class="face-text" id="frontText">—</div>
+            <div class="hint">Kattints a fordulásért · Space</div>
+          </div>
+          <div class="face face-back">
+            <span class="face-eyebrow">Magyarul</span>
+            <div class="face-text" id="backText">—</div>
+            <button type="button" class="speak-btn" id="speakStudyBtn" title="Kiejtés meghallgatása">🔊</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn wide" id="prevBtn">&larr; Előző</button>
+        <button type="button" class="btn primary wide" id="flipBtn">Fordítás</button>
+        <button type="button" class="btn wide" id="nextBtn">Következő &rarr;</button>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn ghost" id="shuffleBtn">🔀 Véletlen sorrend</button>
+        <button type="button" class="btn ghost" id="orderBtn">↺ Eredeti sorrend</button>
+      </div>
+      <p class="kbd-hint">Nyilak: lapozás · Szóköz: fordítás</p>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quizView" class="hidden">
+
+      <div id="quizIntro" class="quiz-intro">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz — válassz kategóriát</h2>
+        <p>Véletlenszerű sorrendben, flashcard formában. Fordítsd meg a kártyát, majd jelöld: tudtad-e a választ.<br>
+        <span style="opacity:.7; font-style:italic;">Random order flashcards. Flip the card, then mark whether you knew it.</span></p>
+        <select id="quizCatSelect"></select><br>
+        <button type="button" class="btn primary wide" id="startQuizBtn">Kvíz indítása</button>
+      </div>
+
+      <div id="quizPlay" class="hidden">
+        <div class="info-bar">
+          <span class="cat-pill" id="quizCatLabel">—</span>
+          <span class="score-tally"><span class="ok">✓ <span id="okCount">0</span></span><span class="no">✕ <span id="noCount">0</span></span></span>
+          <span class="counter"><span id="quizIndex">1</span> / <span id="quizTotal">500</span></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgress"></div></div>
+
+        <div class="stage">
+          <div class="card" id="quizCard">
+            <div class="face face-front">
+              <span class="face-eyebrow">English</span>
+              <div class="face-text" id="quizFrontText">—</div>
+              <div class="hint">Kattints a fordulásért · Space</div>
+            </div>
+            <div class="face face-back">
+              <span class="face-eyebrow">Magyarul</span>
+              <div class="face-text" id="quizBackText">—</div>
+              <button type="button" class="speak-btn" id="speakQuizBtn" title="Kiejtés meghallgatása">🔊</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" id="answerRow" style="visibility:hidden;">
+          <button type="button" class="btn dontknow wide" id="dontKnowBtn">✕ Nem tudtam</button>
+          <button type="button" class="btn know wide" id="knowBtn">✓ Tudtam</button>
+        </div>
+        <p class="kbd-hint">Fordítsd meg a kártyát, majd válaszolj</p>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz eredménye</h2>
+        <div class="big-score"><span id="finalScore">0</span>/<span id="finalTotal">0</span></div>
+        <p>Helyes válaszok száma</p>
+        <div class="missed-list" id="missedList"></div>
+        <button type="button" class="btn primary wide" id="restartQuizBtn">Kvíz újra</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Adatok — 500 Nemzetközi Szó / Data — 500 International Words
+----------------------------------------------------------------*/
+const DATA = [
+// FOOD & DRINKS
+{cat:"Food & Drinks", en:"alcohol", hu:"alkohol"},
+{cat:"Food & Drinks", en:"banana", hu:"banán"},
+{cat:"Food & Drinks", en:"basil", hu:"bazsalikom"},
+{cat:"Food & Drinks", en:"broccoli", hu:"brokkoli"},
+{cat:"Food & Drinks", en:"buffet", hu:"büfé"},
+{cat:"Food & Drinks", en:"lemon", hu:"citrom"},
+{cat:"Food & Drinks", en:"citrus", hu:"citrus"},
+{cat:"Food & Drinks", en:"cherry", hu:"cseresznye"},
+{cat:"Food & Drinks", en:"zucchini", hu:"cukkini"},
+{cat:"Food & Drinks", en:"curry", hu:"curry"},
+{cat:"Food & Drinks", en:"fine (tasty, delicious)", hu:"finom"},
+{cat:"Food & Drinks", en:"gastronomy / catering", hu:"gasztronómia"},
+{cat:"Food & Drinks", en:"gin", hu:"gin"},
+{cat:"Food & Drinks", en:"hamburger", hu:"hamburger"},
+{cat:"Food & Drinks", en:"yoghurt", hu:"joghurt"},
+{cat:"Food & Drinks", en:"kohlrabi (turnip cabbage)", hu:"karalábé"},
+{cat:"Food & Drinks", en:"coffee", hu:"kávé"},
+{cat:"Food & Drinks", en:"ketchup", hu:"ketchup"},
+{cat:"Food & Drinks", en:"coconut", hu:"kókusz"},
+{cat:"Food & Drinks", en:"coke", hu:"kóla"},
+{cat:"Food & Drinks", en:"cognac", hu:"konyak"},
+{cat:"Food & Drinks", en:"cream", hu:"krém"},
+{cat:"Food & Drinks", en:"couscous", hu:"kuszkusz"},
+{cat:"Food & Drinks", en:"liqueur", hu:"likőr"},
+{cat:"Food & Drinks", en:"mandarin (tangerine)", hu:"mandarin"},
+{cat:"Food & Drinks", en:"marzipan (almond paste)", hu:"marcipán"},
+{cat:"Food & Drinks", en:"orange", hu:"narancs"},
+{cat:"Food & Drinks", en:"oil", hu:"olaj"},
+{cat:"Food & Drinks", en:"olive", hu:"oliva"},
+{cat:"Food & Drinks", en:"olive oil", hu:"olivaolaj"},
+{cat:"Food & Drinks", en:"oregano", hu:"oregánó"},
+{cat:"Food & Drinks", en:"paprika", hu:"paprika"},
+{cat:"Food & Drinks", en:"pesto", hu:"pesztó"},
+{cat:"Food & Drinks", en:"parsley", hu:"petrezselyem"},
+{cat:"Food & Drinks", en:"picnic", hu:"piknik"},
+{cat:"Food & Drinks", en:"pizza", hu:"pizza"},
+{cat:"Food & Drinks", en:"rice", hu:"rizs"},
+{cat:"Food & Drinks", en:"rosemary", hu:"rozmaring"},
+{cat:"Food & Drinks", en:"salad", hu:"saláta"},
+{cat:"Food & Drinks", en:"asparagus", hu:"spárga"},
+{cat:"Food & Drinks", en:"steak", hu:"steak"},
+{cat:"Food & Drinks", en:"sandwich", hu:"szendvics"},
+{cat:"Food & Drinks", en:"syrup", hu:"szirup"},
+{cat:"Food & Drinks", en:"soda", hu:"szóda"},
+{cat:"Food & Drinks", en:"soy", hu:"szója"},
+{cat:"Food & Drinks", en:"sauce", hu:"szósz"},
+{cat:"Food & Drinks", en:"tea", hu:"tea"},
+{cat:"Food & Drinks", en:"toast", hu:"toast"},
+{cat:"Food & Drinks", en:"tofu", hu:"tofu"},
+{cat:"Food & Drinks", en:"whiskey", hu:"viszki"},
+// SCIENCE & TECHNOLOGY
+{cat:"Science & Technology", en:"academy", hu:"akadémia"},
+{cat:"Science & Technology", en:"aluminium", hu:"alumínium"},
+{cat:"Science & Technology", en:"analysis / to analyze", hu:"analízis"},
+{cat:"Science & Technology", en:"anatomy", hu:"anatómia"},
+{cat:"Science & Technology", en:"astronomy", hu:"asztronómia"},
+{cat:"Science & Technology", en:"ATM", hu:"ATM"},
+{cat:"Science & Technology", en:"atmosphere", hu:"atmoszféra"},
+{cat:"Science & Technology", en:"atom", hu:"atom"},
+{cat:"Science & Technology", en:"audio", hu:"audió"},
+{cat:"Science & Technology", en:"automat (vending machine) / automatic", hu:"autómata"},
+{cat:"Science & Technology", en:"biology", hu:"biológia"},
+{cat:"Science & Technology", en:"bomb", hu:"bomba"},
+{cat:"Science & Technology", en:"cycle", hu:"ciklus"},
+{cat:"Science & Technology", en:"civilization", hu:"civilizáció"},
+{cat:"Science & Technology", en:"computer", hu:"computer"},
+{cat:"Science & Technology", en:"digital", hu:"digitális"},
+{cat:"Science & Technology", en:"diploma", hu:"diploma"},
+{cat:"Science & Technology", en:"document", hu:"dokumentum"},
+{cat:"Science & Technology", en:"e-mail", hu:"e-mail"},
+{cat:"Science & Technology", en:"philosophy", hu:"filozófia"},
+{cat:"Science & Technology", en:"filter", hu:"filter"},
+{cat:"Science & Technology", en:"physics", hu:"fizika"},
+{cat:"Science & Technology", en:"photo", hu:"fotó"},
+{cat:"Science & Technology", en:"hardware", hu:"hardver"},
+{cat:"Science & Technology", en:"internet", hu:"internet"},
+{cat:"Science & Technology", en:"institute", hu:"intézet"},
+{cat:"Science & Technology", en:"cable", hu:"kábel"},
+{cat:"Science & Technology", en:"to calculate", hu:"kalkulál"},
+{cat:"Science & Technology", en:"camera", hu:"kamera"},
+{cat:"Science & Technology", en:"chemistry", hu:"kémia"},
+{cat:"Science & Technology", en:"climate (air conditioning)", hu:"klíma"},
+{cat:"Science & Technology", en:"concept", hu:"koncepció"},
+{cat:"Science & Technology", en:"to construct", hu:"konstruál"},
+{cat:"Science & Technology", en:"laboratory", hu:"labor"},
+{cat:"Science & Technology", en:"laptop", hu:"laptop"},
+{cat:"Science & Technology", en:"logic", hu:"logika"},
+{cat:"Science & Technology", en:"marketing", hu:"marketing"},
+{cat:"Science & Technology", en:"mathematics", hu:"matematika"},
+{cat:"Science & Technology", en:"mechanics", hu:"mechanika"},
+{cat:"Science & Technology", en:"molecule", hu:"molekula"},
+{cat:"Science & Technology", en:"hour / clock", hu:"óra"},
+{cat:"Science & Technology", en:"organism", hu:"organizmus"},
+{cat:"Science & Technology", en:"oxygen", hu:"oxigén"},
+{cat:"Science & Technology", en:"paper", hu:"papír"},
+{cat:"Science & Technology", en:"plastic", hu:"plasztik"},
+{cat:"Science & Technology", en:"plus", hu:"plusz"},
+{cat:"Science & Technology", en:"post office / mail", hu:"posta"},
+{cat:"Science & Technology", en:"professor", hu:"professzor"},
+{cat:"Science & Technology", en:"radio", hu:"rádió"},
+{cat:"Science & Technology", en:"statistics", hu:"statisztika"},
+{cat:"Science & Technology", en:"statics", hu:"statika"},
+{cat:"Science & Technology", en:"sauna", hu:"szauna"},
+{cat:"Science & Technology", en:"service", hu:"szervíz"},
+{cat:"Science & Technology", en:"system", hu:"szisztéma"},
+{cat:"Science & Technology", en:"software", hu:"szoftver"},
+{cat:"Science & Technology", en:"telephone", hu:"telefon"},
+{cat:"Science & Technology", en:"test", hu:"teszt"},
+{cat:"Science & Technology", en:"TV", hu:"tévé"},
+{cat:"Science & Technology", en:"universe", hu:"univerzum"},
+{cat:"Science & Technology", en:"energy", hu:"energia"},
+{cat:"Science & Technology", en:"electricity", hu:"elektromosság"},
+{cat:"Science & Technology", en:"essay", hu:"esszé"},
+{cat:"Science & Technology", en:"file", hu:"fájl"},
+{cat:"Science & Technology", en:"mechanism", hu:"mechanizmus"},
+{cat:"Science & Technology", en:"minus", hu:"minusz"},
+{cat:"Science & Technology", en:"mobile phone / cell phone", hu:"mobiltelefon"},
+{cat:"Science & Technology", en:"model", hu:"modell"},
+{cat:"Science & Technology", en:"video", hu:"videó"},
+{cat:"Science & Technology", en:"ventilator / fan", hu:"ventilátor"},
+// LEISURE, HOBBIES & INTERESTS
+{cat:"Leisure, Hobbies & Interests", en:"album (photo, band)", hu:"album"},
+{cat:"Leisure, Hobbies & Interests", en:"athlete / athletics", hu:"atléta"},
+{cat:"Leisure, Hobbies & Interests", en:"ballet", hu:"balett"},
+{cat:"Leisure, Hobbies & Interests", en:"band (also: gang)", hu:"banda"},
+{cat:"Leisure, Hobbies & Interests", en:"bicycle / to cycle", hu:"bicikli"},
+{cat:"Leisure, Hobbies & Interests", en:"celebrity", hu:"celeb"},
+{cat:"Leisure, Hobbies & Interests", en:"documentary", hu:"dokumentumfilm"},
+{cat:"Leisure, Hobbies & Interests", en:"drama (genre)", hu:"dráma"},
+{cat:"Leisure, Hobbies & Interests", en:"fan (of a popstar, football club, etc.)", hu:"fan"},
+{cat:"Leisure, Hobbies & Interests", en:"festival", hu:"fesztivál"},
+{cat:"Leisure, Hobbies & Interests", en:"fiction", hu:"fikció"},
+{cat:"Leisure, Hobbies & Interests", en:"film / movie", hu:"film"},
+{cat:"Leisure, Hobbies & Interests", en:"football / soccer", hu:"futball"},
+{cat:"Leisure, Hobbies & Interests", en:"gallery", hu:"galéria"},
+{cat:"Leisure, Hobbies & Interests", en:"hobby", hu:"hobbi"},
+{cat:"Leisure, Hobbies & Interests", en:"horror", hu:"horror"},
+{cat:"Leisure, Hobbies & Interests", en:"hotel", hu:"hotel"},
+{cat:"Leisure, Hobbies & Interests", en:"casino", hu:"kaszinó"},
+{cat:"Leisure, Hobbies & Interests", en:"collection", hu:"kollekció"},
+{cat:"Leisure, Hobbies & Interests", en:"comedy", hu:"komédia"},
+{cat:"Leisure, Hobbies & Interests", en:"concert", hu:"koncert"},
+{cat:"Leisure, Hobbies & Interests", en:"chorus / choir", hu:"kórus"},
+{cat:"Leisure, Hobbies & Interests", en:"magazine", hu:"magazin"},
+{cat:"Leisure, Hobbies & Interests", en:"marathon", hu:"maraton"},
+{cat:"Leisure, Hobbies & Interests", en:"museum", hu:"múzeum"},
+{cat:"Leisure, Hobbies & Interests", en:"novel", hu:"novella"},
+{cat:"Leisure, Hobbies & Interests", en:"opera", hu:"opera"},
+{cat:"Leisure, Hobbies & Interests", en:"to pack", hu:"pakol"},
+{cat:"Leisure, Hobbies & Interests", en:"party / to party", hu:"party"},
+{cat:"Leisure, Hobbies & Interests", en:"pipe", hu:"pipa"},
+{cat:"Leisure, Hobbies & Interests", en:"portrait", hu:"portré"},
+{cat:"Leisure, Hobbies & Interests", en:"poster", hu:"poszter"},
+{cat:"Leisure, Hobbies & Interests", en:"roulette", hu:"rulett"},
+{cat:"Leisure, Hobbies & Interests", en:"sport", hu:"sport"},
+{cat:"Leisure, Hobbies & Interests", en:"star (celebrity, superstar)", hu:"sztár"},
+{cat:"Leisure, Hobbies & Interests", en:"dance", hu:"tánc"},
+{cat:"Leisure, Hobbies & Interests", en:"thriller", hu:"thriller"},
+{cat:"Leisure, Hobbies & Interests", en:"tragedy", hu:"tragédia"},
+{cat:"Leisure, Hobbies & Interests", en:"training", hu:"tréning"},
+{cat:"Leisure, Hobbies & Interests", en:"vacation / holiday", hu:"vakáció"},
+{cat:"Leisure, Hobbies & Interests", en:"music", hu:"muzsika"},
+{cat:"Leisure, Hobbies & Interests", en:"ski / to ski", hu:"sí"},
+{cat:"Leisure, Hobbies & Interests", en:"tour / to tour (i.e. to hike)", hu:"túra"},
+{cat:"Leisure, Hobbies & Interests", en:"tour (band on tour)", hu:"turné"},
+{cat:"Leisure, Hobbies & Interests", en:"tourist / tourism", hu:"turista"},
+// POLITICS & LEGAL
+{cat:"Politics & Legal", en:"activist", hu:"aktivista"},
+{cat:"Politics & Legal", en:"anarchy", hu:"anarhia"},
+{cat:"Politics & Legal", en:"civil", hu:"civil"},
+{cat:"Politics & Legal", en:"demagogy", hu:"demagógia"},
+{cat:"Politics & Legal", en:"democracy", hu:"demokrácia"},
+{cat:"Politics & Legal", en:"to demonstrate / demonstration", hu:"demonstrál"},
+{cat:"Politics & Legal", en:"dictator", hu:"diktátor"},
+{cat:"Politics & Legal", en:"diplomat", hu:"diplomata"},
+{cat:"Politics & Legal", en:"emancipated / emancipation", hu:"emancipált"},
+{cat:"Politics & Legal", en:"fanatic", hu:"fanatikus"},
+{cat:"Politics & Legal", en:"fascist", hu:"fasiszta"},
+{cat:"Politics & Legal", en:"feminist / feminism", hu:"feminista"},
+{cat:"Politics & Legal", en:"global / globalism", hu:"globális"},
+{cat:"Politics & Legal", en:"illegal", hu:"illegális"},
+{cat:"Politics & Legal", en:"campaign", hu:"kampány"},
+{cat:"Politics & Legal", en:"chancellor", hu:"kancellár"},
+{cat:"Politics & Legal", en:"coalition", hu:"koalíció"},
+{cat:"Politics & Legal", en:"codex", hu:"kódex"},
+{cat:"Politics & Legal", en:"communist / communism", hu:"kommunista"},
+{cat:"Politics & Legal", en:"corrupt", hu:"korrupt"},
+{cat:"Politics & Legal", en:"legal", hu:"legális"},
+{cat:"Politics & Legal", en:"liberal", hu:"liberális"},
+{cat:"Politics & Legal", en:"mandate", hu:"mandátum"},
+{cat:"Politics & Legal", en:"migrant / migration / immigration", hu:"migráns"},
+{cat:"Politics & Legal", en:"minister", hu:"miniszter"},
+{cat:"Politics & Legal", en:"nazi", hu:"náci"},
+{cat:"Politics & Legal", en:"neutral", hu:"neutrális"},
+{cat:"Politics & Legal", en:"opposition", hu:"oppozíció"},
+{cat:"Politics & Legal", en:"parliament", hu:"parlament"},
+{cat:"Politics & Legal", en:"political party", hu:"párt"},
+{cat:"Politics & Legal", en:"petition", hu:"petíció"},
+{cat:"Politics & Legal", en:"politics", hu:"politika"},
+{cat:"Politics & Legal", en:"propaganda", hu:"propaganda"},
+{cat:"Politics & Legal", en:"to protest", hu:"protestál"},
+{cat:"Politics & Legal", en:"radical", hu:"radikális"},
+{cat:"Politics & Legal", en:"racist", hu:"rasszista"},
+{cat:"Politics & Legal", en:"revolution", hu:"revolúció"},
+{cat:"Politics & Legal", en:"regime", hu:"rezsim"},
+{cat:"Politics & Legal", en:"socialist / socialism", hu:"szocialista"},
+// MEASUREMENT UNITS
+{cat:"Measurement Units", en:"centimetre", hu:"centiméter"},
+{cat:"Measurement Units", en:"deka", hu:"deka"},
+{cat:"Measurement Units", en:"gram", hu:"gramm"},
+{cat:"Measurement Units", en:"kilogram", hu:"kiló"},
+{cat:"Measurement Units", en:"kilometre", hu:"kilométer"},
+{cat:"Measurement Units", en:"litre", hu:"liter"},
+{cat:"Measurement Units", en:"metre", hu:"méter"},
+{cat:"Measurement Units", en:"milligram", hu:"milligramm"},
+{cat:"Measurement Units", en:"millilitre", hu:"milliliter"},
+{cat:"Measurement Units", en:"millimetre", hu:"milliméter"},
+// HOUSEHOLD
+{cat:"Household", en:"bank", hu:"bank"},
+{cat:"Household", en:"babysitter", hu:"bébiszitter"},
+{cat:"Household", en:"divan (couch)", hu:"dívány"},
+{cat:"Household", en:"foil", hu:"fólia"},
+{cat:"Household", en:"armchair", hu:"fotel"},
+{cat:"Household", en:"freezer", hu:"fridzsider"},
+{cat:"Household", en:"gas", hu:"gáz"},
+{cat:"Household", en:"house", hu:"ház"},
+{cat:"Household", en:"chamber (storeroom)", hu:"kamra"},
+{cat:"Household", en:"lamp", hu:"lámpa"},
+{cat:"Household", en:"microwave", hu:"mikró"},
+{cat:"Household", en:"radiator (heater)", hu:"radiátor"},
+{cat:"Household", en:"roller shutter", hu:"roló"},
+{cat:"Household", en:"terrace", hu:"terasz"},
+{cat:"Household", en:"toilet", hu:"toalett"},
+{cat:"Household", en:"vase", hu:"váza"},
+// SEX & DATING
+{cat:"Sex & Dating", en:"affair", hu:"affér"},
+{cat:"Sex & Dating", en:"baby (term of endearment between couples; also actual babies)", hu:"baba"},
+{cat:"Sex & Dating", en:"homosexual", hu:"homoszexuális"},
+{cat:"Sex & Dating", en:"intimate / intimacy", hu:"intim"},
+{cat:"Sex & Dating", en:"lesbian", hu:"leszbikus"},
+{cat:"Sex & Dating", en:"to masturbate", hu:"maszturbál"},
+{cat:"Sex & Dating", en:"monogamy / monogamous", hu:"monogámia"},
+{cat:"Sex & Dating", en:"orgasm", hu:"orgazmus"},
+{cat:"Sex & Dating", en:"pair (couple)", hu:"pár"},
+{cat:"Sex & Dating", en:"polygamy / polygamous", hu:"poligámia"},
+{cat:"Sex & Dating", en:"porn", hu:"pornó"},
+{cat:"Sex & Dating", en:"prostitute", hu:"prostituált"},
+{cat:"Sex & Dating", en:"romance", hu:"románc"},
+{cat:"Sex & Dating", en:"romantic", hu:"romantikus"},
+{cat:"Sex & Dating", en:"sperm", hu:"sperma"},
+{cat:"Sex & Dating", en:"sex", hu:"szex"},
+{cat:"Sex & Dating", en:"sexy", hu:"szexi"},
+{cat:"Sex & Dating", en:"single", hu:"szingli"},
+// HEALTH & BODY
+{cat:"Health & Body", en:"alcoholic", hu:"alkoholista"},
+{cat:"Health & Body", en:"allergy", hu:"allergia"},
+{cat:"Health & Body", en:"cigarette / to smoke", hu:"cigaretta"},
+{cat:"Health & Body", en:"depression", hu:"depresszió"},
+{cat:"Health & Body", en:"diet", hu:"diéta"},
+{cat:"Health & Body", en:"doctor", hu:"doktor"},
+{cat:"Health & Body", en:"donor", hu:"donor"},
+{cat:"Health & Body", en:"hair", hu:"haj"},
+{cat:"Health & Body", en:"influenza", hu:"influenza"},
+{cat:"Health & Body", en:"to inhale", hu:"inhalál"},
+{cat:"Health & Body", en:"calorie", hu:"kalória"},
+{cat:"Health & Body", en:"cholesterol", hu:"koleszterin"},
+{cat:"Health & Body", en:"to cure", hu:"kúrál"},
+{cat:"Health & Body", en:"manicure", hu:"manikűr"},
+{cat:"Health & Body", en:"menstruation / to menstruate", hu:"menstruáció"},
+{cat:"Health & Body", en:"pedicure", hu:"pedikűr"},
+{cat:"Health & Body", en:"penis", hu:"pénisz"},
+{cat:"Health & Body", en:"placebo", hu:"placebó"},
+{cat:"Health & Body", en:"protein", hu:"protein"},
+{cat:"Health & Body", en:"psychiatrist", hu:"pszihiáter"},
+{cat:"Health & Body", en:"psychologist", hu:"pszihológus"},
+{cat:"Health & Body", en:"pupil (of the eye)", hu:"pupilla"},
+{cat:"Health & Body", en:"symptom", hu:"szimptóma"},
+{cat:"Health & Body", en:"tablet (pill)", hu:"tabletta"},
+{cat:"Health & Body", en:"vagina", hu:"vagina"},
+// COSMETICS & CLOTHING
+{cat:"Cosmetics & Clothing", en:"blouse", hu:"blúz"},
+{cat:"Cosmetics & Clothing", en:"deodorant", hu:"dezodor"},
+{cat:"Cosmetics & Clothing", en:"polo shirt", hu:"póló"},
+{cat:"Cosmetics & Clothing", en:"pullover", hu:"pullóver"},
+{cat:"Cosmetics & Clothing", en:"shampoo", hu:"sampon"},
+{cat:"Cosmetics & Clothing", en:"shorts", hu:"short"},
+{cat:"Cosmetics & Clothing", en:"tampon", hu:"tampon"},
+{cat:"Cosmetics & Clothing", en:"sock", hu:"zokni"},
+// BELIEF, RELIGION & SPIRITUALITY
+{cat:"Belief, Religion & Spirituality", en:"angel", hu:"angyal"},
+{cat:"Belief, Religion & Spirituality", en:"astrology", hu:"asztrológia"},
+{cat:"Belief, Religion & Spirituality", en:"buddhist", hu:"buddhista"},
+{cat:"Belief, Religion & Spirituality", en:"illusion", hu:"illúzió"},
+{cat:"Belief, Religion & Spirituality", en:"catholic", hu:"katolikus"},
+{cat:"Belief, Religion & Spirituality", en:"cross", hu:"kereszt"},
+{cat:"Belief, Religion & Spirituality", en:"christian", hu:"keresztény"},
+{cat:"Belief, Religion & Spirituality", en:"mission", hu:"misszió"},
+{cat:"Belief, Religion & Spirituality", en:"muslim", hu:"muszlim"},
+{cat:"Belief, Religion & Spirituality", en:"pope", hu:"pápa"},
+{cat:"Belief, Religion & Spirituality", en:"protestant", hu:"protestáns"},
+{cat:"Belief, Religion & Spirituality", en:"temple / church", hu:"templom"},
+{cat:"Belief, Religion & Spirituality", en:"vision", hu:"vizió"},
+// NATURE
+{cat:"Nature", en:"alligator", hu:"aligátor"},
+{cat:"Nature", en:"elephant", hu:"elefánt"},
+{cat:"Nature", en:"cobra", hu:"kobra"},
+{cat:"Nature", en:"continent", hu:"kontinens"},
+{cat:"Nature", en:"crocodile", hu:"krokodil"},
+{cat:"Nature", en:"leopard", hu:"leopárd"},
+{cat:"Nature", en:"narcissus (daffodil)", hu:"nárcisz"},
+{cat:"Nature", en:"rose", hu:"rózsa"},
+{cat:"Nature", en:"tiger", hu:"tigris"},
+{cat:"Nature", en:"tulip", hu:"tulipán"},
+{cat:"Nature", en:"viper", hu:"vipera"},
+{cat:"Nature", en:"volcano", hu:"vulkán"},
+{cat:"Nature", en:"zebra", hu:"zebra"},
+{cat:"Nature", en:"giraffe", hu:"zsiráf"},
+{cat:"Nature", en:"palm tree", hu:"pálma"},
+// CITYSCAPE
+{cat:"Cityscape", en:"baroque", hu:"barokk"},
+{cat:"Cityscape", en:"complex (building)", hu:"komplexum"},
+{cat:"Cityscape", en:"castle", hu:"kastély"},
+{cat:"Cityscape", en:"cathedral", hu:"katedrális"},
+{cat:"Cityscape", en:"palace", hu:"palota"},
+{cat:"Cityscape", en:"park", hu:"park"},
+// DESCRIPTIVE
+{cat:"Descriptive", en:"active", hu:"aktív"},
+{cat:"Descriptive", en:"alternative", hu:"alternatív"},
+{cat:"Descriptive", en:"amateur", hu:"amatőr"},
+{cat:"Descriptive", en:"anti", hu:"anti"},
+{cat:"Descriptive", en:"ancient", hu:"antik"},
+{cat:"Descriptive", en:"arrogant", hu:"arrogáns"},
+{cat:"Descriptive", en:"brown", hu:"barna"},
+{cat:"Descriptive", en:"beige", hu:"bézs"},
+{cat:"Descriptive", en:"decadent", hu:"dekadens"},
+{cat:"Descriptive", en:"destructive", hu:"destruktív"},
+{cat:"Descriptive", en:"elegant", hu:"elegáns"},
+{cat:"Descriptive", en:"extra", hu:"extra"},
+{cat:"Descriptive", en:"extreme", hu:"extrém"},
+{cat:"Descriptive", en:"fantastic", hu:"fantasztikus"},
+{cat:"Descriptive", en:"philanthropist", hu:"filantróp"},
+{cat:"Descriptive", en:"fluent / fluid", hu:"folyékony"},
+{cat:"Descriptive", en:"phonetic", hu:"fonetikus"},
+{cat:"Descriptive", en:"gigantic", hu:"gigantikus"},
+{cat:"Descriptive", en:"disgusting", hu:"gusztustalan"},
+{cat:"Descriptive", en:"hyper", hu:"hiper"},
+{cat:"Descriptive", en:"hypocrite", hu:"hipokrata"},
+{cat:"Descriptive", en:"hysterical", hu:"hisztérikus"},
+{cat:"Descriptive", en:"horizontal", hu:"horizontális"},
+{cat:"Descriptive", en:"ideal", hu:"ideális"},
+{cat:"Descriptive", en:"idiot", hu:"idióta"},
+{cat:"Descriptive", en:"idol", hu:"idol"},
+{cat:"Descriptive", en:"inactive", hu:"inaktív"},
+{cat:"Descriptive", en:"incorrect", hu:"inkorrekt"},
+{cat:"Descriptive", en:"unstable", hu:"instabil"},
+{cat:"Descriptive", en:"instant", hu:"instans"},
+{cat:"Descriptive", en:"intelligent", hu:"intelligens"},
+{cat:"Descriptive", en:"classic", hu:"klasszikus"},
+{cat:"Descriptive", en:"comical / humorous", hu:"komikus"},
+{cat:"Descriptive", en:"complex (adj.)", hu:"komplex"},
+{cat:"Descriptive", en:"complex (psychology)", hu:"komplexus"},
+{cat:"Descriptive", en:"complicated", hu:"komplikált"},
+{cat:"Descriptive", en:"constant", hu:"konstans"},
+{cat:"Descriptive", en:"constructive", hu:"konstruktív"},
+{cat:"Descriptive", en:"contra", hu:"kontra"},
+{cat:"Descriptive", en:"conservative", hu:"konzervatív"},
+{cat:"Descriptive", en:"correct", hu:"korrekt"},
+{cat:"Descriptive", en:"cosmopolitan", hu:"kozmopolita"},
+{cat:"Descriptive", en:"creative / creativity", hu:"kreatív"},
+{cat:"Descriptive", en:"logical", hu:"logikus"},
+{cat:"Descriptive", en:"masculine", hu:"maszkulin"},
+{cat:"Descriptive", en:"modern", hu:"modern"},
+{cat:"Descriptive", en:"morbid", hu:"morbid"},
+{cat:"Descriptive", en:"negative", hu:"negatív"},
+{cat:"Descriptive", en:"ocher", hu:"okker"},
+{cat:"Descriptive", en:"opportunist", hu:"opportunista"},
+{cat:"Descriptive", en:"optimal", hu:"optimális"},
+{cat:"Descriptive", en:"optimist", hu:"optimista"},
+{cat:"Descriptive", en:"paradox", hu:"paradox"},
+{cat:"Descriptive", en:"passive", hu:"passzív"},
+{cat:"Descriptive", en:"pathetic", hu:"patetikus"},
+{cat:"Descriptive", en:"perfect", hu:"perfekt"},
+{cat:"Descriptive", en:"pessimist", hu:"pesszimista"},
+{cat:"Descriptive", en:"pink", hu:"pink"},
+{cat:"Descriptive", en:"positive", hu:"pozitív"},
+{cat:"Descriptive", en:"pragmatic", hu:"pragmatikus"},
+{cat:"Descriptive", en:"practical", hu:"praktikus"},
+{cat:"Descriptive", en:"pro", hu:"pro"},
+{cat:"Descriptive", en:"professional", hu:"profi"},
+{cat:"Descriptive", en:"progressive", hu:"progresszív"},
+{cat:"Descriptive", en:"prominent", hu:"prominens"},
+{cat:"Descriptive", en:"special", hu:"speciális"},
+{cat:"Descriptive", en:"stable", hu:"stabil"},
+{cat:"Descriptive", en:"sarcasm / sarcastic", hu:"szarkazmus"},
+{cat:"Descriptive", en:"sympathy / likeable", hu:"szimpátia"},
+{cat:"Descriptive", en:"sophisticated", hu:"szofisztikált"},
+{cat:"Descriptive", en:"solo", hu:"szóló"},
+{cat:"Descriptive", en:"super", hu:"szuper"},
+{cat:"Descriptive", en:"typical", hu:"tipikus"},
+{cat:"Descriptive", en:"turquoise", hu:"türkiz"},
+{cat:"Descriptive", en:"vertical", hu:"vertikális"},
+{cat:"Descriptive", en:"vulgar", hu:"vulgáris"},
+{cat:"Descriptive", en:"tolerant", hu:"toleráns"},
+{cat:"Descriptive", en:"total", hu:"totális"},
+{cat:"Descriptive", en:"traditional", hu:"tradícionális"},
+{cat:"Descriptive", en:"transparent", hu:"transzparens"},
+{cat:"Descriptive", en:"ultra", hu:"ultra"},
+{cat:"Descriptive", en:"universal", hu:"univerzális"},
+// TRANSPORTATION
+{cat:"Transportation", en:"auto (car)", hu:"autó"},
+{cat:"Transportation", en:"benzine (petrol)", hu:"benzin"},
+{cat:"Transportation", en:"bus", hu:"busz"},
+{cat:"Transportation", en:"diesel", hu:"dízel"},
+{cat:"Transportation", en:"coach / car", hu:"kocsi"},
+{cat:"Transportation", en:"metro (subway)", hu:"metró"},
+{cat:"Transportation", en:"motor / motorcycle", hu:"motor"},
+{cat:"Transportation", en:"to park", hu:"parkol"},
+{cat:"Transportation", en:"tank / to tank up (fill up the tank)", hu:"tank"},
+{cat:"Transportation", en:"taxi", hu:"taxi"},
+// BUSINESS
+{cat:"Business", en:"act (file, document)", hu:"akta"},
+{cat:"Business", en:"bonus", hu:"bónusz"},
+{cat:"Business", en:"hierarchy", hu:"hierarchia"},
+{cat:"Business", en:"colleague", hu:"kolléga"},
+{cat:"Business", en:"conference", hu:"konferencia"},
+{cat:"Business", en:"lucrative (profitable)", hu:"lukratív"},
+{cat:"Business", en:"partner", hu:"partner"},
+{cat:"Business", en:"position", hu:"pozíció"},
+{cat:"Business", en:"presentation / to present", hu:"prezentáció"},
+{cat:"Business", en:"strategy", hu:"stratégia"},
+// VERBAL, COMMUNICATION & INTERPERSONAL RELATIONSHIPS
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"accent", hu:"akcentus"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"anonymous", hu:"anoním"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"civilized", hu:"civilizált"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to declare", hu:"deklarál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"evident", hu:"evidens"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"figurative", hu:"figuratív"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"focus", hu:"fókusz"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"forum", hu:"fórum"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to guarantee", hu:"garantál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"humor / humorous", hu:"humor"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"idea", hu:"idea"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to ignore", hu:"ignorál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"impulse", hu:"impulzus"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"incognito", hu:"inkognitó"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"incoherent", hu:"inkoherens"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to inspire / inspiration", hu:"inspirál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"interview", hu:"interjú"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to interpret / interpretation", hu:"interpretál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to insult", hu:"inzultál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"irrelevant", hu:"irreleváns"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to irritate", hu:"irritál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"coherent", hu:"koherens"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to communicate / communication", hu:"kommunikál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"conflict", hu:"konfliktus"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"conclusion", hu:"konklúzió"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"to manipulate", hu:"manipulál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"moral", hu:"morál"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"pardon / sorry", hu:"pardon"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"relevant", hu:"releváns"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"reputation", hu:"reputáció"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"rhetoric", hu:"retorika"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"rival", hu:"rivális"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"situation", hu:"szituáció"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"synonym", hu:"szinoníma"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"temperament / temper", hu:"temperamentum"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"theory", hu:"teória"},
+{cat:"Verbal, Communication & Interpersonal Relationships", en:"ultimatum", hu:"ultimátum"},
+// MISCELLANEOUS
+{cat:"Miscellaneous", en:"action", hu:"akció"},
+{cat:"Miscellaneous", en:"alternative", hu:"alternatíva"},
+{cat:"Miscellaneous", en:"analog", hu:"analóg"},
+{cat:"Miscellaneous", en:"base", hu:"bázis"},
+{cat:"Miscellaneous", en:"date", hu:"dátum"},
+{cat:"Miscellaneous", en:"to dedicate", hu:"dedikál"},
+{cat:"Miscellaneous", en:"distribution", hu:"disztribúció"},
+{cat:"Miscellaneous", en:"design", hu:"dizájn"},
+{cat:"Miscellaneous", en:"figure", hu:"figura"},
+{cat:"Miscellaneous", en:"form", hu:"forma"},
+{cat:"Miscellaneous", en:"function / to function", hu:"funkció"},
+{cat:"Miscellaneous", en:"hymn / anthem", hu:"himnusz"},
+{cat:"Miscellaneous", en:"to imitate", hu:"imitál"},
+{cat:"Miscellaneous", en:"category", hu:"kategória"},
+{cat:"Miscellaneous", en:"capable", hu:"képes"},
+{cat:"Miscellaneous", en:"combination", hu:"kombináció"},
+{cat:"Miscellaneous", en:"concentration / to concentrate", hu:"koncentráció"},
+{cat:"Miscellaneous", en:"control / to control", hu:"kontroll"},
+{cat:"Miscellaneous", en:"labyrinth", hu:"labirintus"},
+{cat:"Miscellaneous", en:"limit / limited / to limit", hu:"limit"},
+{cat:"Miscellaneous", en:"list", hu:"lista"},
+{cat:"Miscellaneous", en:"mix", hu:"mix"},
+{cat:"Miscellaneous", en:"mosaic", hu:"mozaik"},
+{cat:"Miscellaneous", en:"operation", hu:"operáció"},
+{cat:"Miscellaneous", en:"paste", hu:"paszta"},
+{cat:"Miscellaneous", en:"period", hu:"periódus"},
+{cat:"Miscellaneous", en:"pilot", hu:"pilóta"},
+{cat:"Miscellaneous", en:"point", hu:"pont"},
+{cat:"Miscellaneous", en:"portion", hu:"porció"},
+{cat:"Miscellaneous", en:"potential / potency", hu:"potenciális"},
+{cat:"Miscellaneous", en:"pose", hu:"póz"},
+{cat:"Miscellaneous", en:"privilege", hu:"privilégium"},
+{cat:"Miscellaneous", en:"problem", hu:"probléma"},
+{cat:"Miscellaneous", en:"program", hu:"program"},
+{cat:"Miscellaneous", en:"to regenerate", hu:"regenerál"},
+{cat:"Miscellaneous", en:"to renovate", hu:"renovál"},
+{cat:"Miscellaneous", en:"to represent", hu:"reprezentál"},
+{cat:"Miscellaneous", en:"robot", hu:"robot"},
+{cat:"Miscellaneous", en:"stop", hu:"stopp"},
+{cat:"Miscellaneous", en:"stress / stressful", hu:"stressz"},
+{cat:"Miscellaneous", en:"symbol", hu:"szimbólum"},
+{cat:"Miscellaneous", en:"tempo / speed", hu:"tempó"},
+{cat:"Miscellaneous", en:"tendency", hu:"tendencia"},
+{cat:"Miscellaneous", en:"teenager", hu:"tinédzser"},
+{cat:"Miscellaneous", en:"tolerance", hu:"tolerancia"},
+{cat:"Miscellaneous", en:"tradition", hu:"tradíció"},
+{cat:"Miscellaneous", en:"vampire", hu:"vámpír"},
+];
+
+const CATEGORIES = [...new Set(DATA.map(d => d.cat))];
+
+const $ = id => document.getElementById(id);
+
+/* ---------------- felolvasás / speech synthesis ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){
+  pickHungarianVoice();
+  window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
+} else {
+  $('noSpeechNote').classList.add('show');
+}
+function speak(text, btn){
+  if(!speechSupported) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'hu-HU';
+  utter.rate = 0.9;
+  if(huVoice) utter.voice = huVoice;
+  if(btn){
+    btn.classList.add('playing');
+    utter.onend = () => btn.classList.remove('playing');
+    utter.onerror = () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------------- STUDY MODE ---------------- */
+let studyOrder = DATA.map((_, i) => i);
+let studyPos = 0;
+let studyFlipped = false;
+
+function initJumpSelect(){
+  const sel = $('jumpCat');
+  sel.innerHTML = '<option value="-1">Ugrás kategóriára…</option>' +
+    CATEGORIES.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+  sel.addEventListener('change', () => {
+    const idx = parseInt(sel.value, 10);
+    if(idx < 0) return;
+    const cat = CATEGORIES[idx];
+    const pos = studyOrder.findIndex(i => DATA[i].cat === cat);
+    if(pos >= 0){ studyPos = pos; renderStudy(); }
+    sel.value = "-1";
+  });
+}
+
+function renderStudy(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[studyOrder[studyPos]];
+  $('frontText').textContent = item.en;
+  $('backText').textContent = item.hu;
+  $('catLabel').textContent = item.cat;
+  $('cardIndex').textContent = studyPos + 1;
+  $('cardTotal').textContent = DATA.length;
+  $('studyProgress').style.width = ((studyPos + 1) / DATA.length * 100) + "%";
+  studyFlipped = false;
+  $('studyCard').classList.remove('flipped');
+  $('prevBtn').disabled = studyPos === 0;
+  $('nextBtn').disabled = studyPos === studyOrder.length - 1;
+}
+function flipStudy(){
+  studyFlipped = !studyFlipped;
+  $('studyCard').classList.toggle('flipped', studyFlipped);
+}
+$('studyCard').addEventListener('click', flipStudy);
+$('flipBtn').addEventListener('click', flipStudy);
+$('prevBtn').addEventListener('click', () => { if(studyPos > 0){ studyPos--; renderStudy(); } });
+$('nextBtn').addEventListener('click', () => { if(studyPos < studyOrder.length - 1){ studyPos++; renderStudy(); } });
+$('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.map((_, i) => i)); studyPos = 0; renderStudy(); });
+$('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
+$('speakStudyBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[studyOrder[studyPos]];
+  speak(item.hu, e.currentTarget);
+});
+
+/* ---------------- MODE SWITCH ---------------- */
+$('btnStudyMode').addEventListener('click', () => {
+  $('btnStudyMode').classList.add('active');
+  $('btnQuizMode').classList.remove('active');
+  $('studyView').classList.remove('hidden');
+  $('quizView').classList.add('hidden');
+});
+$('btnQuizMode').addEventListener('click', () => {
+  $('btnQuizMode').classList.add('active');
+  $('btnStudyMode').classList.remove('active');
+  $('quizView').classList.remove('hidden');
+  $('studyView').classList.add('hidden');
+});
+
+/* ---------------- QUIZ MODE ---------------- */
+let quizOrder = [];
+let quizPos = 0;
+let quizFlipped = false;
+let okCount = 0, noCount = 0;
+let missed = [];
+
+function initQuizCatSelect(){
+  const sel = $('quizCatSelect');
+  sel.innerHTML = '<option value="-1">Összes kategória (500 szó)</option>' +
+    CATEGORIES.map((c, i) => {
+      const n = DATA.filter(d => d.cat === c).length;
+      return `<option value="${i}">${c} (${n})</option>`;
+    }).join('');
+}
+
+function startQuiz(){
+  const catIdx = parseInt($('quizCatSelect').value, 10);
+  const pool = catIdx < 0 ? DATA.map((_, i) => i) : DATA.map((_, i) => i).filter(i => DATA[i].cat === CATEGORIES[catIdx]);
+  quizOrder = shuffleArr(pool);
+  quizPos = 0;
+  okCount = 0; noCount = 0; missed = [];
+  $('quizIntro').classList.add('hidden');
+  $('quizResults').classList.add('hidden');
+  $('quizPlay').classList.remove('hidden');
+  renderQuiz();
+}
+
+function renderQuiz(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[quizOrder[quizPos]];
+  $('quizFrontText').textContent = item.en;
+  $('quizBackText').textContent = item.hu;
+  $('quizCatLabel').textContent = item.cat;
+  $('quizIndex').textContent = quizPos + 1;
+  $('quizTotal').textContent = quizOrder.length;
+  $('quizProgress').style.width = ((quizPos) / quizOrder.length * 100) + "%";
+  $('okCount').textContent = okCount;
+  $('noCount').textContent = noCount;
+  quizFlipped = false;
+  $('quizCard').classList.remove('flipped');
+  $('answerRow').style.visibility = 'hidden';
+}
+function flipQuiz(){
+  quizFlipped = !quizFlipped;
+  $('quizCard').classList.toggle('flipped', quizFlipped);
+  if(quizFlipped){ $('answerRow').style.visibility = 'visible'; }
+}
+function answerQuiz(knewIt){
+  if(!quizFlipped) return;
+  const item = DATA[quizOrder[quizPos]];
+  if(knewIt){ okCount++; } else { noCount++; missed.push(item); }
+  if(quizPos < quizOrder.length - 1){
+    quizPos++;
+    renderQuiz();
+  } else {
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  $('quizPlay').classList.add('hidden');
+  $('quizResults').classList.remove('hidden');
+  $('finalScore').textContent = okCount;
+  $('finalTotal').textContent = quizOrder.length;
+  const list = $('missedList');
+  if(missed.length === 0){
+    list.innerHTML = '<p style="text-align:center; opacity:.6;">Minden kifejezést tudtál! 🎉</p>';
+  } else {
+    list.innerHTML = '<p style="opacity:.5; font-weight:600; margin-bottom:10px;">Ismételd át:</p>' +
+      missed.map(m => `<div class="missed-item"><span>${m.en}</span><b>${m.hu}</b></div>`).join('');
+  }
+}
+$('quizCard').addEventListener('click', flipQuiz);
+$('startQuizBtn').addEventListener('click', startQuiz);
+$('restartQuizBtn').addEventListener('click', () => {
+  $('quizResults').classList.add('hidden');
+  $('quizIntro').classList.remove('hidden');
+});
+$('knowBtn').addEventListener('click', () => answerQuiz(true));
+$('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
+$('speakQuizBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[quizOrder[quizPos]];
+  speak(item.hu, e.currentTarget);
+});
+
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener('keydown', e => {
+  const quizActive = !$('quizView').classList.contains('hidden');
+  if(quizActive){
+    if(!$('quizPlay').classList.contains('hidden')){
+      if(e.code === 'Space'){ e.preventDefault(); flipQuiz(); }
+      if(e.key === 'ArrowRight' && quizFlipped) answerQuiz(true);
+      if(e.key === 'ArrowLeft' && quizFlipped) answerQuiz(false);
+    }
+  } else {
+    if(e.code === 'Space'){ e.preventDefault(); flipStudy(); }
+    if(e.key === 'ArrowRight'){ $('nextBtn').click(); }
+    if(e.key === 'ArrowLeft'){ $('prevBtn').click(); }
+  }
+});
+
+/* ---------------- INIT ---------------- */
+initJumpSelect();
+initQuizCatSelect();
+renderStudy();
+</script>
+
+</body>
+</html>
