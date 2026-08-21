@@ -2,376 +2,191 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>100 Basic Words — Hungarian4You</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Essential 100 — Szókincs — Hungarian4You</title>
 <link rel="stylesheet" href="../style.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper: #FAF4E6;
-    --paper-deep: #F0E9D6;
-    --card: #FFFDF8;
-    --ink: #2B241D;
-    --ink-soft: #6B6155;
-    --red: #B6371F;
-    --red-deep: #7E2513;
-    --green: #2F6E4F;
-    --line: #E4D9BF;
-    --line-soft: #F0E9D6;
-    --focus: #2F6E4F;
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- Videó ---------- */
+  .video-card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 14px;
+    padding: 18px;
+    margin: 32px 0 8px;
+    box-shadow: 0 10px 26px -18px rgba(43,33,24,0.35);
+  }
+  .video-card h2{
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    margin: 2px 4px 12px;
+    color: var(--paprika-dark, #7E2513);
+  }
+  .video-card .sub{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: -6px 4px 14px;
+  }
+  .video-frame{
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-frame iframe{
+    position: absolute; top:0; left:0; width:100%; height:100%; border:0;
   }
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:
-      radial-gradient(ellipse at top left, rgba(255,255,255,0.35), transparent 55%),
-      var(--paper);
-    color:var(--ink);
-    font-family:'Work Sans', sans-serif;
-    -webkit-font-smoothing:antialiased;
+  /* ---------- App keret ---------- */
+  .app{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 24px clamp(16px,4vw,32px) 30px;
+    margin: 30px 0 10px;
+    box-shadow: 0 14px 34px -20px rgba(43,33,24,0.4);
   }
-  body::before{
-    content:"";
-    position:fixed; inset:0;
-    pointer-events:none;
-    opacity:0.05;
-    background-image:
-      repeating-linear-gradient(0deg, #000 0px, transparent 1px, transparent 3px),
-      repeating-linear-gradient(90deg, #000 0px, transparent 1px, transparent 3px);
-    mix-blend-mode:multiply;
+  .mode-switch{
+    display:flex; justify-content:center; gap:4px;
+    background: var(--bg, #FAF4E6);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 22px;
+  }
+  .mode-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding: 9px 20px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.6;
+    transition: .18s;
+  }
+  .mode-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .info-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:14px;
+  }
+  .cat-pill{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.78rem;
+    letter-spacing:.02em; color:#fff; background: var(--meadow);
+    padding: 7px 16px; border-radius:999px; max-width: 65%;
+  }
+  .counter{
+    font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;
+    color: var(--ink, #2b2420); opacity:.65;
+  }
+  select.jump{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.85rem;
+    padding: 8px 12px; border-radius:8px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; max-width: 240px;
+  }
+  .progress-track{
+    width:100%; height:6px; border-radius:6px; overflow:hidden;
+    background: rgba(43,33,24,0.08); margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--paprika), var(--mustard));
+    transition: width .3s ease;
   }
 
-  a{color:var(--red);}
-
-  .breadcrumb { max-width: 1180px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--ink-soft); }
-  .breadcrumb a { color: var(--red); text-decoration: none; }
-
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:20px 24px 80px;
-  }
-
-  header.cover{
-    background:var(--card);
-    border:1px solid var(--line);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 24px -18px rgba(30,20,10,0.5);
-    padding:26px 28px 22px;
-    position:relative;
-    margin-bottom:22px;
-  }
-  header.cover::after{
-    content:"";
-    position:absolute; left:0; right:0; top:0; height:6px;
-    background: linear-gradient(90deg, var(--red) 0 33.33%, #f4f1e6 33.33% 66.66%, var(--green) 66.66% 100%);
-    opacity:0.85;
-  }
-  .cover-top{
-    display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;
-  }
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11.5px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    margin:0 0 8px;
-  }
-  h1{
-    font-family:'Fraunces', serif;
-    font-optical-sizing:auto;
-    font-weight:600;
-    font-size:clamp(28px,4vw,40px);
-    line-height:1.05;
-    margin:0 0 10px;
-    color:var(--ink);
-  }
-  h1 em{
-    font-style:italic;
-    font-weight:500;
-    color:var(--red-deep);
-  }
-  .cover-sub{
-    font-size:15px;
-    color:var(--ink-soft);
-    max-width:56ch;
-    line-height:1.5;
-    margin:0;
-  }
-
-  .tally{
-    font-family:'IBM Plex Mono', monospace;
-    text-align:center;
-    flex-shrink:0;
-  }
-  .seal{
-    width:96px; height:96px;
-    border-radius:50%;
-    border:2.5px solid var(--red);
-    display:flex; align-items:center; justify-content:center;
-    position:relative;
-    color:var(--red);
-    transform:rotate(-8deg);
-  }
-  .seal::before{
-    content:"";
-    position:absolute; inset:6px;
-    border:1px solid var(--red);
-    border-radius:50%;
-    opacity:.6;
-  }
-  .seal-num{ font-size:22px; font-weight:600; line-height:1; }
-  .seal-den{ font-size:9px; letter-spacing:.08em; margin-top:2px; }
-  .tally-label{ margin-top:8px; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); }
-
-  .bi-en{
-    display:block;
-    font-family:'IBM Plex Mono', monospace;
-    font-style:normal;
-    text-transform:none;
-    letter-spacing:.02em;
-    opacity:.68;
-  }
-  .eyebrow .bi-en{font-size:10.5px; margin-top:3px; letter-spacing:.08em; text-transform:uppercase;}
-  h1 .bi-en{
-    font-family:'Work Sans', sans-serif;
-    font-size:15px;
-    font-weight:400;
-    font-style:italic;
-    color:var(--ink-soft);
-    margin-top:6px;
-    letter-spacing:0;
-  }
-  .cover-sub .bi-en{margin-top:8px; font-size:13.5px; font-style:italic;}
-  .tally-label .bi-en{font-size:9px; margin-top:2px;}
-  .seal-den .bi-en{font-size:7.5px; margin-top:1px; opacity:.75;}
-  .field label .bi-en{font-size:9px; margin-top:2px; opacity:.6;}
-  .cat-head h2 .bi-en{
-    font-family:'Work Sans', sans-serif;
-    font-style:italic;
-    font-weight:400;
-    font-size:14px;
-    color:var(--ink-soft);
-    margin-top:2px;
-  }
-  .cat-desc .bi-en{font-size:10px; margin-top:2px; opacity:.75;}
-  .empty-note .bi-en{margin-top:4px; opacity:.75;}
-  .page-footnote .bi-en{margin-top:10px; opacity:.8; font-style:italic;}
-  .tab .name-wrap{display:flex; flex-direction:column;}
-  .tab .name-en{font-size:9.5px; opacity:.65; font-style:italic;}
-
-  .controls{
-    display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap;
-    margin-top:20px;
-    padding-top:18px;
-    border-top:1px dashed var(--line);
-  }
-  .field{ display:flex; flex-direction:column; gap:5px; }
-  .field label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10.5px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-  .field input[type="text"]{
-    font-family:'Work Sans', sans-serif;
-    font-size:15px;
-    padding:8px 10px;
-    border:none;
-    border-bottom:1.5px solid var(--ink);
-    background:transparent;
-    color:var(--ink);
-    width:240px;
-    outline-offset:3px;
-  }
-  .field input[type="text"]::placeholder{color:#9aa2ad;}
-  .field input[type="text"]:focus-visible{outline:2px solid var(--focus);}
-
-  .mode-toggle{ display:flex; border:1.5px solid var(--ink); border-radius:999px; overflow:hidden; }
-  .mode-toggle button{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11.5px;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    padding:9px 16px;
-    border:none;
-    background:transparent;
-    color:var(--ink);
-    cursor:pointer;
-  }
-  .mode-toggle button.active{ background:var(--ink); color:var(--card); }
-  .mode-toggle button:focus-visible{outline:2px solid var(--focus); outline-offset:-2px;}
-
-  .print-btn{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11.5px;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    padding:9px 16px;
-    border:1.5px solid var(--ink);
-    background:var(--card);
-    color:var(--ink);
-    cursor:pointer;
-    border-radius:999px;
-    margin-left:auto;
-  }
-  .print-btn:hover{background:var(--ink); color:var(--card);}
-  .print-btn:focus-visible{outline:2px solid var(--focus);}
-
-  nav.tabs{
-    display:flex; flex-wrap:wrap; gap:6px;
-    margin-bottom:0;
-    position:relative; z-index:1;
-  }
-  .tab{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-bottom:none;
-    padding:10px 14px 12px;
-    cursor:pointer;
-    color:var(--ink-soft);
-    display:flex; align-items:baseline; gap:8px;
-    border-radius:6px 6px 0 0;
-    transform:translateY(4px);
-    transition:transform .12s ease, background .12s ease, color .12s ease;
-  }
-  .tab .n{font-weight:600; color:var(--red);}
-  .tab .badge{ font-size:10px; color:var(--ink-soft); opacity:.75; }
-  .tab:hover{transform:translateY(0px); color:var(--ink);}
-  .tab.active{
-    background:var(--card); color:var(--ink);
-    transform:translateY(0px);
-    border-color:var(--line);
-    box-shadow:0 -2px 0 var(--red) inset;
-  }
-  .tab:focus-visible{outline:2px solid var(--focus);}
-
-  main.folder{
-    background:var(--card);
-    border:1px solid var(--line);
-    padding:26px;
-    box-shadow:0 12px 26px -20px rgba(30,20,10,0.55);
-  }
-
-  .cat-head{
-    display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px;
-    margin-bottom:18px;
-    padding-bottom:12px;
-    border-bottom:1px solid var(--line-soft);
-  }
-  .cat-head h2{ font-family:'Fraunces', serif; font-weight:600; font-size:22px; margin:0; }
-  .cat-head .cat-desc{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); letter-spacing:.04em; }
-
-  .empty-note{ font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--ink-soft); padding:30px 4px; }
-
-  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:16px; }
-
+  .stage{ display:flex; justify-content:center; perspective:1600px; margin-bottom:20px; }
   .card{
-    position:relative;
-    background: repeating-linear-gradient(var(--card), var(--card) 27px, #eee6d2 28px);
-    border:1px solid var(--line);
-    padding:16px 16px 14px;
-    min-height:190px;
-    display:flex; flex-direction:column;
-    overflow:hidden;
+    position:relative; width:min(680px,100%); height: clamp(260px, 36vw, 360px);
+    cursor:pointer; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
   }
-  .card .tag{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9.5px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    opacity:.7;
-    margin-bottom:6px;
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: clamp(20px,4vw,40px);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    box-shadow: 0 14px 30px -18px rgba(43,33,24,0.4);
   }
-  .card .hu{ font-family:'Fraunces', serif; font-weight:600; font-size:22px; line-height:1.15; color:var(--ink); margin:0 0 2px; }
-  .card .phon{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--red-deep); font-style:italic; margin-bottom:8px; }
-  .card .en{ font-size:14.5px; font-weight:600; color:var(--ink); margin-bottom:10px; }
-  .card .ex{ margin-top:auto; padding-top:8px; border-top:1px dashed var(--line); font-size:13px; }
-  .card .ex-hu{ font-style:italic; color:var(--ink); margin:0 0 3px; }
-  .card .ex-en{ color:var(--ink-soft); margin:0 0 8px; }
-  .card .ex-pair{margin-bottom:8px;}
-  .card .ex-pair:last-child{margin-bottom:0;}
-  .card .ex-pair .ex-en{margin-bottom:0;}
-  .card .ex-num{ font-family:'IBM Plex Mono', monospace; font-size:9px; letter-spacing:.08em; color:var(--red-deep); opacity:.75; margin-right:4px; }
+  .face-front{ background: var(--bg, #FAF4E6); }
+  .face-back{ background: var(--meadow); color:#fdf9ef; transform: rotateY(180deg); }
+  .face-eyebrow{
+    font-family:'Work Sans', sans-serif; font-size:0.72rem; letter-spacing:.16em;
+    text-transform:uppercase; font-weight:700; opacity:.55; margin-bottom:14px;
+  }
+  .face-back .face-eyebrow{ color: var(--mustard); opacity:.95; }
+  .pos-tag{
+    font-family:'Work Sans', sans-serif; font-size:0.68rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.04em; color:#fff;
+    background: var(--paprika); padding:3px 10px; border-radius:999px; margin-bottom:10px;
+  }
+  .face-back .pos-tag{ background: var(--gold, var(--mustard)); color: var(--ink,#241f1a); }
+  .face-text{
+    font-family:'Fraunces', serif; font-weight:600; font-size: clamp(20px,3.4vw,34px); line-height:1.2;
+  }
+  .face-front .face-text{ color: var(--paprika-dark, #7E2513); }
+  .face-example{
+    margin-top:14px; font-family:'Work Sans', sans-serif; font-size:0.85rem; line-height:1.5; opacity:.9; max-width: 460px;
+  }
+  .face-example .en{ display:block; opacity:.75; font-style:italic; margin-top:2px; }
+  .hint{ margin-top:16px; font-size:0.72rem; opacity:.5; font-weight:600; letter-spacing:.03em; font-family:'Work Sans', sans-serif; }
+  .face-back .hint{ color:#fdf9ef; opacity:.6; }
+  .speak-btn{
+    margin-top:14px; width:48px; height:48px; border-radius:50%;
+    border:2px solid rgba(253,249,239,0.5); background: rgba(253,249,239,0.14); color:#fdf9ef;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; transition:.15s;
+  }
+  .speak-btn:hover{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); transform: scale(1.06); }
+  .speak-btn.playing{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); animation: pulseGlow .9s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,147,26,.5);} 50%{ box-shadow:0 0 0 9px rgba(201,147,26,0);} }
 
-  .stamp-btn{
-    position:absolute; top:10px; right:10px;
-    width:30px; height:30px;
-    border-radius:50%;
-    border:1.3px solid var(--ink-soft);
-    background:transparent;
-    color:var(--ink-soft);
-    font-size:15px;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    transition:transform .08s ease, border-color .12s, color .12s;
+  .controls{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem;
+    border-radius:12px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); padding:12px 22px; cursor:pointer; transition:.15s;
   }
-  .stamp-btn:hover{border-color:var(--red); color:var(--red);}
-  .stamp-btn:focus-visible{outline:2px solid var(--focus);}
-  .stamp-btn:active{transform:scale(0.92);}
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn.primary{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .btn.ghost{ background:transparent; }
+  .btn.know{ background: var(--meadow); border-color: var(--meadow); color:#fff; }
+  .btn.dontknow{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .kbd-hint{ text-align:center; font-family:'Work Sans', sans-serif; font-size:0.78rem; opacity:.45; margin-top:4px; }
 
-  .stamp-mark{
-    position:absolute; right:-6px; bottom:6px;
-    width:104px; height:104px;
-    pointer-events:none;
-    opacity:0;
-    transform:rotate(-18deg) scale(1.3);
-    transition:opacity .18s ease, transform .18s ease;
-  }
-  .card.learned .stamp-mark{ opacity:0.9; transform:rotate(-18deg) scale(1); }
-  .card.learned{background: repeating-linear-gradient(#fdf9ee, #fdf9ee 27px, #efe3d0 28px);}
-  @media (prefers-reduced-motion: reduce){ .stamp-mark, .stamp-btn{transition:none;} }
+  .score-tally{ display:flex; gap:18px; font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem; }
+  .score-tally .ok{ color: var(--meadow); }
+  .score-tally .no{ color: var(--paprika); }
 
-  .grid.quiz .en, .grid.quiz .ex{
-    filter: blur(5px);
-    user-select:none;
-    transition:filter .15s ease;
-    cursor:pointer;
+  .quiz-intro, .quiz-results{
+    text-align:center; padding: 20px clamp(10px,4vw,30px) 6px;
   }
-  .grid.quiz .card.revealed .en, .grid.quiz .card.revealed .ex{ filter:none; }
-  .grid.quiz .card{cursor:pointer;}
-  .grid.quiz .tap-hint{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9.5px;
-    color:var(--red-deep);
-    letter-spacing:.06em;
-    margin-top:4px;
-    text-transform:uppercase;
+  .quiz-intro p, .quiz-results p{ font-family:'Work Sans', sans-serif; font-size:0.92rem; opacity:.75; max-width:520px; margin:8px auto 20px; line-height:1.55; }
+  .quiz-intro select{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding:10px 16px; border-radius:10px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; margin-bottom:18px; max-width:100%;
   }
-  .grid:not(.quiz) .tap-hint{display:none;}
+  .big-score{ font-family:'Fraunces', serif; font-weight:700; font-size: clamp(40px,7vw,64px); color: var(--paprika); margin: 6px 0; }
+  .missed-list{ text-align:left; max-height:260px; overflow-y:auto; margin: 14px auto 22px; max-width:520px; border-top:1.5px solid var(--border, rgba(43,33,24,0.16)); padding-top:14px; }
+  .missed-item{ display:flex; justify-content:space-between; gap:12px; padding:7px 4px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); font-family:'Work Sans', sans-serif; font-size:0.85rem; }
+  .missed-item b{ font-family:'Fraunces', serif; color: var(--paprika-dark, #7E2513); white-space:nowrap; }
 
-  .page-footnote{
-    max-width:1180px;
-    margin:26px auto 0;
-    padding:0 24px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    color:var(--ink-soft);
-    line-height:1.7;
+  .hidden{ display:none !important; }
+  .no-speech-note{
+    text-align:center; font-family:'Work Sans', sans-serif; font-size:0.82rem; color: var(--paprika-dark, #7E2513);
+    background: var(--bg, #FAF4E6); border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px;
+    padding:10px 16px; margin: 0 0 16px; display:none;
   }
-
-  @media print{
-    body{background:#fff;}
-    body::before{display:none;}
-    header.cover .controls, nav.tabs, .print-btn, .stamp-btn, .stamp-mark, .tap-hint{display:none !important;}
-    main.folder{border:none; box-shadow:none; padding:0;}
-    .grid{grid-template-columns:repeat(3, 1fr);}
-    .grid.quiz .en, .grid.quiz .ex{filter:none;}
-    .card{break-inside:avoid; border:1px solid #999;}
-    header.cover{box-shadow:none;}
-  }
+  .no-speech-note.show{ display:block; }
+  .no-speech-note .translation{ display:block; margin-top:4px; opacity:.75; font-style:italic; }
 
   @media (max-width:640px){
-    .cover-top{flex-direction:column;}
-    .controls{align-items:stretch;}
-    .field input[type="text"]{width:100%;}
-    .print-btn{margin-left:0;}
+    .info-bar{ flex-direction:column; align-items:flex-start; }
+    select.jump{ max-width:none; width:100%; }
   }
 </style>
 </head>
@@ -379,708 +194,609 @@
 
 <div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
 <div class="motif"></div>
+
 <nav class="breadcrumb">
-  <a href="../">&larr; Students</a> / 100 Basic Words
+  <a href="../">&larr; Students</a> / <a href="../vocabulary-szokincs/">Vocabulary</a> / The Essential 100
 </nav>
 
-<div class="wrap">
-
-  <header class="cover">
-    <div class="cover-top">
-      <div>
-        <p class="eyebrow">Honosítási interjú &nbsp;·&nbsp; Nyelvi felkészítő dosszié<span class="bi-en">Naturalization Interview · Language Prep Dossier</span></p>
-        <h1>100 alapszó az <em>egyszerűsített<br>honosítási interjúhoz</em><span class="bi-en">100 basic words for the simplified naturalization interview</span></h1>
-        <p class="cover-sub">Tíz témakör, a valódi interjú menetét követve — a köszönéstől a kérdőszavakig. Minden szóhoz kiejtési segédlet, angol jelentés és egy interjú-közeli példamondat tartozik. A lapfülek sorszáma a felkészülés javasolt sorrendjét mutatja.<span class="bi-en">Ten topics, following the real course of the interview — from greetings to question words. Every word includes a pronunciation guide, its English meaning, and an interview-style example sentence. The tab numbers show the suggested order of preparation.</span></p>
-      </div>
-      <div class="tally">
-        <div class="seal">
-          <div>
-            <div class="seal-num" id="learnedCount">0</div>
-            <div class="seal-den">/ 100 IGAZOLVA<span class="bi-en">/ 100 VERIFIED</span></div>
-          </div>
-        </div>
-        <div class="tally-label">Bélyegzett szavak<span class="bi-en">Stamped words</span></div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <div class="field">
-        <label for="search">Keresés (magyar vagy angol)<span class="bi-en">Search (Hungarian or English)</span></label>
-        <input type="text" id="search" placeholder="pl. útlevél, address, mikor… / e.g. útlevél, address, when…">
-      </div>
-      <div class="field">
-        <label>Nézet<span class="bi-en">View</span></label>
-        <div class="mode-toggle" role="group" aria-label="Nézet váltása / Switch view">
-          <button id="btnStudy" class="active" type="button">Tanulás · Study</button>
-          <button id="btnQuiz" type="button">Gyakorlás · Practice</button>
-        </div>
-      </div>
-      <button class="print-btn" id="printBtn" type="button">Nyomtatási nézet · Print view</button>
-    </div>
-  </header>
-
-  <nav class="tabs" id="tabs"></nav>
-  <main class="folder">
-    <div class="cat-head">
-      <h2 id="catName">—</h2>
-      <span class="cat-desc" id="catDesc">—</span>
-    </div>
-    <div class="grid" id="grid"></div>
-    <p class="empty-note" id="emptyNote" style="display:none;">Nincs találat ebben a témakörben a keresésre.<span class="bi-en">No results found in this topic for your search.</span></p>
-  </main>
-
-  <p class="page-footnote">
-    Tanári segédeszköz magyar mint idegen nyelv oktatásához, felkészítés az egyszerűsített honosítási eljárás interjújára. A kiejtési segédletek közelítő, angol írásmód szerinti útmutatók, nem hivatalos fonetikai átírások. A „Bélyegzés" jelölés csak a jelenlegi munkamenetben marad meg.
-    <span class="bi-en">A teaching aid for Hungarian as a foreign language, preparing learners for the simplified naturalization procedure interview. Pronunciation guides are approximate, English-spelling-based aids, not official phonetic transcriptions. "Stamped" marks are kept only for the current session.</span>
+<header class="hero">
+  <span class="eyebrow">SZÓKINCS &middot; THE ESSENTIAL 100</span>
+  <h1 class="title">The Essential 100</h1>
+  <p class="lede">
+    100 szó — a magyar alapszókincs, amit mindenkinek tudnia kell.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">100 words — the core Hungarian vocabulary everyone should know.</span>
   </p>
-
-</div>
+</header>
 
 <div class="motif meadow"></div>
+
+<main>
+
+  <section class="video-card">
+    <h2>Bevezető videó <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Introduction Video</span></h2>
+    <p class="sub">Nézd meg, mielőtt nekikezdesz a kártyáknak. — Watch this before you start the flashcards.</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/a03LyjG--ec" title="The Essential 100 — bevezető videó" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="app">
+
+    <div class="mode-switch">
+      <button type="button" id="btnStudyMode" class="active">Tanulás</button>
+      <button type="button" id="btnQuizMode">Kvíz</button>
+    </div>
+
+    <p class="no-speech-note" id="noSpeechNote">
+      A böngésződ nem támogatja a hangos felolvasást, ezért a hangszóró gombok itt nem működnek.
+      <span class="translation">Your browser doesn't support speech synthesis, so the speaker buttons won't work here.</span>
+    </p>
+
+    <!-- STUDY MODE -->
+    <div id="studyView">
+      <div class="info-bar">
+        <span class="cat-pill" id="catLabel">—</span>
+        <select class="jump" id="jumpCat"></select>
+        <span class="counter"><span id="cardIndex">1</span> / <span id="cardTotal">100</span></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="studyProgress"></div></div>
+
+      <div class="stage">
+        <div class="card" id="studyCard">
+          <div class="face face-front">
+            <span class="face-eyebrow">English</span>
+            <span class="pos-tag" id="frontPos">noun</span>
+            <div class="face-text" id="frontText">—</div>
+            <div class="hint">Kattints a fordulásért · Space</div>
+          </div>
+          <div class="face face-back">
+            <span class="face-eyebrow">Magyarul</span>
+            <div class="face-text" id="backText">—</div>
+            <p class="face-example" id="backExample"></p>
+            <button type="button" class="speak-btn" id="speakStudyBtn" title="Kiejtés meghallgatása">🔊</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn wide" id="prevBtn">&larr; Előző</button>
+        <button type="button" class="btn primary wide" id="flipBtn">Fordítás</button>
+        <button type="button" class="btn wide" id="nextBtn">Következő &rarr;</button>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn ghost" id="shuffleBtn">🔀 Véletlen sorrend</button>
+        <button type="button" class="btn ghost" id="orderBtn">↺ Eredeti sorrend</button>
+      </div>
+      <p class="kbd-hint">Nyilak: lapozás · Szóköz: fordítás</p>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quizView" class="hidden">
+
+      <div id="quizIntro" class="quiz-intro">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz — válassz kategóriát</h2>
+        <p>Véletlenszerű sorrendben, flashcard formában. Fordítsd meg a kártyát, majd jelöld: tudtad-e a választ.<br>
+        <span style="opacity:.7; font-style:italic;">Random order flashcards. Flip the card, then mark whether you knew it.</span></p>
+        <select id="quizCatSelect"></select><br>
+        <button type="button" class="btn primary wide" id="startQuizBtn">Kvíz indítása</button>
+      </div>
+
+      <div id="quizPlay" class="hidden">
+        <div class="info-bar">
+          <span class="cat-pill" id="quizCatLabel">—</span>
+          <span class="score-tally"><span class="ok">✓ <span id="okCount">0</span></span><span class="no">✕ <span id="noCount">0</span></span></span>
+          <span class="counter"><span id="quizIndex">1</span> / <span id="quizTotal">100</span></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgress"></div></div>
+
+        <div class="stage">
+          <div class="card" id="quizCard">
+            <div class="face face-front">
+              <span class="face-eyebrow">English</span>
+              <span class="pos-tag" id="quizFrontPos">noun</span>
+              <div class="face-text" id="quizFrontText">—</div>
+              <div class="hint">Kattints a fordulásért · Space</div>
+            </div>
+            <div class="face face-back">
+              <span class="face-eyebrow">Magyarul</span>
+              <div class="face-text" id="quizBackText">—</div>
+              <p class="face-example" id="quizBackExample"></p>
+              <button type="button" class="speak-btn" id="speakQuizBtn" title="Kiejtés meghallgatása">🔊</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" id="answerRow" style="visibility:hidden;">
+          <button type="button" class="btn dontknow wide" id="dontKnowBtn">✕ Nem tudtam</button>
+          <button type="button" class="btn know wide" id="knowBtn">✓ Tudtam</button>
+        </div>
+        <p class="kbd-hint">Fordítsd meg a kártyát, majd válaszolj</p>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz eredménye</h2>
+        <div class="big-score"><span id="finalScore">0</span>/<span id="finalTotal">0</span></div>
+        <p>Helyes válaszok száma</p>
+        <div class="missed-list" id="missedList"></div>
+        <button type="button" class="btn primary wide" id="restartQuizBtn">Kvíz újra</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div class="motif"></div>
 <footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
 
 <script src="../shared/site-widgets.js"></script>
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
 <script>
-const CATEGORIES = [
-  {id:'greet',    num:'01', name:'Köszönés és bemutatkozás',   nameEn:'Greetings & Introductions',  desc:'Az interjú kezdete',           descEn:'The start of the interview'},
-  {id:'polite',   num:'02', name:'Udvariassági kifejezések',    nameEn:'Polite Expressions',         desc:'Az interjú alatt',             descEn:'During the interview'},
-  {id:'personal', num:'03', name:'Személyes adatok',            nameEn:'Personal Details',           desc:'Ki Ön?',                       descEn:'Who are you?'},
-  {id:'family',   num:'04', name:'Család',                      nameEn:'Family',                     desc:'Kik a hozzátartozói?',         descEn:'Who are your relatives?'},
-  {id:'home',     num:'05', name:'Lakóhely és cím',             nameEn:'Residence & Address',        desc:'Hol él?',                      descEn:'Where do you live?'},
-  {id:'work',     num:'06', name:'Munka és tanulás',            nameEn:'Work & Studies',             desc:'Mivel foglalkozik?',           descEn:'What do you do?'},
-  {id:'time',     num:'07', name:'Idő, dátum, szám',            nameEn:'Time, Date & Numbers',       desc:'Mikor és mennyi?',             descEn:'When and how much?'},
-  {id:'hungary',  num:'08', name:'Magyarországról',             nameEn:'About Hungary',              desc:'Alapismeretek',                descEn:'Basic knowledge'},
-  {id:'verbs',    num:'09', name:'Alapvető igék',               nameEn:'Basic Verbs',                desc:'A válaszaidhoz',               descEn:'For your answers'},
-  {id:'question', num:'10', name:'Kérdőszavak',                 nameEn:'Question Words',             desc:'Amit kérdezhetnek',            descEn:'What they may ask'}
+/* ---------------------------------------------------------------
+   Adatok — The Essential 100 / Data — The Essential 100
+   pos: noun | verb | adj | adv
+----------------------------------------------------------------*/
+const POS_LABELS = {
+  noun: { hu: "főnév", en: "noun" },
+  verb: { hu: "ige", en: "verb" },
+  adj:  { hu: "melléknév", en: "adjective" },
+  adv:  { hu: "határozószó", en: "adverb" },
+};
+
+const DATA = [
+  // CSALÁD / FAMILY
+  { cat: "család", catEn: "family", hu: "édesanya", en: "mother", pos: "noun", exHu: "Az édesanyám orvos.", exEn: "My mother is a doctor." },
+  { cat: "család", catEn: "family", hu: "édesapa", en: "father", pos: "noun", exHu: "Az édesapám ma dolgozik.", exEn: "My father is working today." },
+  { cat: "család", catEn: "family", hu: "testvér", en: "sibling", pos: "noun", exHu: "Van egy testvérem.", exEn: "I have one sibling." },
+  { cat: "család", catEn: "family", hu: "nagymama", en: "grandmother", pos: "noun", exHu: "A nagymamám süteményt süt.", exEn: "My grandmother is baking a cake." },
+  { cat: "család", catEn: "family", hu: "nagypapa", en: "grandfather", pos: "noun", exHu: "A nagypapa a kertben van.", exEn: "Grandpa is in the garden." },
+  { cat: "család", catEn: "family", hu: "feleség", en: "wife", pos: "noun", exHu: "A feleségem tanár.", exEn: "My wife is a teacher." },
+  { cat: "család", catEn: "family", hu: "férj", en: "husband", pos: "noun", exHu: "A férjem mérnök.", exEn: "My husband is an engineer." },
+  { cat: "család", catEn: "family", hu: "gyerek", en: "child", pos: "noun", exHu: "Két gyerekünk van.", exEn: "We have two children." },
+  { cat: "család", catEn: "family", hu: "unoka", en: "grandchild", pos: "noun", exHu: "Az unokája nagyon aranyos.", exEn: "Her grandchild is very cute." },
+  { cat: "család", catEn: "family", hu: "rokon", en: "relative", pos: "noun", exHu: "Sok rokonunk lakik vidéken.", exEn: "Many of our relatives live in the countryside." },
+  { cat: "család", catEn: "family", hu: "szülő", en: "parent", pos: "noun", exHu: "A szülők ma jönnek.", exEn: "The parents are coming today." },
+  { cat: "család", catEn: "family", hu: "szeretni", en: "to love", pos: "verb", exHu: "Nagyon szeretem a családomat.", exEn: "I love my family very much." },
+
+  // TANULÁS ÉS ISKOLA / LEARNING & SCHOOL
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tanulni", en: "to study / to learn", pos: "verb", exHu: "Minden este tanulok.", exEn: "I study every evening." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tanár", en: "teacher", pos: "noun", exHu: "A tanár érthetően magyaráz.", exEn: "The teacher explains clearly." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "diák", en: "student", pos: "noun", exHu: "A diák felkészült a vizsgára.", exEn: "The student is prepared for the exam." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "iskola", en: "school", pos: "noun", exHu: "Az iskola nyolckor kezdődik.", exEn: "School starts at eight." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "lecke", en: "lesson", pos: "noun", exHu: "A mai lecke rövid volt.", exEn: "Today's lesson was short." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "vizsga", en: "exam", pos: "noun", exHu: "Holnap van a vizsgám.", exEn: "I have my exam tomorrow." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "jegyzetelni", en: "to take notes", pos: "verb", exHu: "Órán mindig jegyzetelek.", exEn: "I always take notes in class." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "könyv", en: "book", pos: "noun", exHu: "Ez egy érdekes könyv.", exEn: "This is an interesting book." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "osztály", en: "class / classroom", pos: "noun", exHu: "Az osztályunk huszonöt fős.", exEn: "Our class has twenty-five students." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "tudni", en: "to know", pos: "verb", exHu: "Tudom a választ.", exEn: "I know the answer." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "érteni", en: "to understand", pos: "verb", exHu: "Nem értem ezt a szót.", exEn: "I don't understand this word." },
+  { cat: "tanulás és iskola", catEn: "learning & school", hu: "házi feladat", en: "homework", pos: "noun", exHu: "Sok házi feladatom van ma.", exEn: "I have a lot of homework today." },
+
+  // MUNKA / WORK
+  { cat: "munka", catEn: "work", hu: "dolgozni", en: "to work", pos: "verb", exHu: "Egy irodában dolgozom.", exEn: "I work in an office." },
+  { cat: "munka", catEn: "work", hu: "munkahely", en: "workplace", pos: "noun", exHu: "A munkahelyem közel van.", exEn: "My workplace is close by." },
+  { cat: "munka", catEn: "work", hu: "főnök", en: "boss", pos: "noun", exHu: "A főnököm elégedett velem.", exEn: "My boss is satisfied with me." },
+  { cat: "munka", catEn: "work", hu: "kolléga", en: "colleague", pos: "noun", exHu: "A kollégáim segítőkészek.", exEn: "My colleagues are helpful." },
+  { cat: "munka", catEn: "work", hu: "fizetés", en: "salary", pos: "noun", exHu: "A fizetés minden hónapban jön.", exEn: "The salary comes every month." },
+  { cat: "munka", catEn: "work", hu: "állás", en: "job", pos: "noun", exHu: "Új állást keresek.", exEn: "I'm looking for a new job." },
+  { cat: "munka", catEn: "work", hu: "megbeszélés", en: "meeting", pos: "noun", exHu: "A megbeszélés tízkor kezdődik.", exEn: "The meeting starts at ten." },
+  { cat: "munka", catEn: "work", hu: "határidő", en: "deadline", pos: "noun", exHu: "A határidő péntek.", exEn: "The deadline is Friday." },
+  { cat: "munka", catEn: "work", hu: "projekt", en: "project", pos: "noun", exHu: "Ez egy fontos projekt.", exEn: "This is an important project." },
+  { cat: "munka", catEn: "work", hu: "tapasztalat", en: "experience", pos: "noun", exHu: "Sok tapasztalatom van.", exEn: "I have a lot of experience." },
+  { cat: "munka", catEn: "work", hu: "karrier", en: "career", pos: "noun", exHu: "A karrierem fontos nekem.", exEn: "My career is important to me." },
+  { cat: "munka", catEn: "work", hu: "elintézni", en: "to take care of / to handle", pos: "verb", exHu: "Ezt még ma elintézem.", exEn: "I'll take care of this today." },
+
+  // ÉTEL ÉS ITAL / FOOD & DRINK
+  { cat: "étel és ital", catEn: "food & drink", hu: "enni", en: "to eat", pos: "verb", exHu: "Mindjárt eszünk.", exEn: "We're about to eat." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "inni", en: "to drink", pos: "verb", exHu: "Vizet iszom.", exEn: "I'm drinking water." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "kenyér", en: "bread", pos: "noun", exHu: "Friss kenyeret vettem.", exEn: "I bought fresh bread." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "víz", en: "water", pos: "noun", exHu: "Kérek egy pohár vizet.", exEn: "I'd like a glass of water." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "leves", en: "soup", pos: "noun", exHu: "A leves nagyon finom.", exEn: "The soup is very tasty." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "hús", en: "meat", pos: "noun", exHu: "Nem eszem húst.", exEn: "I don't eat meat." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "zöldség", en: "vegetable", pos: "noun", exHu: "Sok zöldséget eszünk.", exEn: "We eat a lot of vegetables." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "gyümölcs", en: "fruit", pos: "noun", exHu: "A gyümölcs egészséges.", exEn: "Fruit is healthy." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "reggeli", en: "breakfast", pos: "noun", exHu: "A reggeli hétkor van.", exEn: "Breakfast is at seven." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "vacsora", en: "dinner", pos: "noun", exHu: "A vacsora kész.", exEn: "Dinner is ready." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "éhes", en: "hungry", pos: "adj", exHu: "Nagyon éhes vagyok.", exEn: "I'm very hungry." },
+  { cat: "étel és ital", catEn: "food & drink", hu: "finom", en: "delicious", pos: "adj", exHu: "Ez a torta nagyon finom.", exEn: "This cake is very delicious." },
+
+  // OTTHON / HOME
+  { cat: "otthon", catEn: "home", hu: "lakás", en: "apartment", pos: "noun", exHu: "A lakásunk kicsi, de kényelmes.", exEn: "Our apartment is small but comfortable." },
+  { cat: "otthon", catEn: "home", hu: "ház", en: "house", pos: "noun", exHu: "A ház a városban van.", exEn: "The house is in the city." },
+  { cat: "otthon", catEn: "home", hu: "konyha", en: "kitchen", pos: "noun", exHu: "A konyhában főzök.", exEn: "I cook in the kitchen." },
+  { cat: "otthon", catEn: "home", hu: "hálószoba", en: "bedroom", pos: "noun", exHu: "A hálószoba emeleten van.", exEn: "The bedroom is upstairs." },
+  { cat: "otthon", catEn: "home", hu: "bútor", en: "furniture", pos: "noun", exHu: "Új bútort vettünk.", exEn: "We bought new furniture." },
+  { cat: "otthon", catEn: "home", hu: "takarítani", en: "to clean", pos: "verb", exHu: "Szombaton takarítok.", exEn: "I clean on Saturdays." },
+  { cat: "otthon", catEn: "home", hu: "főzni", en: "to cook", pos: "verb", exHu: "Szeretek főzni.", exEn: "I like to cook." },
+  { cat: "otthon", catEn: "home", hu: "ajtó", en: "door", pos: "noun", exHu: "Csukd be az ajtót!", exEn: "Close the door!" },
+  { cat: "otthon", catEn: "home", hu: "ablak", en: "window", pos: "noun", exHu: "Nyisd ki az ablakot.", exEn: "Open the window." },
+  { cat: "otthon", catEn: "home", hu: "kulcs", en: "key", pos: "noun", exHu: "Elvesztettem a kulcsomat.", exEn: "I lost my key." },
+  { cat: "otthon", catEn: "home", hu: "lakni", en: "to live / to reside", pos: "verb", exHu: "Budapesten lakom.", exEn: "I live in Budapest." },
+  { cat: "otthon", catEn: "home", hu: "kényelmes", en: "comfortable", pos: "adj", exHu: "Ez egy kényelmes fotel.", exEn: "This is a comfortable armchair." },
+
+  // TEST ÉS EGÉSZSÉG / BODY & HEALTH
+  { cat: "test és egészség", catEn: "body & health", hu: "fej", en: "head", pos: "noun", exHu: "Fáj a fejem.", exEn: "My head hurts." },
+  { cat: "test és egészség", catEn: "body & health", hu: "kéz", en: "hand", pos: "noun", exHu: "Mosd meg a kezed!", exEn: "Wash your hands!" },
+  { cat: "test és egészség", catEn: "body & health", hu: "láb", en: "leg / foot", pos: "noun", exHu: "Fáradt a lábam.", exEn: "My legs are tired." },
+  { cat: "test és egészség", catEn: "body & health", hu: "szív", en: "heart", pos: "noun", exHu: "A szíve gyorsan ver.", exEn: "Her heart is beating fast." },
+  { cat: "test és egészség", catEn: "body & health", hu: "fájni", en: "to hurt", pos: "verb", exHu: "Fáj a torkom.", exEn: "My throat hurts." },
+  { cat: "test és egészség", catEn: "body & health", hu: "beteg", en: "sick", pos: "adj", exHu: "Ma beteg vagyok.", exEn: "I'm sick today." },
+  { cat: "test és egészség", catEn: "body & health", hu: "egészséges", en: "healthy", pos: "adj", exHu: "Egészséges életmódot élek.", exEn: "I live a healthy lifestyle." },
+  { cat: "test és egészség", catEn: "body & health", hu: "orvos", en: "doctor", pos: "noun", exHu: "El kell mennem az orvoshoz.", exEn: "I need to go to the doctor." },
+  { cat: "test és egészség", catEn: "body & health", hu: "gyógyszer", en: "medicine", pos: "noun", exHu: "Szedem a gyógyszert.", exEn: "I'm taking the medicine." },
+  { cat: "test és egészség", catEn: "body & health", hu: "kórház", en: "hospital", pos: "noun", exHu: "A kórház közel van.", exEn: "The hospital is nearby." },
+  { cat: "test és egészség", catEn: "body & health", hu: "pihenni", en: "to rest", pos: "verb", exHu: "Ma csak pihenek.", exEn: "Today I'm just resting." },
+  { cat: "test és egészség", catEn: "body & health", hu: "erős", en: "strong", pos: "adj", exHu: "Nagyon erős vagy.", exEn: "You are very strong." },
+
+  // IDŐ ÉS NAPTÁR / TIME & CALENDAR
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "ma", en: "today", pos: "adv", exHu: "Ma szép idő van.", exEn: "The weather is nice today." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "holnap", en: "tomorrow", pos: "adv", exHu: "Holnap dolgozom.", exEn: "I'm working tomorrow." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "tegnap", en: "yesterday", pos: "adv", exHu: "Tegnap moziban voltam.", exEn: "I was at the cinema yesterday." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "hét", en: "week", pos: "noun", exHu: "Jövő héten utazom.", exEn: "I'm traveling next week." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "hónap", en: "month", pos: "noun", exHu: "Ez a hónap gyorsan telt.", exEn: "This month went by fast." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "év", en: "year", pos: "noun", exHu: "Minden évben ide jövünk.", exEn: "We come here every year." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "most", en: "now", pos: "adv", exHu: "Most nincs időm.", exEn: "I don't have time right now." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "később", en: "later", pos: "adv", exHu: "Erről később beszélünk.", exEn: "We'll talk about this later." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "korán", en: "early", pos: "adv", exHu: "Ma korán kelek.", exEn: "I'm getting up early today." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "későn", en: "late", pos: "adv", exHu: "Későn érkeztem.", exEn: "I arrived late." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "várni", en: "to wait", pos: "verb", exHu: "Itt várlak.", exEn: "I'll wait for you here." },
+  { cat: "idő és naptár", catEn: "time & calendar", hu: "sietni", en: "to hurry", pos: "verb", exHu: "Sietnünk kell.", exEn: "We need to hurry." },
+
+  // UTAZÁS ÉS KÖZLEKEDÉS / TRAVEL & TRANSPORT
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "utazni", en: "to travel", pos: "verb", exHu: "Szeretek külföldre utazni.", exEn: "I like to travel abroad." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "vonat", en: "train", pos: "noun", exHu: "A vonat késik.", exEn: "The train is late." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "repülőgép", en: "airplane", pos: "noun", exHu: "A repülőgép hamarosan felszáll.", exEn: "The airplane is about to take off." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "autó", en: "car", pos: "noun", exHu: "Autóval megyünk.", exEn: "We're going by car." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "jegy", en: "ticket", pos: "noun", exHu: "Megvettem a jegyet.", exEn: "I bought the ticket." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "reptér", en: "airport", pos: "noun", exHu: "A reptérre megyünk.", exEn: "We're going to the airport." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "pályaudvar", en: "train station", pos: "noun", exHu: "A pályaudvar a központban van.", exEn: "The train station is downtown." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "megérkezni", en: "to arrive", pos: "verb", exHu: "Este érkezünk meg.", exEn: "We'll arrive in the evening." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "indulni", en: "to depart / to set off", pos: "verb", exHu: "A vonat nyolckor indul.", exEn: "The train departs at eight." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "térkép", en: "map", pos: "noun", exHu: "Nézzük meg a térképet.", exEn: "Let's look at the map." },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "útlevél", en: "passport", pos: "noun", exHu: "Ne felejtsd el az útleveled!", exEn: "Don't forget your passport!" },
+  { cat: "utazás és közlekedés", catEn: "travel & transport", hu: "csomag", en: "luggage / package", pos: "noun", exHu: "A csomagom elég nehéz.", exEn: "My luggage is quite heavy." },
 ];
 
-const WORDS = [
-{cat:'greet', hu:'jó napot kívánok', phon:'yoh NAH-poht KEE-vah-nok', en:'good day (formal greeting)', examples:[
-  {hu:'Jó napot kívánok, Kovács vagyok.', en:"Good day, I'm Kovács."},
-  {hu:'Jó napot kívánok, foglaljon helyet, kérem!', en:'Good day, please take a seat.'},
-  {hu:'Jó napot kívánok mindenkinek!', en:'Good day to everyone!'}
-]},
-{cat:'greet', hu:'jó reggelt', phon:'yoh REG-gelt', en:'good morning', examples:[
-  {hu:'Jó reggelt, hogy van ma?', en:'Good morning, how are you today?'},
-  {hu:'Jó reggelt kívánok, korán érkeztem.', en:'Good morning, I arrived early.'},
-  {hu:'Jó reggelt! Kezdhetjük az interjút?', en:'Good morning! Shall we begin the interview?'}
-]},
-{cat:'greet', hu:'jó estét', phon:'yoh ESH-teht', en:'good evening', examples:[
-  {hu:'Jó estét kívánok, foglaljon helyet!', en:'Good evening, please take a seat.'},
-  {hu:'Jó estét, elnézést a késésért.', en:'Good evening, sorry for being late.'},
-  {hu:'Jó estét kívánok mindenkinek a teremben.', en:'Good evening to everyone in the room.'}
-]},
-{cat:'greet', hu:'viszontlátásra', phon:'VEE-sont-LAH-tash-rah', en:'goodbye (formal)', examples:[
-  {hu:'Köszönöm a türelmét, viszontlátásra!', en:'Thank you for your patience, goodbye.'},
-  {hu:'Viszontlátásra, jó napot kívánok!', en:'Goodbye, have a good day.'},
-  {hu:'Viszontlátásra, remélem hamarosan újra találkozunk.', en:'Goodbye, I hope we meet again soon.'}
-]},
-{cat:'greet', hu:'hogy hívják?', phon:'hoj HEEV-yahk', en:'what is your name? (formal)', examples:[
-  {hu:'Elnézést, hogy hívják Önt?', en:'Excuse me, what is your name?'},
-  {hu:'Hogy hívják a férjét?', en:"What is your husband's name?"},
-  {hu:'Megmondaná, hogy hívják?', en:'Could you tell me what your name is?'}
-]},
-{cat:'greet', hu:'a nevem…', phon:'ah NEH-vem', en:'my name is…', examples:[
-  {hu:'A nevem Anna Kovalenko.', en:'My name is Anna Kovalenko.'},
-  {hu:'A nevem Péter, örülök a találkozásnak.', en:"My name is Péter, nice to meet you."},
-  {hu:'A nevem szerepel az iratokban is.', en:'My name also appears in the documents.'}
-]},
-{cat:'greet', hu:'örülök, hogy megismerhetem', phon:'UH-ryoo-luk hoj MEG-ish-mer-heh-tem', en:'nice to meet you', examples:[
-  {hu:'Örülök, hogy megismerhetem Önt.', en:"I'm glad to meet you."},
-  {hu:'Nagyon örülök, hogy megismerhetem a családját.', en:"I'm very glad to meet your family."},
-  {hu:'Örülök, hogy végre személyesen is megismerhetem.', en:"I'm glad to finally meet you in person."}
-]},
-{cat:'greet', hu:'hogy van?', phon:'hoj vahn', en:'how are you? (formal)', examples:[
-  {hu:'Jó napot, hogy van ma?', en:'Good day, how are you today?'},
-  {hu:'Hogy van, jól aludt az éjjel?', en:'How are you, did you sleep well last night?'},
-  {hu:'És Ön hogy van mostanában?', en:'And how have you been lately?'}
-]},
-{cat:'greet', hu:'jól vagyok, köszönöm', phon:'yohl VAH-djok KUH-suh-nuhm', en:"I'm fine, thank you", examples:[
-  {hu:'Jól vagyok, köszönöm a kérdést.', en:'I am fine, thank you for asking.'},
-  {hu:'Jól vagyok, köszönöm, és Ön?', en:"I'm fine, thank you, and you?"},
-  {hu:'Most már jól vagyok, köszönöm szépen.', en:"I'm well now, thank you very much."}
-]},
-{cat:'greet', hu:'Isten hozta', phon:'ISH-ten HOZ-tah', en:'welcome (formal)', examples:[
-  {hu:'Isten hozta a hivatalunkban!', en:'Welcome to our office.'},
-  {hu:'Isten hozta Magyarországon!', en:'Welcome to Hungary!'},
-  {hu:'Isten hozta, kérem, fáradjon beljebb!', en:'Welcome, please come in.'}
-]},
-{cat:'polite', hu:'kérem', phon:'KEH-rem', en:'please', examples:[
-  {hu:'Kérem, üljön le.', en:'Please, sit down.'},
-  {hu:'Kérem szépen, várjon egy percet.', en:'Please wait a moment.'},
-  {hu:'Adná kérem az útlevelét?', en:'Could you please give me your passport?'}
-]},
-{cat:'polite', hu:'köszönöm', phon:'KUH-suh-nuhm', en:'thank you', examples:[
-  {hu:'Köszönöm szépen a segítséget.', en:'Thank you very much for the help.'},
-  {hu:'Köszönöm, hogy türelmes volt velem.', en:'Thank you for being patient with me.'},
-  {hu:'Nagyon köszönöm, sokat segített.', en:'Thank you very much, it helped a lot.'}
-]},
-{cat:'polite', hu:'szívesen', phon:'SEE-veh-shen', en:"you're welcome", examples:[
-  {hu:'Szívesen, bármikor segítek.', en:"You're welcome, I'll help anytime."},
-  {hu:'Szívesen válaszolok minden kérdésre.', en:"I'm happy to answer every question."},
-  {hu:'Nagyon szívesen, semmiség volt.', en:"You're very welcome, it was nothing."}
-]},
-{cat:'polite', hu:'elnézést kérek', phon:'EL-neh-zesht KEH-rek', en:"I'm sorry / excuse me", examples:[
-  {hu:'Elnézést kérek a késésért.', en:"I'm sorry for being late."},
-  {hu:'Elnézést kérek, félreértettem a kérdést.', en:"I'm sorry, I misunderstood the question."},
-  {hu:'Elnézést kérek a zavarásért.', en:"I'm sorry for the interruption."}
-]},
-{cat:'polite', hu:'megismételné, kérem?', phon:'MEG-ish-meh-tel-neh KEH-rem', en:'could you repeat that, please?', examples:[
-  {hu:'Elnézést, megismételné, kérem?', en:'Excuse me, could you repeat that, please?'},
-  {hu:'Megismételné a kérdést, kérem?', en:'Could you repeat the question, please?'},
-  {hu:'Nem hallottam jól, megismételné?', en:"I didn't hear well, could you repeat that?"}
-]},
-{cat:'polite', hu:'nem értem', phon:'nem EHR-tem', en:"I don't understand", examples:[
-  {hu:'Sajnálom, nem értem a kérdést.', en:"I'm sorry, I don't understand the question."},
-  {hu:'Nem értem pontosan, mit kérdez.', en:"I don't quite understand what you're asking."},
-  {hu:'Bocsánat, ezt nem értem teljesen.', en:"Sorry, I don't fully understand this."}
-]},
-{cat:'polite', hu:'beszélne lassabban, kérem?', phon:'BES-sehl-neh LOSH-shahb-bahn KEH-rem', en:'could you speak more slowly, please?', examples:[
-  {hu:'Kérem, beszéljen lassabban!', en:'Please speak more slowly.'},
-  {hu:'Beszélne lassabban, kérem, hogy értsem?', en:'Could you speak more slowly, please, so I can understand?'},
-  {hu:'Elnézést, beszélne kicsit lassabban?', en:'Excuse me, could you speak a bit more slowly?'}
-]},
-{cat:'polite', hu:'egy pillanat', phon:'edj PIL-lah-naht', en:'just a moment', examples:[
-  {hu:'Egy pillanat, kérem, megnézem.', en:"Just a moment please, I'll check."},
-  {hu:'Egy pillanat, mindjárt megtalálom az iratot.', en:"Just a moment, I'll find the document right away."},
-  {hu:'Egy pillanatot kérek, gondolkodom a válaszon.', en:'Give me a moment, I am thinking about the answer.'}
-]},
-{cat:'polite', hu:'rendben', phon:'REND-ben', en:'all right / okay', examples:[
-  {hu:'Rendben, most már értem.', en:'All right, now I understand.'},
-  {hu:'Rendben van, folytathatjuk.', en:'All right, we can continue.'},
-  {hu:'Rendben, köszönöm a türelmét.', en:'All right, thank you for your patience.'}
-]},
-{cat:'polite', hu:'foglaljon helyet, kérem', phon:'FOG-lahl-yon HEH-yet KEH-rem', en:'please take a seat', examples:[
-  {hu:'Foglaljon helyet, kérem, mindjárt kezdünk.', en:"Please take a seat, we'll begin shortly."},
-  {hu:'Foglaljon helyet, kérem, itt az asztalnál.', en:'Please take a seat here at the table.'},
-  {hu:'Kérem, foglaljon helyet, amíg előkészítem az iratokat.', en:'Please take a seat while I prepare the documents.'}
-]},
-{cat:'polite', hu:'betűzni', phon:'BEH-tooz-nee', en:'to spell', examples:[
-  {hu:'Kérem, lebetűzné a nevét?', en:'Could you please spell your name for me?'},
-  {hu:'Le tudná betűzni a nevét?', en:'Would you be able to spell your name?'},
-  {hu:'Betűzze le a nevét, kérem.', en:'Spell your name, please.'}
-]},
-{cat:'personal', hu:'név', phon:'nehv', en:'name', examples:[
-  {hu:'Kérem, mondja meg a nevét.', en:'Please tell me your name.'},
-  {hu:'A nevét szeretném ellenőrizni az iraton.', en:'I would like to check your name on the document.'},
-  {hu:'Milyen néven szerepel a személyi igazolványban?', en:'Under what name does it appear on the ID card?'}
-]},
-{cat:'personal', hu:'keresztnév', phon:'KEH-rest-nehv', en:'first name', examples:[
-  {hu:'A keresztnevem Mária.', en:'My first name is Mária.'},
-  {hu:'Mi a gyermeke keresztneve?', en:"What is your child's first name?"},
-  {hu:'A keresztnevemet magyarul is használom.', en:'I also use my first name in Hungarian.'}
-]},
-{cat:'personal', hu:'vezetéknév', phon:'VEH-zeh-tehk-nehv', en:'surname', examples:[
-  {hu:'A vezetéknevem Tóth.', en:'My surname is Tóth.'},
-  {hu:'Mi a férje vezetékneve?', en:"What is your husband's surname?"},
-  {hu:'A vezetéknevem az iratokban is szerepel.', en:'My surname also appears on the documents.'}
-]},
-{cat:'personal', hu:'születési hely', phon:'SUE-leh-teh-shee hey', en:'place of birth', examples:[
-  {hu:'Mi a születési helye?', en:'What is your place of birth?'},
-  {hu:'A születési helyem Kijev.', en:'My place of birth is Kyiv.'},
-  {hu:'Kérem, írja le a születési helyét.', en:'Please write down your place of birth.'}
-]},
-{cat:'personal', hu:'születési dátum', phon:'SUE-leh-teh-shee DAH-toom', en:'date of birth', examples:[
-  {hu:'Mi a születési dátuma?', en:'What is your date of birth?'},
-  {hu:'A születési dátumom 1990. március 4.', en:'My date of birth is March 4, 1990.'},
-  {hu:'Ellenőrizze kérem a születési dátumát az iraton.', en:'Please check your date of birth on the document.'}
-]},
-{cat:'personal', hu:'lakcím', phon:'LOK-tseem', en:'home address', examples:[
-  {hu:'Kérem, adja meg a lakcímét.', en:'Please give me your home address.'},
-  {hu:'A lakcímem megváltozott tavaly óta.', en:'My home address has changed since last year.'},
-  {hu:'A lakcímem szerepel a bejelentőlapon.', en:'My home address is listed on the registration form.'}
-]},
-{cat:'personal', hu:'állampolgárság', phon:'AHL-lahm-pol-gahr-shahg', en:'citizenship', examples:[
-  {hu:'Milyen állampolgársága van jelenleg?', en:'What is your current citizenship?'},
-  {hu:'Az állampolgárságom ukrán.', en:'My citizenship is Ukrainian.'},
-  {hu:'Milyen állampolgárságot szeretne kérni?', en:'What citizenship would you like to apply for?'}
-]},
-{cat:'personal', hu:'családi állapot', phon:'CHAH-lah-dee AHL-lah-pot', en:'marital status', examples:[
-  {hu:'Mi a családi állapota?', en:'What is your marital status?'},
-  {hu:'A családi állapotom megváltozott a tavalyi év óta.', en:'My marital status has changed since last year.'},
-  {hu:'Kérem, jelölje be a családi állapotát.', en:'Please mark your marital status.'}
-]},
-{cat:'personal', hu:'nős / férjezett', phon:'nuhsh / FEHR-yeh-zett', en:'married (man / woman)', examples:[
-  {hu:'Nős vagyok, két gyermekem van.', en:'I am married, I have two children.'},
-  {hu:'A húgom férjezett, Budapesten él.', en:'My sister is married, she lives in Budapest.'},
-  {hu:'Öt éve vagyok nős.', en:'I have been married for five years.'}
-]},
-{cat:'personal', hu:'egyedülálló', phon:'EH-djeh-dool-AHL-loh', en:'single', examples:[
-  {hu:'Jelenleg egyedülálló vagyok.', en:'I am currently single.'},
-  {hu:'Az öcsém még egyedülálló.', en:'My younger brother is still single.'},
-  {hu:'Egyedülállóként költöztem Magyarországra.', en:'I moved to Hungary as a single person.'}
-]},
-{cat:'personal', hu:'útlevél', phon:'OOT-leh-vehl', en:'passport', examples:[
-  {hu:'Kérem, mutassa meg az útlevelét.', en:'Please show me your passport.'},
-  {hu:'Az útlevelem két évig érvényes.', en:'My passport is valid for two years.'},
-  {hu:'Elfelejtettem otthon az útlevelemet.', en:'I forgot my passport at home.'}
-]},
-{cat:'personal', hu:'személyi igazolvány', phon:'SEH-may-yee IH-gah-zol-vahny', en:'ID card', examples:[
-  {hu:'Van érvényes személyi igazolványa?', en:'Do you have a valid ID card?'},
-  {hu:'A személyi igazolványom lejárt tavaly.', en:'My ID card expired last year.'},
-  {hu:'Kérem, hozza magával a személyi igazolványát.', en:'Please bring your ID card with you.'}
-]},
-{cat:'family', hu:'férj', phon:'fehry', en:'husband', examples:[
-  {hu:'A férjem Budapesten dolgozik.', en:'My husband works in Budapest.'},
-  {hu:'A férjem magyar állampolgár.', en:'My husband is a Hungarian citizen.'},
-  {hu:'A férjemmel együtt költöztünk ide.', en:'My husband and I moved here together.'}
-]},
-{cat:'family', hu:'feleség', phon:'FEH-leh-shehg', en:'wife', examples:[
-  {hu:'A feleségem magyar tanár.', en:'My wife is a Hungarian teacher.'},
-  {hu:'A feleségemmel öt éve élünk itt.', en:'My wife and I have lived here for five years.'},
-  {hu:'A feleségem is részt vesz az interjún.', en:'My wife is also attending the interview.'}
-]},
-{cat:'family', hu:'gyermek', phon:'DJER-mek', en:'child', examples:[
-  {hu:'Két gyermekem van.', en:'I have two children.'},
-  {hu:'A gyermekem magyar iskolába jár.', en:'My child attends a Hungarian school.'},
-  {hu:'A gyermekeimmel magyarul is beszélek otthon.', en:'I also speak Hungarian with my children at home.'}
-]},
-{cat:'family', hu:'fiú', phon:'FEE-oo', en:'son / boy', examples:[
-  {hu:'A fiam nyolcéves.', en:'My son is eight years old.'},
-  {hu:'A fiam Magyarországon született.', en:'My son was born in Hungary.'},
-  {hu:'A fiammal minden nap gyakorlom a magyart.', en:'I practice Hungarian with my son every day.'}
-]},
-{cat:'family', hu:'lánya', phon:'LAH-nyah', en:'daughter / girl', examples:[
-  {hu:'A lányom oviba jár.', en:'My daughter goes to kindergarten.'},
-  {hu:'A lányom jól beszél magyarul.', en:'My daughter speaks Hungarian well.'},
-  {hu:'A lányomnak magyar barátai vannak.', en:'My daughter has Hungarian friends.'}
-]},
-{cat:'family', hu:'szülő', phon:'SUE-luh', en:'parent', examples:[
-  {hu:'A szüleim otthon élnek.', en:'My parents live back home.'},
-  {hu:'A szüleim meglátogatnak nyáron.', en:'My parents will visit in the summer.'},
-  {hu:'A szüleimmel hetente telefonálok.', en:'I call my parents every week.'}
-]},
-{cat:'family', hu:'édesanya', phon:'EH-desh-AH-nyah', en:'mother', examples:[
-  {hu:'Az édesanyám velem lakik.', en:'My mother lives with me.'},
-  {hu:'Az édesanyám nyugdíjas tanár.', en:'My mother is a retired teacher.'},
-  {hu:'Az édesanyámat is meghívtam az ünnepségre.', en:'I also invited my mother to the ceremony.'}
-]},
-{cat:'family', hu:'édesapa', phon:'EH-desh-AH-pah', en:'father', examples:[
-  {hu:'Az édesapám nyugdíjas.', en:'My father is retired.'},
-  {hu:'Az édesapám még dolgozik.', en:'My father still works.'},
-  {hu:'Az édesapámmal ritkán találkozom.', en:'I rarely see my father.'}
-]},
-{cat:'home', hu:'lakás', phon:'LOH-kahsh', en:'apartment / flat', examples:[
-  {hu:'Egy kis lakásban élünk.', en:'We live in a small apartment.'},
-  {hu:'A lakásom a harmadik emeleten van.', en:'My apartment is on the third floor.'},
-  {hu:'Új lakásba költöztünk tavaly.', en:'We moved into a new apartment last year.'}
-]},
-{cat:'home', hu:'ház', phon:'hahz', en:'house', examples:[
-  {hu:'A szüleimnek saját házuk van.', en:'My parents have their own house.'},
-  {hu:'A házunk a város szélén áll.', en:'Our house stands at the edge of town.'},
-  {hu:'Szeretnénk egy nagyobb házat venni.', en:'We would like to buy a bigger house.'}
-]},
-{cat:'home', hu:'utca', phon:'OOT-tsah', en:'street', examples:[
-  {hu:'A Kossuth utcában lakom.', en:'I live on Kossuth Street.'},
-  {hu:'Melyik utcában van az irodája?', en:"Which street is your office on?"},
-  {hu:'Az utcánkban sok fa van.', en:'There are many trees on our street.'}
-]},
-{cat:'home', hu:'város', phon:'VAH-rosh', en:'city / town', examples:[
-  {hu:'Melyik városban él?', en:'Which city do you live in?'},
-  {hu:'Ez a város a fővároshoz közel van.', en:'This city is close to the capital.'},
-  {hu:'A városunk kicsi, de szép.', en:'Our city is small but beautiful.'}
-]},
-{cat:'home', hu:'ország', phon:'OR-sahg', en:'country', examples:[
-  {hu:'Melyik országból érkezett?', en:'Which country did you arrive from?'},
-  {hu:'Ez az ország lett az új otthonom.', en:'This country has become my new home.'},
-  {hu:'Melyik országban született?', en:'In which country were you born?'}
-]},
-{cat:'home', hu:'cím', phon:'tseem', en:'address', examples:[
-  {hu:'Mi a jelenlegi címe?', en:'What is your current address?'},
-  {hu:'A cím megváltozott a költözés óta.', en:'The address has changed since the move.'},
-  {hu:'Kérem, adja meg pontosan a címét.', en:'Please give me your exact address.'}
-]},
-{cat:'home', hu:'szomszéd', phon:'SOM-sehd', en:'neighbor', examples:[
-  {hu:'Kedves szomszédaim vannak.', en:'I have friendly neighbors.'},
-  {hu:'A szomszédom segített a költözésben.', en:'My neighbor helped with the move.'},
-  {hu:'A szomszédainkkal jóban vagyunk.', en:"We're on good terms with our neighbors."}
-]},
-{cat:'home', hu:'bérel', phon:'BEH-rel', en:'to rent', examples:[
-  {hu:'Egy lakást bérelek a városközpontban.', en:'I rent an apartment in the city center.'},
-  {hu:'Bérelt lakásban élünk három éve.', en:'We have lived in a rented apartment for three years.'},
-  {hu:'Szeretnénk saját lakást venni, ne béreljünk tovább.', en:'We would like to buy our own apartment instead of renting.'}
-]},
-{cat:'work', hu:'dolgozom', phon:'DOL-go-zom', en:'I work', examples:[
-  {hu:'Egy irodában dolgozom.', en:'I work in an office.'},
-  {hu:'Dolgozom és mellette magyarul tanulok.', en:'I work and study Hungarian alongside it.'},
-  {hu:'Hét éve dolgozom ugyanannál a cégnél.', en:'I have worked at the same company for seven years.'}
-]},
-{cat:'work', hu:'munkahely', phon:'MOON-kah-hey', en:'workplace', examples:[
-  {hu:'Közel van a munkahelyem.', en:'My workplace is close by.'},
-  {hu:'A munkahelyemen mindenki kedves velem.', en:'Everyone at my workplace is kind to me.'},
-  {hu:'Munkahelyet váltottam tavaly ősszel.', en:'I changed jobs last autumn.'}
-]},
-{cat:'work', hu:'iskola', phon:'ISH-ko-lah', en:'school', examples:[
-  {hu:'A fiam iskolába jár.', en:'My son goes to school.'},
-  {hu:'Az iskola közel van a lakásunkhoz.', en:'The school is close to our apartment.'},
-  {hu:'Az iskolában sok magyar barátot szerzett.', en:'He made many Hungarian friends at school.'}
-]},
-{cat:'work', hu:'egyetem', phon:'EH-djeh-tem', en:'university', examples:[
-  {hu:'Az egyetemen végeztem.', en:'I graduated from university.'},
-  {hu:'Az egyetemen mérnöknek tanultam.', en:'I studied engineering at university.'},
-  {hu:'A lányom idén kezdi az egyetemet.', en:'My daughter is starting university this year.'}
-]},
-{cat:'work', hu:'tanulok', phon:'TAH-noo-lok', en:'I study / I am learning', examples:[
-  {hu:'Magyarul tanulok minden héten.', en:'I am learning Hungarian every week.'},
-  {hu:'Esténként tanulok az interjúra.', en:'I study for the interview in the evenings.'},
-  {hu:'Már két éve tanulok magyarul.', en:'I have been learning Hungarian for two years already.'}
-]},
-{cat:'work', hu:'nyelviskola', phon:'NYELV-ish-ko-lah', en:'language school', examples:[
-  {hu:'Nyelviskolába járok hetente kétszer.', en:'I attend language school twice a week.'},
-  {hu:'A nyelviskolában kedves tanárok vannak.', en:'There are kind teachers at the language school.'},
-  {hu:'A nyelviskola segített felkészülni az interjúra.', en:'The language school helped me prepare for the interview.'}
-]},
-{cat:'work', hu:'munkanélküli', phon:'MOON-kah-nehl-koo-lee', en:'unemployed', examples:[
-  {hu:'Jelenleg munkanélküli vagyok.', en:'I am currently unemployed.'},
-  {hu:'Munkanélküli voltam néhány hónapig.', en:'I was unemployed for a few months.'},
-  {hu:'Most munkanélküli vagyok, de állást keresek.', en:'I am unemployed now, but I am looking for a job.'}
-]},
-{cat:'work', hu:'nyugdíjas', phon:'NYOOG-dee-yash', en:'retired', examples:[
-  {hu:'Édesapám már nyugdíjas.', en:'My father is already retired.'},
-  {hu:'Nyugdíjasként is aktív maradok.', en:'I stay active even as a retiree.'},
-  {hu:'A szomszédom nyugdíjas tanár volt.', en:'My neighbor was a retired teacher.'}
-]},
-{cat:'time', hu:'ma', phon:'mah', en:'today', examples:[
-  {hu:'Ma van az interjúm.', en:'My interview is today.'},
-  {hu:'Ma reggel korán keltem.', en:'I got up early this morning.'},
-  {hu:'Mit csinálunk ma délután?', en:'What are we doing this afternoon?'}
-]},
-{cat:'time', hu:'tegnap', phon:'TEG-nahp', en:'yesterday', examples:[
-  {hu:'Tegnap érkeztem Budapestre.', en:'I arrived in Budapest yesterday.'},
-  {hu:'Tegnap egész nap tanultam.', en:'I studied all day yesterday.'},
-  {hu:'Tegnap találkoztam a szomszédommal.', en:'I met my neighbor yesterday.'}
-]},
-{cat:'time', hu:'holnap', phon:'HOL-nahp', en:'tomorrow', examples:[
-  {hu:'Holnap találkozunk a hivatalban.', en:"We'll meet at the office tomorrow."},
-  {hu:'Holnap kezdődik az új munkám.', en:'My new job starts tomorrow.'},
-  {hu:'Holnap reggel indulunk.', en:"We're leaving tomorrow morning."}
-]},
-{cat:'time', hu:'hét', phon:'heht', en:'week', examples:[
-  {hu:'Egy hét múlva jövök vissza.', en:'I will come back in a week.'},
-  {hu:'Minden héten tanulok magyarul.', en:'I study Hungarian every week.'},
-  {hu:'A múlt héten volt az orvosi vizsgálatom.', en:'Last week I had my medical exam.'}
-]},
-{cat:'time', hu:'hónap', phon:'HOH-nahp', en:'month', examples:[
-  {hu:'Hat hónapja élek itt.', en:'I have lived here for six months.'},
-  {hu:'A jövő hónapban lesz az interjúm.', en:'My interview will be next month.'},
-  {hu:'Minden hónapban meglátogatom a családomat.', en:'I visit my family every month.'}
-]},
-{cat:'time', hu:'év', phon:'ehv', en:'year', examples:[
-  {hu:'Öt éve élek Magyarországon.', en:'I have lived in Hungary for five years.'},
-  {hu:'Jövőre lesz öt éve, hogy itt élek.', en:"Next year it will be five years since I've lived here."},
-  {hu:'Az idei év fontos volt számomra.', en:'This year was important for me.'}
-]},
-{cat:'time', hu:'óra', phon:'OH-rah', en:'hour / clock', examples:[
-  {hu:'Mennyi az idő?', en:'What time is it?'},
-  {hu:'Két óra múlva kezdődik az interjú.', en:'The interview starts in two hours.'},
-  {hu:'Reggel nyolc órakor indulok otthonról.', en:'I leave home at eight o\u2019clock in the morning.'}
-]},
-{cat:'time', hu:'perc', phon:'perts', en:'minute', examples:[
-  {hu:'Öt perc múlva kezdünk.', en:"We'll begin in five minutes."},
-  {hu:'Csak néhány percet kérek.', en:'I only need a few minutes.'},
-  {hu:'Tíz perccel később érkeztem.', en:'I arrived ten minutes later.'}
-]},
-{cat:'time', hu:'mikor?', phon:'MEE-kor', en:'when?', examples:[
-  {hu:'Mikor született?', en:'When were you born?'},
-  {hu:'Mikor érkezett Magyarországra?', en:'When did you arrive in Hungary?'},
-  {hu:'Mikor kezdődik az interjú?', en:'When does the interview start?'}
-]},
-{cat:'time', hu:'hány éves?', phon:'hahny EH-vesh', en:'how old?', examples:[
-  {hu:'Hány éves Ön?', en:'How old are you?'},
-  {hu:'Hány éves a gyermeke?', en:'How old is your child?'},
-  {hu:'Hány éves volt, amikor idejött?', en:'How old were you when you came here?'}
-]},
-{cat:'time', hu:'dátum', phon:'DAH-toom', en:'date', examples:[
-  {hu:'Kérem, írja le a mai dátumot.', en:"Please write down today's date."},
-  {hu:'Milyen dátumra kaptam időpontot?', en:'What date was I given an appointment for?'},
-  {hu:'A dátum szerepel az iraton.', en:'The date is on the document.'}
-]},
-{cat:'time', hu:'hányadika van ma?', phon:'HAH-nyah-dee-kah vahn mah', en:"what is today's date?", examples:[
-  {hu:'Elnézést, hányadika van ma?', en:"Excuse me, what is today's date?"},
-  {hu:'Hányadika lesz holnap?', en:'What will the date be tomorrow?'},
-  {hu:'Nem emlékszem, hányadika van ma.', en:"I don't remember what today's date is."}
-]},
-{cat:'hungary', hu:'főváros', phon:'FUH-vah-rosh', en:'capital city', examples:[
-  {hu:'Magyarország fővárosa Budapest.', en:"Hungary's capital is Budapest."},
-  {hu:'A fővárosban élek két éve.', en:'I have lived in the capital for two years.'},
-  {hu:'Melyik ország fővárosa Bécs?', en:"Which country's capital is Vienna?"}
-]},
-{cat:'hungary', hu:'himnusz', phon:'HIM-noos', en:'national anthem', examples:[
-  {hu:'A magyar himnusz szövegét Kölcsey Ferenc írta.', en:'Ferenc Kölcsey wrote the words of the Hungarian anthem.'},
-  {hu:'Ismeri a magyar himnusz első sorát?', en:'Do you know the first line of the Hungarian anthem?'},
-  {hu:'A himnuszt az ünnepségeken éneklik.', en:'The anthem is sung at ceremonies.'}
-]},
-{cat:'hungary', hu:'zászló', phon:'ZAHS-loh', en:'flag', examples:[
-  {hu:'A magyar zászló piros-fehér-zöld színű.', en:'The Hungarian flag is red, white and green.'},
-  {hu:'A zászló az épület előtt lengett.', en:'The flag was flying in front of the building.'},
-  {hu:'Ismeri a magyar zászló színeit?', en:'Do you know the colors of the Hungarian flag?'}
-]},
-{cat:'hungary', hu:'elnök', phon:'EL-nuhk', en:'president', examples:[
-  {hu:'Ki a köztársasági elnök?', en:'Who is the president of the republic?'},
-  {hu:'Az elnököt öt évre választják.', en:'The president is elected for five years.'},
-  {hu:'Tudja, hol dolgozik az elnök?', en:'Do you know where the president works?'}
-]},
-{cat:'hungary', hu:'miniszterelnök', phon:'MI-nis-ter-EL-nuhk', en:'prime minister', examples:[
-  {hu:'Ki jelenleg a miniszterelnök?', en:'Who is currently the prime minister?'},
-  {hu:'A miniszterelnök vezeti a kormányt.', en:'The prime minister leads the government.'},
-  {hu:'Hallott már a miniszterelnök nevéről?', en:"Have you heard the prime minister's name?"}
-]},
-{cat:'hungary', hu:'alkotmány', phon:'AL-kot-mahny', en:'constitution', examples:[
-  {hu:'Magyarország alkotmánya az Alaptörvény.', en:"Hungary's constitution is called the Fundamental Law."},
-  {hu:'Az alkotmány szabályozza az állam működését.', en:'The constitution regulates how the state functions.'},
-  {hu:'Tanulmányozta már az alkotmányt?', en:'Have you studied the constitution?'}
-]},
-{cat:'hungary', hu:'nemzeti ünnep', phon:'NEM-zeh-tee OON-nep', en:'national holiday', examples:[
-  {hu:'Március 15. magyar nemzeti ünnep.', en:'March 15th is a Hungarian national holiday.'},
-  {hu:'A nemzeti ünnepeken zászlót tűznek ki.', en:'Flags are put out on national holidays.'},
-  {hu:'Ismeri a magyar nemzeti ünnepeket?', en:'Do you know the Hungarian national holidays?'}
-]},
-{cat:'hungary', hu:'valuta', phon:'VAH-loo-tah', en:'currency', examples:[
-  {hu:'Magyarország valutája a forint.', en:"Hungary's currency is the forint."},
-  {hu:'A valutát bankban lehet váltani.', en:'The currency can be exchanged at a bank.'},
-  {hu:'Milyen valutát használnak itt?', en:'What currency do they use here?'}
-]},
-{cat:'verbs', hu:'vagyok', phon:'VAH-djok', en:'I am', examples:[
-  {hu:'Boldog vagyok itt, Magyarországon.', en:'I am happy here, in Hungary.'},
-  {hu:'Türelmes vagyok, várok a válaszra.', en:"I am patient, I'm waiting for the answer."},
-  {hu:'Készen vagyok az interjúra.', en:'I am ready for the interview.'}
-]},
-{cat:'verbs', hu:'van', phon:'vahn', en:'there is / I have', examples:[
-  {hu:'Van egy kérdésem.', en:'I have a question.'},
-  {hu:'Van két gyermekem.', en:'I have two children.'},
-  {hu:'Van itt egy váróterem?', en:'Is there a waiting room here?'}
-]},
-{cat:'verbs', hu:'lakom', phon:'LAH-kom', en:'I live (reside)', examples:[
-  {hu:'Öt éve lakom ebben a városban.', en:'I have lived in this city for five years.'},
-  {hu:'Egyedül lakom egy kis lakásban.', en:'I live alone in a small apartment.'},
-  {hu:'A családommal lakom Budapesten.', en:'I live with my family in Budapest.'}
-]},
-{cat:'verbs', hu:'élek', phon:'EH-lek', en:'I live (my life)', examples:[
-  {hu:'Békében élek a családommal.', en:'I live in peace with my family.'},
-  {hu:'Boldogan élek Magyarországon.', en:'I live happily in Hungary.'},
-  {hu:'Már régóta itt élek.', en:'I have lived here for a long time already.'}
-]},
-{cat:'verbs', hu:'beszélek', phon:'BES-seh-lek', en:'I speak', examples:[
-  {hu:'Egy kicsit beszélek magyarul.', en:'I speak a little Hungarian.'},
-  {hu:'Angolul és magyarul is beszélek.', en:'I speak both English and Hungarian.'},
-  {hu:'Otthon a gyermekeimmel magyarul beszélek.', en:'I speak Hungarian with my children at home.'}
-]},
-{cat:'verbs', hu:'értem', phon:'EHR-tem', en:'I understand', examples:[
-  {hu:'Most már mindent értek.', en:'Now I understand everything.'},
-  {hu:'Lassan mindent jobban értek.', en:'I understand everything better little by little.'},
-  {hu:'Sajnos nem mindent értek pontosan.', en:"Unfortunately I don't understand everything exactly."}
-]},
-{cat:'verbs', hu:'tudom', phon:'TOO-dom', en:'I know', examples:[
-  {hu:'Nem tudom pontosan a választ.', en:"I don't know the exact answer."},
-  {hu:'Tudom a fővárosok nevét.', en:'I know the names of the capitals.'},
-  {hu:'Ezt sajnos nem tudom biztosan.', en:"Unfortunately I don't know this for certain."}
-]},
-{cat:'verbs', hu:'szeretem', phon:'SEH-reh-tem', en:'I like / love', examples:[
-  {hu:'Nagyon szeretem Magyarországot.', en:'I love Hungary very much.'},
-  {hu:'Szeretem a magyar nyelvet tanulni.', en:'I like learning the Hungarian language.'},
-  {hu:'Szeretem az új munkahelyemet.', en:'I like my new workplace.'}
-]},
-{cat:'verbs', hu:'szeretnék', phon:'SEH-ret-nehk', en:'I would like', examples:[
-  {hu:'Magyar állampolgár szeretnék lenni.', en:'I would like to become a Hungarian citizen.'},
-  {hu:'Szeretnék jól felkészülni az interjúra.', en:'I would like to prepare well for the interview.'},
-  {hu:'Szeretnék itt maradni a családommal.', en:'I would like to stay here with my family.'}
-]},
-{cat:'verbs', hu:'kérek', phon:'KEH-rek', en:"I ask for / I'd like", examples:[
-  {hu:'Egy pohár vizet kérek.', en:"I'd like a glass of water."},
-  {hu:'Egy kis türelmet kérek.', en:'I ask for a little patience.'},
-  {hu:'Elnézést kérek a hibáért.', en:'I apologize for the mistake.'}
-]},
-{cat:'verbs', hu:'megyek', phon:'MEH-djek', en:'I go', examples:[
-  {hu:'Holnap a hivatalba megyek.', en:"Tomorrow I'm going to the office."},
-  {hu:'Minden reggel gyalog megyek dolgozni.', en:'I walk to work every morning.'},
-  {hu:'Most az interjúra megyek.', en:'I am going to the interview now.'}
-]},
-{cat:'verbs', hu:'jövök', phon:'YUH-vuhk', en:'I come', examples:[
-  {hu:'Minden nap gyalog jövök dolgozni.', en:'I come to work on foot every day.'},
-  {hu:'Korán jövök, hogy ne késsek.', en:"I come early so I won't be late."},
-  {hu:'Egyenesen otthonról jövök ide.', en:'I come here straight from home.'}
-]},
-{cat:'verbs', hu:'várok', phon:'VAH-rok', en:'I wait', examples:[
-  {hu:'Türelmesen várok a sorra.', en:'I wait patiently for my turn.'},
-  {hu:'Már fél órája várok.', en:'I have been waiting for half an hour already.'},
-  {hu:'A folyosón várok a nevemre.', en:'I am waiting in the corridor for my name to be called.'}
-]},
-{cat:'verbs', hu:'gondolom', phon:'GON-do-lom', en:'I think', examples:[
-  {hu:'Azt gondolom, jól felkészültem.', en:'I think I have prepared well.'},
-  {hu:'Úgy gondolom, minden rendben lesz.', en:'I think everything will be fine.'},
-  {hu:'Azt gondolom, hamarosan végzünk.', en:"I think we'll finish soon."}
-]},
-{cat:'verbs', hu:'remélem', phon:'REH-meh-lem', en:'I hope', examples:[
-  {hu:'Remélem, sikeres lesz az interjú.', en:'I hope the interview will be successful.'},
-  {hu:'Remélem, hamarosan magyar állampolgár leszek.', en:'I hope to become a Hungarian citizen soon.'},
-  {hu:'Remélem, jól válaszoltam a kérdésekre.', en:'I hope I answered the questions well.'}
-]},
-{cat:'question', hu:'ki?', phon:'kee', en:'who?', examples:[
-  {hu:'Ki Ön?', en:'Who are you?'},
-  {hu:'Ki kísérte el a hivatalba?', en:'Who accompanied you to the office?'},
-  {hu:'Ki tanította Önt magyarul?', en:'Who taught you Hungarian?'}
-]},
-{cat:'question', hu:'mi?', phon:'mee', en:'what?', examples:[
-  {hu:'Mi a foglalkozása?', en:'What is your occupation?'},
-  {hu:'Mi a véleménye Magyarországról?', en:'What is your opinion of Hungary?'},
-  {hu:'Mi történt a múlt héten?', en:'What happened last week?'}
-]},
-{cat:'question', hu:'hol?', phon:'hol', en:'where?', examples:[
-  {hu:'Hol lakik jelenleg?', en:'Where do you currently live?'},
-  {hu:'Hol dolgozik most?', en:'Where do you work now?'},
-  {hu:'Hol találkoztunk korábban?', en:'Where did we meet before?'}
-]},
-{cat:'question', hu:'hova?', phon:'HO-vah', en:'where to?', examples:[
-  {hu:'Hova utazik nyáron?', en:'Where are you traveling to in the summer?'},
-  {hu:'Hova költöztek tavaly?', en:'Where did you move to last year?'},
-  {hu:'Hova viszi a gyermekét iskolába?', en:'Where do you take your child to school?'}
-]},
-{cat:'question', hu:'honnan?', phon:'HON-nahn', en:'from where?', examples:[
-  {hu:'Honnan érkezett Magyarországra?', en:'Where did you arrive in Hungary from?'},
-  {hu:'Honnan szerezte az iratait?', en:'Where did you get your documents from?'},
-  {hu:'Honnan jött ma reggel?', en:'Where did you come from this morning?'}
-]},
-{cat:'question', hu:'miért?', phon:'MEE-ehrt', en:'why?', examples:[
-  {hu:'Miért szeretne magyar állampolgár lenni?', en:'Why would you like to become a Hungarian citizen?'},
-  {hu:'Miért választotta ezt a várost?', en:'Why did you choose this city?'},
-  {hu:'Miért tanul magyarul?', en:'Why are you learning Hungarian?'}
-]},
-{cat:'question', hu:'hogyan?', phon:'HO-djahn', en:'how?', examples:[
-  {hu:'Hogyan jutott el Magyarországra?', en:'How did you get to Hungary?'},
-  {hu:'Hogyan készült fel az interjúra?', en:'How did you prepare for the interview?'},
-  {hu:'Hogyan tanulta meg a nyelvet?', en:'How did you learn the language?'}
-]},
-{cat:'question', hu:'melyik?', phon:'MEH-yik', en:'which?', examples:[
-  {hu:'Melyik iskolába jár a gyermeke?', en:'Which school does your child attend?'},
-  {hu:'Melyik városban élt korábban?', en:'Which city did you live in before?'},
-  {hu:'Melyik napon van szabad?', en:'Which day are you free?'}
-]},
-{cat:'question', hu:'mennyi?', phon:'MEN-nyee', en:'how much / how many?', examples:[
-  {hu:'Mennyi ideje él Magyarországon?', en:'How long have you lived in Hungary?'},
-  {hu:'Mennyi pénzt keres havonta?', en:'How much money do you earn per month?'},
-  {hu:'Mennyi időt töltött a nyelviskolában?', en:'How much time did you spend at the language school?'}
-]}
+const CATEGORIES = [...new Set(DATA.map(d => d.cat))];
+
+/* ---------------- felvett audio fájlok (DATA-val azonos sorrendben) ---------------- */
+const AUDIO_BASE = 'audio/';
+const AUDIO_FILES = [
+  "001_édesanya.mp3",
+  "002_édesapa.mp3",
+  "003_testvér.mp3",
+  "004_nagymama.mp3",
+  "005_nagypapa.mp3",
+  "006_feleség.mp3",
+  "007_férj.mp3",
+  "008_gyerek.mp3",
+  "009_unoka.mp3",
+  "010_rokon.mp3",
+  "011_szülő.mp3",
+  "012_szeretni.mp3",
+  "013_tanulni.mp3",
+  "014_tanár.mp3",
+  "015_diák.mp3",
+  "016_iskola.mp3",
+  "017_lecke.mp3",
+  "018_vizsga.mp3",
+  "019_jegyzetelni.mp3",
+  "020_könyv.mp3",
+  "021_osztály.mp3",
+  "022_tudni.mp3",
+  "023_érteni.mp3",
+  "024_házi-feladat.mp3",
+  "025_dolgozni.mp3",
+  "026_munkahely.mp3",
+  "027_főnök.mp3",
+  "028_kolléga.mp3",
+  "029_fizetés.mp3",
+  "030_állás.mp3",
+  "031_megbeszélés.mp3",
+  "032_határidő.mp3",
+  "033_projekt.mp3",
+  "034_tapasztalat.mp3",
+  "035_karrier.mp3",
+  "036_elintézni.mp3",
+  "037_enni.mp3",
+  "038_inni.mp3",
+  "039_kenyér.mp3",
+  "040_víz.mp3",
+  "041_leves.mp3",
+  "042_hús.mp3",
+  "043_zöldség.mp3",
+  "044_gyümölcs.mp3",
+  "045_reggeli.mp3",
+  "046_vacsora.mp3",
+  "047_éhes.mp3",
+  "048_finom.mp3",
+  "049_lakás.mp3",
+  "050_ház.mp3",
+  "051_konyha.mp3",
+  "052_hálószoba.mp3",
+  "053_bútor.mp3",
+  "054_takarítani.mp3",
+  "055_főzni.mp3",
+  "056_ajtó.mp3",
+  "057_ablak.mp3",
+  "058_kulcs.mp3",
+  "059_lakni.mp3",
+  "060_kényelmes.mp3",
+  "061_fej.mp3",
+  "062_kéz.mp3",
+  "063_láb.mp3",
+  "064_szív.mp3",
+  "065_fájni.mp3",
+  "066_beteg.mp3",
+  "067_egészséges.mp3",
+  "068_orvos.mp3",
+  "069_gyógyszer.mp3",
+  "070_kórház.mp3",
+  "071_pihenni.mp3",
+  "072_erős.mp3",
+  "073_ma.mp3",
+  "074_holnap.mp3",
+  "075_tegnap.mp3",
+  "076_hét.mp3",
+  "077_hónap.mp3",
+  "078_év.mp3",
+  "079_most.mp3",
+  "080_később.mp3",
+  "081_korán.mp3",
+  "082_későn.mp3",
+  "083_várni.mp3",
+  "084_sietni.mp3",
+  "085_utazni.mp3",
+  "086_vonat.mp3",
+  "087_repülőgép.mp3",
+  "088_autó.mp3",
+  "089_jegy.mp3",
+  "090_reptér.mp3",
+  "091_pályaudvar.mp3",
+  "092_megérkezni.mp3",
+  "093_indulni.mp3",
+  "094_térkép.mp3",
+  "095_útlevél.mp3",
+  "096_csomag.mp3",
 ];
 
-let activeCat = CATEGORIES[0].id;
-let mode = 'study';
-let query = '';
-const learned = new Set();
+const $ = id => document.getElementById(id);
 
-const tabsEl = document.getElementById('tabs');
-function renderTabs(){
-  tabsEl.innerHTML = '';
-  CATEGORIES.forEach(c=>{
-    const total = WORDS.filter(w=>w.cat===c.id).length;
-    const done = WORDS.filter(w=>w.cat===c.id && learned.has(w.hu)).length;
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (c.id===activeCat ? ' active' : '');
-    btn.type = 'button';
-    btn.setAttribute('aria-selected', c.id===activeCat ? 'true' : 'false');
-    btn.innerHTML = `<span class="n">${c.num}</span><span class="name-wrap"><span>${c.name}</span><span class="name-en">${c.nameEn}</span></span><span class="badge">${done}/${total}</span>`;
-    btn.addEventListener('click', ()=>{ activeCat = c.id; renderTabs(); renderGrid(); });
-    tabsEl.appendChild(btn);
+/* ---------------- felolvasás / speech synthesis (tartalék, ha nincs audio fájl) ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){
+  pickHungarianVoice();
+  window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
+}
+function speakFallback(text, btn){
+  if(!speechSupported){ if(btn) btn.classList.remove('playing'); return; }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'hu-HU';
+  utter.rate = 0.9;
+  if(huVoice) utter.voice = huVoice;
+  if(btn){
+    utter.onend = () => btn.classList.remove('playing');
+    utter.onerror = () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+/* ---------------- lejátszás: elsőként a felvett audio, hiba esetén TTS tartalék ---------------- */
+let currentAudio = null;
+function stopAudio(){
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+  if(speechSupported) window.speechSynthesis.cancel();
+}
+function playWord(idx, btn){
+  stopAudio();
+  const item = DATA[idx];
+  const file = AUDIO_FILES[idx];
+  if(btn) btn.classList.add('playing');
+  if(!file){
+    speakFallback(item.hu, btn);
+    return;
+  }
+  const audio = new Audio(AUDIO_BASE + file);
+  currentAudio = audio;
+  audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
+  audio.addEventListener('error', () => { speakFallback(item.hu, btn); });
+  audio.play().catch(() => { speakFallback(item.hu, btn); });
+}
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------------- STUDY MODE ---------------- */
+let studyOrder = DATA.map((_, i) => i);
+let studyPos = 0;
+let studyFlipped = false;
+
+function initJumpSelect(){
+  const sel = $('jumpCat');
+  sel.innerHTML = '<option value="-1">Ugrás kategóriára…</option>' +
+    CATEGORIES.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+  sel.addEventListener('change', () => {
+    const idx = parseInt(sel.value, 10);
+    if(idx < 0) return;
+    const cat = CATEGORIES[idx];
+    const pos = studyOrder.findIndex(i => DATA[i].cat === cat);
+    if(pos >= 0){ studyPos = pos; renderStudy(); }
+    sel.value = "-1";
   });
 }
 
-const gridEl = document.getElementById('grid');
-const catNameEl = document.getElementById('catName');
-const catDescEl = document.getElementById('catDesc');
-const emptyNote = document.getElementById('emptyNote');
+function renderStudy(){
+  stopAudio();
+  const item = DATA[studyOrder[studyPos]];
+  $('frontText').textContent = item.en;
+  $('frontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
+  $('backText').textContent = item.hu;
+  $('backExample').innerHTML = `${item.exHu}<span class="en">${item.exEn}</span>`;
+  $('catLabel').textContent = `${item.cat} / ${item.catEn}`;
+  $('cardIndex').textContent = studyPos + 1;
+  $('cardTotal').textContent = DATA.length;
+  $('studyProgress').style.width = ((studyPos + 1) / DATA.length * 100) + "%";
+  studyFlipped = false;
+  $('studyCard').classList.remove('flipped');
+  $('prevBtn').disabled = studyPos === 0;
+  $('nextBtn').disabled = studyPos === studyOrder.length - 1;
+}
+function flipStudy(){
+  studyFlipped = !studyFlipped;
+  $('studyCard').classList.toggle('flipped', studyFlipped);
+}
+$('studyCard').addEventListener('click', flipStudy);
+$('flipBtn').addEventListener('click', flipStudy);
+$('prevBtn').addEventListener('click', () => { if(studyPos > 0){ studyPos--; renderStudy(); } });
+$('nextBtn').addEventListener('click', () => { if(studyPos < studyOrder.length - 1){ studyPos++; renderStudy(); } });
+$('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.map((_, i) => i)); studyPos = 0; renderStudy(); });
+$('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
+$('speakStudyBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  playWord(studyOrder[studyPos], e.currentTarget);
+});
 
-function stampSVG(){
-  return `<svg class="stamp-mark" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="60" cy="60" r="52" fill="none" stroke="var(--red)" stroke-width="3"/>
-    <circle cx="60" cy="60" r="44" fill="none" stroke="var(--red)" stroke-width="1.3"/>
-    <path id="arcTop" d="M 18 60 A 42 42 0 0 1 102 60" fill="none"/>
-    <text font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" fill="var(--red)" letter-spacing="1.5">
-      <textPath href="#arcTop" startOffset="50%" text-anchor="middle">MEGTANULVA · LEARNED</textPath>
-    </text>
-    <text x="60" y="72" font-family="IBM Plex Mono, monospace" font-size="22" fill="var(--red)" text-anchor="middle">✓</text>
-  </svg>`;
+/* ---------------- MODE SWITCH ---------------- */
+$('btnStudyMode').addEventListener('click', () => {
+  $('btnStudyMode').classList.add('active');
+  $('btnQuizMode').classList.remove('active');
+  $('studyView').classList.remove('hidden');
+  $('quizView').classList.add('hidden');
+});
+$('btnQuizMode').addEventListener('click', () => {
+  $('btnQuizMode').classList.add('active');
+  $('btnStudyMode').classList.remove('active');
+  $('quizView').classList.remove('hidden');
+  $('studyView').classList.add('hidden');
+});
+
+/* ---------------- QUIZ MODE ---------------- */
+let quizOrder = [];
+let quizPos = 0;
+let quizFlipped = false;
+let okCount = 0, noCount = 0;
+let missed = [];
+
+function initQuizCatSelect(){
+  const sel = $('quizCatSelect');
+  sel.innerHTML = '<option value="-1">Összes kategória (100 szó)</option>' +
+    CATEGORIES.map((c, i) => {
+      const n = DATA.filter(d => d.cat === c).length;
+      return `<option value="${i}">${c} (${n})</option>`;
+    }).join('');
 }
 
-function renderGrid(){
-  const cat = CATEGORIES.find(c=>c.id===activeCat);
-  catNameEl.innerHTML = `${cat.num} · ${cat.name}<span class="bi-en">${cat.nameEn}</span>`;
-  catDescEl.innerHTML = `${cat.desc}<span class="bi-en">${cat.descEn}</span>`;
+function startQuiz(){
+  const catIdx = parseInt($('quizCatSelect').value, 10);
+  const pool = catIdx < 0 ? DATA.map((_, i) => i) : DATA.map((_, i) => i).filter(i => DATA[i].cat === CATEGORIES[catIdx]);
+  quizOrder = shuffleArr(pool);
+  quizPos = 0;
+  okCount = 0; noCount = 0; missed = [];
+  $('quizIntro').classList.add('hidden');
+  $('quizResults').classList.add('hidden');
+  $('quizPlay').classList.remove('hidden');
+  renderQuiz();
+}
 
-  const q = query.trim().toLowerCase();
-  const items = WORDS.filter(w=>{
-    if(w.cat !== activeCat) return false;
-    if(!q) return true;
-    return w.hu.toLowerCase().includes(q) || w.en.toLowerCase().includes(q);
-  });
+function renderQuiz(){
+  stopAudio();
+  const item = DATA[quizOrder[quizPos]];
+  $('quizFrontText').textContent = item.en;
+  $('quizFrontPos').textContent = `${POS_LABELS[item.pos].hu} · ${POS_LABELS[item.pos].en}`;
+  $('quizBackText').textContent = item.hu;
+  $('quizBackExample').innerHTML = `${item.exHu}<span class="en">${item.exEn}</span>`;
+  $('quizCatLabel').textContent = `${item.cat} / ${item.catEn}`;
+  $('quizIndex').textContent = quizPos + 1;
+  $('quizTotal').textContent = quizOrder.length;
+  $('quizProgress').style.width = ((quizPos) / quizOrder.length * 100) + "%";
+  $('okCount').textContent = okCount;
+  $('noCount').textContent = noCount;
+  quizFlipped = false;
+  $('quizCard').classList.remove('flipped');
+  $('answerRow').style.visibility = 'hidden';
+}
+function flipQuiz(){
+  quizFlipped = !quizFlipped;
+  $('quizCard').classList.toggle('flipped', quizFlipped);
+  if(quizFlipped){ $('answerRow').style.visibility = 'visible'; }
+}
+function answerQuiz(knewIt){
+  if(!quizFlipped) return;
+  const item = DATA[quizOrder[quizPos]];
+  if(knewIt){ okCount++; } else { noCount++; missed.push(item); }
+  if(quizPos < quizOrder.length - 1){
+    quizPos++;
+    renderQuiz();
+  } else {
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  $('quizPlay').classList.add('hidden');
+  $('quizResults').classList.remove('hidden');
+  $('finalScore').textContent = okCount;
+  $('finalTotal').textContent = quizOrder.length;
+  const list = $('missedList');
+  if(missed.length === 0){
+    list.innerHTML = '<p style="text-align:center; opacity:.6;">Minden kifejezést tudtál! 🎉</p>';
+  } else {
+    list.innerHTML = '<p style="opacity:.5; font-weight:600; margin-bottom:10px;">Ismételd át:</p>' +
+      missed.map(m => `<div class="missed-item"><span>${m.en}</span><b>${m.hu}</b></div>`).join('');
+  }
+}
+$('quizCard').addEventListener('click', flipQuiz);
+$('startQuizBtn').addEventListener('click', startQuiz);
+$('restartQuizBtn').addEventListener('click', () => {
+  $('quizResults').classList.add('hidden');
+  $('quizIntro').classList.remove('hidden');
+});
+$('knowBtn').addEventListener('click', () => answerQuiz(true));
+$('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
+$('speakQuizBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  playWord(quizOrder[quizPos], e.currentTarget);
+});
 
-  gridEl.className = 'grid' + (mode==='quiz' ? ' quiz' : '');
-  gridEl.innerHTML = '';
-  emptyNote.style.display = items.length ? 'none' : 'block';
-
-  items.forEach(w=>{
-    const isLearned = learned.has(w.hu);
-    const examples = w.examples || [{hu:w.exHu, en:w.exEn}];
-    const exHTML = examples.map((ex,i)=>`
-        <div class="ex-pair">
-          ${examples.length>1 ? `<span class="ex-num">${i+1}.</span>` : ''}
-          <p class="ex-hu">„${ex.hu}"</p>
-          <p class="ex-en">${ex.en}</p>
-        </div>`).join('');
-    const card = document.createElement('article');
-    card.className = 'card' + (isLearned ? ' learned' : '');
-    card.innerHTML = `
-      <button class="stamp-btn" type="button" aria-pressed="${isLearned}" title="Megtanultam / Learned">${isLearned ? '✓' : '○'}</button>
-      <p class="tag">${cat.num} · ${cat.name} / ${cat.nameEn}</p>
-      <p class="hu">${w.hu}</p>
-      <p class="phon">/${w.phon}/</p>
-      <p class="en">${w.en}</p>
-      <div class="ex">${exHTML}</div>
-      <p class="tap-hint">Koppintson a feloldáshoz · Tap to reveal</p>
-      ${stampSVG()}
-    `;
-    const stampBtn = card.querySelector('.stamp-btn');
-    stampBtn.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      if(learned.has(w.hu)){ learned.delete(w.hu); } else { learned.add(w.hu); }
-      renderTabs();
-      renderGrid();
-      updateTally();
-    });
-    if(mode==='quiz'){
-      card.addEventListener('click', ()=>{
-        card.classList.toggle('revealed');
-      });
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener('keydown', e => {
+  const quizActive = !$('quizView').classList.contains('hidden');
+  if(quizActive){
+    if(!$('quizPlay').classList.contains('hidden')){
+      if(e.code === 'Space'){ e.preventDefault(); flipQuiz(); }
+      if(e.key === 'ArrowRight' && quizFlipped) answerQuiz(true);
+      if(e.key === 'ArrowLeft' && quizFlipped) answerQuiz(false);
     }
-    gridEl.appendChild(card);
-  });
-}
-
-function updateTally(){
-  document.getElementById('learnedCount').textContent = learned.size;
-}
-
-document.getElementById('search').addEventListener('input', (e)=>{
-  query = e.target.value;
-  renderGrid();
+  } else {
+    if(e.code === 'Space'){ e.preventDefault(); flipStudy(); }
+    if(e.key === 'ArrowRight'){ $('nextBtn').click(); }
+    if(e.key === 'ArrowLeft'){ $('prevBtn').click(); }
+  }
 });
-document.getElementById('btnStudy').addEventListener('click', ()=>{
-  mode = 'study';
-  document.getElementById('btnStudy').classList.add('active');
-  document.getElementById('btnQuiz').classList.remove('active');
-  renderGrid();
-});
-document.getElementById('btnQuiz').addEventListener('click', ()=>{
-  mode = 'quiz';
-  document.getElementById('btnQuiz').classList.add('active');
-  document.getElementById('btnStudy').classList.remove('active');
-  renderGrid();
-});
-document.getElementById('printBtn').addEventListener('click', ()=>window.print());
 
-renderTabs();
-renderGrid();
-updateTally();
+/* ---------------- INIT ---------------- */
+initJumpSelect();
+initQuizCatSelect();
+renderStudy();
 </script>
+
 </body>
 </html>
