@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Történelmi Események — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / Történelmi Események
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">Történelmi Események</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Régen</h3>
+      <div class="para"><p class="hu">Magyarországnak hosszú története van.</p><p class="en">Hungary has a long history.</p></div>
+      <div class="para"><p class="hu">Sok fontos esemény történt itt.</p><p class="en">Many important events happened here.</p></div>
+
+      <h3 class="sub-heading">Királyok</h3>
+      <div class="para"><p class="hu">Szent István volt az első magyar király.</p><p class="en">Saint Stephen was the first Hungarian king.</p></div>
+      <div class="para"><p class="hu">Ő ezer évvel ezelőtt élt.</p><p class="en">He lived a thousand years ago.</p></div>
+      <div class="para"><p class="hu">István fontos volt a magyar történelemben.</p><p class="en">Stephen was important in Hungarian history.</p></div>
+
+      <h3 class="sub-heading">Háborúk</h3>
+      <div class="para"><p class="hu">Régen sok háború volt Magyarországon.</p><p class="en">Long ago there were many wars in Hungary.</p></div>
+      <div class="para"><p class="hu">A törökök sokáig itt voltak.</p><p class="en">The Turks were here for a long time.</p></div>
+      <div class="para"><p class="hu">1526-ban nagy csata volt Mohácsnál.</p><p class="en">In 1526 there was a big battle at Mohács.</p></div>
+
+      <h3 class="sub-heading">Forradalmak</h3>
+      <div class="para"><p class="hu">1848-ban forradalom volt Budapesten.</p><p class="en">In 1848 there was a revolution in Budapest.</p></div>
+      <div class="para"><p class="hu">Kossuth Lajos egy fontos vezető volt.</p><p class="en">Lajos Kossuth was an important leader.</p></div>
+      <div class="para"><p class="hu">1956-ban is volt egy forradalom.</p><p class="en">In 1956 there was also a revolution.</p></div>
+      <div class="para"><p class="hu">Az emberek szabadságot akartak.</p><p class="en">People wanted freedom.</p></div>
+
+      <h3 class="sub-heading">Változások</h3>
+      <div class="para"><p class="hu">1989-ben nagy változás történt Magyarországon.</p><p class="en">In 1989 a big change happened in Hungary.</p></div>
+      <div class="para"><p class="hu">Az ország demokratikus lett.</p><p class="en">The country became democratic.</p></div>
+      <div class="para"><p class="hu">Szabad választások voltak.</p><p class="en">There were free elections.</p></div>
+
+      <h3 class="sub-heading">Európai Unió</h3>
+      <div class="para"><p class="hu">2004-ben Magyarország az Európai Unió tagja lett.</p><p class="en">In 2004 Hungary became a member of the European Union.</p></div>
+      <div class="para"><p class="hu">Ez egy fontos esemény volt.</p><p class="en">This was an important event.</p></div>
+
+      <h3 class="sub-heading">Ma</h3>
+      <div class="para"><p class="hu">Ma Magyarország egy demokratikus ország.</p><p class="en">Today Hungary is a democratic country.</p></div>
+      <div class="para"><p class="hu">Az emberek szabadon élnek.</p><p class="en">People live freely.</p></div>
+
+      <h3 class="sub-heading">Miért fontos a történelem?</h3>
+      <div class="para"><p class="hu">A történelem fontos.</p><p class="en">History is important.</p></div>
+      <div class="para"><p class="hu">Segít megérteni a jelent.</p><p class="en">It helps to understand the present.</p></div>
+      <div class="para"><p class="hu">Sok érdekes történet van Magyarországról.</p><p class="en">There are many interesting stories about Hungary.</p></div>
+      <div class="para"><p class="hu">Jó ötlet megismerni a magyar történelmet.</p><p class="en">It's a good idea to learn about Hungarian history.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">történelem</span><span class="en-word">history</span></div>
+        <div class="vocab-item"><span class="hu-word">király</span><span class="en-word">king</span></div>
+        <div class="vocab-item"><span class="hu-word">háború</span><span class="en-word">war</span></div>
+        <div class="vocab-item"><span class="hu-word">csata</span><span class="en-word">battle</span></div>
+        <div class="vocab-item"><span class="hu-word">forradalom</span><span class="en-word">revolution</span></div>
+        <div class="vocab-item"><span class="hu-word">szabadság</span><span class="en-word">freedom</span></div>
+        <div class="vocab-item"><span class="hu-word">vezető</span><span class="en-word">leader</span></div>
+        <div class="vocab-item"><span class="hu-word">ország</span><span class="en-word">country</span></div>
+        <div class="vocab-item"><span class="hu-word">választás</span><span class="en-word">election</span></div>
+        <div class="vocab-item"><span class="hu-word">változás</span><span class="en-word">change</span></div>
+        <div class="vocab-item"><span class="hu-word">demokrácia</span><span class="en-word">democracy</span></div>
+        <div class="vocab-item"><span class="hu-word">múzeum</span><span class="en-word">museum</span></div>
+        <div class="vocab-item"><span class="hu-word">esemény</span><span class="en-word">event</span></div>
+        <div class="vocab-item"><span class="hu-word">régen</span><span class="en-word">long ago</span></div>
+        <div class="vocab-item"><span class="hu-word">ma</span><span class="en-word">today</span></div>
+        <div class="vocab-item"><span class="hu-word">tag</span><span class="en-word">member</span></div>
+        <div class="vocab-item"><span class="hu-word">nép</span><span class="en-word">people / nation</span></div>
+        <div class="vocab-item"><span class="hu-word">jelen</span><span class="en-word">present</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Ki volt az első magyar király?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> Szent István</label><label><input type="radio" name="qb1"> Kossuth Lajos</label></div></li>
+        <li><div class="q-hu">2. Mikor volt a mohácsi csata?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> 1526-ban</label><label><input type="radio" name="qb2"> 1989-ben</label></div></li>
+        <li><div class="q-hu">3. Ki volt fontos vezető 1848-ban?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> Kossuth Lajos</label><label><input type="radio" name="qb3"> Szent István</label></div></li>
+        <li><div class="q-hu">4. Mikor volt forradalom Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> 1956-ban</label><label><input type="radio" name="qb4"> 2004-ben</label></div></li>
+        <li><div class="q-hu">5. Mi történt 1989-ben?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> nagy változás</label><label><input type="radio" name="qb5"> nagy csata</label></div></li>
+        <li><div class="q-hu">6. Mikor lett Magyarország EU-tag?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> 2004-ben</label><label><input type="radio" name="qb6"> 1848-ban</label></div></li>
+        <li><div class="q-hu">7. Milyen ország ma Magyarország?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> demokratikus</label><label><input type="radio" name="qb7"> diktatórikus</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>Szent István</li><li>1526-ban</li><li>Kossuth Lajos</li><li>1956-ban</li><li>nagy változás</li><li>2004-ben</li><li>demokratikus</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">Magyarországnak gazdag és izgalmas története van.</p><p class="en">Hungary has a rich and exciting history.</p></div>
+      <div class="para"><p class="hu">Az ország történelme több mint ezer évre nyúlik vissza.</p><p class="en">The country's history goes back more than a thousand years.</p></div>
+      <div class="para"><p class="hu">Sok fontos esemény történt Magyarországon az évszázadok során.</p><p class="en">Many important events happened in Hungary over the centuries.</p></div>
+
+      <h3 class="sub-heading">A honfoglalás</h3>
+      <div class="para"><p class="hu">A magyarok Kr. u. 896-ban telepedtek le a Kárpát-medencében. Ezt hívjuk honfoglalásnak.</p><p class="en">The Hungarians settled in the Carpathian Basin in 896 AD. This is called the Conquest.</p></div>
+      <div class="para"><p class="hu">Árpád vezér vezette a magyar törzseket az új hazába.</p><p class="en">Chief Árpád led the Hungarian tribes to their new homeland.</p></div>
+
+      <h3 class="sub-heading">Szent István és az államalapítás</h3>
+      <div class="para"><p class="hu">Szent István volt Magyarország első királya. Ezer körül alapította a magyar államot.</p><p class="en">Saint Stephen was the first king of Hungary. He founded the Hungarian state around the year one thousand.</p></div>
+      <div class="para"><p class="hu">István a kereszténységet tette az ország hivatalos vallásává.</p><p class="en">Stephen made Christianity the official religion of the country.</p></div>
+
+      <h3 class="sub-heading">A tatárjárás</h3>
+      <div class="para"><p class="hu">1241-ben a tatárok betörtek Magyarországra, sok várost és falut elpusztítottak.</p><p class="en">In 1241 the Tatars invaded Hungary, destroying many towns and villages.</p></div>
+      <div class="para"><p class="hu">A tatárjárás után IV. Béla király újjáépítette az országot, és sok várat építtetett.</p><p class="en">After the Tatar invasion, King Béla IV rebuilt the country and had many castles built.</p></div>
+
+      <h3 class="sub-heading">A török hódoltság</h3>
+      <div class="para"><p class="hu">1526-ban a mohácsi csatában a törökök legyőzték a magyar sereget.</p><p class="en">In 1526 the Ottomans defeated the Hungarian army at the Battle of Mohács.</p></div>
+      <div class="para"><p class="hu">Ezután Magyarország nagy része másfél évszázadig török uralom alatt állt.</p><p class="en">After that, most of Hungary was under Ottoman rule for a century and a half.</p></div>
+      <div class="para"><p class="hu">A törökök 1686-ban veszítették el Budát, és lassan kiszorultak az országból.</p><p class="en">The Ottomans lost Buda in 1686, and were slowly pushed out of the country.</p></div>
+
+      <h3 class="sub-heading">A Rákóczi-szabadságharc</h3>
+      <div class="para"><p class="hu">1703-ban II. Rákóczi Ferenc vezetésével szabadságharc kezdődött a Habsburgok ellen.</p><p class="en">In 1703 a war of independence began against the Habsburgs, led by Ferenc Rákóczi II.</p></div>
+      <div class="para"><p class="hu">A szabadságharc 1711-ben ért véget, de fontos szerepet játszott a magyar történelemben.</p><p class="en">The war of independence ended in 1711, but it played an important role in Hungarian history.</p></div>
+
+      <h3 class="sub-heading">Az 1848–49-es forradalom</h3>
+      <div class="para"><p class="hu">1848. március 15-én forradalom tört ki Budapesten.</p><p class="en">On March 15, 1848, a revolution broke out in Budapest.</p></div>
+      <div class="para"><p class="hu">A magyarok szabadságot és önállóságot akartak.</p><p class="en">Hungarians wanted freedom and independence.</p></div>
+      <div class="para"><p class="hu">Kossuth Lajos és Petőfi Sándor a forradalom fontos vezetői voltak.</p><p class="en">Lajos Kossuth and Sándor Petőfi were important leaders of the revolution.</p></div>
+      <div class="para"><p class="hu">A szabadságharcot 1849-ben az osztrák és orosz csapatok leverték.</p><p class="en">The war of independence was crushed by Austrian and Russian troops in 1849.</p></div>
+
+      <h3 class="sub-heading">A trianoni békeszerződés</h3>
+      <div class="para"><p class="hu">Az első világháború után, 1920-ban aláírták a trianoni békeszerződést.</p><p class="en">After the First World War, the Treaty of Trianon was signed in 1920.</p></div>
+      <div class="para"><p class="hu">Magyarország elvesztette területének nagy részét és lakosságának egyharmadát.</p><p class="en">Hungary lost most of its territory and a third of its population.</p></div>
+      <div class="para"><p class="hu">A trianoni békeszerződés máig fontos téma a magyar történelemben.</p><p class="en">The Treaty of Trianon is still an important topic in Hungarian history today.</p></div>
+
+      <h3 class="sub-heading">Az 1956-os forradalom</h3>
+      <div class="para"><p class="hu">1956. október 23-án forradalom kezdődött Budapesten a szovjet uralom ellen.</p><p class="en">On October 23, 1956, a revolution began in Budapest against Soviet rule.</p></div>
+      <div class="para"><p class="hu">A fiatalok és a munkások szabadságot és demokráciát követeltek.</p><p class="en">Young people and workers demanded freedom and democracy.</p></div>
+      <div class="para"><p class="hu">A szovjet csapatok november 4-én leverték a forradalmat.</p><p class="en">Soviet troops crushed the revolution on November 4th.</p></div>
+
+      <h3 class="sub-heading">A rendszerváltás</h3>
+      <div class="para"><p class="hu">1989-ben Magyarországon véget ért a kommunista rendszer.</p><p class="en">In 1989 the communist system in Hungary came to an end.</p></div>
+      <div class="para"><p class="hu">Az ország demokratikus állammá vált, és szabad választásokat tartottak.</p><p class="en">The country became a democratic state, and free elections were held.</p></div>
+      <div class="para"><p class="hu">1989. október 23-án kikiáltották a Magyar Köztársaságot.</p><p class="en">On October 23, 1989, the Republic of Hungary was declared.</p></div>
+
+      <h3 class="sub-heading">Magyarország az Európai Unióban</h3>
+      <div class="para"><p class="hu">Magyarország 2004-ben csatlakozott az Európai Unióhoz.</p><p class="en">Hungary joined the European Union in 2004.</p></div>
+      <div class="para"><p class="hu">A csatlakozás új lehetőségeket hozott az ország számára.</p><p class="en">The accession brought new opportunities for the country.</p></div>
+
+      <h3 class="sub-heading">Miért fontos ismerni a történelmet?</h3>
+      <div class="para"><p class="hu">A történelmi események megértése segít megérteni a mai Magyarországot.</p><p class="en">Understanding historical events helps to understand present-day Hungary.</p></div>
+      <div class="para"><p class="hu">Ha valaki magyarul tanul, érdemes megismerni ezeket a fontos eseményeket is.</p><p class="en">If someone is learning Hungarian, it's worth getting to know these important events too.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">történelem</span><span class="en-word">history</span></div>
+        <div class="vocab-item"><span class="hu-word">esemény</span><span class="en-word">event</span></div>
+        <div class="vocab-item"><span class="hu-word">király</span><span class="en-word">king</span></div>
+        <div class="vocab-item"><span class="hu-word">forradalom</span><span class="en-word">revolution</span></div>
+        <div class="vocab-item"><span class="hu-word">szabadságharc</span><span class="en-word">war of independence</span></div>
+        <div class="vocab-item"><span class="hu-word">háború</span><span class="en-word">war</span></div>
+        <div class="vocab-item"><span class="hu-word">béke</span><span class="en-word">peace</span></div>
+        <div class="vocab-item"><span class="hu-word">hódoltság</span><span class="en-word">occupation</span></div>
+        <div class="vocab-item"><span class="hu-word">honfoglalás</span><span class="en-word">the Conquest</span></div>
+        <div class="vocab-item"><span class="hu-word">csata</span><span class="en-word">battle</span></div>
+        <div class="vocab-item"><span class="hu-word">rendszer</span><span class="en-word">system</span></div>
+        <div class="vocab-item"><span class="hu-word">választás</span><span class="en-word">election</span></div>
+        <div class="vocab-item"><span class="hu-word">uralom</span><span class="en-word">rule</span></div>
+        <div class="vocab-item"><span class="hu-word">vezető</span><span class="en-word">leader</span></div>
+        <div class="vocab-item"><span class="hu-word">évszázad</span><span class="en-word">century</span></div>
+        <div class="vocab-item"><span class="hu-word">terület</span><span class="en-word">territory</span></div>
+        <div class="vocab-item"><span class="hu-word">függetlenség</span><span class="en-word">independence</span></div>
+        <div class="vocab-item"><span class="hu-word">köztársaság</span><span class="en-word">republic</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mikor történt a honfoglalás?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> 896-ban</label><label><input type="radio" name="qa1"> 1000-ben</label><label><input type="radio" name="qa1"> 1848-ban</label></div></li>
+        <li><div class="q-hu">2. Ki volt Magyarország első királya?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> Szent István</label><label><input type="radio" name="qa2"> IV. Béla</label><label><input type="radio" name="qa2"> Kossuth Lajos</label></div></li>
+        <li><div class="q-hu">3. Mi történt 1526-ban?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> a mohácsi csata</label><label><input type="radio" name="qa3"> a honfoglalás</label><label><input type="radio" name="qa3"> a rendszerváltás</label></div></li>
+        <li><div class="q-hu">4. Ki vezette az 1703-as szabadságharcot?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> II. Rákóczi Ferenc</label><label><input type="radio" name="qa4"> Kossuth Lajos</label><label><input type="radio" name="qa4"> Szent István</label></div></li>
+        <li><div class="q-hu">5. Mikor tört ki az 1848-as forradalom?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> március 15-én</label><label><input type="radio" name="qa5"> október 23-án</label><label><input type="radio" name="qa5"> november 4-én</label></div></li>
+        <li><div class="q-hu">6. Mi történt 1920-ban Trianonban?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> békeszerződést írtak alá</label><label><input type="radio" name="qa6"> forradalom tört ki</label><label><input type="radio" name="qa6"> csatát nyertek</label></div></li>
+        <li><div class="q-hu">7. Mikor volt az 1956-os forradalom?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> 1956-ban</label><label><input type="radio" name="qa7"> 1848-ban</label><label><input type="radio" name="qa7"> 1989-ben</label></div></li>
+        <li><div class="q-hu">8. Mikor csatlakozott Magyarország az Európai Unióhoz?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> 2004-ben</label><label><input type="radio" name="qa8"> 1989-ben</label><label><input type="radio" name="qa8"> 1526-ban</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>896-ban</li><li>Szent István</li><li>a mohácsi csata</li><li>II. Rákóczi Ferenc</li><li>március 15-én</li><li>békeszerződést írtak alá</li><li>1956-ban</li><li>2004-ben</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
