@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Balaton — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / A Balaton
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">A Balaton</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">A Balaton</h3>
+      <div class="para"><p class="hu">Ez a Balaton.</p><p class="en">This is Lake Balaton.</p></div>
+      <div class="para"><p class="hu">A Balaton egy tó. Magyarországon van.</p><p class="en">Lake Balaton is a lake. It is in Hungary.</p></div>
+      <div class="para"><p class="hu">A Balaton nagy tó.</p><p class="en">Lake Balaton is a big lake.</p></div>
+      <div class="para"><p class="hu">Nyáron meleg van a vízben.</p><p class="en">In summer the water is warm.</p></div>
+
+      <h3 class="sub-heading">Városok</h3>
+      <div class="para"><p class="hu">Siófok egy város a Balatonnál.</p><p class="en">Siófok is a town by Lake Balaton.</p></div>
+      <div class="para"><p class="hu">Sok ember nyaral Siófokon.</p><p class="en">Many people go on holiday in Siófok.</p></div>
+      <div class="para"><p class="hu">Tihany egy szép hely.</p><p class="en">Tihany is a beautiful place.</p></div>
+      <div class="para"><p class="hu">Tihanyban van egy régi templom.</p><p class="en">There is an old church in Tihany.</p></div>
+
+      <h3 class="sub-heading">Programok</h3>
+      <div class="para"><p class="hu">Nyáron az emberek úsznak.</p><p class="en">In summer people swim.</p></div>
+      <div class="para"><p class="hu">A gyerekek szeretnek játszani a vízben.</p><p class="en">Children like to play in the water.</p></div>
+      <div class="para"><p class="hu">Sokan kerékpároznak a Balaton körül.</p><p class="en">Many people cycle around Lake Balaton.</p></div>
+      <div class="para"><p class="hu">A vitorlázás egy népszerű program.</p><p class="en">Sailing is a popular activity.</p></div>
+
+      <h3 class="sub-heading">Természet</h3>
+      <div class="para"><p class="hu">A Balatonnál sok madár él.</p><p class="en">Many birds live by Lake Balaton.</p></div>
+      <div class="para"><p class="hu">Vannak szép hegyek az északi parton.</p><p class="en">There are beautiful hills on the northern shore.</p></div>
+
+      <h3 class="sub-heading">Étel</h3>
+      <div class="para"><p class="hu">A halászlé egy magyar étel.</p><p class="en">Fisherman's soup is a Hungarian dish.</p></div>
+      <div class="para"><p class="hu">Halból készül.</p><p class="en">It is made from fish.</p></div>
+      <div class="para"><p class="hu">Az északi parton jó bor van.</p><p class="en">There is good wine on the northern shore.</p></div>
+
+      <h3 class="sub-heading">Ünnepek</h3>
+      <div class="para"><p class="hu">Nyáron fesztiválok vannak a Balatonnál.</p><p class="en">In summer there are festivals at Lake Balaton.</p></div>
+      <div class="para"><p class="hu">A Balaton Sound egy zenei fesztivál.</p><p class="en">Balaton Sound is a music festival.</p></div>
+      <div class="para"><p class="hu">Sok fiatal megy oda.</p><p class="en">Many young people go there.</p></div>
+
+      <h3 class="sub-heading">Miért jó a Balatonhoz utazni?</h3>
+      <div class="para"><p class="hu">A Balaton szép hely.</p><p class="en">Lake Balaton is a beautiful place.</p></div>
+      <div class="para"><p class="hu">Sok program van nyáron.</p><p class="en">There are many activities in summer.</p></div>
+      <div class="para"><p class="hu">Az étel finom.</p><p class="en">The food is tasty.</p></div>
+      <div class="para"><p class="hu">Jó ötlet ellátogatni a Balatonhoz.</p><p class="en">It's a good idea to visit Lake Balaton.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">tó</span><span class="en-word">lake</span></div>
+        <div class="vocab-item"><span class="hu-word">part</span><span class="en-word">shore</span></div>
+        <div class="vocab-item"><span class="hu-word">strand</span><span class="en-word">beach</span></div>
+        <div class="vocab-item"><span class="hu-word">hal</span><span class="en-word">fish</span></div>
+        <div class="vocab-item"><span class="hu-word">bor</span><span class="en-word">wine</span></div>
+        <div class="vocab-item"><span class="hu-word">fesztivál</span><span class="en-word">festival</span></div>
+        <div class="vocab-item"><span class="hu-word">hegy</span><span class="en-word">hill / mountain</span></div>
+        <div class="vocab-item"><span class="hu-word">madár</span><span class="en-word">bird</span></div>
+        <div class="vocab-item"><span class="hu-word">templom</span><span class="en-word">church</span></div>
+        <div class="vocab-item"><span class="hu-word">nyaralás</span><span class="en-word">holiday</span></div>
+        <div class="vocab-item"><span class="hu-word">ünnep</span><span class="en-word">holiday / celebration</span></div>
+        <div class="vocab-item"><span class="hu-word">zene</span><span class="en-word">music</span></div>
+        <div class="vocab-item"><span class="hu-word">fiatal</span><span class="en-word">young person</span></div>
+        <div class="vocab-item"><span class="hu-word">kerékpár</span><span class="en-word">bicycle</span></div>
+        <div class="vocab-item"><span class="hu-word">vitorlázás</span><span class="en-word">sailing</span></div>
+        <div class="vocab-item"><span class="hu-word">nyár</span><span class="en-word">summer</span></div>
+        <div class="vocab-item"><span class="hu-word">víz</span><span class="en-word">water</span></div>
+        <div class="vocab-item"><span class="hu-word">hely</span><span class="en-word">place</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mi a Balaton?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> egy tó</label><label><input type="radio" name="qb1"> egy hegy</label></div></li>
+        <li><div class="q-hu">2. Melyik város van a Balatonnál?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> Siófok</label><label><input type="radio" name="qb2"> Bécs</label></div></li>
+        <li><div class="q-hu">3. Mit csinálnak az emberek nyáron a Balatonban?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> úsznak</label><label><input type="radio" name="qb3"> síelnek</label></div></li>
+        <li><div class="q-hu">4. Miből készül a halászlé?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> halból</label><label><input type="radio" name="qb4"> csirkéből</label></div></li>
+        <li><div class="q-hu">5. Hol van jó bor?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> az északi parton</label><label><input type="radio" name="qb5"> Budapesten</label></div></li>
+        <li><div class="q-hu">6. Mi a Balaton Sound?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> egy zenei fesztivál</label><label><input type="radio" name="qb6"> egy étterem</label></div></li>
+        <li><div class="q-hu">7. Milyen hely Tihany?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> szép hely</label><label><input type="radio" name="qb7"> nagy város</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>egy tó</li><li>Siófok</li><li>úsznak</li><li>halból</li><li>az északi parton</li><li>egy zenei fesztivál</li><li>szép hely</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">A Balaton egy tó Magyarországon. Ez a legnagyobb tó Közép-Európában.</p><p class="en">Lake Balaton is a lake in Hungary. It is the largest lake in Central Europe.</p></div>
+      <div class="para"><p class="hu">A tó hossza körülbelül nyolcvanhét kilométer. A víz viszonylag sekély, átlagosan három méter mély.</p><p class="en">The lake is about eighty-seven kilometres long. The water is relatively shallow, on average three metres deep.</p></div>
+      <div class="para"><p class="hu">A Balatont gyakran "magyar tengernek" hívják, mert Magyarországnak nincs saját tengere.</p><p class="en">Lake Balaton is often called the "Hungarian sea", because Hungary has no sea of its own.</p></div>
+      <div class="para"><p class="hu">A tó vize nyáron gyorsan felmelegszik, ezért kellemes benne fürdeni.</p><p class="en">The lake's water warms up quickly in summer, so it's pleasant to bathe in.</p></div>
+
+      <h3 class="sub-heading">Elhelyezkedés és földrajz</h3>
+      <div class="para"><p class="hu">A Balaton Nyugat-Magyarországon fekszik, körülbelül száz kilométerre Budapesttől.</p><p class="en">Lake Balaton lies in Western Hungary, about one hundred kilometres from Budapest.</p></div>
+      <div class="para"><p class="hu">A tavat két részre lehet osztani: az északi és a déli partra.</p><p class="en">The lake can be divided into two parts: the northern shore and the southern shore.</p></div>
+      <div class="para"><p class="hu">Az északi part dombos és vulkáni eredetű, itt vannak a híres bortermő vidékek.</p><p class="en">The northern shore is hilly and of volcanic origin; the famous wine regions are here.</p></div>
+      <div class="para"><p class="hu">A déli part inkább lapos, homokos strandokkal és sekély vízzel.</p><p class="en">The southern shore is flatter, with sandy beaches and shallow water.</p></div>
+
+      <h3 class="sub-heading">Városok és települések</h3>
+      <div class="para"><p class="hu">Siófok a Balaton legnagyobb és legnépszerűbb városa a déli parton.</p><p class="en">Siófok is the largest and most popular town on the southern shore of Lake Balaton.</p></div>
+      <div class="para"><p class="hu">Siófokon sok szórakozóhely, étterem és szálloda várja a turistákat.</p><p class="en">In Siófok many entertainment venues, restaurants, and hotels await tourists.</p></div>
+      <div class="para"><p class="hu">Balatonfüred az északi part egyik legszebb városa, gyógyfürdőjéről híres.</p><p class="en">Balatonfüred is one of the most beautiful towns on the northern shore, famous for its spa.</p></div>
+      <div class="para"><p class="hu">Tihany egy különleges félsziget, ahol egy régi apátság és levendulaföldek találhatók.</p><p class="en">Tihany is a special peninsula, where an old abbey and lavender fields can be found.</p></div>
+      <div class="para"><p class="hu">Keszthely a Balaton nyugati végén fekszik, ott áll a híres Festetics-kastély.</p><p class="en">Keszthely lies at the western end of Lake Balaton; the famous Festetics Palace stands there.</p></div>
+
+      <h3 class="sub-heading">Programok és szabadidő</h3>
+      <div class="para"><p class="hu">Nyáron sok turista jár a Balatonhoz pihenni és nyaralni.</p><p class="en">In summer many tourists visit Lake Balaton to rest and holiday.</p></div>
+      <div class="para"><p class="hu">Az emberek úsznak, napoznak, és a strandokon pihennek.</p><p class="en">People swim, sunbathe, and relax on the beaches.</p></div>
+      <div class="para"><p class="hu">A vitorlázás nagyon népszerű a Balatonon, nyáron sok vitorlásversenyt rendeznek.</p><p class="en">Sailing is very popular on Lake Balaton; many sailing races are held in summer.</p></div>
+      <div class="para"><p class="hu">Sokan kerékpároznak a Balaton körül, mert körbe lehet biciklizni a tavat.</p><p class="en">Many people cycle around Lake Balaton, because you can bike all the way around the lake.</p></div>
+
+      <h3 class="sub-heading">Természet</h3>
+      <div class="para"><p class="hu">A Tihanyi-félsziget nemzeti park, ahol különleges növények és állatok élnek.</p><p class="en">The Tihany Peninsula is a national park, where special plants and animals live.</p></div>
+      <div class="para"><p class="hu">A Balaton-felvidéki Nemzeti Park védi a tó környékének természeti értékeit.</p><p class="en">The Balaton Uplands National Park protects the natural values around the lake.</p></div>
+      <div class="para"><p class="hu">Ősszel és tavasszal sok vízimadár él a tó nádasaiban.</p><p class="en">In autumn and spring many waterbirds live in the lake's reed beds.</p></div>
+
+      <h3 class="sub-heading">Gasztronómia</h3>
+      <div class="para"><p class="hu">A Balaton környékén híres a halászlé, amit friss balatoni halból készítenek.</p><p class="en">Fisherman's soup is famous around Lake Balaton, made from fresh fish from the lake.</p></div>
+      <div class="para"><p class="hu">A fogas egy különleges hal, ami csak a Balatonban él.</p><p class="en">The fogas is a special fish that only lives in Lake Balaton.</p></div>
+      <div class="para"><p class="hu">Az északi parton kiváló borokat termelnek, különösen Badacsonyban és Tihanyban.</p><p class="en">Excellent wines are produced on the northern shore, especially in Badacsony and Tihany.</p></div>
+      <div class="para"><p class="hu">Sok étterem kínál helyi termékeket, mint a lecsó vagy a balatoni sajtok.</p><p class="en">Many restaurants offer local products, such as lecsó or Balaton cheeses.</p></div>
+
+      <h3 class="sub-heading">Történelem és kultúra</h3>
+      <div class="para"><p class="hu">A Balaton már évszázadok óta kedvelt üdülőhely a magyarok körében.</p><p class="en">Lake Balaton has been a popular holiday destination among Hungarians for centuries.</p></div>
+      <div class="para"><p class="hu">A tizenkilencedik században épültek az első villák és fürdőházak a tó partján.</p><p class="en">The first villas and bathhouses were built on the lakeshore in the nineteenth century.</p></div>
+      <div class="para"><p class="hu">Balatonfüreden minden évben megrendezik a híres Anna-bált, ami régi hagyomány.</p><p class="en">Every year the famous Anna Ball is held in Balatonfüred, which is an old tradition.</p></div>
+
+      <h3 class="sub-heading">Fesztiválok</h3>
+      <div class="para"><p class="hu">Nyáron sok fesztivált rendeznek a Balaton körül, például a Balaton Soundot.</p><p class="en">Many festivals are held around Lake Balaton in summer, for example Balaton Sound.</p></div>
+      <div class="para"><p class="hu">A Balaton Sound egy népszerű zenei fesztivál, sok fiatal látogatja.</p><p class="en">Balaton Sound is a popular music festival, visited by many young people.</p></div>
+
+      <h3 class="sub-heading">Miért érdemes a Balatonhoz utazni?</h3>
+      <div class="para"><p class="hu">A Balaton szép táj, finom ételek és sok program várja a látogatókat.</p><p class="en">Lake Balaton offers beautiful scenery, tasty food, and many activities for visitors.</p></div>
+      <div class="para"><p class="hu">Ha valaki magyarul tanul, jó ötlet ellátogatni a Balatonhoz, és gyakorolni a nyelvet.</p><p class="en">If someone is learning Hungarian, it's a good idea to visit Lake Balaton and practise the language.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">tó</span><span class="en-word">lake</span></div>
+        <div class="vocab-item"><span class="hu-word">part</span><span class="en-word">shore</span></div>
+        <div class="vocab-item"><span class="hu-word">strand</span><span class="en-word">beach</span></div>
+        <div class="vocab-item"><span class="hu-word">vitorlázás</span><span class="en-word">sailing</span></div>
+        <div class="vocab-item"><span class="hu-word">kerékpározás</span><span class="en-word">cycling</span></div>
+        <div class="vocab-item"><span class="hu-word">nemzeti park</span><span class="en-word">national park</span></div>
+        <div class="vocab-item"><span class="hu-word">hal</span><span class="en-word">fish</span></div>
+        <div class="vocab-item"><span class="hu-word">bor</span><span class="en-word">wine</span></div>
+        <div class="vocab-item"><span class="hu-word">fesztivál</span><span class="en-word">festival</span></div>
+        <div class="vocab-item"><span class="hu-word">villa</span><span class="en-word">villa</span></div>
+        <div class="vocab-item"><span class="hu-word">félsziget</span><span class="en-word">peninsula</span></div>
+        <div class="vocab-item"><span class="hu-word">apátság</span><span class="en-word">abbey</span></div>
+        <div class="vocab-item"><span class="hu-word">kastély</span><span class="en-word">palace / castle</span></div>
+        <div class="vocab-item"><span class="hu-word">gyógyfürdő</span><span class="en-word">spa</span></div>
+        <div class="vocab-item"><span class="hu-word">nádas</span><span class="en-word">reed bed</span></div>
+        <div class="vocab-item"><span class="hu-word">vízimadár</span><span class="en-word">waterbird</span></div>
+        <div class="vocab-item"><span class="hu-word">üdülőhely</span><span class="en-word">holiday resort</span></div>
+        <div class="vocab-item"><span class="hu-word">hagyomány</span><span class="en-word">tradition</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mi a Balaton?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> egy folyó</label><label><input type="radio" name="qa1"> egy tó</label><label><input type="radio" name="qa1"> egy hegy</label></div></li>
+        <li><div class="q-hu">2. Melyik a Balaton legnagyobb városa a déli parton?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> Siófok</label><label><input type="radio" name="qa2"> Keszthely</label><label><input type="radio" name="qa2"> Tihany</label></div></li>
+        <li><div class="q-hu">3. Milyen a déli part?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> dombos és vulkáni</label><label><input type="radio" name="qa3"> lapos és homokos</label><label><input type="radio" name="qa3"> hegyes és sziklás</label></div></li>
+        <li><div class="q-hu">4. Hol vannak a híres bortermő vidékek?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> az északi parton</label><label><input type="radio" name="qa4"> a déli parton</label><label><input type="radio" name="qa4"> Budapesten</label></div></li>
+        <li><div class="q-hu">5. Mi a fogas?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> egy különleges hal</label><label><input type="radio" name="qa5"> egy vitorlás típus</label><label><input type="radio" name="qa5"> egy fesztivál neve</label></div></li>
+        <li><div class="q-hu">6. Mi található Tihanyban?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> egy régi apátság</label><label><input type="radio" name="qa6"> a Festetics-kastély</label><label><input type="radio" name="qa6"> a legnagyobb strand</label></div></li>
+        <li><div class="q-hu">7. Mi a Balaton Sound?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> egy zenei fesztivál</label><label><input type="radio" name="qa7"> egy nemzeti park</label><label><input type="radio" name="qa7"> egy hajótípus</label></div></li>
+        <li><div class="q-hu">8. Melyik nemzeti park védi a tó környékét?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> a Hortobágyi Nemzeti Park</label><label><input type="radio" name="qa8"> a Balaton-felvidéki Nemzeti Park</label><label><input type="radio" name="qa8"> a Duna–Ipoly Nemzeti Park</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>egy tó</li><li>Siófok</li><li>lapos és homokos</li><li>az északi parton</li><li>egy különleges hal</li><li>egy régi apátság</li><li>egy zenei fesztivál</li><li>a Balaton-felvidéki Nemzeti Park</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
