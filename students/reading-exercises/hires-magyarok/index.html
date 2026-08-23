@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Híres Magyarok — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / Híres Magyarok
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">Híres Magyarok</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Híres magyarok</h3>
+      <div class="para"><p class="hu">Magyarország sok híres embert adott a világnak.</p><p class="en">Hungary has given many famous people to the world.</p></div>
+      <div class="para"><p class="hu">Tudósok, zenészek és sportolók is voltak közöttük.</p><p class="en">There were scientists, musicians, and athletes among them.</p></div>
+
+      <h3 class="sub-heading">Tudósok</h3>
+      <div class="para"><p class="hu">Bíró László feltalálta a golyóstollat.</p><p class="en">László Bíró invented the ballpoint pen.</p></div>
+      <div class="para"><p class="hu">Rubik Ernő tervezte a Rubik-kockát.</p><p class="en">Ernő Rubik designed the Rubik's Cube.</p></div>
+      <div class="para"><p class="hu">Sok ember szereti ezt a játékot.</p><p class="en">Many people love this game.</p></div>
+
+      <h3 class="sub-heading">Zene</h3>
+      <div class="para"><p class="hu">Liszt Ferenc egy híres zeneszerző volt.</p><p class="en">Ferenc Liszt was a famous composer.</p></div>
+      <div class="para"><p class="hu">Bartók Béla is híres zeneszerző volt.</p><p class="en">Béla Bartók was also a famous composer.</p></div>
+      <div class="para"><p class="hu">A zenéjük ma is népszerű.</p><p class="en">Their music is still popular today.</p></div>
+
+      <h3 class="sub-heading">Írók</h3>
+      <div class="para"><p class="hu">Petőfi Sándor egy híres magyar költő.</p><p class="en">Sándor Petőfi is a famous Hungarian poet.</p></div>
+      <div class="para"><p class="hu">Ő írt verseket 1848-ban.</p><p class="en">He wrote poems in 1848.</p></div>
+      <div class="para"><p class="hu">Sok gyerek tanulja a verseit az iskolában.</p><p class="en">Many children learn his poems at school.</p></div>
+
+      <h3 class="sub-heading">Sport</h3>
+      <div class="para"><p class="hu">Puskás Ferenc egy híres focista volt.</p><p class="en">Ferenc Puskás was a famous footballer.</p></div>
+      <div class="para"><p class="hu">Ő az Aranycsapat tagja volt.</p><p class="en">He was a member of the Golden Team.</p></div>
+      <div class="para"><p class="hu">Egerszegi Krisztina egy híres úszó.</p><p class="en">Krisztina Egerszegi is a famous swimmer.</p></div>
+      <div class="para"><p class="hu">Ő háromszor nyert olimpiai aranyérmet.</p><p class="en">She won an Olympic gold medal three times.</p></div>
+
+      <h3 class="sub-heading">Tudomány ma</h3>
+      <div class="para"><p class="hu">Karikó Katalin egy magyar tudós.</p><p class="en">Katalin Karikó is a Hungarian scientist.</p></div>
+      <div class="para"><p class="hu">Ő segített a vakcinák kifejlesztésében.</p><p class="en">She helped develop vaccines.</p></div>
+      <div class="para"><p class="hu">2023-ban Nobel-díjat kapott.</p><p class="en">In 2023 she received the Nobel Prize.</p></div>
+
+      <h3 class="sub-heading">Sakk</h3>
+      <div class="para"><p class="hu">Polgár Judit egy híres sakkozó.</p><p class="en">Judit Polgár is a famous chess player.</p></div>
+      <div class="para"><p class="hu">Ő gyerekként lett nagymester.</p><p class="en">She became a grandmaster as a child.</p></div>
+
+      <h3 class="sub-heading">Miért fontosak a híres magyarok?</h3>
+      <div class="para"><p class="hu">A híres magyarok munkája fontos.</p><p class="en">The work of famous Hungarians is important.</p></div>
+      <div class="para"><p class="hu">Sok iskolát neveztek el róluk.</p><p class="en">Many schools were named after them.</p></div>
+      <div class="para"><p class="hu">A magyarok büszkék rájuk.</p><p class="en">Hungarians are proud of them.</p></div>
+      <div class="para"><p class="hu">Jó ötlet megismerni őket.</p><p class="en">It's a good idea to get to know them.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">tudós</span><span class="en-word">scientist</span></div>
+        <div class="vocab-item"><span class="hu-word">feltaláló</span><span class="en-word">inventor</span></div>
+        <div class="vocab-item"><span class="hu-word">zeneszerző</span><span class="en-word">composer</span></div>
+        <div class="vocab-item"><span class="hu-word">költő</span><span class="en-word">poet</span></div>
+        <div class="vocab-item"><span class="hu-word">sportoló</span><span class="en-word">athlete</span></div>
+        <div class="vocab-item"><span class="hu-word">úszó</span><span class="en-word">swimmer</span></div>
+        <div class="vocab-item"><span class="hu-word">sakkozó</span><span class="en-word">chess player</span></div>
+        <div class="vocab-item"><span class="hu-word">vers</span><span class="en-word">poem</span></div>
+        <div class="vocab-item"><span class="hu-word">olimpiai aranyérem</span><span class="en-word">Olympic gold medal</span></div>
+        <div class="vocab-item"><span class="hu-word">focista</span><span class="en-word">footballer</span></div>
+        <div class="vocab-item"><span class="hu-word">vakcina</span><span class="en-word">vaccine</span></div>
+        <div class="vocab-item"><span class="hu-word">nagymester</span><span class="en-word">grandmaster</span></div>
+        <div class="vocab-item"><span class="hu-word">híres</span><span class="en-word">famous</span></div>
+        <div class="vocab-item"><span class="hu-word">iskola</span><span class="en-word">school</span></div>
+        <div class="vocab-item"><span class="hu-word">büszke</span><span class="en-word">proud</span></div>
+        <div class="vocab-item"><span class="hu-word">játék</span><span class="en-word">game</span></div>
+        <div class="vocab-item"><span class="hu-word">zene</span><span class="en-word">music</span></div>
+        <div class="vocab-item"><span class="hu-word">ma</span><span class="en-word">today</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mit talált fel Bíró László?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> a golyóstollat</label><label><input type="radio" name="qb1"> a Rubik-kockát</label></div></li>
+        <li><div class="q-hu">2. Ki volt Liszt Ferenc?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> zeneszerző</label><label><input type="radio" name="qb2"> focista</label></div></li>
+        <li><div class="q-hu">3. Ki írt verseket 1848-ban?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> Petőfi Sándor</label><label><input type="radio" name="qb3"> Rubik Ernő</label></div></li>
+        <li><div class="q-hu">4. Ki volt Puskás Ferenc?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> focista</label><label><input type="radio" name="qb4"> zeneszerző</label></div></li>
+        <li><div class="q-hu">5. Milyen sportban híres Egerszegi Krisztina?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> úszás</label><label><input type="radio" name="qb5"> sakk</label></div></li>
+        <li><div class="q-hu">6. Mit kapott Karikó Katalin 2023-ban?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> Nobel-díjat</label><label><input type="radio" name="qb6"> olimpiai aranyérmet</label></div></li>
+        <li><div class="q-hu">7. Ki lett gyerekként nagymester?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> Polgár Judit</label><label><input type="radio" name="qb7"> Egerszegi Krisztina</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>a golyóstollat</li><li>zeneszerző</li><li>Petőfi Sándor</li><li>focista</li><li>úszás</li><li>Nobel-díjat</li><li>Polgár Judit</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">Magyarország kis ország, de sok híres embert adott a világnak.</p><p class="en">Hungary is a small country, but it has given many famous people to the world.</p></div>
+      <div class="para"><p class="hu">Tudósok, művészek, írók és sportolók egyaránt öregbítették az ország hírnevét.</p><p class="en">Scientists, artists, writers, and athletes alike have added to the country's reputation.</p></div>
+      <div class="para"><p class="hu">Sok híres magyar neve ma is ismert szerte a világon.</p><p class="en">The names of many famous Hungarians are still known around the world today.</p></div>
+
+      <h3 class="sub-heading">Tudósok és feltalálók</h3>
+      <div class="para"><p class="hu">Neumann János világhírű matematikus volt, a modern számítógépek egyik megalapozója.</p><p class="en">János Neumann was a world-famous mathematician, one of the founders of modern computers.</p></div>
+      <div class="para"><p class="hu">Bíró László feltalálta a golyóstollat, amit ma az egész világon használnak.</p><p class="en">László Bíró invented the ballpoint pen, which is used all over the world today.</p></div>
+      <div class="para"><p class="hu">Rubik Ernő tervezte a Rubik-kockát, ami az egyik legnépszerűbb játék lett.</p><p class="en">Ernő Rubik designed the Rubik's Cube, which became one of the most popular games.</p></div>
+      <div class="para"><p class="hu">Puskás Tivadar mérnök hozzájárult a telefonközpont és a színes távíró fejlesztéséhez.</p><p class="en">Engineer Tivadar Puskás contributed to the development of the telephone exchange and colour telegraphy.</p></div>
+
+      <h3 class="sub-heading">Nobel-díjas magyarok</h3>
+      <div class="para"><p class="hu">Szent-Györgyi Albert fedezte fel a C-vitamint, amiért Nobel-díjat kapott.</p><p class="en">Albert Szent-Györgyi discovered vitamin C, for which he received the Nobel Prize.</p></div>
+      <div class="para"><p class="hu">Wigner Jenő fizikus Nobel-díjat kapott az atommagok szerkezetének kutatásáért.</p><p class="en">Physicist Jenő Wigner received the Nobel Prize for research on the structure of atomic nuclei.</p></div>
+      <div class="para"><p class="hu">Kertész Imre író Nobel-díjat kapott, regényei a holokausztról szólnak.</p><p class="en">Writer Imre Kertész received the Nobel Prize; his novels are about the Holocaust.</p></div>
+
+      <h3 class="sub-heading">Zeneszerzők</h3>
+      <div class="para"><p class="hu">Liszt Ferenc világhírű zeneszerző és zongoraművész volt.</p><p class="en">Ferenc Liszt was a world-famous composer and pianist.</p></div>
+      <div class="para"><p class="hu">Bartók Béla a magyar népzenét gyűjtötte és építette be klasszikus műveibe.</p><p class="en">Béla Bartók collected Hungarian folk music and incorporated it into his classical works.</p></div>
+      <div class="para"><p class="hu">Kodály Zoltán zeneszerző és zenepedagógus, a Kodály-módszer megalkotója.</p><p class="en">Zoltán Kodály was a composer and music educator, creator of the Kodály Method.</p></div>
+
+      <h3 class="sub-heading">Írók és költők</h3>
+      <div class="para"><p class="hu">Petőfi Sándor a legismertebb magyar költő, az 1848-as forradalom jelképe.</p><p class="en">Sándor Petőfi is the best-known Hungarian poet, a symbol of the 1848 revolution.</p></div>
+      <div class="para"><p class="hu">Ady Endre a modern magyar költészet egyik legfontosabb alakja volt.</p><p class="en">Endre Ady was one of the most important figures of modern Hungarian poetry.</p></div>
+      <div class="para"><p class="hu">Molnár Ferenc híres magyar drámaíró, műveit sok nyelvre lefordították.</p><p class="en">Ferenc Molnár was a famous Hungarian playwright; his works have been translated into many languages.</p></div>
+
+      <h3 class="sub-heading">Festők és képzőművészek</h3>
+      <div class="para"><p class="hu">Munkácsy Mihály világhírű magyar festő volt, festményei múzeumokban láthatók.</p><p class="en">Mihály Munkácsy was a world-famous Hungarian painter; his paintings can be seen in museums.</p></div>
+      <div class="para"><p class="hu">Csontváry Kosztka Tivadar különleges stílusú festő volt, ma nagyra becsülik a munkáit.</p><p class="en">Tivadar Csontváry Kosztka was a painter with a unique style; his work is highly regarded today.</p></div>
+
+      <h3 class="sub-heading">Filmesek</h3>
+      <div class="para"><p class="hu">Korda Sándor híres filmrendező volt, Hollywoodban is dolgozott.</p><p class="en">Sándor Korda was a famous film director who also worked in Hollywood.</p></div>
+      <div class="para"><p class="hu">Curtiz Mihály rendezte a Casablanca című klasszikus filmet.</p><p class="en">Mihály Curtiz directed the classic film Casablanca.</p></div>
+
+      <h3 class="sub-heading">Sportolók</h3>
+      <div class="para"><p class="hu">Puskás Ferenc a világ egyik legjobb labdarúgója volt, az Aranycsapat tagja.</p><p class="en">Ferenc Puskás was one of the best footballers in the world, a member of the Golden Team.</p></div>
+      <div class="para"><p class="hu">Egerszegi Krisztina háromszoros olimpiai bajnok úszó.</p><p class="en">Krisztina Egerszegi is a three-time Olympic champion swimmer.</p></div>
+      <div class="para"><p class="hu">A magyar vízilabda csapat sokszor nyert olimpiai aranyérmet.</p><p class="en">The Hungarian water polo team has often won Olympic gold medals.</p></div>
+      <div class="para"><p class="hu">Papp László háromszoros olimpiai bajnok ökölvívó volt.</p><p class="en">László Papp was a three-time Olympic champion boxer.</p></div>
+
+      <h3 class="sub-heading">Modern hírességek</h3>
+      <div class="para"><p class="hu">Polgár Judit a világ egyik legjobb sakkozója, gyerekként lett nagymester.</p><p class="en">Judit Polgár is one of the best chess players in the world; she became a grandmaster as a child.</p></div>
+      <div class="para"><p class="hu">Karikó Katalin biokémikus fontos szerepet játszott az mRNS-vakcinák kifejlesztésében.</p><p class="en">Biochemist Katalin Karikó played an important role in developing mRNA vaccines.</p></div>
+      <div class="para"><p class="hu">Karikó Katalin Nobel-díjat kapott 2023-ban az orvostudomány területén.</p><p class="en">Katalin Karikó received the Nobel Prize in medicine in 2023.</p></div>
+
+      <h3 class="sub-heading">Miért fontosak a híres magyarok?</h3>
+      <div class="para"><p class="hu">A híres magyarok munkája ma is hatással van a tudományra, a művészetre és a sportra.</p><p class="en">The work of famous Hungarians still influences science, art, and sport today.</p></div>
+      <div class="para"><p class="hu">Sok iskolát, utcát és díjat neveztek el róluk.</p><p class="en">Many schools, streets, and awards have been named after them.</p></div>
+      <div class="para"><p class="hu">A magyarok büszkék a híres honfitársaikra.</p><p class="en">Hungarians are proud of their famous compatriots.</p></div>
+      <div class="para"><p class="hu">Ha valaki magyarul tanul, érdemes megismerni ezeket a fontos embereket is.</p><p class="en">If someone is learning Hungarian, it's worth getting to know these important people too.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">tudós</span><span class="en-word">scientist</span></div>
+        <div class="vocab-item"><span class="hu-word">feltaláló</span><span class="en-word">inventor</span></div>
+        <div class="vocab-item"><span class="hu-word">zeneszerző</span><span class="en-word">composer</span></div>
+        <div class="vocab-item"><span class="hu-word">költő</span><span class="en-word">poet</span></div>
+        <div class="vocab-item"><span class="hu-word">író</span><span class="en-word">writer</span></div>
+        <div class="vocab-item"><span class="hu-word">festő</span><span class="en-word">painter</span></div>
+        <div class="vocab-item"><span class="hu-word">sportoló</span><span class="en-word">athlete</span></div>
+        <div class="vocab-item"><span class="hu-word">olimpiai bajnok</span><span class="en-word">Olympic champion</span></div>
+        <div class="vocab-item"><span class="hu-word">Nobel-díj</span><span class="en-word">Nobel Prize</span></div>
+        <div class="vocab-item"><span class="hu-word">felfedezés</span><span class="en-word">discovery</span></div>
+        <div class="vocab-item"><span class="hu-word">matematikus</span><span class="en-word">mathematician</span></div>
+        <div class="vocab-item"><span class="hu-word">orvostudomány</span><span class="en-word">medicine</span></div>
+        <div class="vocab-item"><span class="hu-word">sakk</span><span class="en-word">chess</span></div>
+        <div class="vocab-item"><span class="hu-word">filmrendező</span><span class="en-word">film director</span></div>
+        <div class="vocab-item"><span class="hu-word">híres</span><span class="en-word">famous</span></div>
+        <div class="vocab-item"><span class="hu-word">nagymester</span><span class="en-word">grandmaster</span></div>
+        <div class="vocab-item"><span class="hu-word">vakcina</span><span class="en-word">vaccine</span></div>
+        <div class="vocab-item"><span class="hu-word">hírnév</span><span class="en-word">reputation / fame</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mit talált fel Bíró László?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> a golyóstollat</label><label><input type="radio" name="qa1"> a Rubik-kockát</label><label><input type="radio" name="qa1"> a telefonközpontot</label></div></li>
+        <li><div class="q-hu">2. Ki tervezte a Rubik-kockát?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> Rubik Ernő</label><label><input type="radio" name="qa2"> Neumann János</label><label><input type="radio" name="qa2"> Bíró László</label></div></li>
+        <li><div class="q-hu">3. Miért kapott Nobel-díjat Szent-Györgyi Albert?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> a C-vitamin felfedezéséért</label><label><input type="radio" name="qa3"> a Rubik-kocka megalkotásáért</label><label><input type="radio" name="qa3"> a golyóstoll feltalálásáért</label></div></li>
+        <li><div class="q-hu">4. Ki volt Liszt Ferenc?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> zeneszerző és zongoraművész</label><label><input type="radio" name="qa4"> költő</label><label><input type="radio" name="qa4"> sportoló</label></div></li>
+        <li><div class="q-hu">5. Ki a legismertebb magyar költő?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> Petőfi Sándor</label><label><input type="radio" name="qa5"> Ady Endre</label><label><input type="radio" name="qa5"> Molnár Ferenc</label></div></li>
+        <li><div class="q-hu">6. Melyik sportágban volt kiemelkedő Egerszegi Krisztina?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> úszás</label><label><input type="radio" name="qa6"> sakk</label><label><input type="radio" name="qa6"> labdarúgás</label></div></li>
+        <li><div class="q-hu">7. Miért ismert Karikó Katalin?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> az mRNS-vakcinák kutatásáért</label><label><input type="radio" name="qa7"> a Rubik-kocka megalkotásáért</label><label><input type="radio" name="qa7"> a C-vitamin felfedezéséért</label></div></li>
+        <li><div class="q-hu">8. Ki rendezte a Casablanca című filmet?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> Curtiz Mihály</label><label><input type="radio" name="qa8"> Korda Sándor</label><label><input type="radio" name="qa8"> Kertész Imre</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>a golyóstollat</li><li>Rubik Ernő</li><li>a C-vitamin felfedezéséért</li><li>zeneszerző és zongoraművész</li><li>Petőfi Sándor</li><li>úszás</li><li>az mRNS-vakcinák kutatásáért</li><li>Curtiz Mihály</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>

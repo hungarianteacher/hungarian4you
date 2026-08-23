@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Rubik-kocka — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / A Rubik-kocka
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">A Rubik-kocka</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">A Rubik-kocka</h3>
+      <div class="para"><p class="hu">Ez a Rubik-kocka.</p><p class="en">This is the Rubik's Cube.</p></div>
+      <div class="para"><p class="hu">A Rubik-kocka egy híres játék.</p><p class="en">The Rubik's Cube is a famous game.</p></div>
+      <div class="para"><p class="hu">Rubik Ernő tervezte a kockát.</p><p class="en">Ernő Rubik designed the cube.</p></div>
+
+      <h3 class="sub-heading">Rubik Ernő</h3>
+      <div class="para"><p class="hu">Ő magyar volt.</p><p class="en">He was Hungarian.</p></div>
+      <div class="para"><p class="hu">Tanár és építész volt.</p><p class="en">He was a teacher and an architect.</p></div>
+      <div class="para"><p class="hu">1974-ben tervezte a kockát.</p><p class="en">He designed the cube in 1974.</p></div>
+
+      <h3 class="sub-heading">Színek</h3>
+      <div class="para"><p class="hu">A kockának hat színe van.</p><p class="en">The cube has six colours.</p></div>
+      <div class="para"><p class="hu">Minden oldal más színű.</p><p class="en">Every side is a different colour.</p></div>
+      <div class="para"><p class="hu">A cél az, hogy minden oldal egyszínű legyen.</p><p class="en">The goal is for every side to be one colour.</p></div>
+
+      <h3 class="sub-heading">Játék</h3>
+      <div class="para"><p class="hu">Az emberek forgatják a kockát.</p><p class="en">People turn the cube.</p></div>
+      <div class="para"><p class="hu">Ez nem könnyű játék.</p><p class="en">This is not an easy game.</p></div>
+      <div class="para"><p class="hu">Sok ember szereti ezt a kirakós játékot.</p><p class="en">Many people love this puzzle game.</p></div>
+
+      <h3 class="sub-heading">Verseny</h3>
+      <div class="para"><p class="hu">Vannak versenyek a Rubik-kockával.</p><p class="en">There are competitions with the Rubik's Cube.</p></div>
+      <div class="para"><p class="hu">Ezt speedcubingnak hívják.</p><p class="en">This is called speedcubing.</p></div>
+      <div class="para"><p class="hu">A versenyzők nagyon gyorsan kirakják a kockát.</p><p class="en">The competitors solve the cube very fast.</p></div>
+      <div class="para"><p class="hu">Néhány másodperc alatt is meg tudják csinálni.</p><p class="en">They can do it in just a few seconds.</p></div>
+
+      <h3 class="sub-heading">A kocka a világban</h3>
+      <div class="para"><p class="hu">A Rubik-kocka az egész világon népszerű.</p><p class="en">The Rubik's Cube is popular all over the world.</p></div>
+      <div class="para"><p class="hu">Sok millió kockát adtak el.</p><p class="en">Many millions of cubes have been sold.</p></div>
+      <div class="para"><p class="hu">Filmekben is gyakran látható.</p><p class="en">It can often be seen in films too.</p></div>
+
+      <h3 class="sub-heading">Miért jó a Rubik-kocka?</h3>
+      <div class="para"><p class="hu">A Rubik-kocka fejleszti a gondolkodást.</p><p class="en">The Rubik's Cube develops thinking skills.</p></div>
+      <div class="para"><p class="hu">Türelmet is tanít.</p><p class="en">It also teaches patience.</p></div>
+      <div class="para"><p class="hu">Gyerekek és felnőttek is szeretik.</p><p class="en">Both children and adults love it.</p></div>
+      <div class="para"><p class="hu">Ez egy híres magyar találmány.</p><p class="en">This is a famous Hungarian invention.</p></div>
+      <div class="para"><p class="hu">Jó ötlet kipróbálni a Rubik-kockát.</p><p class="en">It's a good idea to try the Rubik's Cube.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">kocka</span><span class="en-word">cube</span></div>
+        <div class="vocab-item"><span class="hu-word">szín</span><span class="en-word">colour</span></div>
+        <div class="vocab-item"><span class="hu-word">oldal</span><span class="en-word">side</span></div>
+        <div class="vocab-item"><span class="hu-word">játék</span><span class="en-word">game</span></div>
+        <div class="vocab-item"><span class="hu-word">verseny</span><span class="en-word">competition</span></div>
+        <div class="vocab-item"><span class="hu-word">gyors</span><span class="en-word">fast</span></div>
+        <div class="vocab-item"><span class="hu-word">találmány</span><span class="en-word">invention</span></div>
+        <div class="vocab-item"><span class="hu-word">feltaláló</span><span class="en-word">inventor</span></div>
+        <div class="vocab-item"><span class="hu-word">gondolkodás</span><span class="en-word">thinking</span></div>
+        <div class="vocab-item"><span class="hu-word">türelem</span><span class="en-word">patience</span></div>
+        <div class="vocab-item"><span class="hu-word">forgatás</span><span class="en-word">turning</span></div>
+        <div class="vocab-item"><span class="hu-word">világ</span><span class="en-word">world</span></div>
+        <div class="vocab-item"><span class="hu-word">film</span><span class="en-word">film</span></div>
+        <div class="vocab-item"><span class="hu-word">gyerek</span><span class="en-word">child</span></div>
+        <div class="vocab-item"><span class="hu-word">felnőtt</span><span class="en-word">adult</span></div>
+        <div class="vocab-item"><span class="hu-word">nehéz</span><span class="en-word">difficult</span></div>
+        <div class="vocab-item"><span class="hu-word">tanár</span><span class="en-word">teacher</span></div>
+        <div class="vocab-item"><span class="hu-word">híres</span><span class="en-word">famous</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Ki tervezte a Rubik-kockát?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> Rubik Ernő</label><label><input type="radio" name="qb1"> Bíró László</label></div></li>
+        <li><div class="q-hu">2. Milyen nemzetiségű volt Rubik Ernő?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> magyar</label><label><input type="radio" name="qb2"> német</label></div></li>
+        <li><div class="q-hu">3. Hány színe van a kockának?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> hat</label><label><input type="radio" name="qb3"> három</label></div></li>
+        <li><div class="q-hu">4. Mit csinálnak a versenyzők?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> gyorsan kirakják a kockát</label><label><input type="radio" name="qb4"> éneket tanulnak</label></div></li>
+        <li><div class="q-hu">5. Hogy hívják ezt a sportot?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> speedcubing</label><label><input type="radio" name="qb5"> úszás</label></div></li>
+        <li><div class="q-hu">6. Mit fejleszt a kocka?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> a gondolkodást</label><label><input type="radio" name="qb6"> a főzést</label></div></li>
+        <li><div class="q-hu">7. Mi a Rubik-kocka?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> egy híres magyar találmány</label><label><input type="radio" name="qb7"> egy étel</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>Rubik Ernő</li><li>magyar</li><li>hat</li><li>gyorsan kirakják a kockát</li><li>speedcubing</li><li>a gondolkodást</li><li>egy híres magyar találmány</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">A Rubik-kocka az egyik legismertebb játék a világon.</p><p class="en">The Rubik's Cube is one of the best-known games in the world.</p></div>
+      <div class="para"><p class="hu">Egy magyar feltaláló, Rubik Ernő tervezte 1974-ben.</p><p class="en">It was designed in 1974 by a Hungarian inventor, Ernő Rubik.</p></div>
+      <div class="para"><p class="hu">Azóta több mint négyszázmillió kockát adtak el szerte a világon.</p><p class="en">Since then more than four hundred million cubes have been sold worldwide.</p></div>
+
+      <h3 class="sub-heading">Rubik Ernő</h3>
+      <div class="para"><p class="hu">Rubik Ernő építész és tanár volt Budapesten.</p><p class="en">Ernő Rubik was an architect and teacher in Budapest.</p></div>
+      <div class="para"><p class="hu">Eredetileg egy oktatási eszközt akart készíteni a diákjainak.</p><p class="en">He originally wanted to create a teaching aid for his students.</p></div>
+      <div class="para"><p class="hu">Azt szerette volna megmutatni, hogyan mozognak a térbeli formák egymáshoz képest.</p><p class="en">He wanted to show how three-dimensional shapes move in relation to one another.</p></div>
+
+      <h3 class="sub-heading">A kocka felépítése</h3>
+      <div class="para"><p class="hu">A klasszikus Rubik-kocka huszonhat kisebb kockából áll.</p><p class="en">The classic Rubik's Cube consists of twenty-six smaller cubes.</p></div>
+      <div class="para"><p class="hu">Minden oldalán kilenc négyzet található, összesen hat különböző szín.</p><p class="en">Each side has nine squares, with six different colours in total.</p></div>
+      <div class="para"><p class="hu">A kocka belső szerkezete teszi lehetővé, hogy a rétegek elforduljanak anélkül, hogy szétesne.</p><p class="en">The cube's internal mechanism allows the layers to turn without it falling apart.</p></div>
+
+      <h3 class="sub-heading">Hogyan működik</h3>
+      <div class="para"><p class="hu">A cél az, hogy minden oldal egyszínű legyen a kockán.</p><p class="en">The goal is for every side of the cube to be a single colour.</p></div>
+      <div class="para"><p class="hu">A kocka elforgatásával a színek összekeverednek, majd vissza is rendezhetők.</p><p class="en">By turning the cube, the colours get mixed up, and they can also be put back in order.</p></div>
+      <div class="para"><p class="hu">Matematikailag rendkívül sok, több mint négyszáztrillió lehetséges állás létezik.</p><p class="en">Mathematically there are an enormous number of possible positions, more than four hundred quintillion.</p></div>
+
+      <h3 class="sub-heading">Történet és sikertörténet</h3>
+      <div class="para"><p class="hu">Rubik Ernő 1975-ben szabadalmaztatta a találmányát Magyarországon.</p><p class="en">Ernő Rubik patented his invention in Hungary in 1975.</p></div>
+      <div class="para"><p class="hu">A játék eleinte csak Magyarországon volt kapható, "Bűvös kockának" hívták.</p><p class="en">At first the game was only available in Hungary, where it was called the "Magic Cube".</p></div>
+      <div class="para"><p class="hu">1980-ban a kocka elindult a nemzetközi piacra, és hamar világszerte népszerű lett.</p><p class="en">In 1980 the cube entered the international market and quickly became popular worldwide.</p></div>
+      <div class="para"><p class="hu">A nyolcvanas évek elején a Rubik-kocka az egyik legkeresettebb játék volt a boltokban.</p><p class="en">In the early 1980s the Rubik's Cube was one of the most sought-after toys in shops.</p></div>
+
+      <h3 class="sub-heading">Versenyek (speedcubing)</h3>
+      <div class="para"><p class="hu">Ma sokan versenyeznek abban, hogy ki tudja leggyorsabban kirakni a kockát.</p><p class="en">Today many people compete to see who can solve the cube the fastest.</p></div>
+      <div class="para"><p class="hu">Ezt a sportot speedcubingnak, azaz gyorskirakásnak hívják.</p><p class="en">This sport is called speedcubing.</p></div>
+      <div class="para"><p class="hu">A versenyzők különleges technikákkal és algoritmusokkal dolgoznak.</p><p class="en">Competitors work with special techniques and algorithms.</p></div>
+      <div class="para"><p class="hu">Sok versenyző néhány másodperc alatt ki tudja rakni a kockát.</p><p class="en">Many competitors can solve the cube in just a few seconds.</p></div>
+
+      <h3 class="sub-heading">Világrekordok</h3>
+      <div class="para"><p class="hu">A jelenlegi világrekordot néhány másodperc alatt érték el.</p><p class="en">The current world record was achieved in just a few seconds.</p></div>
+      <div class="para"><p class="hu">Vannak versenyek, ahol bekötött szemmel vagy egy kézzel rakják ki a kockát.</p><p class="en">There are competitions where the cube is solved blindfolded or with one hand.</p></div>
+      <div class="para"><p class="hu">Léteznek nagyobb és kisebb változatai is a Rubik-kockának.</p><p class="en">There are also larger and smaller versions of the Rubik's Cube.</p></div>
+
+      <h3 class="sub-heading">Kulturális hatás</h3>
+      <div class="para"><p class="hu">A Rubik-kocka a nyolcvanas évek egyik szimbóluma lett.</p><p class="en">The Rubik's Cube became one of the symbols of the 1980s.</p></div>
+      <div class="para"><p class="hu">Filmekben, reklámokban és művészeti alkotásokban is gyakran megjelenik.</p><p class="en">It often appears in films, advertisements, and works of art.</p></div>
+      <div class="para"><p class="hu">Sok múzeumban és kiállításon bemutatják a kocka történetét.</p><p class="en">The history of the cube is presented in many museums and exhibitions.</p></div>
+
+      <h3 class="sub-heading">Miért népszerű ma is?</h3>
+      <div class="para"><p class="hu">A Rubik-kocka fejleszti a logikai gondolkodást és a türelmet.</p><p class="en">The Rubik's Cube develops logical thinking and patience.</p></div>
+      <div class="para"><p class="hu">Sok iskolában használják oktatási eszközként is.</p><p class="en">It is also used as a teaching tool in many schools.</p></div>
+      <div class="para"><p class="hu">A kocka egyszerre nehéz és szórakoztató, ezért generációk óta népszerű.</p><p class="en">The cube is both difficult and fun, which is why it has been popular for generations.</p></div>
+      <div class="para"><p class="hu">Rubik Ernő ma is aktívan foglalkozik játékok és rejtvények tervezésével.</p><p class="en">Ernő Rubik is still actively involved in designing games and puzzles today.</p></div>
+      <div class="para"><p class="hu">Ha valaki magyarul tanul, érdemes megismerni ezt a világhírű magyar találmányt.</p><p class="en">If someone is learning Hungarian, it's worth getting to know this world-famous Hungarian invention.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">kocka</span><span class="en-word">cube</span></div>
+        <div class="vocab-item"><span class="hu-word">feltaláló</span><span class="en-word">inventor</span></div>
+        <div class="vocab-item"><span class="hu-word">szín</span><span class="en-word">colour</span></div>
+        <div class="vocab-item"><span class="hu-word">oldal</span><span class="en-word">side</span></div>
+        <div class="vocab-item"><span class="hu-word">forgatás</span><span class="en-word">turning</span></div>
+        <div class="vocab-item"><span class="hu-word">algoritmus</span><span class="en-word">algorithm</span></div>
+        <div class="vocab-item"><span class="hu-word">verseny</span><span class="en-word">competition</span></div>
+        <div class="vocab-item"><span class="hu-word">világrekord</span><span class="en-word">world record</span></div>
+        <div class="vocab-item"><span class="hu-word">sebesség</span><span class="en-word">speed</span></div>
+        <div class="vocab-item"><span class="hu-word">szerkezet</span><span class="en-word">mechanism</span></div>
+        <div class="vocab-item"><span class="hu-word">találmány</span><span class="en-word">invention</span></div>
+        <div class="vocab-item"><span class="hu-word">szabadalom</span><span class="en-word">patent</span></div>
+        <div class="vocab-item"><span class="hu-word">rejtvény</span><span class="en-word">puzzle</span></div>
+        <div class="vocab-item"><span class="hu-word">logika</span><span class="en-word">logic</span></div>
+        <div class="vocab-item"><span class="hu-word">türelem</span><span class="en-word">patience</span></div>
+        <div class="vocab-item"><span class="hu-word">lehetőség</span><span class="en-word">possibility</span></div>
+        <div class="vocab-item"><span class="hu-word">generáció</span><span class="en-word">generation</span></div>
+        <div class="vocab-item"><span class="hu-word">játék</span><span class="en-word">game</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Ki tervezte a Rubik-kockát?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> Rubik Ernő</label><label><input type="radio" name="qa1"> Neumann János</label><label><input type="radio" name="qa1"> Bíró László</label></div></li>
+        <li><div class="q-hu">2. Mikor tervezte Rubik Ernő a kockát?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> 1974-ben</label><label><input type="radio" name="qa2"> 1848-ban</label><label><input type="radio" name="qa2"> 1989-ben</label></div></li>
+        <li><div class="q-hu">3. Mi volt Rubik Ernő eredeti szakmája?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> építész és tanár</label><label><input type="radio" name="qa3"> orvos</label><label><input type="radio" name="qa3"> zeneszerző</label></div></li>
+        <li><div class="q-hu">4. Hány kisebb kockából áll a klasszikus Rubik-kocka?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> huszonhat</label><label><input type="radio" name="qa4"> tíz</label><label><input type="radio" name="qa4"> száz</label></div></li>
+        <li><div class="q-hu">5. Mi a cél a kockával?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> hogy minden oldal egyszínű legyen</label><label><input type="radio" name="qa5"> hogy szétessen</label><label><input type="radio" name="qa5"> hogy nehezebb legyen</label></div></li>
+        <li><div class="q-hu">6. Hogyan hívják azt a sportot, ahol gyorsan kirakják a kockát?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> speedcubing</label><label><input type="radio" name="qa6"> sakk</label><label><input type="radio" name="qa6"> vívás</label></div></li>
+        <li><div class="q-hu">7. Mikor indult el a kocka a nemzetközi piacra?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> 1980-ban</label><label><input type="radio" name="qa7"> 1974-ben</label><label><input type="radio" name="qa7"> 2004-ben</label></div></li>
+        <li><div class="q-hu">8. Mit fejleszt a Rubik-kocka?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> a logikai gondolkodást és a türelmet</label><label><input type="radio" name="qa8"> az úszást</label><label><input type="radio" name="qa8"> a zenei tehetséget</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>Rubik Ernő</li><li>1974-ben</li><li>építész és tanár</li><li>huszonhat</li><li>hogy minden oldal egyszínű legyen</li><li>speedcubing</li><li>1980-ban</li><li>a logikai gondolkodást és a türelmet</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
