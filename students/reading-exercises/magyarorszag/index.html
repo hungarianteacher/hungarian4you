@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magyarország — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- vezérlősáv: szint + fordítás ---------- */
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  /* ---------- kártyák ---------- */
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / Magyarország
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">Magyarország</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Magyarország</h3>
+      <div class="para"><p class="hu">Ez Magyarország.</p><p class="en">This is Hungary.</p></div>
+      <div class="para"><p class="hu">Magyarország egy ország. Európában van.</p><p class="en">Hungary is a country. It is in Europe.</p></div>
+      <div class="para"><p class="hu">Budapest a főváros.</p><p class="en">Budapest is the capital.</p></div>
+      <div class="para"><p class="hu">Az emberek magyarul beszélnek.</p><p class="en">The people speak Hungarian.</p></div>
+      <div class="para"><p class="hu">A pénz neve forint.</p><p class="en">The name of the money is forint.</p></div>
+
+      <h3 class="sub-heading">Budapest</h3>
+      <div class="para"><p class="hu">Budapest egy nagy város.</p><p class="en">Budapest is a big city.</p></div>
+      <div class="para"><p class="hu">A Duna egy folyó. A Duna Budapesten van.</p><p class="en">The Danube is a river. The Danube is in Budapest.</p></div>
+      <div class="para"><p class="hu">Vannak hidak a Dunán.</p><p class="en">There are bridges over the Danube.</p></div>
+      <div class="para"><p class="hu">A Parlament egy szép épület.</p><p class="en">The Parliament is a beautiful building.</p></div>
+
+      <h3 class="sub-heading">Az időjárás</h3>
+      <div class="para"><p class="hu">Nyáron meleg van.</p><p class="en">In summer it is warm.</p></div>
+      <div class="para"><p class="hu">Télen hideg van. Néha havazik.</p><p class="en">In winter it is cold. Sometimes it snows.</p></div>
+
+      <h3 class="sub-heading">A Balaton</h3>
+      <div class="para"><p class="hu">A Balaton egy nagy tó.</p><p class="en">Lake Balaton is a big lake.</p></div>
+      <div class="para"><p class="hu">Nyáron az emberek úsznak a Balatonban.</p><p class="en">In summer people swim in Lake Balaton.</p></div>
+      <div class="para"><p class="hu">A gyerekek szeretnek ott játszani.</p><p class="en">Children like to play there.</p></div>
+
+      <h3 class="sub-heading">Magyar étel</h3>
+      <div class="para"><p class="hu">A gulyásleves egy magyar étel.</p><p class="en">Goulash soup is a Hungarian dish.</p></div>
+      <div class="para"><p class="hu">A magyarok szeretik a paprikát.</p><p class="en">Hungarians like paprika.</p></div>
+      <div class="para"><p class="hu">A lecsó paradicsomból és paprikából van.</p><p class="en">Lecsó is made from tomatoes and peppers.</p></div>
+
+      <h3 class="sub-heading">Ünnepek</h3>
+      <div class="para"><p class="hu">Augusztus 20. egy magyar ünnep.</p><p class="en">August 20th is a Hungarian holiday.</p></div>
+      <div class="para"><p class="hu">Este tűzijáték van Budapesten.</p><p class="en">In the evening there are fireworks in Budapest.</p></div>
+      <div class="para"><p class="hu">Karácsonykor a család együtt vacsorázik.</p><p class="en">At Christmas the family has dinner together.</p></div>
+
+      <h3 class="sub-heading">Sport</h3>
+      <div class="para"><p class="hu">A magyarok szeretik a sportot.</p><p class="en">Hungarians like sport.</p></div>
+      <div class="para"><p class="hu">A vízilabda nagyon népszerű.</p><p class="en">Water polo is very popular.</p></div>
+      <div class="para"><p class="hu">Sok gyerek focizik a barátaival.</p><p class="en">Many children play football with their friends.</p></div>
+
+      <h3 class="sub-heading">Miért jó Magyarországra utazni?</h3>
+      <div class="para"><p class="hu">Magyarország egy szép ország.</p><p class="en">Hungary is a beautiful country.</p></div>
+      <div class="para"><p class="hu">Az étel finom, és az emberek kedvesek.</p><p class="en">The food is tasty, and the people are kind.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">ország</span><span class="en-word">country</span></div>
+        <div class="vocab-item"><span class="hu-word">főváros</span><span class="en-word">capital city</span></div>
+        <div class="vocab-item"><span class="hu-word">város</span><span class="en-word">city</span></div>
+        <div class="vocab-item"><span class="hu-word">folyó</span><span class="en-word">river</span></div>
+        <div class="vocab-item"><span class="hu-word">tó</span><span class="en-word">lake</span></div>
+        <div class="vocab-item"><span class="hu-word">híd</span><span class="en-word">bridge</span></div>
+        <div class="vocab-item"><span class="hu-word">épület</span><span class="en-word">building</span></div>
+        <div class="vocab-item"><span class="hu-word">étel</span><span class="en-word">food / dish</span></div>
+        <div class="vocab-item"><span class="hu-word">pénz</span><span class="en-word">money</span></div>
+        <div class="vocab-item"><span class="hu-word">nyár</span><span class="en-word">summer</span></div>
+        <div class="vocab-item"><span class="hu-word">tél</span><span class="en-word">winter</span></div>
+        <div class="vocab-item"><span class="hu-word">meleg</span><span class="en-word">warm</span></div>
+        <div class="vocab-item"><span class="hu-word">hideg</span><span class="en-word">cold</span></div>
+        <div class="vocab-item"><span class="hu-word">gyerek</span><span class="en-word">child</span></div>
+        <div class="vocab-item"><span class="hu-word">család</span><span class="en-word">family</span></div>
+        <div class="vocab-item"><span class="hu-word">ünnep</span><span class="en-word">holiday</span></div>
+        <div class="vocab-item"><span class="hu-word">sport</span><span class="en-word">sport</span></div>
+        <div class="vocab-item"><span class="hu-word">szép</span><span class="en-word">beautiful</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mi Magyarország fővárosa?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> Budapest</label><label><input type="radio" name="qb1"> Bécs</label></div></li>
+        <li><div class="q-hu">2. Milyen nyelven beszélnek Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> németül</label><label><input type="radio" name="qb2"> magyarul</label></div></li>
+        <li><div class="q-hu">3. Mi a pénz neve Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> forint</label><label><input type="radio" name="qb3"> euró</label></div></li>
+        <li><div class="q-hu">4. Milyen a nyár Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> hideg</label><label><input type="radio" name="qb4"> meleg</label></div></li>
+        <li><div class="q-hu">5. Mi a Balaton?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> egy tó</label><label><input type="radio" name="qb5"> egy folyó</label></div></li>
+        <li><div class="q-hu">6. Miből van a lecsó?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> paradicsomból és paprikából</label><label><input type="radio" name="qb6"> húsból és rizsből</label></div></li>
+        <li><div class="q-hu">7. Melyik sport népszerű Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> vízilabda</label><label><input type="radio" name="qb7"> jégkorong</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>Budapest</li><li>magyarul</li><li>forint</li><li>meleg</li><li>egy tó</li><li>paradicsomból és paprikából</li><li>vízilabda</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">Magyarország egy közép-európai ország. A fővárosa Budapest.</p><p class="en">Hungary is a Central European country. Its capital is Budapest.</p></div>
+      <div class="para"><p class="hu">Magyarországon körülbelül kilencmillió ember él. A hivatalos nyelv a magyar.</p><p class="en">About nine million people live in Hungary. The official language is Hungarian.</p></div>
+      <div class="para"><p class="hu">A magyar nyelv nagyon különleges. Nem hasonlít az angolra vagy a németre.</p><p class="en">The Hungarian language is very special. It doesn't resemble English or German.</p></div>
+      <div class="para"><p class="hu">Magyarország tagja az Európai Uniónak. A pénznem a forint, nem az euró.</p><p class="en">Hungary is a member of the European Union. The currency is the forint, not the euro.</p></div>
+      <div class="para"><p class="hu">Magyarországnak nincs tengere. Az ország szomszédai: Ausztria, Szlovákia, Ukrajna, Románia, Szerbia, Horvátország és Szlovénia.</p><p class="en">Hungary has no sea. The country's neighbours are Austria, Slovakia, Ukraine, Romania, Serbia, Croatia, and Slovenia.</p></div>
+
+      <h3 class="sub-heading">Elhelyezkedés és éghajlat</h3>
+      <div class="para"><p class="hu">Magyarország egy nagy síkságon fekszik. A táj nagy része lapos, de vannak dombok és hegyek is.</p><p class="en">Hungary lies on a large plain. Most of the landscape is flat, but there are also hills and mountains.</p></div>
+      <div class="para"><p class="hu">A négy évszak nagyon különböző. A nyár meleg és napos, a tél hideg, gyakran havazik.</p><p class="en">The four seasons are very different. Summer is warm and sunny, winter is cold and it often snows.</p></div>
+      <div class="para"><p class="hu">Ősszel szép színesek az erdők, tavasszal pedig sok virág nyílik a parkokban.</p><p class="en">In autumn the forests are beautifully colourful, and in spring many flowers bloom in the parks.</p></div>
+
+      <h3 class="sub-heading">Budapest, a főváros</h3>
+      <div class="para"><p class="hu">Budapest Magyarország legnagyobb és legszebb városa. Körülbelül kétmillió ember él ott.</p><p class="en">Budapest is Hungary's largest and most beautiful city. About two million people live there.</p></div>
+      <div class="para"><p class="hu">A Duna a leghosszabb folyó Magyarországon. A Duna keresztülfolyik Budapesten, és két részre osztja a várost: Budára és Pestre.</p><p class="en">The Danube is the longest river in Hungary. The Danube flows through Budapest and divides the city into two parts: Buda and Pest.</p></div>
+      <div class="para"><p class="hu">Buda dombos és zöld, Pest inkább lapos és modern. A két oldalt hidak kötik össze.</p><p class="en">Buda is hilly and green, while Pest is flatter and more modern. Bridges connect the two sides.</p></div>
+      <div class="para"><p class="hu">A Parlament épülete a Duna partján áll. Este gyönyörűen kivilágítják.</p><p class="en">The Parliament building stands on the bank of the Danube. In the evening it is beautifully lit up.</p></div>
+      <div class="para"><p class="hu">A Budai Vár és a Halászbástya híres turistalátványosságok. Innen szép kilátás nyílik a városra.</p><p class="en">Buda Castle and the Fisherman's Bastion are famous tourist attractions. From there you have a beautiful view of the city.</p></div>
+
+      <h3 class="sub-heading">Más nagy városok</h3>
+      <div class="para"><p class="hu">Budapesten kívül más városok is fontosak. Debrecen a második legnagyobb város, Kelet-Magyarországon van.</p><p class="en">Besides Budapest, other cities are important too. Debrecen is the second largest city, located in Eastern Hungary.</p></div>
+      <div class="para"><p class="hu">Szeged egy napos, szép város a Tisza folyó mellett. A szegedi diákok nagyon szeretik a városukat.</p><p class="en">Szeged is a sunny, beautiful city by the Tisza river. Students in Szeged really love their city.</p></div>
+      <div class="para"><p class="hu">Pécs a déli részen van. A régi épületei és a barátságos hangulata miatt sok turista látogatja.</p><p class="en">Pécs is in the southern part of the country. Many tourists visit it because of its old buildings and friendly atmosphere.</p></div>
+      <div class="para"><p class="hu">Győr egy kisebb, de nagyon szép város Nyugat-Magyarországon, közel Ausztriához.</p><p class="en">Győr is a smaller but very beautiful city in Western Hungary, close to Austria.</p></div>
+
+      <h3 class="sub-heading">A Balaton és a természet</h3>
+      <div class="para"><p class="hu">A Balaton egy nagy tó Magyarországon. Ez a legnagyobb tó Közép-Európában.</p><p class="en">Lake Balaton is a large lake in Hungary. It is the largest lake in Central Europe.</p></div>
+      <div class="para"><p class="hu">Nyáron sok turista jár a Balatonhoz. Az emberek úsznak, napoznak, és a strandokon pihennek.</p><p class="en">In summer many tourists visit Lake Balaton. People swim, sunbathe, and relax on the beaches.</p></div>
+      <div class="para"><p class="hu">A Balaton víze nyáron elég meleg. A gyerekek nagyon szeretnek ott játszani.</p><p class="en">In summer the water of Lake Balaton is quite warm. Children really love to play there.</p></div>
+      <div class="para"><p class="hu">Magyarországon sok nemzeti park is van. Az egyik leghíresebb a Hortobágy, ahol vadlovak és madarak élnek.</p><p class="en">Hungary also has many national parks. One of the most famous is Hortobágy, where wild horses and birds live.</p></div>
+
+      <h3 class="sub-heading">Termálfürdők</h3>
+      <div class="para"><p class="hu">Magyarországon sok termálfürdő van. A magyarok szeretnek fürdőzni, mert a víz jó a testnek.</p><p class="en">There are many thermal baths in Hungary. Hungarians like to bathe because the water is good for the body.</p></div>
+      <div class="para"><p class="hu">A Széchenyi fürdő Budapesten az egyik legnagyobb és legszebb fürdő Európában.</p><p class="en">The Széchenyi Bath in Budapest is one of the largest and most beautiful baths in Europe.</p></div>
+      <div class="para"><p class="hu">Sok idős ember rendszeresen jár fürdőbe. Ott sakkoznak, beszélgetnek, és pihennek a meleg vízben.</p><p class="en">Many elderly people go to the baths regularly. There they play chess, chat, and relax in the warm water.</p></div>
+
+      <h3 class="sub-heading">Magyar konyha</h3>
+      <div class="para"><p class="hu">A magyar konyha nagyon finom. A gulyásleves és a paprikás csirke híres magyar ételek.</p><p class="en">Hungarian cuisine is very tasty. Goulash soup and paprika chicken are famous Hungarian dishes.</p></div>
+      <div class="para"><p class="hu">A magyarok sokszor használnak paprikát az ételekben. A piros paprika Magyarország egyik szimbóluma.</p><p class="en">Hungarians often use paprika in their dishes. Red paprika is one of the symbols of Hungary.</p></div>
+      <div class="para"><p class="hu">A lecsó egy egyszerű, nyári étel paradicsomból és paprikából. Sok családban ez a kedvenc.</p><p class="en">Lecsó is a simple summer dish made from tomatoes and peppers. It's the favourite in many families.</p></div>
+      <div class="para"><p class="hu">Desszertnek a magyarok szeretik a Dobos tortát és a somlói galuskát. Mindkettő nagyon édes.</p><p class="en">For dessert, Hungarians like Dobos torte and Somló-style sponge dessert. Both are very sweet.</p></div>
+      <div class="para"><p class="hu">A pálinka egy erős magyar szeszes ital, gyümölcsből készül. Ünnepeken gyakran isznak pálinkát.</p><p class="en">Pálinka is a strong Hungarian spirit made from fruit. People often drink pálinka at celebrations.</p></div>
+
+      <h3 class="sub-heading">Ünnepek és hagyományok</h3>
+      <div class="para"><p class="hu">Március 15. fontos nemzeti ünnep Magyarországon. Ezen a napon emlékeznek az 1848-as forradalomra.</p><p class="en">March 15th is an important national holiday in Hungary. On this day people remember the 1848 revolution.</p></div>
+      <div class="para"><p class="hu">Augusztus 20. Magyarország államalapításának ünnepe. Este gyönyörű tűzijáték van Budapesten.</p><p class="en">August 20th is the celebration of the founding of the Hungarian state. In the evening there is a beautiful fireworks display in Budapest.</p></div>
+      <div class="para"><p class="hu">Karácsonykor a magyar családok feldíszítik a fát, és finom vacsorát esznek együtt.</p><p class="en">At Christmas, Hungarian families decorate the tree and eat a delicious dinner together.</p></div>
+
+      <h3 class="sub-heading">Híres magyarok</h3>
+      <div class="para"><p class="hu">Sok híres tudós és feltaláló magyar volt. Ők fontos dolgokat találtak fel, amiket ma is használunk.</p><p class="en">Many famous scientists and inventors were Hungarian. They invented important things that we still use today.</p></div>
+      <div class="para"><p class="hu">Liszt Ferenc egy híres magyar zeneszerző volt. A zenéje ma is nagyon népszerű az egész világon.</p><p class="en">Ferenc Liszt was a famous Hungarian composer. His music is still very popular all over the world today.</p></div>
+
+      <h3 class="sub-heading">Sport</h3>
+      <div class="para"><p class="hu">A magyarok szeretik a sportot. A vízilabda és az úszás nagyon népszerű Magyarországon.</p><p class="en">Hungarians love sport. Water polo and swimming are very popular in Hungary.</p></div>
+      <div class="para"><p class="hu">A magyar vízilabda csapat sokszor nyert olimpiai aranyérmet. Az emberek büszkék a csapatra.</p><p class="en">The Hungarian water polo team has often won Olympic gold medals. People are proud of the team.</p></div>
+      <div class="para"><p class="hu">A futball is nagyon népszerű Magyarországon. Sok gyerek focizik a suli után a barátaival.</p><p class="en">Football is also very popular in Hungary. Many children play football with their friends after school.</p></div>
+
+      <h3 class="sub-heading">Miért érdemes Magyarországra utazni?</h3>
+      <div class="para"><p class="hu">Magyarország szép ország, sok látnivalóval. A régi épületek, a finom ételek és a barátságos emberek miatt sokan visszatérnek.</p><p class="en">Hungary is a beautiful country with a lot to see. Because of the old buildings, tasty food, and friendly people, many visitors return.</p></div>
+      <div class="para"><p class="hu">Ha valaki magyarul tanul, jó ötlet ellátogatni Magyarországra, és gyakorolni a nyelvet a magyarokkal.</p><p class="en">If someone is learning Hungarian, it's a good idea to visit Hungary and practise the language with Hungarians.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">ország</span><span class="en-word">country</span></div>
+        <div class="vocab-item"><span class="hu-word">főváros</span><span class="en-word">capital city</span></div>
+        <div class="vocab-item"><span class="hu-word">folyó</span><span class="en-word">river</span></div>
+        <div class="vocab-item"><span class="hu-word">tó</span><span class="en-word">lake</span></div>
+        <div class="vocab-item"><span class="hu-word">termálfürdő</span><span class="en-word">thermal bath</span></div>
+        <div class="vocab-item"><span class="hu-word">étel</span><span class="en-word">food / dish</span></div>
+        <div class="vocab-item"><span class="hu-word">turista</span><span class="en-word">tourist</span></div>
+        <div class="vocab-item"><span class="hu-word">pénznem</span><span class="en-word">currency</span></div>
+        <div class="vocab-item"><span class="hu-word">szomszéd</span><span class="en-word">neighbour</span></div>
+        <div class="vocab-item"><span class="hu-word">évszak</span><span class="en-word">season</span></div>
+        <div class="vocab-item"><span class="hu-word">híd</span><span class="en-word">bridge</span></div>
+        <div class="vocab-item"><span class="hu-word">kilátás</span><span class="en-word">view</span></div>
+        <div class="vocab-item"><span class="hu-word">nemzeti park</span><span class="en-word">national park</span></div>
+        <div class="vocab-item"><span class="hu-word">gyümölcs</span><span class="en-word">fruit</span></div>
+        <div class="vocab-item"><span class="hu-word">ünnep</span><span class="en-word">holiday / celebration</span></div>
+        <div class="vocab-item"><span class="hu-word">zeneszerző</span><span class="en-word">composer</span></div>
+        <div class="vocab-item"><span class="hu-word">olimpiai aranyérem</span><span class="en-word">Olympic gold medal</span></div>
+        <div class="vocab-item"><span class="hu-word">büszke</span><span class="en-word">proud</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mi Magyarország fővárosa?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> Bécs</label><label><input type="radio" name="qa1"> Budapest</label><label><input type="radio" name="qa1"> Prága</label></div></li>
+        <li><div class="q-hu">2. Melyik a leghosszabb folyó Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> a Tisza</label><label><input type="radio" name="qa2"> a Duna</label><label><input type="radio" name="qa2"> a Rajna</label></div></li>
+        <li><div class="q-hu">3. Mi a magyar pénznem neve?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> euró</label><label><input type="radio" name="qa3"> forint</label><label><input type="radio" name="qa3"> korona</label></div></li>
+        <li><div class="q-hu">4. Hova jár nyáron sok turista?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> a Balatonhoz</label><label><input type="radio" name="qa4"> Bécsbe</label><label><input type="radio" name="qa4"> a hegyekbe</label></div></li>
+        <li><div class="q-hu">5. Melyik város a második legnagyobb Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> Szeged</label><label><input type="radio" name="qa5"> Debrecen</label><label><input type="radio" name="qa5"> Győr</label></div></li>
+        <li><div class="q-hu">6. Melyik étel készül paradicsomból és paprikából?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> a lecsó</label><label><input type="radio" name="qa6"> a gulyásleves</label><label><input type="radio" name="qa6"> a Dobos torta</label></div></li>
+        <li><div class="q-hu">7. Mikor van Magyarország államalapításának ünnepe?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> március 15.</label><label><input type="radio" name="qa7"> augusztus 20.</label><label><input type="radio" name="qa7"> december 24.</label></div></li>
+        <li><div class="q-hu">8. Melyik sportban nyert sokszor olimpiai aranyérmet Magyarország?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> vízilabda</label><label><input type="radio" name="qa8"> síelés</label><label><input type="radio" name="qa8"> jégkorong</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>Budapest</li><li>a Duna</li><li>forint</li><li>a Balatonhoz</li><li>Debrecen</li><li>a lecsó</li><li>augusztus 20.</li><li>vízilabda</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
