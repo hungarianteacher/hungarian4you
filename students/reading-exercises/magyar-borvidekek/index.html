@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magyar Borvidékek — Olvasási gyakorlat — Hungarian4You</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .breadcrumb { max-width: 760px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .control-bar{
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg, #FAF4E6);
+    padding: 14px 0 16px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px;
+    border-bottom: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    margin: 24px 0 8px;
+  }
+  .level-switch{
+    display:flex; gap:4px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+  }
+  .level-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem;
+    padding: 9px 18px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.55;
+    transition: .18s;
+  }
+  .level-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .toggle-wrap{
+    display:flex; align-items:center; gap:10px;
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    padding: 8px 16px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px -14px rgba(43,33,24,0.4);
+    font-family:'Work Sans', sans-serif; font-size:0.85rem; color: var(--ink, #2b2420);
+  }
+  .switch{ position:relative; width:42px; height:24px; flex-shrink:0; }
+  .switch input{ opacity:0; width:100%; height:100%; margin:0; position:absolute; cursor:pointer; z-index:2; }
+  .switch .track{ position:absolute; inset:0; background:#D8CCA8; border-radius:999px; transition:background .25s ease; }
+  .switch .thumb{ position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .25s ease; }
+  .switch input:checked ~ .track{ background: var(--meadow); }
+  .switch input:checked ~ .thumb{ transform:translateX(18px); }
+
+  .card{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 26px clamp(18px,4vw,30px);
+    box-shadow: 0 14px 34px -22px rgba(43,33,24,0.4);
+    margin-bottom: 26px;
+  }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-size: 1.3rem; color: var(--paprika-dark, #7E2513); margin: 0 0 4px;
+  }
+  h3.sub-heading{
+    font-family:'Fraunces', serif; font-size: 1.02rem; color: var(--meadow); margin: 26px 0 4px; padding-top: 14px;
+    border-top: 1px solid var(--border, rgba(43,33,24,0.16));
+  }
+  .para:first-of-type h3.sub-heading, h3.sub-heading:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  .para{ margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); }
+  .para:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hu{ font-family:'Work Sans', sans-serif; font-size:1.05rem; margin:0 0 6px; }
+  .en{
+    color: var(--muted); font-family:'Work Sans', sans-serif; font-size:0.9rem; font-style:italic; margin:0;
+    max-height:0; opacity:0; overflow:hidden; transition: max-height .3s ease, opacity .25s ease, margin .25s ease;
+  }
+  body.show-en .en{ max-height:200px; opacity:1; margin-top:2px; }
+
+  .vocab-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; }
+  .vocab-item{
+    display:flex; justify-content:space-between; gap:10px; padding:7px 0;
+    border-bottom:1px solid var(--border, rgba(43,33,24,0.16));
+    font-family:'Work Sans', sans-serif; font-size:0.92rem;
+  }
+  .vocab-item .hu-word{ font-weight:700; }
+  .vocab-item .en-word{ color: var(--muted); max-width:0; overflow:hidden; opacity:0; transition: max-width .3s ease, opacity .3s ease; white-space:nowrap; }
+  body.show-en .vocab-item .en-word{ max-width:220px; opacity:1; }
+
+  .q-list{ list-style:none; margin:0; padding:0; }
+  .q-list li{ margin-bottom:16px; }
+  .q-hu{ font-family:'Work Sans', sans-serif; font-weight:700; margin-bottom:6px; }
+  .q-options label{
+    display:block; margin:4px 0; padding:8px 12px;
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:8px; cursor:pointer;
+    background: var(--bg, #FAF4E6); font-family:'Work Sans', sans-serif; font-size:0.9rem;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .q-options label:hover{ border-color: var(--mustard); }
+  .q-options input{ margin-right:8px; }
+
+  details.answer-key{
+    margin-top:14px; background: var(--bg, #FAF4E6);
+    border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px; padding:12px 16px;
+    font-family:'Work Sans', sans-serif;
+  }
+  details.answer-key summary{ cursor:pointer; font-weight:700; color: var(--paprika-dark, #7E2513); }
+  details.answer-key ol{ margin:10px 0 0; padding-left:20px; font-size:0.9rem; }
+
+  .level-block.hidden{ display:none !important; }
+
+  @media (max-width:520px){ .vocab-grid{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../../">&larr; Students</a> / <a href="../">Reading Exercises</a> / Magyar Borvidékek
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">OLVASMÁNY &middot; READING</span>
+  <h1 class="title">Magyar Borvidékek</h1>
+  <p class="lede">
+    Olvasási gyakorlat két szinten — válaszd ki, melyiken olvasol.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">A two-level reading exercise — choose which level you're reading at.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="control-bar">
+    <div class="level-switch">
+      <button type="button" id="btnBeginner" class="active">Kezdő &middot; A0–A1</button>
+      <button type="button" id="btnAdvanced">Haladó &middot; A2–B1</button>
+    </div>
+    <div class="toggle-wrap">
+      <span id="toggle-label">Angol fordítás elrejtve</span>
+      <span class="switch">
+        <input type="checkbox" id="en-toggle" aria-label="Angol fordítás mutatása/elrejtése">
+        <span class="track"></span>
+        <span class="thumb"></span>
+      </span>
+    </div>
+  </div>
+
+  <!-- =================== KEZDŐ SZINT (A0–A1) =================== -->
+  <div class="level-block" id="levelBeginner">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Magyar bor</h3>
+      <div class="para"><p class="hu">Ez magyar bor.</p><p class="en">This is Hungarian wine.</p></div>
+      <div class="para"><p class="hu">Magyarországon sok bor van.</p><p class="en">There is a lot of wine in Hungary.</p></div>
+      <div class="para"><p class="hu">A borvidékeken szőlő terem.</p><p class="en">Grapes grow in the wine regions.</p></div>
+      <div class="para"><p class="hu">A bor egy finom ital.</p><p class="en">Wine is a tasty drink.</p></div>
+
+      <h3 class="sub-heading">Tokaj</h3>
+      <div class="para"><p class="hu">Tokaj egy híres borvidék.</p><p class="en">Tokaj is a famous wine region.</p></div>
+      <div class="para"><p class="hu">A tokaji bor édes.</p><p class="en">Tokaj wine is sweet.</p></div>
+      <div class="para"><p class="hu">Sok ember szereti a tokaji bort.</p><p class="en">Many people love Tokaj wine.</p></div>
+
+      <h3 class="sub-heading">Eger</h3>
+      <div class="para"><p class="hu">Eger egy város Magyarországon.</p><p class="en">Eger is a town in Hungary.</p></div>
+      <div class="para"><p class="hu">Az egri bor vörös.</p><p class="en">Eger wine is red.</p></div>
+      <div class="para"><p class="hu">Az egri bikavér egy erős bor.</p><p class="en">Egri Bikavér is a strong wine.</p></div>
+
+      <h3 class="sub-heading">Villány</h3>
+      <div class="para"><p class="hu">Villány Dél-Magyarországon van.</p><p class="en">Villány is in Southern Hungary.</p></div>
+      <div class="para"><p class="hu">Villányban meleg van.</p><p class="en">It is warm in Villány.</p></div>
+      <div class="para"><p class="hu">A villányi bor is vörös.</p><p class="en">Villány wine is also red.</p></div>
+
+      <h3 class="sub-heading">Badacsony</h3>
+      <div class="para"><p class="hu">Badacsony a Balatonnál van.</p><p class="en">Badacsony is by Lake Balaton.</p></div>
+      <div class="para"><p class="hu">Badacsony egy hegy.</p><p class="en">Badacsony is a hill.</p></div>
+      <div class="para"><p class="hu">A badacsonyi bor fehér.</p><p class="en">Badacsony wine is white.</p></div>
+
+      <h3 class="sub-heading">Borkóstolás</h3>
+      <div class="para"><p class="hu">Sok turista kóstol bort.</p><p class="en">Many tourists taste wine.</p></div>
+      <div class="para"><p class="hu">A borkóstolás egy jó program.</p><p class="en">Wine tasting is a nice activity.</p></div>
+      <div class="para"><p class="hu">Az emberek megkóstolják a bort a pincében.</p><p class="en">People taste the wine in the cellar.</p></div>
+
+      <h3 class="sub-heading">Szüret</h3>
+      <div class="para"><p class="hu">Ősszel van a szüret.</p><p class="en">The grape harvest is in autumn.</p></div>
+      <div class="para"><p class="hu">A szüret után bort készítenek.</p><p class="en">After the harvest they make wine.</p></div>
+
+      <h3 class="sub-heading">Miért jó magyar borvidékre utazni?</h3>
+      <div class="para"><p class="hu">A magyar bor finom.</p><p class="en">Hungarian wine is tasty.</p></div>
+      <div class="para"><p class="hu">A borvidékek szépek.</p><p class="en">The wine regions are beautiful.</p></div>
+      <div class="para"><p class="hu">Jó ötlet meglátogatni egy borvidéket.</p><p class="en">It's a good idea to visit a wine region.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">bor</span><span class="en-word">wine</span></div>
+        <div class="vocab-item"><span class="hu-word">borvidék</span><span class="en-word">wine region</span></div>
+        <div class="vocab-item"><span class="hu-word">szőlő</span><span class="en-word">grape</span></div>
+        <div class="vocab-item"><span class="hu-word">pince</span><span class="en-word">cellar</span></div>
+        <div class="vocab-item"><span class="hu-word">szüret</span><span class="en-word">grape harvest</span></div>
+        <div class="vocab-item"><span class="hu-word">kóstolás</span><span class="en-word">tasting</span></div>
+        <div class="vocab-item"><span class="hu-word">fehérbor</span><span class="en-word">white wine</span></div>
+        <div class="vocab-item"><span class="hu-word">vörösbor</span><span class="en-word">red wine</span></div>
+        <div class="vocab-item"><span class="hu-word">édes bor</span><span class="en-word">sweet wine</span></div>
+        <div class="vocab-item"><span class="hu-word">hegy</span><span class="en-word">hill</span></div>
+        <div class="vocab-item"><span class="hu-word">turista</span><span class="en-word">tourist</span></div>
+        <div class="vocab-item"><span class="hu-word">ital</span><span class="en-word">drink</span></div>
+        <div class="vocab-item"><span class="hu-word">ősz</span><span class="en-word">autumn</span></div>
+        <div class="vocab-item"><span class="hu-word">város</span><span class="en-word">town / city</span></div>
+        <div class="vocab-item"><span class="hu-word">program</span><span class="en-word">activity</span></div>
+        <div class="vocab-item"><span class="hu-word">finom</span><span class="en-word">tasty</span></div>
+        <div class="vocab-item"><span class="hu-word">meleg</span><span class="en-word">warm</span></div>
+        <div class="vocab-item"><span class="hu-word">erős</span><span class="en-word">strong</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Mi a bor?</div>
+          <div class="q-options"><label><input type="radio" name="qb1"> egy ital</label><label><input type="radio" name="qb1"> egy étel</label></div></li>
+        <li><div class="q-hu">2. Hol van Tokaj?</div>
+          <div class="q-options"><label><input type="radio" name="qb2"> Magyarországon</label><label><input type="radio" name="qb2"> Ausztriában</label></div></li>
+        <li><div class="q-hu">3. Milyen a tokaji bor?</div>
+          <div class="q-options"><label><input type="radio" name="qb3"> édes</label><label><input type="radio" name="qb3"> savanyú</label></div></li>
+        <li><div class="q-hu">4. Milyen az egri bikavér?</div>
+          <div class="q-options"><label><input type="radio" name="qb4"> erős</label><label><input type="radio" name="qb4"> gyenge</label></div></li>
+        <li><div class="q-hu">5. Hol van Villány?</div>
+          <div class="q-options"><label><input type="radio" name="qb5"> Dél-Magyarországon</label><label><input type="radio" name="qb5"> Észak-Magyarországon</label></div></li>
+        <li><div class="q-hu">6. Milyen a badacsonyi bor?</div>
+          <div class="q-options"><label><input type="radio" name="qb6"> fehér</label><label><input type="radio" name="qb6"> vörös</label></div></li>
+        <li><div class="q-hu">7. Mikor van a szüret?</div>
+          <div class="q-options"><label><input type="radio" name="qb7"> ősszel</label><label><input type="radio" name="qb7"> nyáron</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>egy ital</li><li>Magyarországon</li><li>édes</li><li>erős</li><li>Dél-Magyarországon</li><li>fehér</li><li>ősszel</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+  <!-- =================== HALADÓ SZINT (A2–B1) =================== -->
+  <div class="level-block hidden" id="levelAdvanced">
+
+    <div class="card">
+      <h2 class="section-title">Olvasmány <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Reading</span></h2>
+
+      <h3 class="sub-heading">Alapadatok</h3>
+      <div class="para"><p class="hu">Magyarországon régóta készítenek bort. A bortermelésnek több száz éves hagyománya van.</p><p class="en">Wine has been made in Hungary for a long time. Winemaking has a tradition of several hundred years.</p></div>
+      <div class="para"><p class="hu">Az országban körülbelül huszonkét borvidék található.</p><p class="en">There are about twenty-two wine regions in the country.</p></div>
+      <div class="para"><p class="hu">Minden borvidéknek saját éghajlata és talaja van, ezért különböző borok készülnek.</p><p class="en">Every wine region has its own climate and soil, so different wines are made.</p></div>
+      <div class="para"><p class="hu">A magyar borok között vannak fehér, vörös és édes borok is.</p><p class="en">Among Hungarian wines there are white, red, and sweet wines too.</p></div>
+
+      <h3 class="sub-heading">Tokaj-Hegyalja</h3>
+      <div class="para"><p class="hu">Tokaj-Hegyalja a leghíresebb magyar borvidék. Kelet-Magyarországon található.</p><p class="en">Tokaj-Hegyalja is the most famous Hungarian wine region. It is located in Eastern Hungary.</p></div>
+      <div class="para"><p class="hu">A tokaji aszú egy különleges édes bor, amit nemesrothadt szőlőből készítenek.</p><p class="en">Tokaji Aszú is a special sweet wine made from nobly rotten grapes.</p></div>
+      <div class="para"><p class="hu">A tokaji borokat régóta exportálják külföldre, sok király és uralkodó szerette.</p><p class="en">Tokaj wines have long been exported abroad; many kings and rulers loved them.</p></div>
+      <div class="para"><p class="hu">A Tokaji Történelmi Borvidék Kultúrtáj az UNESCO Világörökség része.</p><p class="en">The Tokaj Wine Region Historic Cultural Landscape is part of the UNESCO World Heritage.</p></div>
+
+      <h3 class="sub-heading">Eger</h3>
+      <div class="para"><p class="hu">Eger városa Észak-Magyarországon fekszik, híres a vörösboráról.</p><p class="en">The town of Eger lies in Northern Hungary, famous for its red wine.</p></div>
+      <div class="para"><p class="hu">Az egri bikavér egy erős, testes vörösbor, több szőlőfajtából készül.</p><p class="en">Egri Bikavér is a strong, full-bodied red wine, made from several grape varieties.</p></div>
+      <div class="para"><p class="hu">Egerben sok pince található a föld alatt, ahol a bort érlelik.</p><p class="en">In Eger there are many cellars underground, where the wine is aged.</p></div>
+      <div class="para"><p class="hu">A Szépasszony-völgy Eger mellett van, ahol sok kis borászat kínál kóstolást.</p><p class="en">The Valley of the Beautiful Woman is near Eger, where many small wineries offer tastings.</p></div>
+
+      <h3 class="sub-heading">Villány</h3>
+      <div class="para"><p class="hu">Villány Dél-Magyarországon van, közel a horvát határhoz.</p><p class="en">Villány is in Southern Hungary, close to the Croatian border.</p></div>
+      <div class="para"><p class="hu">Villány a legmelegebb borvidékek egyike, ezért kiváló vörösborok teremnek itt.</p><p class="en">Villány is one of the warmest wine regions, so excellent red wines grow here.</p></div>
+      <div class="para"><p class="hu">A cabernet sauvignon és a merlot népszerű szőlőfajták Villányban.</p><p class="en">Cabernet sauvignon and merlot are popular grape varieties in Villány.</p></div>
+      <div class="para"><p class="hu">Villányban minden ősszel megrendezik a szüreti fesztivált.</p><p class="en">Every autumn the harvest festival is held in Villány.</p></div>
+
+      <h3 class="sub-heading">Badacsony</h3>
+      <div class="para"><p class="hu">Badacsony a Balaton északi partján fekszik, egy régi vulkáni hegyen.</p><p class="en">Badacsony lies on the northern shore of Lake Balaton, on an old volcanic hill.</p></div>
+      <div class="para"><p class="hu">A badacsonyi borok elsősorban fehérborok, gyakran könnyűek és üdítőek.</p><p class="en">Badacsony wines are mostly white wines, often light and refreshing.</p></div>
+      <div class="para"><p class="hu">A hegyről szép kilátás nyílik a Balatonra és a szőlőültetvényekre.</p><p class="en">There is a beautiful view of Lake Balaton and the vineyards from the hill.</p></div>
+
+      <h3 class="sub-heading">Szekszárd</h3>
+      <div class="para"><p class="hu">Szekszárd Dél-Magyarországon található, régi bortermelő város.</p><p class="en">Szekszárd is located in Southern Hungary, an old winemaking town.</p></div>
+      <div class="para"><p class="hu">A szekszárdi bikavér hasonló az egrihez, de lágyabb és gyümölcsösebb.</p><p class="en">Szekszárd Bikavér is similar to the one from Eger, but softer and fruitier.</p></div>
+
+      <h3 class="sub-heading">Borkultúra és borkóstolás</h3>
+      <div class="para"><p class="hu">Sok turista látogat borospincéket, hogy megkóstolja a helyi borokat.</p><p class="en">Many tourists visit wine cellars to taste the local wines.</p></div>
+      <div class="para"><p class="hu">A borkóstolás során az emberek megtanulják felismerni az illatokat és ízeket.</p><p class="en">During wine tasting people learn to recognise the aromas and flavours.</p></div>
+      <div class="para"><p class="hu">Sok borászat kínál vezetett túrákat a szőlőkben és a pincékben.</p><p class="en">Many wineries offer guided tours in the vineyards and the cellars.</p></div>
+      <div class="para"><p class="hu">Nyáron és ősszel sok borfesztivált rendeznek az egész országban.</p><p class="en">In summer and autumn many wine festivals are held across the country.</p></div>
+
+      <h3 class="sub-heading">Szüret</h3>
+      <div class="para"><p class="hu">Ősszel van a szüret, amikor leszedik a szőlőt a tőkékről.</p><p class="en">The grape harvest is in autumn, when the grapes are picked from the vines.</p></div>
+      <div class="para"><p class="hu">A szüret után kezdődik a bor készítése, ami több hónapig tart.</p><p class="en">After the harvest, winemaking begins, which takes several months.</p></div>
+
+      <h3 class="sub-heading">Miért érdemes magyar borvidékre utazni?</h3>
+      <div class="para"><p class="hu">A magyar borvidékek szép tájat, finom bort és gazdag kultúrát kínálnak.</p><p class="en">Hungarian wine regions offer beautiful scenery, tasty wine, and rich culture.</p></div>
+      <div class="para"><p class="hu">Ha valaki szereti a bort, érdemes ellátogatni néhány magyar borvidékre.</p><p class="en">If someone loves wine, it's worth visiting a few Hungarian wine regions.</p></div>
+      <div class="para"><p class="hu">Sok pincészet szívesen fogad látogatókat egész évben.</p><p class="en">Many wineries gladly welcome visitors all year round.</p></div>
+      <div class="para"><p class="hu">A magyar bor egyre népszerűbb külföldön is, sok országba exportálják.</p><p class="en">Hungarian wine is becoming increasingly popular abroad too; it is exported to many countries.</p></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Szókincs <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Vocabulary</span></h2>
+      <div class="vocab-grid">
+        <div class="vocab-item"><span class="hu-word">bor</span><span class="en-word">wine</span></div>
+        <div class="vocab-item"><span class="hu-word">borvidék</span><span class="en-word">wine region</span></div>
+        <div class="vocab-item"><span class="hu-word">szőlő</span><span class="en-word">grape</span></div>
+        <div class="vocab-item"><span class="hu-word">pince</span><span class="en-word">cellar</span></div>
+        <div class="vocab-item"><span class="hu-word">szüret</span><span class="en-word">grape harvest</span></div>
+        <div class="vocab-item"><span class="hu-word">bortermelés</span><span class="en-word">winemaking</span></div>
+        <div class="vocab-item"><span class="hu-word">borászat</span><span class="en-word">winery</span></div>
+        <div class="vocab-item"><span class="hu-word">kóstolás</span><span class="en-word">tasting</span></div>
+        <div class="vocab-item"><span class="hu-word">fehérbor</span><span class="en-word">white wine</span></div>
+        <div class="vocab-item"><span class="hu-word">vörösbor</span><span class="en-word">red wine</span></div>
+        <div class="vocab-item"><span class="hu-word">édes bor</span><span class="en-word">sweet wine</span></div>
+        <div class="vocab-item"><span class="hu-word">illat</span><span class="en-word">aroma</span></div>
+        <div class="vocab-item"><span class="hu-word">íz</span><span class="en-word">flavour / taste</span></div>
+        <div class="vocab-item"><span class="hu-word">hagyomány</span><span class="en-word">tradition</span></div>
+        <div class="vocab-item"><span class="hu-word">éghajlat</span><span class="en-word">climate</span></div>
+        <div class="vocab-item"><span class="hu-word">talaj</span><span class="en-word">soil</span></div>
+        <div class="vocab-item"><span class="hu-word">exportál</span><span class="en-word">to export</span></div>
+        <div class="vocab-item"><span class="hu-word">fesztivál</span><span class="en-word">festival</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">Kérdések <span style="color: var(--muted); font-weight:400; font-size:0.7em;">/ Questions</span></h2>
+      <ul class="q-list">
+        <li><div class="q-hu">1. Körülbelül hány borvidék van Magyarországon?</div>
+          <div class="q-options"><label><input type="radio" name="qa1"> huszonkettő</label><label><input type="radio" name="qa1"> öt</label><label><input type="radio" name="qa1"> száz</label></div></li>
+        <li><div class="q-hu">2. Melyik a leghíresebb magyar borvidék?</div>
+          <div class="q-options"><label><input type="radio" name="qa2"> Tokaj-Hegyalja</label><label><input type="radio" name="qa2"> Eger</label><label><input type="radio" name="qa2"> Szekszárd</label></div></li>
+        <li><div class="q-hu">3. Miből készül a tokaji aszú?</div>
+          <div class="q-options"><label><input type="radio" name="qa3"> nemesrothadt szőlőből</label><label><input type="radio" name="qa3"> almából</label><label><input type="radio" name="qa3"> mézből</label></div></li>
+        <li><div class="q-hu">4. Melyik város híres a bikavérről?</div>
+          <div class="q-options"><label><input type="radio" name="qa4"> Eger</label><label><input type="radio" name="qa4"> Villány</label><label><input type="radio" name="qa4"> Badacsony</label></div></li>
+        <li><div class="q-hu">5. Hol van Villány?</div>
+          <div class="q-options"><label><input type="radio" name="qa5"> Dél-Magyarországon</label><label><input type="radio" name="qa5"> Észak-Magyarországon</label><label><input type="radio" name="qa5"> Nyugat-Magyarországon</label></div></li>
+        <li><div class="q-hu">6. Milyen borok jellemzőek Badacsonyra?</div>
+          <div class="q-options"><label><input type="radio" name="qa6"> fehérborok</label><label><input type="radio" name="qa6"> vörösborok</label><label><input type="radio" name="qa6"> csak édes borok</label></div></li>
+        <li><div class="q-hu">7. Mikor van a szüret?</div>
+          <div class="q-options"><label><input type="radio" name="qa7"> ősszel</label><label><input type="radio" name="qa7"> télen</label><label><input type="radio" name="qa7"> tavasszal</label></div></li>
+        <li><div class="q-hu">8. Mit tanulnak meg az emberek borkóstoláskor?</div>
+          <div class="q-options"><label><input type="radio" name="qa8"> illatokat és ízeket felismerni</label><label><input type="radio" name="qa8"> szőlőt szüretelni</label><label><input type="radio" name="qa8"> bort exportálni</label></div></li>
+      </ul>
+      <details class="answer-key">
+        <summary>Megoldókulcs (kattints ide)</summary>
+        <ol><li>huszonkettő</li><li>Tokaj-Hegyalja</li><li>nemesrothadt szőlőből</li><li>Eger</li><li>Dél-Magyarországon</li><li>fehérborok</li><li>ősszel</li><li>illatokat és ízeket felismerni</li></ol>
+      </details>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+  const toggle = document.getElementById('en-toggle');
+  const label = document.getElementById('toggle-label');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('show-en', toggle.checked);
+    label.textContent = toggle.checked ? 'Angol fordítás látható' : 'Angol fordítás elrejtve';
+  });
+
+  const btnBeginner = document.getElementById('btnBeginner');
+  const btnAdvanced = document.getElementById('btnAdvanced');
+  const levelBeginner = document.getElementById('levelBeginner');
+  const levelAdvanced = document.getElementById('levelAdvanced');
+
+  btnBeginner.addEventListener('click', () => {
+    btnBeginner.classList.add('active');
+    btnAdvanced.classList.remove('active');
+    levelBeginner.classList.remove('hidden');
+    levelAdvanced.classList.add('hidden');
+  });
+  btnAdvanced.addEventListener('click', () => {
+    btnAdvanced.classList.add('active');
+    btnBeginner.classList.remove('active');
+    levelAdvanced.classList.remove('hidden');
+    levelBeginner.classList.add('hidden');
+  });
+</script>
+
+</body>
+</html>
