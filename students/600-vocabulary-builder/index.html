@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Builder 600 — Szókincsépítő — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .app{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 24px clamp(16px,4vw,32px) 30px;
+    margin: 32px 0 10px;
+    box-shadow: 0 14px 34px -20px rgba(43,33,24,0.4);
+  }
+  .mode-switch{
+    display:flex; justify-content:center; gap:4px;
+    background: var(--bg, #FAF4E6);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 22px;
+  }
+  .mode-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding: 9px 20px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.6;
+    transition: .18s;
+  }
+  .mode-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .info-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:14px;
+  }
+  .cat-pill{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.78rem;
+    letter-spacing:.02em; color:#fff; background: var(--meadow);
+    padding: 7px 16px; border-radius:999px; max-width: 65%;
+  }
+  .counter{
+    font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;
+    color: var(--ink, #2b2420); opacity:.65;
+  }
+  select.jump{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.85rem;
+    padding: 8px 12px; border-radius:8px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; max-width: 240px;
+  }
+  .progress-track{
+    width:100%; height:6px; border-radius:6px; overflow:hidden;
+    background: rgba(43,33,24,0.08); margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--paprika), var(--mustard));
+    transition: width .3s ease;
+  }
+
+  .stage{ display:flex; justify-content:center; perspective:1600px; margin-bottom:20px; }
+  .card{
+    position:relative; width:min(680px,100%); height: clamp(240px, 32vw, 320px);
+    cursor:pointer; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: clamp(20px,4vw,40px);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    box-shadow: 0 14px 30px -18px rgba(43,33,24,0.4);
+  }
+  .face-front{ background: var(--bg, #FAF4E6); }
+  .face-back{ background: var(--meadow); color:#fdf9ef; transform: rotateY(180deg); }
+  .face-eyebrow{
+    font-family:'Work Sans', sans-serif; font-size:0.72rem; letter-spacing:.16em;
+    text-transform:uppercase; font-weight:700; opacity:.55; margin-bottom:14px;
+  }
+  .face-back .face-eyebrow{ color: var(--mustard); opacity:.95; }
+  .face-text{
+    font-family:'Fraunces', serif; font-weight:600; font-size: clamp(20px,3.6vw,38px); line-height:1.25;
+  }
+  .face-front .face-text{ color: var(--paprika-dark, #7E2513); }
+  .hint{ margin-top:18px; font-size:0.72rem; opacity:.5; font-weight:600; letter-spacing:.03em; font-family:'Work Sans', sans-serif; }
+  .face-back .hint{ color:#fdf9ef; opacity:.6; }
+  .speak-btn{
+    margin-top:16px; width:48px; height:48px; border-radius:50%;
+    border:2px solid rgba(253,249,239,0.5); background: rgba(253,249,239,0.14); color:#fdf9ef;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; transition:.15s;
+  }
+  .speak-btn:hover{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); transform: scale(1.06); }
+  .speak-btn.playing{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); animation: pulseGlow .9s ease-in-out infinite; }
+  .speak-btn:disabled{ opacity:.3; cursor:not-allowed; transform:none; }
+  .speak-btn:disabled:hover{ background: rgba(253,249,239,0.14); border-color: rgba(253,249,239,0.5); color:#fdf9ef; transform:none; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,147,26,.5);} 50%{ box-shadow:0 0 0 9px rgba(201,147,26,0);} }
+
+  .controls{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem;
+    border-radius:12px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); padding:12px 22px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn.primary{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .btn.ghost{ background:transparent; }
+  .btn.know{ background: var(--meadow); border-color: var(--meadow); color:#fff; }
+  .btn.dontknow{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .kbd-hint{ text-align:center; font-family:'Work Sans', sans-serif; font-size:0.78rem; opacity:.45; margin-top:4px; }
+
+  .score-tally{ display:flex; gap:18px; font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem; }
+  .score-tally .ok{ color: var(--meadow); }
+  .score-tally .no{ color: var(--paprika); }
+
+  .quiz-intro, .quiz-results{
+    text-align:center; padding: 20px clamp(10px,4vw,30px) 6px;
+  }
+  .quiz-intro p, .quiz-results p{ font-family:'Work Sans', sans-serif; font-size:0.92rem; opacity:.75; max-width:520px; margin:8px auto 20px; line-height:1.55; }
+  .quiz-intro select{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding:10px 16px; border-radius:10px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); cursor:pointer; margin-bottom:18px; max-width:100%;
+  }
+  .big-score{ font-family:'Fraunces', serif; font-weight:700; font-size: clamp(40px,7vw,64px); color: var(--paprika); margin: 6px 0; }
+  .missed-list{ text-align:left; max-height:260px; overflow-y:auto; margin: 14px auto 22px; max-width:520px; border-top:1.5px solid var(--border, rgba(43,33,24,0.16)); padding-top:14px; }
+  .missed-item{ display:flex; justify-content:space-between; gap:12px; padding:7px 4px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); font-family:'Work Sans', sans-serif; font-size:0.85rem; }
+  .missed-item b{ font-family:'Fraunces', serif; color: var(--paprika-dark, #7E2513); white-space:nowrap; }
+
+  .hidden{ display:none !important; }
+  .no-speech-note{
+    text-align:center; font-family:'Work Sans', sans-serif; font-size:0.82rem; color: var(--paprika-dark, #7E2513);
+    background: var(--bg, #FAF4E6); border:1px solid var(--border, rgba(43,33,24,0.16)); border-radius:10px;
+    padding:10px 16px; margin: 0 0 16px; display:none;
+  }
+  .no-speech-note.show{ display:block; }
+
+  @media (max-width:640px){
+    .info-bar{ flex-direction:column; align-items:flex-start; }
+    select.jump{ max-width:none; width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / <a href="../vocabulary-szokincs/">Vocabulary</a> / The Builder 600
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">SZÓKINCS &middot; THE BUILDER 600</span>
+  <h1 class="title">The Builder 600</h1>
+  <p class="lede">
+    600 szó — szókincsépítés húsz témakörben, a mindennapi élet minden területéről.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">600 words to know — vocabulary building across twenty topics of everyday life.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <section class="app">
+
+    <div class="mode-switch">
+      <button type="button" id="btnStudyMode" class="active">Tanulás</button>
+      <button type="button" id="btnQuizMode">Kvíz</button>
+    </div>
+
+    <p class="no-speech-note" id="noSpeechNote">
+      A böngésződ nem támogatja a hangos felolvasást, ezért a hangszóró gombok itt nem működnek.
+      <span class="translation">Your browser doesn't support speech synthesis, so the speaker buttons won't work here.</span>
+    </p>
+
+    <!-- STUDY MODE -->
+    <div id="studyView">
+      <div class="info-bar">
+        <span class="cat-pill" id="catLabel">—</span>
+        <select class="jump" id="jumpCat"></select>
+        <span class="counter"><span id="cardIndex">1</span> / <span id="cardTotal">600</span></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="studyProgress"></div></div>
+
+      <div class="stage">
+        <div class="card" id="studyCard">
+          <div class="face face-front">
+            <span class="face-eyebrow">English</span>
+            <div class="face-text" id="frontText">—</div>
+            <div class="hint">Kattints a fordulásért · Space</div>
+          </div>
+          <div class="face face-back">
+            <span class="face-eyebrow">Magyarul</span>
+            <div class="face-text" id="backText">—</div>
+            <button type="button" class="speak-btn" id="speakStudyBtn" title="Hangfelvétel hamarosan / Recording coming soon" disabled>🔊</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn wide" id="prevBtn">&larr; Előző</button>
+        <button type="button" class="btn primary wide" id="flipBtn">Fordítás</button>
+        <button type="button" class="btn wide" id="nextBtn">Következő &rarr;</button>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn ghost" id="shuffleBtn">🔀 Véletlen sorrend</button>
+        <button type="button" class="btn ghost" id="orderBtn">↺ Eredeti sorrend</button>
+      </div>
+      <p class="kbd-hint">Nyilak: lapozás · Szóköz: fordítás</p>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quizView" class="hidden">
+
+      <div id="quizIntro" class="quiz-intro">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz — válassz kategóriát</h2>
+        <p>Véletlenszerű sorrendben, flashcard formában. Fordítsd meg a kártyát, majd jelöld: tudtad-e a választ.<br>
+        <span style="opacity:.7; font-style:italic;">Random order flashcards. Flip the card, then mark whether you knew it.</span></p>
+        <select id="quizCatSelect"></select><br>
+        <button type="button" class="btn primary wide" id="startQuizBtn">Kvíz indítása</button>
+      </div>
+
+      <div id="quizPlay" class="hidden">
+        <div class="info-bar">
+          <span class="cat-pill" id="quizCatLabel">—</span>
+          <span class="score-tally"><span class="ok">✓ <span id="okCount">0</span></span><span class="no">✕ <span id="noCount">0</span></span></span>
+          <span class="counter"><span id="quizIndex">1</span> / <span id="quizTotal">600</span></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgress"></div></div>
+
+        <div class="stage">
+          <div class="card" id="quizCard">
+            <div class="face face-front">
+              <span class="face-eyebrow">English</span>
+              <div class="face-text" id="quizFrontText">—</div>
+              <div class="hint">Kattints a fordulásért · Space</div>
+            </div>
+            <div class="face face-back">
+              <span class="face-eyebrow">Magyarul</span>
+              <div class="face-text" id="quizBackText">—</div>
+              <button type="button" class="speak-btn" id="speakQuizBtn" title="Hangfelvétel hamarosan / Recording coming soon" disabled>🔊</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" id="answerRow" style="visibility:hidden;">
+          <button type="button" class="btn dontknow wide" id="dontKnowBtn">✕ Nem tudtam</button>
+          <button type="button" class="btn know wide" id="knowBtn">✓ Tudtam</button>
+        </div>
+        <p class="kbd-hint">Fordítsd meg a kártyát, majd válaszolj</p>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz eredménye</h2>
+        <div class="big-score"><span id="finalScore">0</span>/<span id="finalTotal">0</span></div>
+        <p>Helyes válaszok száma</p>
+        <div class="missed-list" id="missedList"></div>
+        <button type="button" class="btn primary wide" id="restartQuizBtn">Kvíz újra</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Adatok — The Builder 600 / Data — 600 words to know
+   file: az audio/ mappában lévő mp3 fájlnév, vagy null, ha még nincs felvétel
+----------------------------------------------------------------*/
+const DATA = [
+  { cat: "Nature", en: "sea", hu: "tenger", file: null },
+  { cat: "Nature", en: "ocean", hu: "óceán", file: null },
+  { cat: "Nature", en: "river", hu: "folyó", file: null },
+  { cat: "Nature", en: "mountain", hu: "hegy", file: null },
+  { cat: "Nature", en: "rain", hu: "eső", file: null },
+  { cat: "Nature", en: "snow", hu: "hó", file: null },
+  { cat: "Nature", en: "tree", hu: "fa", file: null },
+  { cat: "Nature", en: "sun", hu: "nap", file: null },
+  { cat: "Nature", en: "moon", hu: "hold", file: null },
+  { cat: "Nature", en: "world", hu: "világ", file: null },
+  { cat: "Nature", en: "Earth", hu: "föld", file: null },
+  { cat: "Nature", en: "forest", hu: "erdő", file: null },
+  { cat: "Nature", en: "sky", hu: "ég", file: null },
+  { cat: "Nature", en: "plant", hu: "növény", file: null },
+  { cat: "Nature", en: "wind", hu: "szél", file: null },
+  { cat: "Nature", en: "soil", hu: "talaj", file: null },
+  { cat: "Nature", en: "flower", hu: "virág", file: null },
+  { cat: "Nature", en: "valley", hu: "völgy", file: null },
+  { cat: "Nature", en: "root", hu: "gyökér", file: null },
+  { cat: "Nature", en: "lake", hu: "tó", file: null },
+  { cat: "Nature", en: "star", hu: "csillag", file: null },
+  { cat: "Nature", en: "grass", hu: "fű", file: null },
+  { cat: "Nature", en: "air", hu: "lég", file: null },
+  { cat: "Nature", en: "sand", hu: "homok", file: null },
+  { cat: "Nature", en: "beach", hu: "tengerpart", file: null },
+  { cat: "Nature", en: "wave", hu: "hullám", file: null },
+  { cat: "Nature", en: "fire", hu: "tűz", file: null },
+  { cat: "Nature", en: "ice", hu: "jég", file: null },
+  { cat: "Nature", en: "island", hu: "sziget", file: null },
+  { cat: "Nature", en: "hill", hu: "domb", file: null },
+  { cat: "Nature", en: "heat", hu: "hő", file: null },
+  { cat: "Nature", en: "nature", hu: "természet", file: null },
+  { cat: "Numbers", en: "zero", hu: "nulla", file: null },
+  { cat: "Numbers", en: "one", hu: "egy", file: null },
+  { cat: "Numbers", en: "two", hu: "kéttő", file: null },
+  { cat: "Numbers", en: "three", hu: "három", file: null },
+  { cat: "Numbers", en: "four", hu: "négy", file: null },
+  { cat: "Numbers", en: "five", hu: "öt", file: null },
+  { cat: "Numbers", en: "six", hu: "hat", file: null },
+  { cat: "Numbers", en: "seven", hu: "hét", file: null },
+  { cat: "Numbers", en: "eight", hu: "nyolc", file: null },
+  { cat: "Numbers", en: "nine", hu: "kilenc", file: null },
+  { cat: "Numbers", en: "ten", hu: "tíz", file: null },
+  { cat: "Numbers", en: "eleven", hu: "tízenegy", file: null },
+  { cat: "Numbers", en: "twelve", hu: "tízenkettő", file: null },
+  { cat: "Numbers", en: "thirteen", hu: "tízenhárom", file: null },
+  { cat: "Numbers", en: "fourteen", hu: "tízennégy", file: null },
+  { cat: "Numbers", en: "fifteen", hu: "tízenöt", file: null },
+  { cat: "Numbers", en: "sixteen", hu: "tízenhat", file: null },
+  { cat: "Numbers", en: "seventeen", hu: "tízenhét", file: null },
+  { cat: "Numbers", en: "eighteen", hu: "tízennyolc", file: null },
+  { cat: "Numbers", en: "nineteen", hu: "tízenkilenc", file: null },
+  { cat: "Numbers", en: "twenty", hu: "húsz", file: null },
+  { cat: "Numbers", en: "thirty", hu: "harminc", file: null },
+  { cat: "Numbers", en: "forty", hu: "negyven", file: null },
+  { cat: "Numbers", en: "fifty", hu: "ötven", file: null },
+  { cat: "Numbers", en: "sixty", hu: "hatvan", file: null },
+  { cat: "Numbers", en: "seventy", hu: "hetven", file: null },
+  { cat: "Numbers", en: "eighty", hu: "nyolcvan", file: null },
+  { cat: "Numbers", en: "ninety", hu: "kilencven", file: null },
+  { cat: "Numbers", en: "100", hu: "száz", file: null },
+  { cat: "Numbers", en: "1000", hu: "ezer", file: null },
+  { cat: "Numbers", en: "million", hu: "millió", file: null },
+  { cat: "Numbers", en: "billion", hu: "milliárd", file: null },
+  { cat: "Numbers", en: "first", hu: "első", file: null },
+  { cat: "Numbers", en: "second", hu: "második", file: null },
+  { cat: "Materials", en: "glass", hu: "üveg", file: null },
+  { cat: "Materials", en: "metal", hu: "fém", file: null },
+  { cat: "Materials", en: "plastic", hu: "műanyag", file: null },
+  { cat: "Materials", en: "wood", hu: "fa", file: null },
+  { cat: "Materials", en: "stone", hu: "kő", file: null },
+  { cat: "Materials", en: "diamond", hu: "gyémánt", file: null },
+  { cat: "Materials", en: "clay", hu: "agyag", file: null },
+  { cat: "Materials", en: "dust", hu: "por", file: null },
+  { cat: "Materials", en: "gold", hu: "arany", file: null },
+  { cat: "Materials", en: "copper", hu: "réz", file: null },
+  { cat: "Materials", en: "silver", hu: "ezüst", file: null },
+  { cat: "Materials", en: "material", hu: "anyag", file: null },
+  { cat: "Math/Measurements", en: "meter", hu: "méter", file: null },
+  { cat: "Math/Measurements", en: "centimeter", hu: "centiméter", file: null },
+  { cat: "Math/Measurements", en: "kilogram", hu: "kilogramm", file: null },
+  { cat: "Math/Measurements", en: "inch", hu: "hüvelyk", file: null },
+  { cat: "Math/Measurements", en: "foot", hu: "láb", file: null },
+  { cat: "Math/Measurements", en: "pound", hu: "font", file: null },
+  { cat: "Math/Measurements", en: "half", hu: "fél", file: null },
+  { cat: "Math/Measurements", en: "circle", hu: "kör", file: null },
+  { cat: "Math/Measurements", en: "square", hu: "kocka", file: null },
+  { cat: "Math/Measurements", en: "temperature", hu: "hőmérséklet", file: null },
+  { cat: "Math/Measurements", en: "date", hu: "dátum", file: null },
+  { cat: "Math/Measurements", en: "weight", hu: "súly", file: null },
+  { cat: "Math/Measurements", en: "edge", hu: "perem", file: null },
+  { cat: "Math/Measurements", en: "corner", hu: "szöglet", file: null },
+  { cat: "Misc Nouns", en: "map", hu: "térkép", file: null },
+  { cat: "Misc Nouns", en: "dot", hu: "pont", file: null },
+  { cat: "Misc Nouns", en: "consonant", hu: "mássalhangzó", file: null },
+  { cat: "Misc Nouns", en: "vowel", hu: "magánhangzó", file: null },
+  { cat: "Misc Nouns", en: "light", hu: "fény", file: null },
+  { cat: "Misc Nouns", en: "sound", hu: "zaj", file: null },
+  { cat: "Misc Nouns", en: "yes", hu: "igen", file: "023_igen.mp3" },
+  { cat: "Misc Nouns", en: "no", hu: "nem", file: "024_nem.mp3" },
+  { cat: "Misc Nouns", en: "piece", hu: "darab", file: null },
+  { cat: "Misc Nouns", en: "pain", hu: "fájdalom", file: null },
+  { cat: "Misc Nouns", en: "injury", hu: "sérülés", file: null },
+  { cat: "Misc Nouns", en: "hole", hu: "lyuk", file: null },
+  { cat: "Misc Nouns", en: "image", hu: "kép", file: null },
+  { cat: "Misc Nouns", en: "pattern", hu: "minta", file: null },
+  { cat: "Misc Nouns", en: "noun", hu: "főnév", file: null },
+  { cat: "Misc Nouns", en: "verb", hu: "ige", file: null },
+  { cat: "Misc Nouns", en: "adjective", hu: "melléknév", file: null },
+  { cat: "Directions", en: "top", hu: "felszín", file: null },
+  { cat: "Directions", en: "bottom", hu: "fenék", file: null },
+  { cat: "Directions", en: "side", hu: "oldal", file: null },
+  { cat: "Directions", en: "front", hu: "előtt", file: null },
+  { cat: "Directions", en: "back", hu: "hátul", file: null },
+  { cat: "Directions", en: "outside", hu: "kint", file: null },
+  { cat: "Directions", en: "inside", hu: "belül", file: null },
+  { cat: "Directions", en: "up", hu: "fel", file: null },
+  { cat: "Directions", en: "down", hu: "le", file: null },
+  { cat: "Directions", en: "left", hu: "bal", file: null },
+  { cat: "Directions", en: "right", hu: "jobb", file: null },
+  { cat: "Directions", en: "straight", hu: "egyenes", file: null },
+  { cat: "Directions", en: "north", hu: "észak", file: null },
+  { cat: "Directions", en: "south", hu: "dél", file: null },
+  { cat: "Directions", en: "east", hu: "kelet", file: null },
+  { cat: "Directions", en: "west", hu: "nyugat", file: null },
+  { cat: "Directions", en: "direction", hu: "irány", file: null },
+  { cat: "Electronics", en: "clock", hu: "óra", file: null },
+  { cat: "Electronics", en: "lamp", hu: "lámpa", file: null },
+  { cat: "Electronics", en: "fan", hu: "ventilátor", file: null },
+  { cat: "Electronics", en: "cellphone", hu: "mobiltelefon", file: null },
+  { cat: "Electronics", en: "network", hu: "hálózat", file: null },
+  { cat: "Electronics", en: "computer", hu: "számítógép", file: null },
+  { cat: "Electronics", en: "program", hu: "program", file: null },
+  { cat: "Electronics", en: "laptop", hu: "laptop", file: null },
+  { cat: "Electronics", en: "screen", hu: "képernyő", file: null },
+  { cat: "Electronics", en: "camera", hu: "kamera", file: null },
+  { cat: "Electronics", en: "television", hu: "televízió", file: null },
+  { cat: "Electronics", en: "radio", hu: "rádió", file: null },
+  { cat: "Body", en: "head", hu: "fej", file: null },
+  { cat: "Body", en: "neck", hu: "nyak", file: null },
+  { cat: "Body", en: "face", hu: "arc", file: null },
+  { cat: "Body", en: "beard", hu: "szakáll", file: null },
+  { cat: "Body", en: "hair", hu: "haj", file: null },
+  { cat: "Body", en: "eye", hu: "szem", file: null },
+  { cat: "Body", en: "mouth", hu: "száj", file: null },
+  { cat: "Body", en: "lip", hu: "ajak", file: null },
+  { cat: "Body", en: "nose", hu: "orr", file: null },
+  { cat: "Body", en: "tooth", hu: "fog", file: null },
+  { cat: "Body", en: "ear", hu: "fül", file: null },
+  { cat: "Body", en: "tear", hu: "könnycsepp", file: null },
+  { cat: "Body", en: "tongue", hu: "nyelv", file: null },
+  { cat: "Body", en: "back", hu: "hát", file: null },
+  { cat: "Body", en: "toe", hu: "lábujj", file: null },
+  { cat: "Body", en: "finger", hu: "ujj", file: null },
+  { cat: "Body", en: "foot", hu: "lábfej", file: null },
+  { cat: "Body", en: "hand", hu: "kéz", file: null },
+  { cat: "Body", en: "leg", hu: "láb", file: null },
+  { cat: "Body", en: "arm", hu: "kar", file: null },
+  { cat: "Body", en: "shoulder", hu: "váll", file: null },
+  { cat: "Body", en: "heart", hu: "szív", file: null },
+  { cat: "Body", en: "blood", hu: "vér", file: null },
+  { cat: "Body", en: "brain", hu: "agy", file: null },
+  { cat: "Body", en: "knee", hu: "térd", file: null },
+  { cat: "Body", en: "sweat", hu: "veríték", file: null },
+  { cat: "Body", en: "disease", hu: "betegség", file: null },
+  { cat: "Body", en: "bone", hu: "csont", file: null },
+  { cat: "Body", en: "voice", hu: "hang", file: null },
+  { cat: "Body", en: "skin", hu: "bőr", file: null },
+  { cat: "Body", en: "body", hu: "test", file: null },
+  { cat: "Seasons", en: "summer", hu: "nyár", file: null },
+  { cat: "Seasons", en: "spring", hu: "tavasz", file: null },
+  { cat: "Seasons", en: "winter", hu: "tél", file: null },
+  { cat: "Seasons", en: "fall", hu: "ősz", file: null },
+  { cat: "Seasons", en: "season", hu: "évszak", file: null },
+  { cat: "Months", en: "January", hu: "január", file: null },
+  { cat: "Months", en: "February", hu: "február", file: null },
+  { cat: "Months", en: "March", hu: "március", file: null },
+  { cat: "Months", en: "April", hu: "április", file: null },
+  { cat: "Months", en: "May", hu: "május", file: null },
+  { cat: "Months", en: "June", hu: "június", file: null },
+  { cat: "Months", en: "July", hu: "július", file: null },
+  { cat: "Months", en: "August", hu: "augusztus", file: null },
+  { cat: "Months", en: "September", hu: "szeptember", file: null },
+  { cat: "Months", en: "October", hu: "október", file: null },
+  { cat: "Months", en: "November", hu: "november", file: null },
+  { cat: "Months", en: "December", hu: "december", file: null },
+  { cat: "Days of the Week", en: "monday", hu: "hétfő", file: null },
+  { cat: "Days of the Week", en: "tuesday", hu: "kedd", file: null },
+  { cat: "Days of the Week", en: "wednesday", hu: "szerda", file: null },
+  { cat: "Days of the Week", en: "thursday", hu: "csütörtök", file: null },
+  { cat: "Days of the Week", en: "friday", hu: "péntek", file: null },
+  { cat: "Days of the Week", en: "saturday", hu: "szombat", file: null },
+  { cat: "Days of the Week", en: "sunday", hu: "vasárnap", file: null },
+  { cat: "Time", en: "year", hu: "év", file: null },
+  { cat: "Time", en: "month", hu: "hónap", file: null },
+  { cat: "Time", en: "week", hu: "hét", file: null },
+  { cat: "Time", en: "day", hu: "nap", file: null },
+  { cat: "Time", en: "hour", hu: "óra", file: null },
+  { cat: "Time", en: "minute", hu: "perc", file: null },
+  { cat: "Time", en: "second", hu: "másodperc", file: null },
+  { cat: "Time", en: "morning", hu: "reggel", file: null },
+  { cat: "Time", en: "afternoon", hu: "délután", file: null },
+  { cat: "Time", en: "evening", hu: "este", file: null },
+  { cat: "Time", en: "night", hu: "éjszaka", file: null },
+  { cat: "Time", en: "time", hu: "idő", file: null },
+  { cat: "Pronouns", en: "I", hu: "én", file: null },
+  { cat: "Pronouns", en: "we", hu: "mi", file: "047_mi.mp3" },
+  { cat: "Pronouns", en: "you", hu: "te", file: null },
+  { cat: "Pronouns", en: "you (pl.)", hu: "ti", file: null },
+  { cat: "Pronouns", en: "xe", hu: "ő", file: null },
+  { cat: "Pronouns", en: "they", hu: "ők", file: null },
+  { cat: "Pronouns", en: "you (pol.)", hu: "Ön", file: null },
+  { cat: "Pronouns", en: "you (pol. pl.)", hu: "Önök", file: null },
+  { cat: "Adjectives", en: "long", hu: "hosszú", file: null },
+  { cat: "Adjectives", en: "short (length)", hu: "rövid", file: null },
+  { cat: "Adjectives", en: "tall", hu: "magas", file: null },
+  { cat: "Adjectives", en: "short (height)", hu: "alacsony", file: null },
+  { cat: "Adjectives", en: "wide", hu: "tág", file: null },
+  { cat: "Adjectives", en: "narrow", hu: "szűk", file: null },
+  { cat: "Adjectives", en: "big/large", hu: "nagy", file: null },
+  { cat: "Adjectives", en: "small/little", hu: "kicsi", file: null },
+  { cat: "Adjectives", en: "slow", hu: "lassú", file: null },
+  { cat: "Adjectives", en: "fast", hu: "gyors", file: null },
+  { cat: "Adjectives", en: "hot", hu: "forró", file: null },
+  { cat: "Adjectives", en: "cold", hu: "hideg", file: null },
+  { cat: "Adjectives", en: "warm", hu: "meleg", file: null },
+  { cat: "Adjectives", en: "cool", hu: "hűvös", file: null },
+  { cat: "Adjectives", en: "new", hu: "új", file: null },
+  { cat: "Adjectives", en: "old", hu: "régi", file: null },
+  { cat: "Adjectives", en: "young", hu: "fiatal", file: null },
+  { cat: "Adjectives", en: "old (age)", hu: "öreg", file: null },
+  { cat: "Adjectives", en: "good", hu: "jó", file: "jo.mp3" },
+  { cat: "Adjectives", en: "bad", hu: "rossz", file: null },
+  { cat: "Adjectives", en: "wet", hu: "nedves", file: null },
+  { cat: "Adjectives", en: "dry", hu: "száraz", file: null },
+  { cat: "Adjectives", en: "sick", hu: "beteg", file: null },
+  { cat: "Adjectives", en: "healthy", hu: "egészséges", file: null },
+  { cat: "Adjectives", en: "loud", hu: "hangos", file: null },
+  { cat: "Adjectives", en: "quiet", hu: "csendes", file: null },
+  { cat: "Adjectives", en: "happy", hu: "boldog", file: null },
+  { cat: "Adjectives", en: "sad", hu: "szomorú", file: null },
+  { cat: "Adjectives", en: "beautiful", hu: "gyönyörű", file: null },
+  { cat: "Adjectives", en: "ugly", hu: "csúnya", file: null },
+  { cat: "Adjectives", en: "deaf", hu: "süket", file: null },
+  { cat: "Adjectives", en: "blind", hu: "vak", file: null },
+  { cat: "Adjectives", en: "nice", hu: "kedves", file: null },
+  { cat: "Adjectives", en: "mean", hu: "durva", file: null },
+  { cat: "Adjectives", en: "rich", hu: "gazdag", file: null },
+  { cat: "Adjectives", en: "poor", hu: "szegény", file: null },
+  { cat: "Adjectives", en: "thick", hu: "vastag", file: null },
+  { cat: "Adjectives", en: "thin", hu: "vékony", file: null },
+  { cat: "Adjectives", en: "expensive", hu: "drága", file: null },
+  { cat: "Adjectives", en: "cheap", hu: "olcsó", file: null },
+  { cat: "Adjectives", en: "flat", hu: "sima", file: null },
+  { cat: "Adjectives", en: "curved", hu: "görbe", file: null },
+  { cat: "Adjectives", en: "male", hu: "hím", file: null },
+  { cat: "Adjectives", en: "female", hu: "női", file: null },
+  { cat: "Adjectives", en: "tight", hu: "szoros", file: null },
+  { cat: "Adjectives", en: "loose", hu: "laza", file: null },
+  { cat: "Adjectives", en: "high", hu: "magas", file: null },
+  { cat: "Adjectives", en: "low", hu: "alacsony", file: null },
+  { cat: "Adjectives", en: "soft", hu: "puha", file: null },
+  { cat: "Adjectives", en: "hard", hu: "kemény", file: null },
+  { cat: "Adjectives", en: "deep", hu: "mély", file: null },
+  { cat: "Adjectives", en: "shallow", hu: "sekély", file: null },
+  { cat: "Adjectives", en: "clean", hu: "tiszta", file: null },
+  { cat: "Adjectives", en: "dirty", hu: "piszkos", file: null },
+  { cat: "Adjectives", en: "strong", hu: "erős", file: null },
+  { cat: "Adjectives", en: "weak", hu: "gyenge", file: null },
+  { cat: "Adjectives", en: "dead", hu: "holt", file: null },
+  { cat: "Adjectives", en: "alive", hu: "élő", file: null },
+  { cat: "Adjectives", en: "heavy", hu: "súlyos", file: null },
+  { cat: "Adjectives", en: "light (weight)", hu: "könnyű", file: null },
+  { cat: "Adjectives", en: "dark", hu: "sötét", file: null },
+  { cat: "Adjectives", en: "light", hu: "világos", file: null },
+  { cat: "Adjectives", en: "nuclear", hu: "nukleáris", file: null },
+  { cat: "Adjectives", en: "famous", hu: "híres", file: null },
+  { cat: "Verbs", en: "work", hu: "dolgozik", file: null },
+  { cat: "Verbs", en: "play", hu: "játszik", file: null },
+  { cat: "Verbs", en: "walk", hu: "sétál", file: null },
+  { cat: "Verbs", en: "run", hu: "fut", file: null },
+  { cat: "Verbs", en: "drive", hu: "hajt", file: null },
+  { cat: "Verbs", en: "fly", hu: "repül", file: null },
+  { cat: "Verbs", en: "swim", hu: "úszik", file: null },
+  { cat: "Verbs", en: "go", hu: "megy", file: null },
+  { cat: "Verbs", en: "stop", hu: "megáll", file: null },
+  { cat: "Verbs", en: "follow", hu: "követ", file: null },
+  { cat: "Verbs", en: "think", hu: "gondol", file: null },
+  { cat: "Verbs", en: "speak", hu: "beszél", file: null },
+  { cat: "Verbs", en: "say", hu: "mond", file: null },
+  { cat: "Verbs", en: "eat", hu: "eszik", file: null },
+  { cat: "Verbs", en: "drink", hu: "iszik", file: null },
+  { cat: "Verbs", en: "kill", hu: "öl", file: null },
+  { cat: "Verbs", en: "die", hu: "meghal", file: null },
+  { cat: "Verbs", en: "smile", hu: "mosolyog", file: null },
+  { cat: "Verbs", en: "laugh", hu: "nevet", file: null },
+  { cat: "Verbs", en: "cry", hu: "sír", file: null },
+  { cat: "Verbs", en: "buy", hu: "vesz", file: null },
+  { cat: "Verbs", en: "pay", hu: "fizet", file: null },
+  { cat: "Verbs", en: "sell", hu: "elad", file: null },
+  { cat: "Verbs", en: "shoot (gun)", hu: "lő", file: null },
+  { cat: "Verbs", en: "learn", hu: "tanul", file: null },
+  { cat: "Verbs", en: "jump", hu: "ugrik", file: null },
+  { cat: "Verbs", en: "smell", hu: "szagol", file: null },
+  { cat: "Verbs", en: "hear", hu: "hall", file: null },
+  { cat: "Verbs", en: "listen", hu: "hallgat", file: null },
+  { cat: "Verbs", en: "taste", hu: "ízlel", file: null },
+  { cat: "Verbs", en: "touch", hu: "érint", file: null },
+  { cat: "Verbs", en: "see", hu: "lát", file: null },
+  { cat: "Verbs", en: "watch", hu: "néz", file: null },
+  { cat: "Verbs", en: "kiss", hu: "csókol", file: null },
+  { cat: "Verbs", en: "burn", hu: "ég", file: null },
+  { cat: "Verbs", en: "melt", hu: "olvad", file: null },
+  { cat: "Verbs", en: "dig", hu: "ás", file: null },
+  { cat: "Verbs", en: "explode", hu: "felrobban", file: null },
+  { cat: "Verbs", en: "sit", hu: "ül", file: null },
+  { cat: "Verbs", en: "stand", hu: "áll", file: null },
+  { cat: "Verbs", en: "love", hu: "szeret", file: null },
+  { cat: "Verbs", en: "pass by", hu: "elnéz", file: null },
+  { cat: "Verbs", en: "throw", hu: "dob", file: null },
+  { cat: "Verbs", en: "clean", hu: "takarít", file: null },
+  { cat: "Verbs", en: "find", hu: "talál", file: null },
+  { cat: "Verbs", en: "fall", hu: "esik", file: null },
+  { cat: "Verbs", en: "push", hu: "tol", file: null },
+  { cat: "Verbs", en: "pull", hu: "húz", file: null },
+  { cat: "Verbs", en: "carry", hu: "hord", file: null },
+  { cat: "Verbs", en: "break", hu: "tör", file: null },
+  { cat: "Verbs", en: "wear", hu: "hord", file: null },
+  { cat: "Verbs", en: "hang", hu: "lóg", file: null },
+  { cat: "Verbs", en: "shake", hu: "ráz", file: null },
+  { cat: "Verbs", en: "sign", hu: "aláir", file: null },
+  { cat: "Verbs", en: "beat", hu: "ver", file: null },
+  { cat: "Verbs", en: "lift", hu: "emel", file: null },
+  { cat: "Verbs", en: "lie down", hu: "lefekszik", file: null },
+  { cat: "Verbs", en: "dance", hu: "táncol", file: null },
+  { cat: "Verbs", en: "sleep", hu: "alszik", file: null },
+  { cat: "Verbs", en: "wake up", hu: "felébred", file: null },
+  { cat: "Verbs", en: "sing", hu: "énekel", file: null },
+  { cat: "Verbs", en: "count", hu: "számít", file: null },
+  { cat: "Verbs", en: "marry", hu: "házasodik", file: null },
+  { cat: "Verbs", en: "pray", hu: "imádkozik", file: null },
+  { cat: "Verbs", en: "win", hu: "győz", file: null },
+  { cat: "Verbs", en: "lose", hu: "veszít", file: null },
+  { cat: "Verbs", en: "mix/stir", hu: "vegyít", file: null },
+  { cat: "Verbs", en: "bend", hu: "hajlít", file: null },
+  { cat: "Verbs", en: "wash", hu: "mos", file: null },
+  { cat: "Verbs", en: "cook", hu: "fő", file: null },
+  { cat: "Verbs", en: "open", hu: "nyit", file: null },
+  { cat: "Verbs", en: "close", hu: "csuk", file: null },
+  { cat: "Verbs", en: "write", hu: "ír", file: null },
+  { cat: "Verbs", en: "call", hu: "hív", file: null },
+  { cat: "Verbs", en: "turn", hu: "fordul / fordít", file: null },
+  { cat: "Verbs", en: "build", hu: "épit", file: null },
+  { cat: "Verbs", en: "teach", hu: "tanít", file: null },
+  { cat: "Verbs", en: "grow", hu: "nő / növekszik", file: null },
+  { cat: "Verbs", en: "draw", hu: "rajzol", file: null },
+  { cat: "Verbs", en: "feed", hu: "etet", file: null },
+  { cat: "Verbs", en: "catch", hu: "elfog", file: null },
+  { cat: "Verbs", en: "cut", hu: "vág", file: null },
+  { cat: "Verbs", en: "fight", hu: "harcol", file: null },
+  { cat: "Animals", en: "dog", hu: "kutya", file: null },
+  { cat: "Animals", en: "cat", hu: "macska", file: null },
+  { cat: "Animals", en: "fish", hu: "hal", file: null },
+  { cat: "Animals", en: "bird", hu: "madár", file: null },
+  { cat: "Animals", en: "cow", hu: "tehén", file: null },
+  { cat: "Animals", en: "pig", hu: "sertés", file: null },
+  { cat: "Animals", en: "mouse", hu: "egér", file: null },
+  { cat: "Animals", en: "horse", hu: "ló", file: null },
+  { cat: "Animals", en: "wing", hu: "szárny", file: null },
+  { cat: "Animals", en: "animal", hu: "állat", file: null },
+  { cat: "Transportation", en: "train", hu: "vonat", file: null },
+  { cat: "Transportation", en: "plane", hu: "repülőgép", file: null },
+  { cat: "Transportation", en: "car", hu: "autó / kocsi", file: null },
+  { cat: "Transportation", en: "truck", hu: "teherautó / kamion", file: null },
+  { cat: "Transportation", en: "bicycle", hu: "kerékpár / bicikli", file: null },
+  { cat: "Transportation", en: "bus", hu: "busz", file: null },
+  { cat: "Transportation", en: "boat", hu: "hajó", file: null },
+  { cat: "Transportation", en: "tire", hu: "gumiabroncs", file: null },
+  { cat: "Transportation", en: "gasoline", hu: "benzin", file: null },
+  { cat: "Transportation", en: "engine", hu: "motor", file: null },
+  { cat: "Transportation", en: "(train) ticket", hu: "jegy", file: null },
+  { cat: "Transportation", en: "transportation", hu: "szállítás", file: null },
+  { cat: "Location", en: "city", hu: "város", file: null },
+  { cat: "Location", en: "house", hu: "ház", file: null },
+  { cat: "Location", en: "apartment", hu: "lakás", file: null },
+  { cat: "Location", en: "street", hu: "utca / út", file: "043_utca.mp3" },
+  { cat: "Location", en: "airport", hu: "repülőtér", file: null },
+  { cat: "Location", en: "train station", hu: "vasútállomás", file: null },
+  { cat: "Location", en: "bridge", hu: "híd", file: null },
+  { cat: "Location", en: "hotel", hu: "hotel", file: null },
+  { cat: "Location", en: "restaurant", hu: "étterem", file: null },
+  { cat: "Location", en: "farm", hu: "farm", file: null },
+  { cat: "Location", en: "court", hu: "bíróság", file: null },
+  { cat: "Location", en: "school", hu: "iskola", file: null },
+  { cat: "Location", en: "office", hu: "iroda", file: null },
+  { cat: "Location", en: "room", hu: "hely / szoba", file: null },
+  { cat: "Location", en: "university", hu: "egyetem", file: null },
+  { cat: "Location", en: "club", hu: "klub", file: null },
+  { cat: "Location", en: "bar", hu: "kocsma", file: null },
+  { cat: "Location", en: "park", hu: "park", file: null },
+  { cat: "Location", en: "camp", hu: "kemping", file: null },
+  { cat: "Location", en: "store", hu: "bolt", file: null },
+  { cat: "Location", en: "theatre", hu: "színház", file: null },
+  { cat: "Location", en: "library", hu: "könyvtár", file: null },
+  { cat: "Location", en: "hospital", hu: "kórház", file: null },
+  { cat: "Location", en: "church", hu: "templom", file: null },
+  { cat: "Location", en: "market", hu: "piactér", file: null },
+  { cat: "Location", en: "country", hu: "ország", file: null },
+  { cat: "Location", en: "building", hu: "épület", file: null },
+  { cat: "Location", en: "ground", hu: "föld", file: null },
+  { cat: "Location", en: "outer space", hu: "világűr", file: null },
+  { cat: "Location", en: "bank", hu: "pénzintézet", file: null },
+  { cat: "Location", en: "location", hu: "fekvés", file: null },
+  { cat: "Clothing", en: "hat", hu: "kalap", file: null },
+  { cat: "Clothing", en: "dress", hu: "ruha", file: null },
+  { cat: "Clothing", en: "suit", hu: "öltöny", file: null },
+  { cat: "Clothing", en: "skirt", hu: "szoknya", file: null },
+  { cat: "Clothing", en: "shirt", hu: "ing", file: null },
+  { cat: "Clothing", en: "T-shirt", hu: "póló", file: null },
+  { cat: "Clothing", en: "pants", hu: "nadrág", file: null },
+  { cat: "Clothing", en: "shoes", hu: "cipő", file: null },
+  { cat: "Clothing", en: "pocket", hu: "zseb", file: null },
+  { cat: "Clothing", en: "coat", hu: "kabát", file: null },
+  { cat: "Clothing", en: "stain", hu: "folt", file: null },
+  { cat: "Clothing", en: "clothing", hu: "ruhák", file: null },
+  { cat: "Colors", en: "red", hu: "piros", file: null },
+  { cat: "Colors", en: "green", hu: "zöld", file: null },
+  { cat: "Colors", en: "blue", hu: "kék", file: null },
+  { cat: "Colors", en: "yellow", hu: "sárga", file: null },
+  { cat: "Colors", en: "brown", hu: "barna", file: null },
+  { cat: "Colors", en: "pink", hu: "rózsaszín", file: null },
+  { cat: "Colors", en: "orange", hu: "narancs", file: null },
+  { cat: "Colors", en: "black", hu: "fekete", file: null },
+  { cat: "Colors", en: "white", hu: "fehér", file: null },
+  { cat: "Colors", en: "gray", hu: "szürke", file: null },
+  { cat: "Colors", en: "light", hu: "világos", file: null },
+  { cat: "Colors", en: "dark", hu: "sötét", file: null },
+  { cat: "Colors", en: "color", hu: "szín", file: null },
+  { cat: "People", en: "son", hu: "fiú", file: null },
+  { cat: "People", en: "daughter", hu: "lány", file: null },
+  { cat: "People", en: "mother", hu: "anya", file: null },
+  { cat: "People", en: "father", hu: "apa", file: null },
+  { cat: "People", en: "parent", hu: "szülő", file: null },
+  { cat: "People", en: "baby", hu: "baba / bébi", file: null },
+  { cat: "People", en: "man", hu: "férfi", file: null },
+  { cat: "People", en: "woman", hu: "nő", file: null },
+  { cat: "People", en: "brother", hu: "fivér", file: null },
+  { cat: "People", en: "sister", hu: "nővér", file: null },
+  { cat: "People", en: "family", hu: "család", file: null },
+  { cat: "People", en: "grandfather", hu: "nagypapa", file: null },
+  { cat: "People", en: "grandmother", hu: "nagymama", file: null },
+  { cat: "People", en: "husband", hu: "férj", file: null },
+  { cat: "People", en: "wife", hu: "feleség", file: null },
+  { cat: "People", en: "king", hu: "király", file: null },
+  { cat: "People", en: "queen", hu: "királyné / királynő", file: null },
+  { cat: "People", en: "president", hu: "elnök", file: null },
+  { cat: "People", en: "neighbor", hu: "szomszéd", file: null },
+  { cat: "People", en: "boy", hu: "fiú", file: null },
+  { cat: "People", en: "girl", hu: "lány", file: null },
+  { cat: "People", en: "child", hu: "gyermek / gyerek", file: null },
+  { cat: "People", en: "adult", hu: "felnőtt", file: null },
+  { cat: "People", en: "human", hu: "emberi", file: null },
+  { cat: "People", en: "friend", hu: "barát", file: null },
+  { cat: "People", en: "victim", hu: "áldozat", file: null },
+  { cat: "People", en: "player", hu: "játékos", file: null },
+  { cat: "People", en: "fan", hu: "rajongó / szurkoló / drukker", file: null },
+  { cat: "People", en: "crowd", hu: "tömeg", file: null },
+  { cat: "People", en: "person", hu: "ember", file: null },
+  { cat: "Jobs", en: "teacher", hu: "tanár", file: null },
+  { cat: "Jobs", en: "student", hu: "diák", file: null },
+  { cat: "Jobs", en: "lawyer", hu: "ügyvéd", file: null },
+  { cat: "Jobs", en: "doctor", hu: "orvos", file: null },
+  { cat: "Jobs", en: "patient", hu: "páciens", file: null },
+  { cat: "Jobs", en: "waiter", hu: "pincer", file: null },
+  { cat: "Jobs", en: "secretary", hu: "titkár", file: null },
+  { cat: "Jobs", en: "priest", hu: "pap", file: null },
+  { cat: "Jobs", en: "police officer", hu: "rendőr", file: null },
+  { cat: "Jobs", en: "army", hu: "hadsereg", file: null },
+  { cat: "Jobs", en: "soldier", hu: "katona", file: null },
+  { cat: "Jobs", en: "artist", hu: "művész", file: null },
+  { cat: "Jobs", en: "author", hu: "író", file: null },
+  { cat: "Jobs", en: "manager", hu: "menedzser", file: null },
+  { cat: "Jobs", en: "reporter", hu: "riporter / újságíró", file: null },
+  { cat: "Jobs", en: "actor", hu: "színész", file: null },
+  { cat: "Jobs", en: "job", hu: "munka", file: null },
+  { cat: "Society", en: "religion", hu: "vallás", file: null },
+  { cat: "Society", en: "heaven", hu: "mennyország", file: null },
+  { cat: "Society", en: "hell", hu: "pokol", file: null },
+  { cat: "Society", en: "death", hu: "halál", file: null },
+  { cat: "Society", en: "medicine", hu: "gyógyszer", file: null },
+  { cat: "Society", en: "money", hu: "pénz", file: null },
+  { cat: "Society", en: "dollar", hu: "dollár", file: null },
+  { cat: "Society", en: "bill", hu: "papírpénz", file: null },
+  { cat: "Society", en: "marriage", hu: "házasság", file: null },
+  { cat: "Society", en: "wedding", hu: "esküvő", file: null },
+  { cat: "Society", en: "team", hu: "csoport", file: null },
+  { cat: "Society", en: "race (ethnicity)", hu: "faj", file: null },
+  { cat: "Society", en: "sex (act)", hu: "szex", file: null },
+  { cat: "Society", en: "sex (gender)", hu: "nem", file: "024_nem.mp3" },
+  { cat: "Society", en: "murder", hu: "gyilkosság", file: null },
+  { cat: "Society", en: "prison", hu: "börtön", file: null },
+  { cat: "Society", en: "technology", hu: "technológia", file: null },
+  { cat: "Society", en: "energy", hu: "energia", file: null },
+  { cat: "Society", en: "war", hu: "háború", file: null },
+  { cat: "Society", en: "peace", hu: "béke", file: null },
+  { cat: "Society", en: "attack", hu: "támadás", file: null },
+  { cat: "Society", en: "election", hu: "választás", file: null },
+  { cat: "Society", en: "magazine", hu: "magazin", file: null },
+  { cat: "Society", en: "newspaper", hu: "újság", file: null },
+  { cat: "Society", en: "poison", hu: "méreg", file: null },
+  { cat: "Society", en: "gun", hu: "pisztoly", file: null },
+  { cat: "Society", en: "sport", hu: "sportág", file: null },
+  { cat: "Society", en: "race (sport)", hu: "verseny", file: null },
+  { cat: "Society", en: "exercise", hu: "torna(gyakorlat)", file: null },
+  { cat: "Society", en: "ball", hu: "labda", file: null },
+  { cat: "Society", en: "game", hu: "játék", file: null },
+  { cat: "Society", en: "price", hu: "ár", file: null },
+  { cat: "Society", en: "contract", hu: "megegyezés", file: null },
+  { cat: "Society", en: "drug", hu: "drog", file: null },
+  { cat: "Society", en: "sign", hu: "jel", file: null },
+  { cat: "Society", en: "science", hu: "tudomány", file: null },
+  { cat: "Society", en: "god", hu: "Isten", file: null },
+  { cat: "Art", en: "band", hu: "együttes", file: null },
+  { cat: "Art", en: "song", hu: "dal / szám", file: null },
+  { cat: "Art", en: "instrument", hu: "hangszer", file: null },
+  { cat: "Art", en: "music", hu: "zene", file: null },
+  { cat: "Art", en: "movie", hu: "film", file: null },
+  { cat: "Art", en: "art", hu: "művészet", file: null },
+  { cat: "Beverages", en: "coffee", hu: "kávé", file: null },
+  { cat: "Beverages", en: "tea", hu: "tea", file: null },
+  { cat: "Beverages", en: "wine", hu: "bor", file: null },
+  { cat: "Beverages", en: "beer", hu: "sör", file: null },
+  { cat: "Beverages", en: "juice", hu: "lé", file: null },
+  { cat: "Beverages", en: "water", hu: "víz", file: null },
+  { cat: "Beverages", en: "milk", hu: "tej", file: null },
+  { cat: "Beverages", en: "beverage", hu: "ital", file: null },
+  { cat: "Food", en: "egg", hu: "tojás", file: null },
+  { cat: "Food", en: "cheese", hu: "sajt", file: null },
+  { cat: "Food", en: "bread", hu: "kenyér", file: null },
+  { cat: "Food", en: "soup", hu: "leves", file: null },
+  { cat: "Food", en: "cake", hu: "süti", file: null },
+  { cat: "Food", en: "chicken", hu: "csirke", file: null },
+  { cat: "Food", en: "pork", hu: "sertés", file: null },
+  { cat: "Food", en: "beef", hu: "marhahús", file: null },
+  { cat: "Food", en: "apple", hu: "alma", file: null },
+  { cat: "Food", en: "banana", hu: "banán", file: null },
+  { cat: "Food", en: "orange", hu: "narancs", file: null },
+  { cat: "Food", en: "lemon", hu: "citrom", file: null },
+  { cat: "Food", en: "corn", hu: "kukorica", file: null },
+  { cat: "Food", en: "rice", hu: "rizs", file: null },
+  { cat: "Food", en: "oil", hu: "olaj", file: null },
+  { cat: "Food", en: "seed", hu: "mag", file: null },
+  { cat: "Food", en: "knife", hu: "kés", file: null },
+  { cat: "Food", en: "spoon", hu: "kanál", file: null },
+  { cat: "Food", en: "fork", hu: "villa", file: null },
+  { cat: "Food", en: "plate", hu: "tányér", file: null },
+  { cat: "Food", en: "cup", hu: "csésze / kupa", file: null },
+  { cat: "Food", en: "breakfast", hu: "reggeli", file: null },
+  { cat: "Food", en: "lunch", hu: "ebéd", file: null },
+  { cat: "Food", en: "dinner", hu: "ebéd / vacsora", file: null },
+  { cat: "Food", en: "sugar", hu: "cukor", file: null },
+  { cat: "Food", en: "salt", hu: "só", file: null },
+  { cat: "Food", en: "bottle", hu: "üveg", file: null },
+  { cat: "Food", en: "food", hu: "étel / kaja", file: null },
+  { cat: "Home", en: "table", hu: "asztal", file: null },
+  { cat: "Home", en: "chair", hu: "szék", file: null },
+  { cat: "Home", en: "bed", hu: "ágy", file: null },
+  { cat: "Home", en: "dream", hu: "álom", file: null },
+  { cat: "Home", en: "window", hu: "ablak", file: null },
+  { cat: "Home", en: "door", hu: "ajtó", file: null },
+  { cat: "Home", en: "bedroom", hu: "hálószoba", file: null },
+  { cat: "Home", en: "kitchen", hu: "konyha", file: null },
+  { cat: "Home", en: "bathroom", hu: "fürdőszoba", file: null },
+  { cat: "Home", en: "pencil", hu: "ceruza", file: null },
+  { cat: "Home", en: "pen", hu: "toll", file: null },
+  { cat: "Home", en: "photograph", hu: "fénykép", file: null },
+  { cat: "Home", en: "soap", hu: "szappan", file: null },
+  { cat: "Home", en: "book", hu: "könyv", file: null },
+  { cat: "Home", en: "page", hu: "lap", file: null },
+  { cat: "Home", en: "key", hu: "kulcs", file: null },
+  { cat: "Home", en: "paint", hu: "fest", file: null },
+  { cat: "Home", en: "letter", hu: "levél", file: null },
+  { cat: "Home", en: "note", hu: "jegyzet", file: null },
+  { cat: "Home", en: "wall", hu: "fal", file: null },
+  { cat: "Home", en: "paper", hu: "papír", file: null },
+  { cat: "Home", en: "floor", hu: "padló", file: null },
+  { cat: "Home", en: "ceiling", hu: "mennyezet", file: null },
+  { cat: "Home", en: "roof", hu: "tető", file: null },
+  { cat: "Home", en: "pool", hu: "medence", file: null },
+  { cat: "Home", en: "lock", hu: "zár", file: null },
+  { cat: "Home", en: "telephone", hu: "telefon", file: null },
+  { cat: "Home", en: "garden", hu: "kert", file: null },
+  { cat: "Home", en: "yard", hu: "udvar", file: null },
+  { cat: "Home", en: "needle", hu: "tű", file: null },
+  { cat: "Home", en: "bag", hu: "táska", file: null },
+  { cat: "Home", en: "box", hu: "doboz", file: null },
+  { cat: "Home", en: "gift", hu: "ajándék", file: null },
+  { cat: "Home", en: "card", hu: "kártya", file: null },
+  { cat: "Home", en: "ring", hu: "gyűrű", file: null },
+  { cat: "Home", en: "tool", hu: "eszköz", file: null },
+];
+
+const CATEGORIES = [...new Set(DATA.map(d => d.cat))];
+
+const $ = id => document.getElementById(id);
+
+/* ---------------- felolvasás: mp3 elsőként, SpeechSynthesis tartalékként ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){
+  pickHungarianVoice();
+  window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
+}
+// A "nincs hangfelolvasás" sáv most szándékosan nem jelenik meg — a lejátszás
+// ideiglenesen ki van kapcsolva, amíg az összes szó felvétele el nem készül.
+function speakFallback(text, btn){
+  if(!speechSupported) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text.replace(/\s*\/\s*.*/, ''));
+  utter.lang = 'hu-HU';
+  utter.rate = 0.9;
+  if(huVoice) utter.voice = huVoice;
+  if(btn){
+    btn.classList.add('playing');
+    utter.onend = () => btn.classList.remove('playing');
+    utter.onerror = () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+function playItem(item, btn){
+  // Ideiglenesen letiltva — a hangfelvételek újrafelvétel alatt.
+  // Temporarily disabled — audio recordings are being redone.
+  return;
+}
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------------- STUDY MODE ---------------- */
+let studyOrder = DATA.map((_, i) => i);
+let studyPos = 0;
+let studyFlipped = false;
+
+function initJumpSelect(){
+  const sel = $('jumpCat');
+  sel.innerHTML = '<option value="-1">Ugrás kategóriára…</option>' +
+    CATEGORIES.map((c, i) => `<option value="${i}">${c}</option>`).join('');
+  sel.addEventListener('change', () => {
+    const idx = parseInt(sel.value, 10);
+    if(idx < 0) return;
+    const cat = CATEGORIES[idx];
+    const pos = studyOrder.findIndex(i => DATA[i].cat === cat);
+    if(pos >= 0){ studyPos = pos; renderStudy(); }
+    sel.value = "-1";
+  });
+}
+
+function renderStudy(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[studyOrder[studyPos]];
+  $('frontText').textContent = item.en;
+  $('backText').textContent = item.hu;
+  $('catLabel').textContent = item.cat;
+  $('cardIndex').textContent = studyPos + 1;
+  $('cardTotal').textContent = DATA.length;
+  $('studyProgress').style.width = ((studyPos + 1) / DATA.length * 100) + "%";
+  studyFlipped = false;
+  $('studyCard').classList.remove('flipped');
+  $('prevBtn').disabled = studyPos === 0;
+  $('nextBtn').disabled = studyPos === studyOrder.length - 1;
+}
+function flipStudy(){
+  studyFlipped = !studyFlipped;
+  $('studyCard').classList.toggle('flipped', studyFlipped);
+}
+$('studyCard').addEventListener('click', flipStudy);
+$('flipBtn').addEventListener('click', flipStudy);
+$('prevBtn').addEventListener('click', () => { if(studyPos > 0){ studyPos--; renderStudy(); } });
+$('nextBtn').addEventListener('click', () => { if(studyPos < studyOrder.length - 1){ studyPos++; renderStudy(); } });
+$('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.map((_, i) => i)); studyPos = 0; renderStudy(); });
+$('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
+$('speakStudyBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[studyOrder[studyPos]];
+  playItem(item, e.currentTarget);
+});
+
+/* ---------------- MODE SWITCH ---------------- */
+$('btnStudyMode').addEventListener('click', () => {
+  $('btnStudyMode').classList.add('active');
+  $('btnQuizMode').classList.remove('active');
+  $('studyView').classList.remove('hidden');
+  $('quizView').classList.add('hidden');
+});
+$('btnQuizMode').addEventListener('click', () => {
+  $('btnQuizMode').classList.add('active');
+  $('btnStudyMode').classList.remove('active');
+  $('quizView').classList.remove('hidden');
+  $('studyView').classList.add('hidden');
+});
+
+/* ---------------- QUIZ MODE ---------------- */
+let quizOrder = [];
+let quizPos = 0;
+let quizFlipped = false;
+let okCount = 0, noCount = 0;
+let missed = [];
+
+function initQuizCatSelect(){
+  const sel = $('quizCatSelect');
+  sel.innerHTML = '<option value="-1">Összes kategória (600 szó)</option>' +
+    CATEGORIES.map((c, i) => {
+      const n = DATA.filter(d => d.cat === c).length;
+      return `<option value="${i}">${c} (${n})</option>`;
+    }).join('');
+}
+
+function startQuiz(){
+  const catIdx = parseInt($('quizCatSelect').value, 10);
+  const pool = catIdx < 0 ? DATA.map((_, i) => i) : DATA.map((_, i) => i).filter(i => DATA[i].cat === CATEGORIES[catIdx]);
+  quizOrder = shuffleArr(pool);
+  quizPos = 0;
+  okCount = 0; noCount = 0; missed = [];
+  $('quizIntro').classList.add('hidden');
+  $('quizResults').classList.add('hidden');
+  $('quizPlay').classList.remove('hidden');
+  renderQuiz();
+}
+
+function renderQuiz(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[quizOrder[quizPos]];
+  $('quizFrontText').textContent = item.en;
+  $('quizBackText').textContent = item.hu;
+  $('quizCatLabel').textContent = item.cat;
+  $('quizIndex').textContent = quizPos + 1;
+  $('quizTotal').textContent = quizOrder.length;
+  $('quizProgress').style.width = ((quizPos) / quizOrder.length * 100) + "%";
+  $('okCount').textContent = okCount;
+  $('noCount').textContent = noCount;
+  quizFlipped = false;
+  $('quizCard').classList.remove('flipped');
+  $('answerRow').style.visibility = 'hidden';
+}
+function flipQuiz(){
+  quizFlipped = !quizFlipped;
+  $('quizCard').classList.toggle('flipped', quizFlipped);
+  if(quizFlipped){ $('answerRow').style.visibility = 'visible'; }
+}
+function answerQuiz(knewIt){
+  if(!quizFlipped) return;
+  const item = DATA[quizOrder[quizPos]];
+  if(knewIt){ okCount++; } else { noCount++; missed.push(item); }
+  if(quizPos < quizOrder.length - 1){
+    quizPos++;
+    renderQuiz();
+  } else {
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  $('quizPlay').classList.add('hidden');
+  $('quizResults').classList.remove('hidden');
+  $('finalScore').textContent = okCount;
+  $('finalTotal').textContent = quizOrder.length;
+  const list = $('missedList');
+  if(missed.length === 0){
+    list.innerHTML = '<p style="text-align:center; opacity:.6;">Minden szót tudtál! 🎉</p>';
+  } else {
+    list.innerHTML = '<p style="opacity:.5; font-weight:600; margin-bottom:10px;">Ismételd át:</p>' +
+      missed.map(m => `<div class="missed-item"><span>${m.en}</span><b>${m.hu}</b></div>`).join('');
+  }
+}
+$('quizCard').addEventListener('click', flipQuiz);
+$('startQuizBtn').addEventListener('click', startQuiz);
+$('restartQuizBtn').addEventListener('click', () => {
+  $('quizResults').classList.add('hidden');
+  $('quizIntro').classList.remove('hidden');
+});
+$('knowBtn').addEventListener('click', () => answerQuiz(true));
+$('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
+$('speakQuizBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[quizOrder[quizPos]];
+  playItem(item, e.currentTarget);
+});
+
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener('keydown', e => {
+  const quizActive = !$('quizView').classList.contains('hidden');
+  if(quizActive){
+    if(!$('quizPlay').classList.contains('hidden')){
+      if(e.code === 'Space'){ e.preventDefault(); flipQuiz(); }
+      if(e.key === 'ArrowRight' && quizFlipped) answerQuiz(true);
+      if(e.key === 'ArrowLeft' && quizFlipped) answerQuiz(false);
+    }
+  } else {
+    if(e.code === 'Space'){ e.preventDefault(); flipStudy(); }
+    if(e.key === 'ArrowRight'){ $('nextBtn').click(); }
+    if(e.key === 'ArrowLeft'){ $('prevBtn').click(); }
+  }
+});
+
+/* ---------------- INIT ---------------- */
+initJumpSelect();
+initQuizCatSelect();
+renderStudy();
+</script>
+
+</body>
+</html>
