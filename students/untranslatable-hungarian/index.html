@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost In Translation — 19 magyar szó — Hungarian4You</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .breadcrumb { max-width: 980px; margin: 0 auto; padding: 14px 24px 0; font-size: 0.85rem; color: var(--muted); }
+  .breadcrumb a { color: var(--paprika); text-decoration: none; }
+
+  main { max-width: 980px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- App keret ---------- */
+  .app{
+    background: var(--card, #FFFDF8);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 16px;
+    padding: 24px clamp(16px,4vw,32px) 30px;
+    margin: 32px 0 10px;
+    box-shadow: 0 14px 34px -20px rgba(43,33,24,0.4);
+  }
+  .mode-switch{
+    display:flex; justify-content:center; gap:4px;
+    background: var(--bg, #FAF4E6);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+    margin: 0 auto 22px;
+  }
+  .mode-switch button{
+    border:none; background:transparent; cursor:pointer;
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.9rem;
+    padding: 9px 20px; border-radius: 999px; color: var(--ink, #2b2420); opacity:.6;
+    transition: .18s;
+  }
+  .mode-switch button.active{ background: var(--paprika); color:#fff; opacity:1; }
+
+  .info-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; margin-bottom:14px;
+  }
+  .cat-pill{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.78rem;
+    letter-spacing:.02em; color:#fff; background: var(--meadow);
+    padding: 7px 16px; border-radius:999px;
+  }
+  .counter{
+    font-family:'Fraunces', serif; font-weight:600; font-size:0.95rem;
+    color: var(--ink, #2b2420); opacity:.65;
+  }
+  .progress-track{
+    width:100%; height:6px; border-radius:6px; overflow:hidden;
+    background: rgba(43,33,24,0.08); margin-bottom: 22px;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--paprika), var(--mustard));
+    transition: width .3s ease;
+  }
+
+  .stage{ display:flex; justify-content:center; perspective:1600px; margin-bottom:20px; }
+  .card{
+    position:relative; width:min(700px,100%); height: clamp(340px, 42vw, 440px);
+    cursor:pointer; transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .card.flipped{ transform: rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; border-radius:18px; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding: clamp(20px,4vw,44px);
+    border: 1.5px solid var(--border, rgba(43,33,24,0.16));
+    box-shadow: 0 14px 30px -18px rgba(43,33,24,0.4);
+  }
+  .face-front{ background: var(--bg, #FAF4E6); }
+  .face-back{ background: var(--meadow); color:#fdf9ef; transform: rotateY(180deg); overflow-y:auto; }
+  .face-eyebrow{
+    font-family:'Work Sans', sans-serif; font-size:0.72rem; letter-spacing:.16em;
+    text-transform:uppercase; font-weight:700; opacity:.55; margin-bottom:14px;
+  }
+  .face-back .face-eyebrow{ color: var(--mustard); opacity:.95; }
+  .face-text{
+    font-family:'Fraunces', serif; font-weight:700; font-size: clamp(26px,4.4vw,44px); line-height:1.15;
+  }
+  .face-front .face-text{ color: var(--paprika-dark, #7E2513); }
+  .word-type{
+    font-family:'Work Sans', sans-serif; font-size:0.8rem; font-weight:600;
+    color: var(--meadow); opacity:.75; margin-top:14px;
+  }
+  .definition{
+    font-family:'Fraunces', serif; font-weight:600; font-size: clamp(15px, 2vw, 19px);
+    line-height:1.4; margin-bottom:16px;
+  }
+  .example-block{
+    background: rgba(253,249,239,0.10); border:1px solid rgba(253,249,239,0.22);
+    border-radius:12px; padding:12px 16px; max-width:520px;
+  }
+  .example-hu{ font-family:'Fraunces', serif; font-style:italic; font-size:0.92rem; margin-bottom:6px; }
+  .example-en{ font-family:'Work Sans', sans-serif; font-size:0.8rem; opacity:.75; }
+  .hint{ margin-top:14px; font-size:0.72rem; opacity:.5; font-weight:600; letter-spacing:.03em; font-family:'Work Sans', sans-serif; }
+  .face-back .hint{ color:#fdf9ef; opacity:.6; }
+  .speak-btn{
+    margin-top:12px; width:44px; height:44px; border-radius:50%;
+    border:2px solid rgba(253,249,239,0.5); background: rgba(253,249,239,0.14); color:#fdf9ef;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; transition:.15s; flex:none;
+  }
+  .speak-btn:hover{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); transform: scale(1.06); }
+  .speak-btn.playing{ background: var(--mustard); border-color: var(--mustard); color: var(--ink,#241f1a); animation: pulseGlow .9s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 0 0 rgba(201,147,26,.5);} 50%{ box-shadow:0 0 0 9px rgba(201,147,26,0);} }
+
+  .controls{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem;
+    border-radius:12px; border:1.5px solid var(--border, rgba(43,33,24,0.16));
+    background: var(--bg, #FAF4E6); color: var(--ink,#2b2420); padding:12px 22px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn.primary{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .btn.ghost{ background:transparent; }
+  .btn.know{ background: var(--meadow); border-color: var(--meadow); color:#fff; }
+  .btn.dontknow{ background: var(--paprika); border-color: var(--paprika); color:#fff; }
+  .kbd-hint{ text-align:center; font-family:'Work Sans', sans-serif; font-size:0.78rem; opacity:.45; margin-top:4px; }
+
+  .score-tally{ display:flex; gap:18px; font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.85rem; }
+  .score-tally .ok{ color: var(--meadow); }
+  .score-tally .no{ color: var(--paprika); }
+
+  .quiz-intro, .quiz-results{
+    text-align:center; padding: 20px clamp(10px,4vw,30px) 6px;
+  }
+  .quiz-intro p, .quiz-results p{ font-family:'Work Sans', sans-serif; font-size:0.92rem; opacity:.75; max-width:520px; margin:8px auto 20px; line-height:1.55; }
+  .big-score{ font-family:'Fraunces', serif; font-weight:700; font-size: clamp(40px,7vw,64px); color: var(--paprika); margin: 6px 0; }
+  .missed-list{ text-align:left; max-height:280px; overflow-y:auto; margin: 14px auto 22px; max-width:560px; border-top:1.5px solid var(--border, rgba(43,33,24,0.16)); padding-top:14px; }
+  .missed-item{ display:flex; justify-content:space-between; gap:12px; padding:7px 4px; border-bottom:1px dashed var(--border, rgba(43,33,24,0.16)); font-family:'Work Sans', sans-serif; font-size:0.85rem; }
+  .missed-item span{ opacity:.75; }
+  .missed-item b{ font-family:'Fraunces', serif; color: var(--paprika-dark, #7E2513); white-space:nowrap; }
+
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You &middot; Diákoknak / Students</div>
+<div class="motif"></div>
+
+<nav class="breadcrumb">
+  <a href="../">&larr; Students</a> / <a href="../vocabulary-szokincs/">Vocabulary</a> / Lost In Translation
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">SZÓKINCS &middot; LOST IN TRANSLATION</span>
+  <h1 class="title">Lost In Translation</h1>
+  <p class="lede">
+    19 magyar szó, amit az angol nem ismer.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">19 Hungarian words English can't quite capture.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <section class="app">
+
+    <div class="mode-switch">
+      <button type="button" id="btnStudyMode" class="active">Tanulás</button>
+      <button type="button" id="btnQuizMode">Kvíz</button>
+    </div>
+
+    <!-- STUDY MODE -->
+    <div id="studyView">
+      <div class="info-bar">
+        <span class="cat-pill">Lefordíthatatlan / Untranslatable</span>
+        <span class="counter"><span id="cardIndex">1</span> / <span id="cardTotal">19</span></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="studyProgress"></div></div>
+
+      <div class="stage">
+        <div class="card" id="studyCard">
+          <div class="face face-front">
+            <span class="face-eyebrow">Magyar szó</span>
+            <div class="face-text" id="frontText">—</div>
+            <div class="word-type" id="frontType"></div>
+            <div class="hint">Kattints a fordulásért · Space</div>
+          </div>
+          <div class="face face-back">
+            <span class="face-eyebrow">Jelentés</span>
+            <div class="definition" id="backDef">—</div>
+            <div class="example-block">
+              <div class="example-hu" id="backExHu">—</div>
+              <div class="example-en" id="backExEn">—</div>
+            </div>
+            <button type="button" class="speak-btn" id="speakStudyBtn" title="Kiejtés meghallgatása">🔊</button>
+            <div class="hint">Kattints vissza</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" class="btn wide" id="prevBtn">&larr; Előző</button>
+        <button type="button" class="btn primary wide" id="flipBtn">Fordítás</button>
+        <button type="button" class="btn wide" id="nextBtn">Következő &rarr;</button>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn ghost" id="shuffleBtn">🔀 Véletlen sorrend</button>
+        <button type="button" class="btn ghost" id="orderBtn">↺ Eredeti sorrend</button>
+      </div>
+      <p class="kbd-hint">Nyilak: lapozás · Szóköz: fordítás</p>
+    </div>
+
+    <!-- QUIZ MODE -->
+    <div id="quizView" class="hidden">
+
+      <div id="quizIntro" class="quiz-intro">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz — tudod, mit jelentenek?</h2>
+        <p>Véletlenszerű sorrendben, flashcard formában. Fordítsd meg a kártyát, majd jelöld: tudtad-e a jelentést.<br>
+        <span style="opacity:.7; font-style:italic;">Random order flashcards. Flip the card, then mark whether you knew the meaning.</span></p>
+        <button type="button" class="btn primary wide" id="startQuizBtn">Kvíz indítása</button>
+      </div>
+
+      <div id="quizPlay" class="hidden">
+        <div class="info-bar">
+          <span class="cat-pill">Lefordíthatatlan / Untranslatable</span>
+          <span class="score-tally"><span class="ok">✓ <span id="okCount">0</span></span><span class="no">✕ <span id="noCount">0</span></span></span>
+          <span class="counter"><span id="quizIndex">1</span> / <span id="quizTotal">19</span></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="quizProgress"></div></div>
+
+        <div class="stage">
+          <div class="card" id="quizCard">
+            <div class="face face-front">
+              <span class="face-eyebrow">Magyar szó</span>
+              <div class="face-text" id="quizFrontText">—</div>
+              <div class="word-type" id="quizFrontType"></div>
+              <div class="hint">Kattints a fordulásért · Space</div>
+            </div>
+            <div class="face face-back">
+              <span class="face-eyebrow">Jelentés</span>
+              <div class="definition" id="quizBackDef">—</div>
+              <div class="example-block">
+                <div class="example-hu" id="quizBackExHu">—</div>
+                <div class="example-en" id="quizBackExEn">—</div>
+              </div>
+              <button type="button" class="speak-btn" id="speakQuizBtn" title="Kiejtés meghallgatása">🔊</button>
+              <div class="hint">Tudtad?</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls" id="answerRow" style="visibility:hidden;">
+          <button type="button" class="btn dontknow wide" id="dontKnowBtn">✕ Nem tudtam</button>
+          <button type="button" class="btn know wide" id="knowBtn">✓ Tudtam</button>
+        </div>
+        <p class="kbd-hint">Fordítsd meg a kártyát, majd válaszolj</p>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden">
+        <h2 style="font-family:'Fraunces',serif; margin:0 0 6px;">Kvíz eredménye</h2>
+        <div class="big-score"><span id="finalScore">0</span>/<span id="finalTotal">0</span></div>
+        <p>Helyes válaszok száma</p>
+        <div class="missed-list" id="missedList"></div>
+        <button type="button" class="btn primary wide" id="restartQuizBtn">Kvíz újra</button>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You — My Hungarian Language Journey</footer>
+
+<script src="../shared/site-widgets.js"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="peterjozsa" data-description="Támogass egy kávéval" data-message="" data-color="#b6371f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+
+<script>
+/* ---------------------------------------------------------------
+   Adatok — Lost In Translation / Data — Untranslatable Hungarian Words
+   file: az audio/ mappában lévő mp3 fájlnév
+----------------------------------------------------------------*/
+const DATA = [
+  { word: "Szerelem", type: "(fn.) – Romantic Love", def: "Hungarian has two words for love: szeretet, which you can feel for anyone (your kids, your dog, your life), and szerelem, reserved only for the person you're romantically in love with.", exHu: "Ez szerelem, nem csak szeretet.", exEn: "This is romantic love, not just affection.", file: "szerelem.mp3" },
+  { word: "Tutyimutyi", type: "(fn. és mn.) – A Weak-Willed Person who Fears Every Action", def: "Someone who moves through life overly carefully, terrified of making mistakes — and often ends up clumsy and inept precisely because of it.", exHu: "A tutyimutyi ember csak akkor csinál bármit is, ha ráparancsolnak.", exEn: "A tutyimutyi person will only do anything if someone commands him to.", file: "tutyimutyi.mp3" },
+  { word: "Elvágyódás", type: "(fn.) – The Desire to Get Away from Where You Currently Are", def: "A melancholic longing to escape your current reality — not quite wanderlust, since it's not really about travel, and not always about a place at all.", exHu: "Él bennem egy állandó elvágyódás a jelenből térben és időben.", exEn: "There is a constant feeling inside of me that I want to get away from the present, in space and in time.", file: "elvagyodas.mp3" },
+  { word: "Báty, Öcs, Nővér & Húg", type: "(fn.) – Four Shades of Siblings", def: "Hungarian doesn't just say \"brother\" or \"sister\" — báty is your older brother, öcs your younger brother, nővér your older sister, and húg your younger sister.", exHu: "A húgom a legjobb barátom.", exEn: "My younger sister is my best friend.", file: "baty-ocs-nover-hug.mp3" },
+  { word: "Hiányérzet", type: "(fn.) – The Feeling that Something You Can't Name is Missing", def: "That nagging sense that something is off or missing — a better ending to a book, a forgotten item in your bag — without being able to say exactly what.", exHu: "Hiányérzetem van; tuti otthon hagytam valamit.", exEn: "I have that nagging feeling; I'm sure I left something at home.", file: "hianyerzet.mp3" },
+  { word: "Káröröm", type: "(fn.) – Happiness About Someone Else's Misfortune", def: "Literally \"damage-joy\" — the secret satisfaction you feel when something bad happens to someone else, especially someone who usually has it too good.", exHu: "A legszebb öröm a káröröm.", exEn: "The greatest joy is \"damage-joy.\"", file: "karorom.mp3" },
+  { word: "Elmosolyodik", type: "(ige) – To Start Smiling, Subtly", def: "A tiny, involuntary smile that creeps onto your face even when you didn't think something was funny at first.", exHu: "A végén mégis elmosolyodtam.", exEn: "In the end, I started to smile after all.", file: "elmosolyodik.mp3" },
+  { word: "Bezzeg", type: "(hsz.) – A Filling Word for Pointing Out Unjust Treatment", def: "Used to bitterly (or teasingly) contrast how you were treated versus someone else — roughly \"but,\" loaded with a sense of unfairness.", exHu: "Már megint nem kaptam fizetésemelést, bezzeg a kollégám kapott.", exEn: "I didn't get a raise again, but my colleague did, of course.", file: "bezzeg.mp3" },
+  { word: "Mentegetőzik & Szabadkozik", type: "(ige) – To Explain Yourself After Improper or Lazy Behaviour", def: "The act of piling up excuses (legitimate or not) after being called out for something — or defending yourself pre-emptively when accused.", exHu: "A kollégám állandóan csak mentegetőzik, ahelyett, hogy rendesen dolgozna.", exEn: "My colleague is constantly excusing himself instead of working properly.", file: "mentegetozik-szabadkozik.mp3" },
+  { word: "Irgum-Burgum", type: "(msz.) – Playful, Empty-Threat Anger", def: "A word parents growl at misbehaving kids to mean \"stop that right now\" — while their tone makes clear they're not really angry at all.", exHu: "Irgum-burgum, mindjárt megharagszom.", exEn: "Irgum-burgum, I'm gonna be mad soon.", file: "irgum-burgum.mp3" },
+  { word: "Piszmog", type: "(ige) – To Work Only Seemingly, Without Real Purpose", def: "Looking busy without actually being productive — whether it's scrolling Facebook at your desk or getting lost obsessing over unimportant details.", exHu: "Ne piszmogj, dolgozz rendesen!", exEn: "Stop piszmog-ing and start working properly!", file: "piszmog.mp3" },
+  { word: "Nebáncsvirág", type: "(fn.) – A Super-Easily Offended Person", def: "Literally \"touch-me-not flower\" — someone who's offended in an instant, cries easily, and has zero tolerance for dirty jokes.", exHu: "A kis nebáncsvirág azonnal sírva fakadt, amikor emelt hangon szóltak hozzá.", exEn: "The little nebáncsvirág started crying instantly when someone raised their voice at her.", file: "nebancsvirag.mp3" },
+  { word: "Kertel", type: "(ige) – To Talk Your Way Around a Question", def: "Literally \"to garden\" — answering a simple question with a hundred sentences that avoid the actual point, a favorite move of politicians.", exHu: "A politikus kertel, amikor a tavalyi választási ígéreteiről kérdezik.", exEn: "The politician kertels when asked about last year's election promises.", file: "kertel.mp3" },
+  { word: "Pihentagyú", type: "(fn. és mn.) – Someone with an Exhaustingly Playful Sense of Humour", def: "Literally \"well-rested brain\" — a person who never tires of their own (often lame) jokes, but also has a knack for oddly clever, out-of-the-box solutions.", exHu: "A pihentagyúak mindenből viccet tudnak csinálni és mindenre van megoldásuk.", exEn: "Pihentagyú people can make a joke out of everything and have a solution for everything.", file: "pihentagyu.mp3" },
+  { word: "Megcsörget", type: "(ige) – To Ring Someone Once So They Call You Back", def: "Calling a phone just once or twice, hoping the other person calls back — so you don't have to spend the money on the call yourself.", exHu: "A barátom már megint csak megcsörgetett – biztos nincs már pénz a telefonján.", exEn: "My friend just megcsörget-ed me again — he must be out of phone credit.", file: "megcsorget.mp3" },
+  { word: "Ügyeskedő", type: "(fn.) – A Master of Living by Shady, Clever Methods", def: "Someone who always seems to have money and never seems to work, sliding through life on charm, wit, and a talent for bending rules without quite breaking them.", exHu: "Egy ügyeskedő mindig talál magának utat ott, ahol más nem.", exEn: "An ügyeskedő always finds a way where others wouldn't.", file: "ugyeskedo.mp3" },
+  { word: "Rosszarcú", type: "(fn. és mn.) – A Person with an \"Evil Air\"", def: "Literally \"bad-faced\" — someone who simply looks dodgy or menacing, in a way you can't quite explain but definitely don't want to run into at night.", exHu: "Ne menj abba az utcába, mert tele van rosszarcúakkal!", exEn: "Don't go down that street, it's full of rosszarcú-s!", file: "rosszarcu.mp3" },
+  { word: "Meghazudtol", type: "(ige) – To Make Someone Look Like a Liar by Denying What They Said", def: "When someone flatly denies something you both know they said or asked — effectively branding you a liar in the process.", exHu: "Egy igazi barát soha nem hazudtolna meg.", exEn: "A real friend would never meghazudtol you.", file: "meghazudtol.mp3" },
+  { word: "Szöszmötöl", type: "(ige) – To Do Something Slowly, Lost in the Details", def: "Getting so absorbed in the fine details of a task that hours pass and you're no closer to actually finishing it — the fix-one-thing-find-three-more-problems spiral.", exHu: "Órákig szöszmötöltem, és mégsem sikerült megoldanom.", exEn: "I was szöszmötöl-ing for hours and still couldn't solve it.", file: "szoszmotol.mp3" },
+];
+
+const $ = id => document.getElementById(id);
+
+/* ---------------- felolvasás: mp3 elsőként, SpeechSynthesis tartalékként ---------------- */
+const speechSupported = 'speechSynthesis' in window;
+let huVoice = null;
+function pickHungarianVoice(){
+  if(!speechSupported) return;
+  const voices = window.speechSynthesis.getVoices();
+  huVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('hu')) || null;
+}
+if(speechSupported){
+  pickHungarianVoice();
+  window.speechSynthesis.onvoiceschanged = pickHungarianVoice;
+}
+function speakFallback(text, btn){
+  if(!speechSupported) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'hu-HU';
+  utter.rate = 0.9;
+  if(huVoice) utter.voice = huVoice;
+  if(btn){
+    btn.classList.add('playing');
+    utter.onend = () => btn.classList.remove('playing');
+    utter.onerror = () => btn.classList.remove('playing');
+  }
+  window.speechSynthesis.speak(utter);
+}
+function playItem(item, btn){
+  if(item.file){
+    const audio = new Audio('audio/' + encodeURIComponent(item.file));
+    if(btn) btn.classList.add('playing');
+    audio.addEventListener('ended', () => { if(btn) btn.classList.remove('playing'); });
+    audio.addEventListener('error', () => {
+      if(btn) btn.classList.remove('playing');
+      speakFallback(item.word, btn);
+    });
+    audio.play().catch(() => speakFallback(item.word, btn));
+  } else {
+    speakFallback(item.word, btn);
+  }
+}
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ---------------- STUDY MODE ---------------- */
+let studyOrder = DATA.map((_, i) => i);
+let studyPos = 0;
+let studyFlipped = false;
+
+function renderStudy(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[studyOrder[studyPos]];
+  $('frontText').textContent = item.word;
+  $('frontType').textContent = item.type;
+  $('backDef').textContent = item.def;
+  $('backExHu').textContent = item.exHu;
+  $('backExEn').textContent = item.exEn;
+  $('cardIndex').textContent = studyPos + 1;
+  $('cardTotal').textContent = DATA.length;
+  $('studyProgress').style.width = ((studyPos + 1) / DATA.length * 100) + "%";
+  studyFlipped = false;
+  $('studyCard').classList.remove('flipped');
+  $('prevBtn').disabled = studyPos === 0;
+  $('nextBtn').disabled = studyPos === studyOrder.length - 1;
+}
+function flipStudy(){
+  studyFlipped = !studyFlipped;
+  $('studyCard').classList.toggle('flipped', studyFlipped);
+}
+$('studyCard').addEventListener('click', flipStudy);
+$('flipBtn').addEventListener('click', flipStudy);
+$('prevBtn').addEventListener('click', () => { if(studyPos > 0){ studyPos--; renderStudy(); } });
+$('nextBtn').addEventListener('click', () => { if(studyPos < studyOrder.length - 1){ studyPos++; renderStudy(); } });
+$('shuffleBtn').addEventListener('click', () => { studyOrder = shuffleArr(DATA.map((_, i) => i)); studyPos = 0; renderStudy(); });
+$('orderBtn').addEventListener('click', () => { studyOrder = DATA.map((_, i) => i); studyPos = 0; renderStudy(); });
+$('speakStudyBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[studyOrder[studyPos]];
+  playItem(item, e.currentTarget);
+});
+
+/* ---------------- MODE SWITCH ---------------- */
+$('btnStudyMode').addEventListener('click', () => {
+  $('btnStudyMode').classList.add('active');
+  $('btnQuizMode').classList.remove('active');
+  $('studyView').classList.remove('hidden');
+  $('quizView').classList.add('hidden');
+});
+$('btnQuizMode').addEventListener('click', () => {
+  $('btnQuizMode').classList.add('active');
+  $('btnStudyMode').classList.remove('active');
+  $('quizView').classList.remove('hidden');
+  $('studyView').classList.add('hidden');
+});
+
+/* ---------------- QUIZ MODE ---------------- */
+let quizOrder = [];
+let quizPos = 0;
+let quizFlipped = false;
+let okCount = 0, noCount = 0;
+let missed = [];
+
+function startQuiz(){
+  quizOrder = shuffleArr(DATA.map((_, i) => i));
+  quizPos = 0;
+  okCount = 0; noCount = 0; missed = [];
+  $('quizIntro').classList.add('hidden');
+  $('quizResults').classList.add('hidden');
+  $('quizPlay').classList.remove('hidden');
+  renderQuiz();
+}
+function renderQuiz(){
+  if(speechSupported) window.speechSynthesis.cancel();
+  const item = DATA[quizOrder[quizPos]];
+  $('quizFrontText').textContent = item.word;
+  $('quizFrontType').textContent = item.type;
+  $('quizBackDef').textContent = item.def;
+  $('quizBackExHu').textContent = item.exHu;
+  $('quizBackExEn').textContent = item.exEn;
+  $('quizIndex').textContent = quizPos + 1;
+  $('quizTotal').textContent = quizOrder.length;
+  $('quizProgress').style.width = ((quizPos) / quizOrder.length * 100) + "%";
+  $('okCount').textContent = okCount;
+  $('noCount').textContent = noCount;
+  quizFlipped = false;
+  $('quizCard').classList.remove('flipped');
+  $('answerRow').style.visibility = 'hidden';
+}
+function flipQuiz(){
+  quizFlipped = !quizFlipped;
+  $('quizCard').classList.toggle('flipped', quizFlipped);
+  if(quizFlipped){ $('answerRow').style.visibility = 'visible'; }
+}
+function answerQuiz(knewIt){
+  if(!quizFlipped) return;
+  const item = DATA[quizOrder[quizPos]];
+  if(knewIt){ okCount++; } else { noCount++; missed.push(item); }
+  if(quizPos < quizOrder.length - 1){
+    quizPos++;
+    renderQuiz();
+  } else {
+    finishQuiz();
+  }
+}
+function finishQuiz(){
+  $('quizPlay').classList.add('hidden');
+  $('quizResults').classList.remove('hidden');
+  $('finalScore').textContent = okCount;
+  $('finalTotal').textContent = quizOrder.length;
+  const list = $('missedList');
+  if(missed.length === 0){
+    list.innerHTML = '<p style="text-align:center; opacity:.6;">Minden szót tudtál! 🎉</p>';
+  } else {
+    list.innerHTML = '<p style="opacity:.5; font-weight:600; margin-bottom:10px;">Ismételd át:</p>' +
+      missed.map(m => `<div class="missed-item"><span>${m.def.slice(0, 60)}${m.def.length > 60 ? '…' : ''}</span><b>${m.word}</b></div>`).join('');
+  }
+}
+$('quizCard').addEventListener('click', flipQuiz);
+$('startQuizBtn').addEventListener('click', startQuiz);
+$('restartQuizBtn').addEventListener('click', () => {
+  $('quizResults').classList.add('hidden');
+  $('quizIntro').classList.remove('hidden');
+});
+$('knowBtn').addEventListener('click', () => answerQuiz(true));
+$('dontKnowBtn').addEventListener('click', () => answerQuiz(false));
+$('speakQuizBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  const item = DATA[quizOrder[quizPos]];
+  playItem(item, e.currentTarget);
+});
+
+/* ---------------- KEYBOARD ---------------- */
+document.addEventListener('keydown', e => {
+  const quizActive = !$('quizView').classList.contains('hidden');
+  if(quizActive){
+    if(!$('quizPlay').classList.contains('hidden')){
+      if(e.code === 'Space'){ e.preventDefault(); flipQuiz(); }
+      if(e.key === 'ArrowRight' && quizFlipped) answerQuiz(true);
+      if(e.key === 'ArrowLeft' && quizFlipped) answerQuiz(false);
+    }
+  } else {
+    if(e.code === 'Space'){ e.preventDefault(); flipStudy(); }
+    if(e.key === 'ArrowRight'){ $('nextBtn').click(); }
+    if(e.key === 'ArrowLeft'){ $('prevBtn').click(); }
+  }
+});
+
+/* ---------------- INIT ---------------- */
+renderStudy();
+</script>
+
+</body>
+</html>
