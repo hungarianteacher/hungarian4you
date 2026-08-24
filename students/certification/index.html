@@ -121,7 +121,7 @@
   </p>
 
   <div class="cta-row">
-    <a href="#" class="btn solid" id="ctaMain">A1 vizsga indítása →</a>
+    <a href="a1-exam/" class="btn solid" id="ctaMain">A1 vizsga indítása →</a>
     <a href="#exam" class="btn outline">Mi van a vizsgában?</a>
   </div>
   <div class="level-tabs">
@@ -266,8 +266,8 @@
   <div class="footer-cta">
     <h2 class="section-title" style="margin-bottom:22px;">Készen állsz megmutatni, mit tudsz? <span style="color: var(--muted); font-weight: 400; font-size: 0.7em; display:block; margin-top:4px;">Ready to show what you know?</span></h2>
     <div class="cta-row">
-      <a href="#" class="btn solid">A1 vizsga indítása →</a>
-      <a href="#" class="btn outline">A2 vizsga indítása →</a>
+      <a href="a1-exam/" class="btn solid">A1 vizsga indítása →</a>
+      <span class="btn outline" style="opacity:0.55; cursor:default; pointer-events:none;" title="Hamarosan / Coming soon">A2 vizsga — Hamarosan</span>
     </div>
   </div>
 
@@ -281,7 +281,18 @@ function setLevel(level){
   document.getElementById('tabA1').classList.toggle('active', level==='A1');
   document.getElementById('tabA2').classList.toggle('active', level==='A2');
   document.getElementById('examLevelWord').textContent = level;
-  document.getElementById('ctaMain').textContent = level + ' vizsga indítása →';
+  const cta = document.getElementById('ctaMain');
+  if(level === 'A1'){
+    cta.textContent = 'A1 vizsga indítása →';
+    cta.href = 'a1-exam/';
+    cta.style.pointerEvents = '';
+    cta.style.opacity = '';
+  } else {
+    cta.textContent = 'A2 vizsga — Hamarosan';
+    cta.removeAttribute('href');
+    cta.style.pointerEvents = 'none';
+    cta.style.opacity = '0.55';
+  }
 }
 </script>
 
