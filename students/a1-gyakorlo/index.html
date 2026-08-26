@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A1 Vizsga Gyakorló — Hungarian4You Language School</title>
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .home-link{
+    display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
+    padding:10px 24px; font-size:0.82rem; font-family:'Work Sans', sans-serif;
+    background:var(--card); border-bottom:1px solid var(--border);
+  }
+  .home-link a{color:var(--muted); text-decoration:none;}
+  .home-link a:hover{color:var(--paprika);}
+  .home-link .sep{color:var(--border);}
+  .en{color:var(--muted); font-size:0.88em; font-style:italic;}
+
+  .nav-tabs{
+    display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:0 0 40px;
+  }
+  .nav-tab{
+    font-family:'Work Sans',sans-serif; font-weight:600; font-size:0.82rem;
+    padding:8px 18px; border-radius:4px; border:1.5px solid var(--border);
+    background:var(--card); color:var(--muted); cursor:pointer;
+  }
+  .nav-tab.active{border-color:var(--meadow); color:var(--meadow-dark); background:#f1f7f3;}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .q-card{
+    position:relative; background:var(--card); border:1px solid var(--border);
+    border-radius:4px; padding:18px 20px; margin-bottom:14px; overflow:hidden;
+  }
+  .q-card::before{content:""; position:absolute; top:0; left:0; width:100%; height:5px; background:var(--tile-color, var(--paprika));}
+  .q-num{font-family:'Fraunces',Georgia,serif; font-weight:700; color:var(--tile-color, var(--paprika)); margin-right:6px;}
+  .q-text{font-size:1rem; color:var(--ink); margin-bottom:10px;}
+
+  .opt-group{display:flex; flex-direction:column; gap:7px; margin-bottom:4px;}
+  .opt-item{display:flex; align-items:center; gap:8px; font-size:0.94rem; cursor:pointer;}
+  .opt-item input{accent-color: var(--meadow);}
+
+  .row-actions{margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+  button.btn{
+    font-family:'Work Sans', sans-serif; font-weight:600; font-size:0.82rem;
+    padding:8px 18px; border-radius:4px; border:1.5px solid var(--ink);
+    background:var(--ink); color:#fdf8ee; cursor:pointer;
+  }
+  button.btn:hover{background:#40372c;}
+  button.btn.ghost{background:transparent; color:var(--ink);}
+  button.btn.ghost:hover{background:rgba(43,36,29,0.06);}
+
+  .feedback{font-size:0.85rem; font-weight:700; font-family:'Work Sans',sans-serif;}
+  .feedback.ok{color:var(--meadow-dark);}
+  .feedback.bad{color:var(--paprika-dark);}
+
+  textarea{
+    width:100%; min-height:90px; font-family:'Work Sans',sans-serif; font-size:0.95rem;
+    padding:10px 12px; border:1.5px solid var(--border); border-bottom:2.5px solid var(--meadow);
+    border-radius:4px; background:#fffef9; color:var(--ink); margin-top:6px; resize:vertical;
+  }
+
+  .listen-box{
+    background:#fffaf0; border:1px dashed var(--border); border-radius:4px;
+    padding:16px 20px; margin-bottom:24px; color:var(--muted); font-size:0.92rem;
+  }
+  .listen-box b{color:var(--ink);}
+
+  .nav-footer{display:flex; justify-content:space-between; margin-top:30px; padding-top:18px; border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="top-bar">Hungarian4You Language School &middot; A1 Vizsga Gyakorló / A1 Exam Prep</div>
+<div class="home-link">
+  <a href="../">&larr; Bizonyítvány oldal <span class="en">/ Certification page</span></a>
+  <span class="sep">|</span>
+  <a href="https://hungarian4you.com/">&larr; Főoldal <span class="en">/ Homepage</span></a>
+</div>
+<div class="motif"></div>
+
+<header class="hero">
+  <span class="eyebrow">Vizsgafelkészítő gyakorlat &middot; Exam Preparation Practice</span>
+  <h1 class="title">A1 vizsga gyakorló feladatsor</h1>
+  <p class="lede">
+    Hasonló feladatok, mint az igazi A1 vizsgán — de más kérdésekkel, hogy tényleg gyakorolj, ne csak megjegyezd a válaszokat.<br>
+    <span style="color: var(--muted); font-size: 0.95em;">Similar tasks to the real A1 exam — but with different questions, so you actually practice rather than memorize answers.</span>
+  </p>
+</header>
+
+<div class="motif meadow"></div>
+
+<main>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPanel('a')" id="tabA">A rész — Nyelvhasználat</button>
+    <button class="nav-tab" onclick="showPanel('b')" id="tabB">B rész — Hallott szöveg</button>
+    <button class="nav-tab" onclick="showPanel('c')" id="tabC">C rész — Íráskészség</button>
+  </div>
+
+  <!-- ============ A RÉSZ ============ -->
+  <section class="panel active" id="panel-a">
+    <h2 class="section-title">Nyelvhasználat és szókincs <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Language use &amp; vocabulary</span></h2>
+    <p class="section-sub">Válaszd ki a helyes választ, majd ellenőrizd! — Choose the correct answer, then check it!</p>
+    <div id="listA"></div>
+  </section>
+
+  <!-- ============ B RÉSZ ============ -->
+  <section class="panel" id="panel-b">
+    <h2 class="section-title">Hallott szöveg értése <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Listening comprehension</span></h2>
+    <p class="section-sub">Kérdések egy rövid szöveghez. — Questions about a short passage.</p>
+    <div class="listen-box">
+      <b>Kérd meg a tanárodat, hogy olvassa fel neked a szöveget!</b> Ez a gyakorlat szóban működik — a szöveg nincs kiírva ide, mert a valódi vizsgán is hallás után kell dolgoznod.
+      <br><span class="en">Ask your teacher to read the passage aloud to you. This exercise works verbally — the text isn't written here, because on the real exam you'll also work from listening alone.</span>
+    </div>
+    <div id="listB"></div>
+  </section>
+
+  <!-- ============ C RÉSZ ============ -->
+  <section class="panel" id="panel-c">
+    <h2 class="section-title">Íráskészség <span style="color: var(--muted); font-weight: 400; font-size: 0.75em;">/ Writing</span></h2>
+    <p class="section-sub">Gyakorold az írásbeli feladatokat! Ezt nem ellenőrzi a rendszer — mutasd meg a tanárodnak. — Practice the writing tasks! This isn't auto-checked — show it to your teacher.</p>
+    <div id="listC"></div>
+  </section>
+
+</main>
+
+<div class="motif"></div>
+<footer>&copy; Hungarian4You Language School — A1 Vizsga Gyakorló</footer>
+
+<script>
+/* ============ NAV ============ */
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab'+id.toUpperCase()).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function norm(s){ return s.toLowerCase().trim().replace(/[.,!?]/g,'').replace(/\s+/g,' '); }
+
+/* ============ A RÉSZ DATA ============ */
+const partA = [
+  {q:'1. „___ asztal nagyon régi.”', opts:['A','Az','Egy','Egyik'], ans:'A'},
+  {q:'2. „___ iskola nagy.”', opts:['A','Az','Egyik','Ez'], ans:'Az'},
+  {q:'3. „Jó napot! ___ hívják?”', opts:['Hogy','Mikor','Hol','Miért'], ans:'Hogy'},
+  {q:'4. „Te az én barátom vagy. Ez a te ___.”', opts:['házam','házad','háza','házunk'], ans:'házad'},
+  {q:'5. „Ti Szegeden ___.”', opts:['élek','élsz','éltek','élnek'], ans:'éltek'},
+  {q:'6. „Én hol ___?”', opts:['lakom','laksz','lakunk','laknak'], ans:'lakom'},
+  {q:'7. „alma → többes szám:”', opts:['almák','almaak','almaik','almásak'], ans:'almák'},
+  {q:'8. „szék → többes szám:”', opts:['székek','székak','székok','székik'], ans:'székek'},
+  {q:'9. „Négy + öt = ?”', opts:['kilenc','nyolc','tíz','hét'], ans:'kilenc'},
+  {q:'10. „Péntek, szombat, vasárnap, ___?”', opts:['hétfő','kedd','szerda','december'], ans:'hétfő'},
+  {q:'11. „Nekem ___ egy autóm.”', opts:['van','vagy','vagyok','nincs'], ans:'van'},
+  {q:'12. „Neki nincs ___.”', opts:['ideje','idejét','idő','időt'], ans:'ideje'},
+  {q:'13. „Szeretem a telet, ___ jobban szeretem a nyarat.”', opts:['és','de','vagy','mert'], ans:'de'},
+  {q:'14. „A könyv a polc___ van.”', opts:['-ban','-ba','-on','-ról'], ans:'-on'},
+  {q:'15. „Kimegyek a kert___.”', opts:['-ban','-be','-ből','-n'], ans:'-be'},
+  {q:'16. „Ő minden este ___ könyvet.”', opts:['olvasok','olvasol','olvas','olvasunk'], ans:'olvas'},
+  {q:'17. „Milyen színű a fű?”', opts:['piros','kék','zöld','sárga'], ans:'zöld'},
+  {q:'18. „Húsvét ___ van.”', opts:['március','áprilisban','április','márciusban'], ans:'áprilisban'},
+  {q:'19. „___ könyvet szeretnél?”', opts:['Hány','Melyik','Hol','Ki'], ans:'Melyik'},
+  {q:'20. „Este nyolc óra van. Jó ___!”', opts:['reggelt','napot','estét','éjszakát'], ans:'estét'},
+];
+
+const listA = document.getElementById('listA');
+partA.forEach((item,i)=>{
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.style.setProperty('--tile-color', i%3===0?'var(--paprika)':(i%3===1?'var(--meadow)':'var(--mustard)'));
+  const optsHtml = item.opts.map((o,oi)=>`
+    <label class="opt-item">
+      <input type="radio" name="a${i}" value="${o}"> ${o}
+    </label>`).join('');
+  card.innerHTML = `
+    <div class="q-text">${item.q}</div>
+    <div class="opt-group">${optsHtml}</div>
+    <div class="row-actions">
+      <button class="btn" onclick="checkA(${i})">Ellenőrzés</button>
+      <span class="feedback" id="afb${i}"></span>
+    </div>`;
+  listA.appendChild(card);
+});
+function checkA(i){
+  const selected = document.querySelector(`input[name="a${i}"]:checked`);
+  const fb = document.getElementById('afb'+i);
+  if(!selected){ fb.textContent = 'Válassz egy választ!'; fb.className='feedback bad'; return; }
+  const ok = selected.value === partA[i].ans;
+  fb.textContent = ok ? 'Helyes! ✓' : ('Helyes válasz: ' + partA[i].ans);
+  fb.className = 'feedback ' + (ok?'ok':'bad');
+}
+
+/* ============ B RÉSZ DATA ============ */
+const partB = [
+  {q:'1. Hol lakik Réka?', opts:['Debrecenben','Egerben','Szegeden','Pécsett'], ans:'Debrecenben'},
+  {q:'2. Kivel lakik Réka?', opts:['Egyedül','A barátaival','A szüleivel','A nagyszüleivel'], ans:'A szüleivel'},
+  {q:'3. Hogy hívják Réka öccsét?', opts:['Bence','Zoltán','Tamás','Gábor'], ans:'Bence'},
+  {q:'4. Hány éves Bence?', opts:['Tizenhét','Tizennyolc','Tizenkilenc','Húsz'], ans:'Tizenkilenc'},
+  {q:'5. Mit csinál Bence?', opts:['Dolgozik','Egyetemre jár','Iskolába jár','Otthon van'], ans:'Egyetemre jár'},
+  {q:'6. Hogy hívják Réka nővérét?', opts:['Edit','Judit','Anna','Zsófia'], ans:'Judit'},
+  {q:'7. Hány éves Judit?', opts:['Huszonkilenc','Harminc','Harmincegy','Harminckettő'], ans:'Harmincegy'},
+  {q:'8. Mi Judit foglalkozása?', opts:['Tanár','Mérnök','Orvos','Ügyvéd'], ans:'Orvos'},
+  {q:'9. Mikor vacsoráznak együtt?', opts:['Pénteken','Szombaton','Vasárnap','Minden nap'], ans:'Szombaton'},
+  {q:'10. Kivel vacsorázik Réka?', opts:['A barátaival','A szüleivel','A testvéreivel','Egyedül'], ans:'A szüleivel'},
+];
+
+const listB = document.getElementById('listB');
+partB.forEach((item,i)=>{
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.style.setProperty('--tile-color', 'var(--meadow)');
+  const optsHtml = item.opts.map(o=>`
+    <label class="opt-item">
+      <input type="radio" name="b${i}" value="${o}"> ${o}
+    </label>`).join('');
+  card.innerHTML = `
+    <div class="q-text">${item.q}</div>
+    <div class="opt-group">${optsHtml}</div>
+    <div class="row-actions">
+      <button class="btn" onclick="checkB(${i})">Ellenőrzés</button>
+      <span class="feedback" id="bfb${i}"></span>
+    </div>`;
+  listB.appendChild(card);
+});
+function checkB(i){
+  const selected = document.querySelector(`input[name="b${i}"]:checked`);
+  const fb = document.getElementById('bfb'+i);
+  if(!selected){ fb.textContent = 'Válassz egy választ!'; fb.className='feedback bad'; return; }
+  const ok = selected.value === partB[i].ans;
+  fb.textContent = ok ? 'Helyes! ✓' : ('Helyes válasz: ' + partB[i].ans);
+  fb.className = 'feedback ' + (ok?'ok':'bad');
+}
+
+/* ============ C RÉSZ DATA ============ */
+const partC = [
+  'Mutasd be a családod 3–5 mondatban! Írd le, hány testvéred van, hogy hívják őket, és mit csinálnak.',
+  'Írj egy rövid üzenetet egy tanárodnak (3–4 mondat), amiben elmondod, hogy beteg vagy és nem tudsz iskolába menni.',
+];
+const listC = document.getElementById('listC');
+partC.forEach((prompt,i)=>{
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.style.setProperty('--tile-color', 'var(--mustard)');
+  card.innerHTML = `
+    <div class="q-text"><b>${i+1}. feladat</b><br>${prompt}</div>
+    <textarea placeholder="Írd ide a válaszod..."></textarea>`;
+  listC.appendChild(card);
+});
+</script>
+</body>
+</html>
