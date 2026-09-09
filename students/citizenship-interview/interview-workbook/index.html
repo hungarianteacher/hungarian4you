@@ -298,6 +298,19 @@
     .toolbar{padding:10px 14px; flex-wrap:wrap;}
     .progress-bar{width:110px;}
   }
+
+  /* ---------- Audio play button ---------- */
+  .qhead .qplay{
+    flex:none; width:26px; height:26px; margin-top:1px;
+    border:1.5px solid var(--gold); border-radius:50%;
+    background:var(--paper); color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; cursor:pointer; padding:0; line-height:1;
+    transition:background .15s ease, color .15s ease;
+  }
+  .qhead .qplay:hover{background:var(--gold); color:#fff;}
+  .qhead .qplay.playing{background:var(--red-deep); border-color:var(--red-deep); color:#fff;}
+  @media print{ .qplay{display:none;} }
 </style>
 </head>
 <body>
@@ -834,12 +847,64 @@ function el(tag, cls, html){
   return e;
 }
 
+/* ---------- Audio play button ----------
+   One shared Audio() instance so starting a new clip stops any clip
+   already playing. num -> audio/NN.mp3, matching the .qnum label. */
+let currentAudio = null;
+let currentAudioBtn = null;
+
+function makeAudioBtn(num){
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "qplay";
+  btn.setAttribute("aria-label","Hangfájl lejátszása / Play audio");
+  btn.textContent = "▶";
+  const src = "audio/" + String(num).padStart(2,"0") + ".mp3";
+
+  btn.addEventListener("click", ()=>{
+    if(currentAudio && currentAudioBtn === btn){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+      return;
+    }
+    if(currentAudio){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      if(currentAudioBtn){ currentAudioBtn.classList.remove("playing"); currentAudioBtn.textContent = "▶"; }
+    }
+    const audio = new Audio(src);
+    currentAudio = audio;
+    currentAudioBtn = btn;
+    btn.classList.add("playing");
+    btn.textContent = "❚❚";
+    audio.addEventListener("ended", ()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
+    audio.play().catch(()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
+  });
+
+  return btn;
+}
+
 function renderQCard(num, hu, en, exHu, exEn){
   answerCounter++;
   const id = "p1-" + num;
   const card = el("div","qcard");
   const head = el("div","qhead");
   head.appendChild(el("div","qnum", String(num).padStart(2,"0")));
+  head.appendChild(makeAudioBtn(num));
   const qtext = el("div","qtext");
   qtext.appendChild(el("div","hu", hu));
   qtext.appendChild(el("div","en", en));
@@ -891,6 +956,8 @@ function renderVocabTable(pairs){
   return table;
 }
 
+let part2AudioNum = part1Questions.length; // continues the audio numbering after Part I (01-51 -> 52+)
+
 function renderPart2(){
   const wrap = document.getElementById("part2");
   part2Chapters.forEach((ch, idx)=>{
@@ -921,10 +988,12 @@ function renderPart2(){
       const qwrap = el("div","qgrid");
       ch.questions.forEach((q, qi)=>{
         answerCounter++;
+        part2AudioNum++;
         const id = "p2-" + idx + "-" + qi;
         const card = el("div","qcard");
         const head = el("div","qhead");
-        head.appendChild(el("div","qnum", (qi+1)+"."));
+        head.appendChild(el("div","qnum", String(part2AudioNum).padStart(2,"0")));
+        head.appendChild(makeAudioBtn(part2AudioNum));
         const qtext = el("div","qtext");
         qtext.appendChild(el("div","hu", q[0]));
         qtext.appendChild(el("div","en", q[1]));
