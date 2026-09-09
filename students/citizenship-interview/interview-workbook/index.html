@@ -855,6 +855,21 @@ function el(tag, cls, html){
 let currentAudio = null;
 let currentAudioBtn = null;
 
+function playAudioWithFallback(audio, src, onDone){
+  let triedAlt = false;
+  const tryAlt = ()=>{
+    if(triedAlt){ onDone(); return; }
+    triedAlt = true;
+    const alt = src.normalize("NFC") === src ? src.normalize("NFD") : src.normalize("NFC");
+    if(alt === src){ onDone(); return; }
+    audio.removeEventListener("error", tryAlt);
+    audio.addEventListener("error", ()=>onDone(), { once:true });
+    audio.src = alt;
+    audio.play().catch(onDone);
+  };
+  audio.addEventListener("error", tryAlt, { once:true });
+}
+
 function makeAudioBtn(num){
   const btn = document.createElement("button");
   btn.type = "button";
@@ -883,18 +898,15 @@ function makeAudioBtn(num){
     currentAudioBtn = btn;
     btn.classList.add("playing");
     btn.textContent = "❚❚";
-    audio.addEventListener("ended", ()=>{
+    const reset = ()=>{
       btn.classList.remove("playing");
       btn.textContent = "▶";
       currentAudio = null;
       currentAudioBtn = null;
-    });
-    audio.play().catch(()=>{
-      btn.classList.remove("playing");
-      btn.textContent = "▶";
-      currentAudio = null;
-      currentAudioBtn = null;
-    });
+    };
+    audio.addEventListener("ended", reset);
+    playAudioWithFallback(audio, src, reset);
+    audio.play().catch(reset);
   });
 
   return btn;
@@ -975,18 +987,15 @@ function makeAudioBtnSrc(src){
     currentAudioBtn = btn;
     btn.classList.add("playing");
     btn.textContent = "❚❚";
-    audio.addEventListener("ended", ()=>{
+    const reset = ()=>{
       btn.classList.remove("playing");
       btn.textContent = "▶";
       currentAudio = null;
       currentAudioBtn = null;
-    });
-    audio.play().catch(()=>{
-      btn.classList.remove("playing");
-      btn.textContent = "▶";
-      currentAudio = null;
-      currentAudioBtn = null;
-    });
+    };
+    audio.addEventListener("ended", reset);
+    playAudioWithFallback(audio, src, reset);
+    audio.play().catch(reset);
   });
 
   return btn;
