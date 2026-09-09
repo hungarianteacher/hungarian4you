@@ -236,8 +236,8 @@
   table.vocab tr:nth-child(even) td{background:#fbf9f3;}
   table.vocab td.hu{font-weight:600; width:42%;}
   table.vocab td.en{color:var(--ink-soft); font-style:italic;}
-  table.vocab th:last-child{width:34px;}
-  table.vocab td.vocab-audio{width:34px; padding:6px 10px 6px 4px; text-align:center;}
+  table.vocab th:first-child{width:34px;}
+  table.vocab td.vocab-audio{width:34px; padding:6px 4px 6px 10px; text-align:center;}
 
   /* ---------- Dialogue blocks ---------- */
   .dialogue{
@@ -996,18 +996,20 @@ function renderVocabTable(pairs, audioNamer){
   const table = document.createElement("table");
   table.className = "vocab";
   table.innerHTML = audioNamer
-    ? "<thead><tr><th>Magyar</th><th>English</th><th></th></tr></thead>"
+    ? "<thead><tr><th></th><th>Magyar</th><th>English</th></tr></thead>"
     : "<thead><tr><th>Magyar</th><th>English</th></tr></thead>";
   const tbody = document.createElement("tbody");
   pairs.forEach((p, i)=>{
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td class="hu">${p[0]}</td><td class="en">${p[1]}</td>`;
     if(audioNamer){
       const td = document.createElement("td");
       td.className = "vocab-audio";
       td.appendChild(makeAudioBtnSrc(audioNamer(p[0], i)));
       tr.appendChild(td);
     }
+    const rest = document.createElement("template");
+    rest.innerHTML = `<td class="hu">${p[0]}</td><td class="en">${p[1]}</td>`;
+    tr.appendChild(rest.content);
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
