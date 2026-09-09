@@ -236,6 +236,8 @@
   table.vocab tr:nth-child(even) td{background:#fbf9f3;}
   table.vocab td.hu{font-weight:600; width:42%;}
   table.vocab td.en{color:var(--ink-soft); font-style:italic;}
+  table.vocab th:last-child{width:34px;}
+  table.vocab td.vocab-audio{width:34px; padding:6px 10px 6px 4px; text-align:center;}
 
   /* ---------- Dialogue blocks ---------- */
   .dialogue{
@@ -942,14 +944,70 @@ function renderPart1(){
   });
 }
 
-function renderVocabTable(pairs){
+function slugifyWord(w){
+  return w.toLowerCase().replace(/\s*\/\s*/g, "-").replace(/\s+/g, "-");
+}
+
+function makeAudioBtnSrc(src){
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "qplay";
+  btn.setAttribute("aria-label","Hangfájl lejátszása / Play audio");
+  btn.textContent = "▶";
+
+  btn.addEventListener("click", ()=>{
+    if(currentAudio && currentAudioBtn === btn){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+      return;
+    }
+    if(currentAudio){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      if(currentAudioBtn){ currentAudioBtn.classList.remove("playing"); currentAudioBtn.textContent = "▶"; }
+    }
+    const audio = new Audio(src);
+    currentAudio = audio;
+    currentAudioBtn = btn;
+    btn.classList.add("playing");
+    btn.textContent = "❚❚";
+    audio.addEventListener("ended", ()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
+    audio.play().catch(()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
+  });
+
+  return btn;
+}
+
+function renderVocabTable(pairs, audioNamer){
   const table = document.createElement("table");
   table.className = "vocab";
-  table.innerHTML = "<thead><tr><th>Magyar</th><th>English</th></tr></thead>";
+  table.innerHTML = audioNamer
+    ? "<thead><tr><th>Magyar</th><th>English</th><th></th></tr></thead>"
+    : "<thead><tr><th>Magyar</th><th>English</th></tr></thead>";
   const tbody = document.createElement("tbody");
-  pairs.forEach(p=>{
+  pairs.forEach((p, i)=>{
     const tr = document.createElement("tr");
     tr.innerHTML = `<td class="hu">${p[0]}</td><td class="en">${p[1]}</td>`;
+    if(audioNamer){
+      const td = document.createElement("td");
+      td.className = "vocab-audio";
+      td.appendChild(makeAudioBtnSrc(audioNamer(p[0], i)));
+      tr.appendChild(td);
+    }
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
@@ -980,7 +1038,9 @@ function renderPart2(){
     if(ch.vocab.length){
       const vwrap = el("div","vocab-wrap");
       vwrap.appendChild(el("div","lbl","Kulcsszókincs / Key Vocabulary"));
-      vwrap.appendChild(renderVocabTable(ch.vocab));
+      vwrap.appendChild(renderVocabTable(ch.vocab, (word, i) =>
+        "vocab-audio/" + ch.tag + "_" + String(i+1).padStart(2,"0") + "_" + slugifyWord(word) + ".mp3"
+      ));
       wrap.appendChild(vwrap);
     }
 
@@ -1040,7 +1100,9 @@ function renderMocks(){
 
 function renderBiometric(){
   const wrap = document.getElementById("biometricTable");
-  wrap.appendChild(renderVocabTable(biometricRows.map(r=>[r[0],r[1]])));
+  wrap.appendChild(renderVocabTable(biometricRows.map(r=>[r[0],r[1]]), (word, i) =>
+    "vocab-audio/biometric_" + String(i+1).padStart(2,"0") + "_" + slugifyWord(word) + ".mp3"
+  ));
 }
 
 function renderDocTable(){
