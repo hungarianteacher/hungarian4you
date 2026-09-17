@@ -108,7 +108,7 @@
 <body>
 
 <div class="top-bar">Hungarian4You &middot; Bizonyítvány / Certification</div>
-<a class="home-link" href="https://hungarian4you.com/students/">← Vissza a főoldalra <span class="en">/ Back to homepage</span></a>
+<a class="home-link" href="https://hungarian4you.com/">← Vissza a főoldalra <span class="en">/ Back to homepage</span></a>
 <div class="motif"></div>
 
 <header class="hero">
@@ -267,7 +267,7 @@
     <h2 class="section-title" style="margin-bottom:22px;">Készen állsz megmutatni, mit tudsz? <span style="color: var(--muted); font-weight: 400; font-size: 0.7em; display:block; margin-top:4px;">Ready to show what you know?</span></h2>
     <div class="cta-row">
       <a href="a1-exam/" class="btn solid">A1 vizsga indítása →</a>
-      <span class="btn outline" style="opacity:0.55; cursor:default; pointer-events:none;" title="Hamarosan / Coming soon">A2 vizsga — Hamarosan</span>
+      <a href="a2-exam/" class="btn outline">A2 vizsga indítása →</a>
     </div>
   </div>
 
@@ -285,14 +285,12 @@ function setLevel(level){
   if(level === 'A1'){
     cta.textContent = 'A1 vizsga indítása →';
     cta.href = 'a1-exam/';
-    cta.style.pointerEvents = '';
-    cta.style.opacity = '';
   } else {
-    cta.textContent = 'A2 vizsga — Hamarosan';
-    cta.removeAttribute('href');
-    cta.style.pointerEvents = 'none';
-    cta.style.opacity = '0.55';
+    cta.textContent = 'A2 vizsga indítása →';
+    cta.href = 'a2-exam/';
   }
+  cta.style.pointerEvents = '';
+  cta.style.opacity = '';
 }
 </script>
 
