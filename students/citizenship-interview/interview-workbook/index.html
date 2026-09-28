@@ -855,21 +855,6 @@ function el(tag, cls, html){
 let currentAudio = null;
 let currentAudioBtn = null;
 
-function playAudioWithFallback(audio, src, onDone){
-  let triedAlt = false;
-  const tryAlt = ()=>{
-    if(triedAlt){ onDone(); return; }
-    triedAlt = true;
-    const alt = src.normalize("NFC") === src ? src.normalize("NFD") : src.normalize("NFC");
-    if(alt === src){ onDone(); return; }
-    audio.removeEventListener("error", tryAlt);
-    audio.addEventListener("error", ()=>onDone(), { once:true });
-    audio.src = alt;
-    audio.play().catch(onDone);
-  };
-  audio.addEventListener("error", tryAlt, { once:true });
-}
-
 function makeAudioBtn(num){
   const btn = document.createElement("button");
   btn.type = "button";
@@ -898,15 +883,18 @@ function makeAudioBtn(num){
     currentAudioBtn = btn;
     btn.classList.add("playing");
     btn.textContent = "❚❚";
-    const reset = ()=>{
+    audio.addEventListener("ended", ()=>{
       btn.classList.remove("playing");
       btn.textContent = "▶";
       currentAudio = null;
       currentAudioBtn = null;
-    };
-    audio.addEventListener("ended", reset);
-    playAudioWithFallback(audio, src, reset);
-    audio.play().catch(reset);
+    });
+    audio.play().catch(()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
   });
 
   return btn;
@@ -987,15 +975,18 @@ function makeAudioBtnSrc(src){
     currentAudioBtn = btn;
     btn.classList.add("playing");
     btn.textContent = "❚❚";
-    const reset = ()=>{
+    audio.addEventListener("ended", ()=>{
       btn.classList.remove("playing");
       btn.textContent = "▶";
       currentAudio = null;
       currentAudioBtn = null;
-    };
-    audio.addEventListener("ended", reset);
-    playAudioWithFallback(audio, src, reset);
-    audio.play().catch(reset);
+    });
+    audio.play().catch(()=>{
+      btn.classList.remove("playing");
+      btn.textContent = "▶";
+      currentAudio = null;
+      currentAudioBtn = null;
+    });
   });
 
   return btn;
@@ -1165,8 +1156,12 @@ function downloadTXT(){
   rule();
   L.push('I. RÉSZ — SZEMÉLYES KÉRDÉSEK  /  PART I — PERSONAL QUESTIONS');
   rule();
+  let p1Count = 0;
   part1Questions.forEach((q, i)=>{
     const n = i + 1;
+    const ansEl = document.getElementById('p1-' + n);
+    if(!(ansEl && ansEl.value.trim())) return;
+    p1Count++;
     L.push('');
     L.push(n + '. ' + q[0]);
     L.push('   ' + q[1]);
@@ -1177,12 +1172,20 @@ function downloadTXT(){
     L.push('   Az Ön válasza / Your Answer:');
     L.push('     ' + (ans && ans.value.trim() ? ans.value.trim().replace(/\n/g, '\n     ') : '(még nincs kitöltve)'));
   });
+  if(!p1Count){ L.push(''); L.push('(Ebben a részben még nincs megválaszolt kérdés / No answered questions yet)'); }
   L.push('');
 
   rule();
   L.push('II. RÉSZ — TÖRTÉNELEM, KULTÚRA ÉS HAGYOMÁNY  /  PART II — HISTORY, CULTURE & TRADITION');
   rule();
+  let p2Count = 0;
   part2Chapters.forEach((ch, idx)=>{
+    const answered = ch.questions.map((q, qi)=>{
+      const el = document.getElementById('p2-' + idx + '-' + qi);
+      return el && el.value.trim() ? qi : -1;
+    }).filter(qi=>qi >= 0);
+    if(!answered.length) return;
+    p2Count += answered.length;
     L.push('');
     thin();
     L.push(ch.tag + '. ' + ch.huTitle + '  /  ' + ch.enTitle);
@@ -1201,6 +1204,7 @@ function downloadTXT(){
       L.push('');
     }
     ch.questions.forEach((q, qi)=>{
+      if(answered.indexOf(qi) < 0) return;
       L.push((qi+1) + '. ' + q[0]);
       L.push('   ' + q[1]);
       const ans = document.getElementById('p2-' + idx + '-' + qi);
@@ -1209,6 +1213,7 @@ function downloadTXT(){
       L.push('');
     });
   });
+  if(!p2Count){ L.push(''); L.push('(Ebben a részben még nincs megválaszolt kérdés / No answered questions yet)'); L.push(''); }
 
   rule();
   L.push('III. RÉSZ — A KONZULÁTUSON  /  PART III — AT THE CONSULATE');
@@ -1270,7 +1275,13 @@ function downloadTXT(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'magyar_allampolgarsagi_felkeszito.txt';
+  const rawName = (document.getElementById('fld-name').value || '').trim();
+  const safeName = (rawName || 'nevtelen')
+    .replace(/[\\\/:*?"<>|]+/g, '')
+    .replace(/\s+/g, '_');
+  const d = new Date();
+  const today = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  a.download = safeName + '_' + today + '.txt';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
