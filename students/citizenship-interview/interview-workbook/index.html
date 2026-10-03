@@ -996,23 +996,32 @@ function makeAudioBtnSrc(src){
       currentAudio.currentTime = 0;
       if(currentAudioBtn){ currentAudioBtn.classList.remove("playing"); currentAudioBtn.textContent = "▶"; }
     }
-    const audio = new Audio(src);
-    currentAudio = audio;
-    currentAudioBtn = btn;
     btn.classList.add("playing");
     btn.textContent = "❚❚";
-    audio.addEventListener("ended", ()=>{
+    const reset = ()=>{
       btn.classList.remove("playing");
       btn.textContent = "▶";
-      currentAudio = null;
-      currentAudioBtn = null;
-    });
-    audio.play().catch(()=>{
-      btn.classList.remove("playing");
-      btn.textContent = "▶";
-      currentAudio = null;
-      currentAudioBtn = null;
-    });
+      if(currentAudioBtn === btn){ currentAudio = null; currentAudioBtn = null; }
+    };
+    /* Accented file names may be stored in composed (NFC) or decomposed (NFD,
+       typical for files created on a Mac) form – try both, then without accents. */
+    const candidates = [...new Set([
+      src.normalize("NFC"),
+      src.normalize("NFD"),
+      src.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    ])];
+    currentAudioBtn = btn;
+    const tryPlay = (i)=>{
+      if(i >= candidates.length || currentAudioBtn !== btn){ reset(); return; }
+      const audio = new Audio(candidates[i]);
+      currentAudio = audio;
+      audio.addEventListener("ended", reset);
+      audio.addEventListener("error", ()=>{ if(currentAudio === audio) tryPlay(i+1); });
+      audio.play().catch(err=>{
+        if(err && err.name === "NotAllowedError"){ reset(); }
+      });
+    };
+    tryPlay(0);
   });
 
   return btn;
