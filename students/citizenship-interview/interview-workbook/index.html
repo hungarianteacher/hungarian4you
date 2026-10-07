@@ -282,6 +282,7 @@
   @media print{
     body{background:#fff;}
     .toolbar{display:none;}
+    .quicklinks{display:none;}
     .sheet{box-shadow:none; max-width:100%;}
     .qcard{break-inside:avoid;}
     .chapter-title{break-after:avoid;}
@@ -292,14 +293,40 @@
   }
 
   @media (max-width:640px){
-    .cover, .part-title, .chapter-title, .qgrid, .vocab-wrap, .dialogue, .mock-block, .notes{
+    .cover, .part-title, .chapter-title, .qgrid, .vocab-wrap, .dialogue, .mock-block, .notes, .quicklinks{
       padding-left:20px; padding-right:20px; margin-left:0; margin-right:0;
     }
     .id-fields{grid-template-columns:1fr;}
     .example, .answer-wrap{margin-left:0;}
+    .qcard.variant{margin-left:10px;}
     .toolbar{padding:10px 14px; flex-wrap:wrap;}
     .progress-bar{width:110px;}
   }
+
+  /* ---------- Quick links ---------- */
+  .quicklinks{padding:26px 56px 30px; scroll-margin-top:70px;}
+  .ql-title{font-family:'Fraunces', serif; font-weight:700; font-size:22px; color:var(--red-deep); margin-bottom:4px;}
+  .ql-title span{display:block; font-family:'Work Sans', sans-serif; font-size:13px; font-weight:500; font-style:italic; color:var(--ink-soft); margin-top:2px;}
+  .ql-part{font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:700; margin:18px 0 8px;}
+  .ql-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .ql-chips a{
+    display:inline-flex; flex-direction:column; gap:1px;
+    padding:7px 12px; border:1px solid var(--line); border-radius:6px;
+    background:var(--cream); text-decoration:none; color:var(--ink); line-height:1.25;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .ql-chips a:hover, .ql-chips a:focus-visible{border-color:var(--red-deep); background:#fff;}
+  .ql-chips .ql-hu{font-size:13.5px; font-weight:600;}
+  .ql-chips .ql-hu b{color:var(--gold); margin-right:6px;}
+  .ql-chips .ql-en{font-size:11px; font-style:italic; color:var(--ink-soft);}
+  .chapter-title, .part-title{scroll-margin-top:70px;}
+  a.brandmark{text-decoration:none;}
+  a.btn{text-decoration:none; display:inline-block;}
+
+  /* ---------- Variant questions (b, c, d ...) ---------- */
+  .qcard.variant{margin-left:26px; padding-left:12px; border-left:2px solid var(--line-soft);}
+  .qhead .qnum{width:36px;}
+  .example, .answer-wrap{margin-left:48px;}
 
   /* ---------- Audio play button ---------- */
   .qhead .qplay{
@@ -313,6 +340,16 @@
   .qhead .qplay:hover{background:var(--gold); color:#fff;}
   .qhead .qplay.playing{background:var(--red-deep); border-color:var(--red-deep); color:#fff;}
   @media print{ .qplay{display:none;} }
+
+  /* ---------- Not-yet-recorded audio ---------- */
+  .qhead .qplay.soon{ border-color:var(--line); color:#C9BFA8; background:var(--cream); cursor:not-allowed; }
+  .qhead .qplay.soon:hover{ background:var(--cream); color:#C9BFA8; }
+  .soon-badge{
+    display:inline-block; vertical-align:2px; margin-right:8px;
+    font-size:9.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
+    color:var(--gold); background:#FBF3DC; border:1px solid #EBD9A8; border-radius:10px; padding:1px 8px;
+  }
+  @media print{ .soon-badge{display:none;} }
 </style>
 </head>
 <body>
@@ -324,12 +361,13 @@
 </nav>
 
 <div class="toolbar">
-  <div class="brandmark">🇭🇺 Állampolgársági Felkészítő</div>
+  <a class="brandmark" href="#quicklinks" title="Gyorslinkek / Quick links">🇭🇺 Állampolgársági Felkészítő</a>
   <div class="progress-wrap">
     <span id="progressLabel">0 / 0 megválaszolva</span>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
   <div style="display:flex; gap:8px; flex-wrap:wrap;">
+    <a class="btn ghost" href="#quicklinks">☰ Kategóriák</a>
     <button class="btn ghost" onclick="clearAll()">Törlés</button>
     <button class="btn" onclick="downloadTXT()">Letöltés TXT-ként</button>
   </div>
@@ -373,6 +411,16 @@
 
   <div class="tricolor thin"></div>
 
+  <nav class="quicklinks" id="quicklinks" aria-label="Gyorslinkek / Quick links">
+    <div class="ql-title">Gyorslinkek<span>Quick links — ugrás a kategóriához / jump to a category</span></div>
+    <div class="ql-part">I. Személyes kérdések · Personal Questions</div>
+    <div class="ql-chips"><a href="#p1-erkezes"><span class="ql-hu"><b>A</b>Érkezés és eljárás</span><span class="ql-en">Arrival and Procedure</span></a><a href="#p1-szemelyes"><span class="ql-hu"><b>B</b>Bemutatkozás és személyes adatok</span><span class="ql-en">Introduction and Personal Details</span></a><a href="#p1-csalad"><span class="ql-hu"><b>C</b>Család és származás</span><span class="ql-en">Family and Ancestry</span></a><a href="#p1-munka"><span class="ql-hu"><b>D</b>Tanulmány és munka</span><span class="ql-en">Education and Work</span></a><a href="#p1-nyelv"><span class="ql-hu"><b>E</b>Magyar nyelv</span><span class="ql-en">Hungarian Language</span></a><a href="#p1-magyarorszag"><span class="ql-hu"><b>F</b>Magyarország, utazás, kultúra</span><span class="ql-en">Hungary, Travel and Culture</span></a><a href="#p1-szabadido"><span class="ql-hu"><b>G</b>Szabadidő és mindennapok</span><span class="ql-en">Free Time and Everyday Life</span></a><a href="#p1-motivacio"><span class="ql-hu"><b>H</b>Motiváció és jövő</span><span class="ql-en">Motivation and Future</span></a></div>
+    <div class="ql-part">II. Történelem, kultúra és hagyomány · History, Culture &amp; Tradition</div>
+    <div class="ql-chips"><a href="#p2-1"><span class="ql-hu"><b>1</b>Nemzeti ünnepek</span><span class="ql-en">National holidays</span></a><a href="#p2-2"><span class="ql-hu"><b>2</b>Ünnepek és hagyományok</span><span class="ql-en">Holidays & traditions</span></a><a href="#p2-3"><span class="ql-hu"><b>3</b>Állami jelképek</span><span class="ql-en">State symbols</span></a><a href="#p2-4"><span class="ql-hu"><b>4</b>Budapest</span><span class="ql-en">Budapest</span></a><a href="#p2-5"><span class="ql-hu"><b>5</b>Földrajz</span><span class="ql-en">Geography</span></a><a href="#p2-6"><span class="ql-hu"><b>6</b>Alaptörvény</span><span class="ql-en">Constitution</span></a><a href="#p2-7"><span class="ql-hu"><b>7</b>Történelem: Trianon</span><span class="ql-en">History: Trianon</span></a><a href="#p2-8"><span class="ql-hu"><b>8</b>Híres magyarok</span><span class="ql-en">Famous Hungarians</span></a><a href="#p2-9"><span class="ql-hu"><b>9</b>Magyar konyha</span><span class="ql-en">Cuisine</span></a><a href="#p2-10"><span class="ql-hu"><b>10</b>Magyarország ma</span><span class="ql-en">Hungary today</span></a></div>
+    <div class="ql-part">III. A konzulátuson · At the Consulate</div>
+    <div class="ql-chips"><a href="#p3-1"><span class="ql-hu"><b>1</b>Érkezés és bejelentkezés</span><span class="ql-en">Arriving and checking in</span></a><a href="#p3-2"><span class="ql-hu"><b>2</b>Próbainterjúk</span><span class="ql-en">Mock interviews</span></a><a href="#p3-3"><span class="ql-hu"><b>3</b>Biometrikus adatok és aláírás</span><span class="ql-en">Biometrics and signature</span></a><a href="#p3-4"><span class="ql-hu"><b>4</b>A kérelem véglegesítése</span><span class="ql-en">Finalizing the application</span></a><a href="#p3-5"><span class="ql-hu"><b>5</b>Dokumentum-ellenőrző lista</span><span class="ql-en">Document checklist</span></a></div>
+  </nav>
+
   <!-- ================= PART I ================= -->
   <div class="part-title">
     <div class="num">I</div>
@@ -380,7 +428,7 @@
       <h2>Személyes Kérdések<span class="en">Part I — Personal Questions</span></h2>
     </div>
   </div>
-  <div class="qgrid" id="part1"></div>
+  <div id="part1"></div>
 
   <div class="tricolor thin"></div>
 
@@ -403,7 +451,7 @@
     </div>
   </div>
 
-  <div class="chapter-title">
+  <div class="chapter-title" id="p3-1">
     <span class="tag">1</span>
     <div><h3>Érkezés és bejelentkezés<span class="en">Arriving and Checking In</span></h3></div>
   </div>
@@ -413,7 +461,7 @@
   </div>
   <div class="dialogue" id="dialogue1"></div>
 
-  <div class="chapter-title">
+  <div class="chapter-title" id="p3-2">
     <span class="tag">2</span>
     <div><h3>Próbainterjúk<span class="en">Mock Interviews</span></h3></div>
   </div>
@@ -423,7 +471,7 @@
   </div>
   <div id="mockBlocks"></div>
 
-  <div class="chapter-title">
+  <div class="chapter-title" id="p3-3">
     <span class="tag">3</span>
     <div><h3>Biometrikus adatok és aláírás<span class="en">Biometric Data and Signatures</span></h3></div>
   </div>
@@ -433,7 +481,7 @@
   </div>
   <div class="vocab-wrap" id="biometricTable"></div>
 
-  <div class="chapter-title">
+  <div class="chapter-title" id="p3-4">
     <span class="tag">4</span>
     <div><h3>A kérelem véglegesítése<span class="en">Finalizing the Application</span></h3></div>
   </div>
@@ -443,7 +491,7 @@
   </div>
   <div class="dialogue" id="dialogue2"></div>
 
-  <div class="chapter-title">
+  <div class="chapter-title" id="p3-5">
     <span class="tag">5</span>
     <div><h3>Dokumentum-ellenőrző lista<span class="en">Document Checklist</span></h3></div>
   </div>
@@ -473,58 +521,258 @@
 <script>
 /* ===================== DATA ===================== */
 
-const part1Questions = [
-["Mi a neve?/Hogy Hívják?","What is your name?","A nevem: Doe John. / Doe John-nak hívnak.","My name is: John Doe. / \u201cI\u2019m called John Doe.\u201d"],
-["Hol és mikor született?","Where and when were you born?","New York-ban születtem, 1985. április tizedikén.","I was born in New York on the tenth of April 1985."],
-["Milyen állampolgárságú?","What is your nationality?","Amerikai állampolgár vagyok, de szeretnék magyar is lenni.","I am an American citizen, but I would also like to be Hungarian."],
-["Hol él most?","Where do you currently live?","Bostonban élek, Massachusetts államban.","I live in Boston, in the state of Massachusetts."],
-["Mi a címe? / Mi a lakcíme?","What is your address?","A címem: 123 Main Street, Boston.","My address is: 123 Main Street, Boston."],
-["Mióta él ezen a címen?","How long have you lived at this address?","2016 óta élek ezen a címen, tehát tíz éve.","I have lived at this address since 2016, so for ten years."],
-["Van családja? Házas?","Do you have a family? Are you married?","Igen, házas vagyok. 2010-ben házasodtam össze a feleségemmel, Máriával.","Yes, I am married. I married my wife Maria in 2010."],
-["Van gyermeke? Hány éves[ek]?","Do you have children? How old are they?","Igen, két gyermekem van: Emma 12 éves, a fiam, Daniel, 9 éves.","Yes, I have two children: Emma is 12 years old, and my son Daniel is 9."],
-["Mivel foglalkozik?","What do you do for a living?","Projektmenedzserként dolgozom egy nemzetközi technológiai cégnél Bostonban.","I work as a project manager at an international technology company in Boston."],
-["Milyen iskolai végzettsége van?","What is your level of education?","Közgazdaságtant tanultam az egyetemen, és mesterdiplomám van.","I studied economics at university, and I have a master's degree."],
-["Van magyar felmenője? Kik voltak ők?","Do you have Hungarian ancestors? Who were they?","Igen, a dédszüleim magyarok voltak: Kovács István és Nagy Mária.","Yes, my great-grandparents were Hungarian: István Kovács and Mária Nagy."],
-["Melyik magyar városból vagy faluból származik a családja?","Which Hungarian town or village is your family from?","A családom Szegedről származik, Dél-Magyarországról.","My family comes from Szeged, in southern Hungary."],
-["Beszélt valaki magyarul a családjában?","Did anyone in your family speak Hungarian?","Igen, a nagyszüleim beszéltek magyarul, amikor gyerekek voltak, mert a dédszüleim megtanították őket.","Yes, my grandparents spoke Hungarian when they were young, because my great-grandparents taught them."],
-["A nagyszülei vagy szülei magyar állampolgárok voltak?","Were your grandparents or parents Hungarian citizens?","Nem, már nem. A dédszüleim voltak magyar állampolgárok, de a nagyszüleim már az Egyesült Államokban születtek.","No, they were not. My great-grandparents were Hungarian citizens, but my grandparents were already born in the United States."],
-["Mikor hagyta el a családja Magyarországot?","When did your family leave Hungary?","A dédszüleim 1910-ben hagyták el Magyarországot, és Amerikába költöztek.","My great-grandparents left Hungary in 1910 and moved to America."],
-["Tudja, miért hagyták el Magyarországot?","Do you know why they left Hungary?","Azért mentek el, mert jobb munkalehetőségeket és új életet kerestek.","They left because they were looking for better job opportunities and a new life."],
-["Van Magyarországon élő rokona?","Do you have any relatives living in Hungary?","Tudomásom szerint nincsenek rokonaim Magyarországon, de vannak barátaim Budapesten.","As far as I know, I don't have relatives in Hungary, but I have friends in Budapest."],
-["Tartja a kapcsolatot magyar rokonaival?","Do you keep in touch with your Hungarian relatives?","Mivel nincsenek rokonaim Magyarországon, velük nem, de a barátaimmal igen.","Since I don't have relatives in Hungary, I don't keep in touch with them, but I do with my friends."],
-["Tudja-e a magyar származású családtagjainak a nevét és születési helyét?","Do you know the names and birthplaces of your Hungarian ancestors?","Igen, tudom, hogy a dédszüleim Szegeden születtek, és a nevük Kovács István és Nagy Mária volt.","Yes, I know my great-grandparents were born in Szeged, and their names were István Kovács and Mária Nagy."],
-["Őriz a családja magyar hagyományokat?","Does your family keep any Hungarian traditions?","Igen, gyakran főzünk magyar ételeket, és beszélünk a család magyar gyökereiről.","Yes, we often cook Hungarian food and talk about our Hungarian roots."],
-["Volt már Magyarországon?","Have you been to Hungary?","Igen, már kétszer voltam Magyarországon, legutóbb a családommal utaztam ide.","Yes, I have already been to Hungary twice, and the last time I came with my family."],
-["Hányszor járt Magyarországon?","How many times have you visited Hungary?","Eddig kétszer jártam Magyarországon, és szeretnék még sokszor visszajönni.","So far I have visited Hungary twice, and I would like to come back many more times."],
-["Mikor járt utoljára Magyarországon?","When was the last time you visited Hungary?","Utoljára 2023 nyarán jártam itt, akkor több várost is meglátogattam.","The last time I was here was in the summer of 2023, and I visited several cities."],
-["Mit szeret Magyarországban?","What do you like about Hungary?","Nagyon szeretem a magyar kultúrát, a történelmet és az emberek kedvességét.","I really like Hungarian culture, the history, and the kindness of the people."],
-["Van kedvenc magyar városa?","Do you have a favorite Hungarian city?","Igen, Budapest a kedvenc városom, mert gyönyörű, élénk, és nagyon sok dolgot lehet csinálni.","Yes, my favorite city is Budapest because it is beautiful, lively and there are lots of things to do."],
-["Ismer magyar hagyományokat vagy ünnepeket?","Do you know any Hungarian traditions or holidays?","Igen, ismerem a húsvéti locsolkodást, a karácsonyi szokásokat, és több nemzeti ünnepet is.","Yes, I know the Easter sprinkling, Christmas traditions, and several national holidays as well."],
-["Mit ünneplünk március 15-én, október 23-án és augusztus 20-án?","What do we celebrate on March 15, October 23, and August 20?","Március 15-én az 1848-as szabadságharcra emlékezünk, október 23-án az 1956-os forradalmat ünnepeljük, augusztus 20-án pedig Szent István királyra és az államalapításra emlékezünk.","On March 15 we remember the 1848 War of Independence, on October 23 we commemorate the 1956 Revolution, and on August 20 we celebrate King Saint Stephen and the foundation of the state."],
-["Milyen magyar ételeket ismer vagy szeret?","What Hungarian foods do you know or like?","Nagyon szeretem a gulyást, a lángost és a töltött káposztát, ezeket már többször kóstoltam.","I really like goulash, lángos, and stuffed cabbage, and I have tried them several times."],
-["Tud magyar népdalokat vagy verseket?","Do you know any Hungarian folk songs or poems?","Még nem ismerek sokat, de szeretnék néhányat megtanulni a jövőben.","I don't know many yet, but I would like to learn some in the future."],
-["Követi a magyar híreket vagy politikát?","Do you follow Hungarian news or politics?","Igen, néha olvasok magyar híreket az interneten.","Yes, I sometimes read Hungarian news online."],
-["Tervez Magyarországra költözni a jövőben?","Do you plan to move to Hungary in the future?","Jelenleg nem tervezem a költözést, de szeretnék sok időt itt tölteni.","At the moment I am not planning to move, but I would like to spend a lot of time here."],
-["Hogy van ma?","How are you today?","Köszönöm, jól vagyok, és örülök, hogy itt lehetek.","Thank you, I am fine and happy to be here."],
-["Hogyan telt a hétvégéje?","How was your weekend?","A hétvégén pihentem, és időt töltöttem a családdal.","During the weekend I relaxed and spent time with my family."],
-["Mit csinált tegnap?","What did you do yesterday?","Tegnap dolgoztam, este pedig magyarul tanultam.","Yesterday I worked, and in the evening I studied Hungarian."],
-["Mit szokott csinálni szabadidejében?","What do you usually do in your free time?","Szabadidőmben szeretek olvasni, sportolni és a gyerekeimmel lenni.","In my free time I like reading, doing sports, and being with my children."],
-["Van hobbija? Mi az?","Do you have a hobby? What is it?","Igen, a hobbim az utazás és a családtörténet kutatása.","Yes, my hobby is traveling and researching my family history."],
-["Tud egy kicsit mesélni a napi rutinjáról?","Can you tell me a little about your daily routine?","Napközben dolgozom, délután a családommal vagyok, este pedig tanulok.","During the day I work, in the afternoon I am with my family, and in the evening I study."],
-["Mi a kedvenc évszaka? Miért?","What is your favorite season? Why?","A nyár a kedvencem, mert ilyenkor tudok a legtöbbet utazni.","Summer is my favorite because I can travel the most then."],
-["Mit szokott reggelizni?","What do you usually have for breakfast?","Reggelire kávét iszom és pirítóst eszem.","For breakfast I drink coffee and eat toast."],
-["Milyen nyelveken beszél?","What languages do you speak?","Angolul beszélek, és minden nap tanulom a magyar nyelvet.","I speak English, and I study Hungarian every day."],
-["Szeret utazni? Melyik országokat látogatta meg?","Do you like to travel? Which countries have you visited?","Igen, nagyon szeretek utazni, jártam már Németországban, Franciaországban és Olaszországban is.","Yes, I really like traveling; I have visited Germany, France, and Italy."],
-["Miért szeretné megszerezni a magyar állampolgárságot?","Why do you want to obtain Hungarian citizenship?","Mert magyar származású vagyok, és fontos nekem a családom múltja.","Because I am of Hungarian descent, and my family history is important to me."],
-["Miért fontos Önnek a magyar állampolgárság?","Why is Hungarian citizenship important to you?","Így szeretnék tisztelegni az őseim előtt.","I would like to honor my ancestors this way."],
-["Mit jelent Önnek Magyarország?","What does Hungary mean to you?","Magyarország számomra az eredetemet és az identitásomat jelenti.","For me, Hungary represents my origin and identity."],
-["Elfogadja Magyarország törvényeit és kultúráját?","Do you accept Hungary's laws and culture?","Igen, teljes mértékben elfogadom és tisztelem őket.","Yes, I fully accept and respect them."],
-["Készen áll arra, hogy magyar állampolgár legyen?","Are you ready to become a Hungarian citizen?","Igen, büszke lennék rá.","Yes, I would be proud."],
-["Ismeri a magyar himnuszt?","Do you know the Hungarian national anthem?","Igen, ismerem, és nagyon fontos számomra.","Yes, I know it, and it is very important to me."],
-["Tudja, ki Magyarország miniszterelnöke?","Do you know who the Prime Minister of Hungary is?","Igen, Magyar Péter Magyarország miniszterelnöke. A Tisza Párt elnökeként a 2026. áprilisi országgyűlési választáson kétharmados győzelmet aratott, és 2026 májusában alakított kormányt. [2026. augusztusi állapot szerint.]","Yes, Péter Magyar is the Prime Minister of Hungary. As the leader of the Tisza Party, he won a two-thirds majority in the April 2026 parliamentary election and formed a government in May 2026. [As of August 2026.]"],
-["Tudja, milyen színű a magyar zászló?","Do you know what colors are in the Hungarian flag?","Igen, piros, fehér és zöld.","Yes, red, white, and green."],
-["Mit fog tenni, miután megkapja a magyar állampolgárságot?","What will you do after obtaining Hungarian citizenship?","Szeretném átvenni a magyar útlevelet, és gyakrabban szeretnék ide utazni.","I would like to receive my Hungarian passport and visit more often."],
-["Mikor szeretne Magyarországra utazni?","When would you like to visit Hungary?","Amilyen hamar csak lehet, akár már jövő nyáron.","As soon as possible, maybe already next summer."]
+const part1Blocks = [
+  {id:"p1-erkezes", tag:"A", hu:"Érkezés és eljárás", en:"Arrival and Procedure", questions:[
+    {"n": "01", "a": "101", "hu": "Miben segíthetek?", "en": "How can I help you?", "ex": "Időpontom van egyszerűsített honosításra.", "exEn": "I have an appointment for simplified naturalization."},
+    {"n": "01b", "a": "102", "hu": "Milyen ügyben jött?", "en": "What have you come about?", "ex": "Az egyszerűsített honosítás ügyében jöttem.", "exEn": "I have come about simplified naturalization.", "v": 1},
+    {"n": "02", "a": "103", "hu": "Van időpontja?", "en": "Do you have an appointment?", "ex": "Igen, tíz órára.", "exEn": "Yes, for ten o'clock."},
+    {"n": "03", "a": "32", "hu": "Hogy van ma?", "en": "How are you today?", "ex": "Köszönöm, jól vagyok, és örülök, hogy itt lehetek.", "exEn": "Thank you, I am fine and happy to be here."},
+    {"n": "03b", "a": "104", "hu": "Hogy érzi magát?", "en": "How do you feel?", "ex": "Jól érzem magam, köszönöm.", "exEn": "I feel good, thank you.", "v": 1},
+    {"n": "04", "a": "105", "hu": "Izgul?", "en": "Are you nervous?", "ex": "Egy kicsit izgulok.", "exEn": "I am a little nervous."},
+    {"n": "04b", "a": "106", "hu": "Ideges?", "en": "Are you anxious?", "ex": "Nem vagyok ideges, csak egy kicsit izgulok.", "exEn": "I am not anxious, just a little nervous.", "v": 1},
+    {"n": "05", "a": "107", "hu": "Honnan jött?", "en": "Where did you come from?", "ex": "Bostonból jöttem.", "exEn": "I came from Boston."},
+    {"n": "05b", "a": "108", "hu": "Honnan érkezett?", "en": "Where did you arrive from?", "ex": "Bostonból érkeztem.", "exEn": "I arrived from Boston.", "v": 1},
+    {"n": "06", "a": "109", "hu": "Mivel jött ide?", "en": "How did you get here?", "ex": "Vonattal jöttem, aztán metróval.", "exEn": "I came by train, then by subway."},
+    {"n": "06b", "a": "110", "hu": "Hogyan jött ma ide?", "en": "How did you come here today?", "ex": "Ma reggel metróval jöttem a hotelből.", "exEn": "This morning I came from the hotel by subway.", "v": 1},
+    {"n": "07", "a": "111", "hu": "Hány órát utazott?", "en": "How many hours did you travel?", "ex": "Négy órát utaztam.", "exEn": "I travelled for four hours."},
+    {"n": "07b", "a": "112", "hu": "Mennyi ideig tartott az út?", "en": "How long did the journey take?", "ex": "Négy óráig tartott.", "exEn": "It took four hours.", "v": 1},
+    {"n": "08", "a": "113", "hu": "Milyen volt az út?", "en": "How was the journey?", "ex": "Jó volt, kényelmes volt.", "exEn": "It was good, it was comfortable."},
+    {"n": "08b", "a": "114", "hu": "Nagy volt a forgalom?", "en": "Was there a lot of traffic?", "ex": "Nem, nem volt nagy forgalom.", "exEn": "No, there wasn't much traffic.", "v": 1},
+    {"n": "09", "a": "115", "hu": "Mikor indult el otthonról?", "en": "When did you leave home?", "ex": "Tegnap délután indultam el.", "exEn": "I left yesterday afternoon."},
+    {"n": "09b", "a": "116", "hu": "Hány órakor jött el otthonról?", "en": "What time did you leave home?", "ex": "Délután kettőkor.", "exEn": "At two in the afternoon.", "v": 1},
+    {"n": "10", "a": "117", "hu": "Hol szállt meg?", "en": "Where are you staying?", "ex": "Egy hotelben, Manhattanben.", "exEn": "In a hotel, in Manhattan."},
+    {"n": "10b", "a": "118", "hu": "Hol tartózkodik?", "en": "Where are you staying at the moment?", "ex": "Egy hotelben vagyok, a konzulátus közelében.", "exEn": "I am in a hotel near the consulate.", "v": 1},
+    {"n": "11", "a": "119", "hu": "Mikor tervez hazamenni?", "en": "When are you planning to go home?", "ex": "Holnap megyek haza.", "exEn": "I am going home tomorrow."},
+    {"n": "12", "a": "120", "hu": "Mit evett ma?", "en": "What have you eaten today?", "ex": "Reggel kávét ittam és pirítóst ettem.", "exEn": "In the morning I drank coffee and ate toast."},
+    {"n": "13", "a": "121", "hu": "Milyen volt a hete?", "en": "How was your week?", "ex": "Jó volt, de sokat dolgoztam.", "exEn": "It was good, but I worked a lot."},
+    {"n": "14", "a": "122", "hu": "Hány óra van most?", "en": "What time is it now?", "ex": "Fél tizenegy van.", "exEn": "It is half past ten."},
+    {"n": "14b", "a": "123", "hu": "Mennyi most az idő?", "en": "What is the time now?", "ex": "Tíz óra harminc perc.", "exEn": "Ten thirty.", "v": 1},
+    {"n": "15", "a": "124", "hu": "Egyedül jött az interjúra?", "en": "Did you come to the interview alone?", "ex": "Nem, a feleségemmel jöttem.", "exEn": "No, I came with my wife."},
+    {"n": "15b", "a": "125", "hu": "Kivel jött az interjúra?", "en": "Who did you come to the interview with?", "ex": "A feleségemmel.", "exEn": "With my wife.", "v": 1},
+    {"n": "16", "a": "126", "hu": "Most van itt először?", "en": "Is this your first time here?", "ex": "Igen, most vagyok itt először.", "exEn": "Yes, this is my first time here."},
+    {"n": "16b", "a": "127", "hu": "Járt már itt korábban?", "en": "Have you been here before?", "ex": "Nem, még nem jártam itt.", "exEn": "No, I haven't been here before.", "v": 1},
+    {"n": "17", "a": "128", "hu": "Elhozta az útlevelét?", "en": "Did you bring your passport?", "ex": "Igen, tessék, itt van.", "exEn": "Yes, here it is."},
+    {"n": "17b", "a": "129", "hu": "Hozott magával igazolványt?", "en": "Did you bring an ID with you?", "ex": "Igen, az útlevelemet hoztam.", "exEn": "Yes, I brought my passport.", "v": 1},
+    {"n": "18", "a": "130", "hu": "Meddig érvényes az útlevele?", "en": "When is your passport valid until?", "ex": "2033 márciusáig.", "exEn": "Until March 2033."},
+    {"n": "19", "a": "131", "hu": "Elkérhetem a dokumentumait?", "en": "May I have your documents?", "ex": "Tessék, itt vannak.", "exEn": "Here you are."},
+    {"n": "20", "a": "132", "hu": "Milyen dokumentumokat hozott magával?", "en": "What documents did you bring with you?", "ex": "A születési és házassági anyakönyvi kivonatokat, a fordításokat és két fényképet.", "exEn": "The birth and marriage certificates, the translations and two photos."},
+    {"n": "21", "a": "133", "hu": "Kitöltötte a kérelmet?", "en": "Did you fill in the application?", "ex": "Igen, tessék.", "exEn": "Yes, here it is."},
+    {"n": "21b", "a": "134", "hu": "Hogyan töltötte ki a jelentkezési lapot?", "en": "How did you fill in the application form?", "ex": "Kézzel, tollal. Én töltöttem ki.", "exEn": "By hand, with a pen. I filled it in myself.", "v": 1},
+    {"n": "22", "a": "135", "hu": "Aláírta a dokumentumokat?", "en": "Did you sign the documents?", "ex": "Nem, még nem írtam alá.", "exEn": "No, I haven't signed them yet."},
+    {"n": "23", "a": "136", "hu": "Lefordíttatta a dokumentumait?", "en": "Did you have your documents translated?", "ex": "Igen, mindent lefordíttattam.", "exEn": "Yes, I had everything translated."},
+    {"n": "23b", "a": "137", "hu": "Ki fordította le a dokumentumokat?", "en": "Who translated the documents?", "ex": "Egy hiteles fordító.", "exEn": "A certified translator.", "v": 1},
+    {"n": "24", "a": "138", "hu": "A dokumentumok hitelesítve vannak?", "en": "Are the documents certified?", "ex": "Igen, hitelesítve vannak.", "exEn": "Yes, they are certified."},
+    {"n": "25", "a": "139", "hu": "Milyen nyelven vannak a dokumentumok?", "en": "What language are the documents in?", "ex": "Angolul és magyarul.", "exEn": "In English and Hungarian."},
+    {"n": "26", "a": "140", "hu": "Hogy készítette el az önéletrajzát?", "en": "How did you prepare your CV?", "ex": "Én írtam, magyarul.", "exEn": "I wrote it myself, in Hungarian."},
+    {"n": "27", "a": "141", "hu": "Hozott magával fényképet?", "en": "Did you bring a photo with you?", "ex": "Igen, hoztam.", "exEn": "Yes, I did."},
+    {"n": "27b", "a": "142", "hu": "Hány darab fényképet hozott?", "en": "How many photos did you bring?", "ex": "Két fényképet hoztam.", "exEn": "I brought two photos.", "v": 1},
+    {"n": "28", "a": "143", "hu": "Hogyan találta meg a dokumentumait?", "en": "How did you find your documents?", "ex": "A családnak voltak régi iratai. A szegedi levéltárból is kértem.", "exEn": "My family had old papers. I also requested some from the archives in Szeged."},
+    {"n": "29", "a": "144", "hu": "Mire alapozza a kérelmét?", "en": "What do you base your application on?", "ex": "A dédszüleim magyar állampolgárságára.", "exEn": "On my great-grandparents' Hungarian citizenship."},
+    {"n": "29b", "a": "145", "hu": "Ki után kérelmezi a magyar állampolgárságot?", "en": "Through whom are you applying for Hungarian citizenship?", "ex": "A dédszüleim után.", "exEn": "Through my great-grandparents.", "v": 1},
+    {"n": "29c", "a": "146", "hu": "Ki volt magyar állampolgár a családjában?", "en": "Who was a Hungarian citizen in your family?", "ex": "A dédszüleim, Kovács István és Nagy Mária.", "exEn": "My great-grandparents, István Kovács and Mária Nagy.", "v": 1},
+    {"n": "30", "a": "147", "hu": "Jelentkezett már korábban magyar állampolgárságra?", "en": "Have you applied for Hungarian citizenship before?", "ex": "Nem, most jelentkezem először.", "exEn": "No, this is my first application."},
+    {"n": "31", "a": "03", "hu": "Milyen állampolgárságú?", "en": "What is your nationality?", "ex": "Amerikai állampolgár vagyok, de szeretnék magyar is lenni.", "exEn": "I am an American citizen, but I would also like to be Hungarian."},
+    {"n": "31b", "a": "148", "hu": "Milyen nemzetiségű Ön?", "en": "What nationality are you?", "ex": "Amerikai vagyok.", "exEn": "I am American.", "v": 1},
+    {"n": "32", "a": "149", "hu": "Van másik állampolgársága?", "en": "Do you have another citizenship?", "ex": "Nincs, csak amerikai.", "exEn": "No, only American."},
+    {"n": "32b", "a": "150", "hu": "Volt már másik állampolgársága?", "en": "Have you ever had another citizenship?", "ex": "Nem, soha.", "exEn": "No, never.", "v": 1},
+    {"n": "33", "a": "151", "hu": "Milyen jogcímen szerezte a mostani állampolgárságát?", "en": "How did you obtain your current citizenship?", "ex": "Születéssel, mert Amerikában születtem.", "exEn": "By birth, because I was born in America."},
+    {"n": "34", "a": "152", "hu": "Mikor kezdett készülni az interjúra?", "en": "When did you start preparing for the interview?", "ex": "Egy éve kezdtem.", "exEn": "I started a year ago."},
+    {"n": "35", "a": "153", "hu": "Segített valaki felkészülni az interjúra?", "en": "Did anyone help you prepare for the interview?", "ex": "Igen, egy online tanár.", "exEn": "Yes, an online teacher."},
+    {"n": "35b", "a": "154", "hu": "Hogyan készült az interjúra?", "en": "How did you prepare for the interview?", "ex": "Minden nap tanultam magyarul, tanárral és appokkal.", "exEn": "I studied Hungarian every day, with a teacher and with apps.", "v": 1},
+    {"n": "36", "a": "155", "hu": "Szeretné, hogy a gyerekei is magyar állampolgárok legyenek?", "en": "Would you like your children to become Hungarian citizens too?", "ex": "Igen, szeretném.", "exEn": "Yes, I would."},
+    {"n": "37", "a": "156", "hu": "Szeretné, hogy a felesége is magyar állampolgár legyen?", "en": "Would you like your wife to become a Hungarian citizen too?", "ex": "Talán később. Most még nem tanul magyarul.", "exEn": "Maybe later. She is not learning Hungarian yet."},
+    {"n": "38", "a": "157", "hu": "Hol szeretné letenni az állampolgársági esküt?", "en": "Where would you like to take the citizenship oath?", "ex": "Itt, a főkonzulátuson.", "exEn": "Here, at the Consulate General."},
+    {"n": "39", "a": "158", "hu": "Hogyan tudjuk értesíteni Önt?", "en": "How can we notify you?", "ex": "E-mailben vagy telefonon.", "exEn": "By e-mail or by phone."},
+    {"n": "39b", "a": "159", "hu": "Mi az elérhetősége?", "en": "What is your contact information?", "ex": "E-mail: john.doe@email.com, telefon: 617 555 0123.", "exEn": "E-mail: john.doe@email.com, phone: 617 555 0123.", "v": 1},
+    {"n": "39c", "a": "160", "hu": "Mi az e-mail címe?", "en": "What is your e-mail address?", "ex": "john pont doe kukac email pont com.", "exEn": "john dot doe at email dot com.", "v": 1},
+    {"n": "39d", "a": "161", "hu": "Mi a telefonszáma?", "en": "What is your phone number?", "ex": "Hat-egy-hét, öt-öt-öt, nulla-egy-kettő-három.", "exEn": "Six-one-seven, five-five-five, zero-one-two-three.", "v": 1},
+    {"n": "40", "a": "162", "hu": "Vettek már le ujjlenyomatot Öntől?", "en": "Have your fingerprints been taken yet?", "ex": "Még nem.", "exEn": "Not yet."},
+    {"n": "41", "a": "163", "hu": "Van kérdése?", "en": "Do you have any questions?", "ex": "Igen, egy: mikor kapok választ?", "exEn": "Yes, one: when will I get an answer?"}
+  ]},
+  {id:"p1-szemelyes", tag:"B", hu:"Bemutatkozás és személyes adatok", en:"Introduction and Personal Details", questions:[
+    {"n": "42", "a": "164", "hu": "Kérem, mutatkozzon be!", "en": "Please introduce yourself!", "ex": "Doe John vagyok. 1985-ben születtem New Yorkban. Bostonban élek a családommal. Projektmenedzser vagyok.", "exEn": "I am John Doe. I was born in New York in 1985. I live in Boston with my family. I am a project manager."},
+    {"n": "42b", "a": "165", "hu": "Meséljen magáról!", "en": "Tell me about yourself!", "ex": "Negyvenegy éves vagyok, házas vagyok, és két gyerekem van. Szeretek olvasni és utazni.", "exEn": "I am 41, I am married and I have two children. I like reading and travelling.", "v": 1},
+    {"n": "42c", "a": "166", "hu": "Mondjon néhány szót magáról!", "en": "Say a few words about yourself!", "ex": "Amerikai vagyok, de a családom Szegedről származik. Egy éve tanulok magyarul.", "exEn": "I am American, but my family comes from Szeged. I have been learning Hungarian for a year.", "v": 1},
+    {"n": "43", "a": "01", "hu": "Mi a neve?/Hogy Hívják?", "en": "What is your name?", "ex": "A nevem: Doe John. / Doe John-nak hívnak.", "exEn": "My name is: John Doe. / “I’m called John Doe.”"},
+    {"n": "44", "a": "167", "hu": "Mi az Ön teljes neve?", "en": "What is your full name?", "ex": "A teljes nevem Doe John.", "exEn": "My full name is John Doe."},
+    {"n": "44b", "a": "168", "hu": "Mi a vezetékneve?", "en": "What is your last name?", "ex": "A vezetéknevem Doe.", "exEn": "My last name is Doe.", "v": 1},
+    {"n": "44c", "a": "169", "hu": "Mi a keresztneve?", "en": "What is your first name?", "ex": "A keresztnevem John.", "exEn": "My first name is John.", "v": 1},
+    {"n": "45", "a": "02", "hu": "Hol és mikor született?", "en": "Where and when were you born?", "ex": "New York-ban születtem, 1985. április tizedikén.", "exEn": "I was born in New York on the tenth of April 1985."},
+    {"n": "45b", "a": "170", "hu": "Melyik évben született?", "en": "What year were you born in?", "ex": "1985-ben.", "exEn": "In 1985.", "v": 1},
+    {"n": "45c", "a": "171", "hu": "Mi a születési helye és ideje?", "en": "What is your place and date of birth?", "ex": "New York, 1985. április 10.", "exEn": "New York, April 10, 1985.", "v": 1},
+    {"n": "45d", "a": "172", "hu": "Melyik városból származik?", "en": "Which city are you from?", "ex": "New Yorkból.", "exEn": "From New York.", "v": 1},
+    {"n": "46", "a": "173", "hu": "Hanyadikán született?", "en": "On what day were you born?", "ex": "Április tizedikén.", "exEn": "On the tenth of April."},
+    {"n": "46b", "a": "174", "hu": "Melyik hónapban született?", "en": "What month were you born in?", "ex": "Áprilisban.", "exEn": "In April.", "v": 1},
+    {"n": "47", "a": "175", "hu": "Mik a tervei a születésnapjára?", "en": "What are your plans for your birthday?", "ex": "Vacsorázni megyünk a családdal.", "exEn": "We are going out for dinner with the family."},
+    {"n": "48", "a": "04", "hu": "Hol él most?", "en": "Where do you currently live?", "ex": "Bostonban élek, Massachusetts államban.", "exEn": "I live in Boston, in the state of Massachusetts."},
+    {"n": "49", "a": "176", "hu": "Boston melyik részén lakik?", "en": "Which part of Boston do you live in?", "ex": "A városközponthoz közel.", "exEn": "Close to the city centre."},
+    {"n": "50", "a": "177", "hu": "Miért Bostonban él?", "en": "Why do you live in Boston?", "ex": "Mert itt dolgozom, és itt él a családom.", "exEn": "Because I work here and my family lives here."},
+    {"n": "51", "a": "178", "hu": "Hány ember lakik ott, ahol él? Nagy város?", "en": "How many people live where you live? Is it a big city?", "ex": "Igen, nagy város. Kb. 650 ezer ember él ott.", "exEn": "Yes, it is a big city. About 650,000 people live there."},
+    {"n": "52", "a": "05", "hu": "Mi a címe? / Mi a lakcíme?", "en": "What is your address?", "ex": "A címem: 123 Main Street, Boston.", "exEn": "My address is: 123 Main Street, Boston."},
+    {"n": "53", "a": "06", "hu": "Mióta él ezen a címen?", "en": "How long have you lived at this address?", "ex": "2016 óta élek ezen a címen, tehát tíz éve.", "exEn": "I have lived at this address since 2016, so for ten years."},
+    {"n": "54", "a": "07", "hu": "Van családja? Házas?", "en": "Do you have a family? Are you married?", "ex": "Igen, házas vagyok. 2010-ben házasodtam össze a feleségemmel, Máriával.", "exEn": "Yes, I am married. I married my wife Maria in 2010."},
+    {"n": "54b", "a": "179", "hu": "Mi a családi állapota?", "en": "What is your marital status?", "ex": "Házas vagyok.", "exEn": "I am married.", "v": 1},
+    {"n": "54c", "a": "180", "hu": "Mikor házasodtak össze?", "en": "When did you get married?", "ex": "2010-ben.", "exEn": "In 2010.", "v": 1},
+    {"n": "54d", "a": "181", "hu": "Van élettársa?", "en": "Do you have a partner?", "ex": "Nincs, házas vagyok. A feleségem Mária.", "exEn": "No, I am married. My wife is Maria.", "v": 1},
+    {"n": "55", "a": "182", "hu": "Hol házasodtak össze?", "en": "Where did you get married?", "ex": "Bostonban.", "exEn": "In Boston."},
+    {"n": "56", "a": "08", "hu": "Van gyermeke? Hány éves[ek]?", "en": "Do you have children? How old are they?", "ex": "Igen, két gyermekem van: Emma 12 éves, a fiam, Daniel, 9 éves.", "exEn": "Yes, I have two children: Emma is 12 years old, and my son Daniel is 9."},
+    {"n": "57", "a": "183", "hu": "Szeretné megváltoztatni a nevét?", "en": "Would you like to change your name?", "ex": "Nem, nem szeretném.", "exEn": "No, I wouldn't."},
+    {"n": "57b", "a": "184", "hu": "Szeretne névmódosítást kérni?", "en": "Would you like to request a name change?", "ex": "Nem, köszönöm.", "exEn": "No, thank you.", "v": 1}
+  ]},
+  {id:"p1-csalad", tag:"C", hu:"Család és származás", en:"Family and Ancestry", questions:[
+    {"n": "58", "a": "11", "hu": "Van magyar felmenője? Kik voltak ők?", "en": "Do you have Hungarian ancestors? Who were they?", "ex": "Igen, a dédszüleim magyarok voltak: Kovács István és Nagy Mária.", "exEn": "Yes, my great-grandparents were Hungarian: István Kovács and Mária Nagy."},
+    {"n": "58b", "a": "185", "hu": "Magyar származású?", "en": "Are you of Hungarian origin?", "ex": "Igen, magyar származású vagyok.", "exEn": "Yes, I am of Hungarian origin.", "v": 1},
+    {"n": "58c", "a": "186", "hu": "Melyik felmenője volt magyar?", "en": "Which of your ancestors was Hungarian?", "ex": "A dédszüleim.", "exEn": "My great-grandparents.", "v": 1},
+    {"n": "59", "a": "187", "hu": "Melyik oldalról magyar származású?", "en": "Which side of your family is Hungarian?", "ex": "Anyai ágon.", "exEn": "On my mother's side."},
+    {"n": "60", "a": "188", "hu": "Le tudja vezetni a magyar származását?", "en": "Can you trace your Hungarian origin?", "ex": "Igen. A dédszüleim Kovács István és Nagy Mária. A lányuk a nagymamám, Kovács Anna. Az ő lánya az édesanyám. Én az ő fia vagyok.", "exEn": "Yes. My great-grandparents are István Kovács and Mária Nagy. Their daughter is my grandmother, Anna Kovács. Her daughter is my mother. I am her son."},
+    {"n": "60b", "a": "189", "hu": "El tudja mondani a családfáját?", "en": "Can you tell us your family tree?", "ex": "Dédszüleim: Kovács István és Nagy Mária. Nagymamám: Kovács Anna. Édesanyám: Doe Susan. Én: Doe John.", "exEn": "Great-grandparents: István Kovács and Mária Nagy. Grandmother: Anna Kovács. Mother: Susan Doe. Me: John Doe.", "v": 1},
+    {"n": "61", "a": "19", "hu": "Tudja-e a magyar származású családtagjainak a nevét és születési helyét?", "en": "Do you know the names and birthplaces of your Hungarian ancestors?", "ex": "Igen, tudom, hogy a dédszüleim Szegeden születtek, és a nevük Kovács István és Nagy Mária volt.", "exEn": "Yes, I know my great-grandparents were born in Szeged, and their names were István Kovács and Mária Nagy."},
+    {"n": "61b", "a": "190", "hu": "Hogy hívták a dédapját?", "en": "What was your great-grandfather's name?", "ex": "Kovács Istvánnak hívták.", "exEn": "His name was István Kovács.", "v": 1},
+    {"n": "61c", "a": "191", "hu": "Mikor és hol született a dédapja?", "en": "When and where was your great-grandfather born?", "ex": "1885-ben, Szegeden.", "exEn": "In 1885, in Szeged.", "v": 1},
+    {"n": "62", "a": "192", "hu": "A dédanyja is magyar volt?", "en": "Was your great-grandmother Hungarian too?", "ex": "Igen, ő is Szegeden született.", "exEn": "Yes, she was also born in Szeged."},
+    {"n": "63", "a": "193", "hu": "Hol házasodtak össze a dédszülei?", "en": "Where did your great-grandparents get married?", "ex": "Szegeden, 1908-ban.", "exEn": "In Szeged, in 1908."},
+    {"n": "64", "a": "12", "hu": "Melyik magyar városból vagy faluból származik a családja?", "en": "Which Hungarian town or village is your family from?", "ex": "A családom Szegedről származik, Dél-Magyarországról.", "exEn": "My family comes from Szeged, in southern Hungary."},
+    {"n": "65", "a": "194", "hu": "Hol van Szeged?", "en": "Where is Szeged?", "ex": "Dél-Magyarországon, a Tisza mellett.", "exEn": "In southern Hungary, on the Tisza river."},
+    {"n": "66", "a": "195", "hu": "Járt már Szegeden?", "en": "Have you been to Szeged?", "ex": "Igen, 2023-ban. Megnéztem, hol éltek a dédszüleim.", "exEn": "Yes, in 2023. I saw where my great-grandparents lived."},
+    {"n": "67", "a": "15", "hu": "Mikor hagyta el a családja Magyarországot?", "en": "When did your family leave Hungary?", "ex": "A dédszüleim 1910-ben hagyták el Magyarországot, és Amerikába költöztek.", "exEn": "My great-grandparents left Hungary in 1910 and moved to America."},
+    {"n": "67b", "a": "196", "hu": "Mikor emigrált a dédapja?", "en": "When did your great-grandfather emigrate?", "ex": "1910-ben.", "exEn": "In 1910.", "v": 1},
+    {"n": "68", "a": "16", "hu": "Tudja, miért hagyták el Magyarországot?", "en": "Do you know why they left Hungary?", "ex": "Azért mentek el, mert jobb munkalehetőségeket és új életet kerestek.", "exEn": "They left because they were looking for better job opportunities and a new life."},
+    {"n": "68b", "a": "197", "hu": "Milyen körülmények között hagyta el az országot a dédapja?", "en": "Under what circumstances did your great-grandfather leave the country?", "ex": "Szegények voltak, és Amerikában munkát kerestek.", "exEn": "They were poor and looked for work in America.", "v": 1},
+    {"n": "69", "a": "198", "hu": "Mikor és hol született a nagymamája?", "en": "When and where was your grandmother born?", "ex": "1922-ben, Clevelandben.", "exEn": "In 1922, in Cleveland."},
+    {"n": "70", "a": "199", "hu": "Mikor hunyt el a nagymamája?", "en": "When did your grandmother pass away?", "ex": "1998-ban.", "exEn": "In 1998."},
+    {"n": "71", "a": "14", "hu": "A nagyszülei vagy szülei magyar állampolgárok voltak?", "en": "Were your grandparents or parents Hungarian citizens?", "ex": "Nem, már nem. A dédszüleim voltak magyar állampolgárok, de a nagyszüleim már az Egyesült Államokban születtek.", "exEn": "No, they were not. My great-grandparents were Hungarian citizens, but my grandparents were already born in the United States."},
+    {"n": "72", "a": "200", "hu": "Van már magyar állampolgár a családjában?", "en": "Is there already a Hungarian citizen in your family?", "ex": "Nincs. Csak a dédszüleim voltak magyarok.", "exEn": "No. Only my great-grandparents were Hungarian."},
+    {"n": "73", "a": "13", "hu": "Beszélt valaki magyarul a családjában?", "en": "Did anyone in your family speak Hungarian?", "ex": "Igen, a nagyszüleim beszéltek magyarul, amikor gyerekek voltak, mert a dédszüleim megtanították őket.", "exEn": "Yes, my grandparents spoke Hungarian when they were young, because my great-grandparents taught them."},
+    {"n": "73b", "a": "201", "hu": "Ki beszélt magyarul a családjában?", "en": "Who spoke Hungarian in your family?", "ex": "A dédszüleim és a nagymamám.", "exEn": "My great-grandparents and my grandmother.", "v": 1},
+    {"n": "74", "a": "202", "hu": "Mióta tudja, hogy magyar felmenői vannak?", "en": "How long have you known that you have Hungarian ancestors?", "ex": "Gyerekkorom óta. A nagymamám sokat mesélt.", "exEn": "Since I was a child. My grandmother told me a lot."},
+    {"n": "74b", "a": "203", "hu": "Mióta tudja, hogy magyar származású?", "en": "How long have you known that you are of Hungarian origin?", "ex": "Mindig is tudtam.", "exEn": "I have always known.", "v": 1},
+    {"n": "75", "a": "17", "hu": "Van Magyarországon élő rokona?", "en": "Do you have any relatives living in Hungary?", "ex": "Tudomásom szerint nincsenek rokonaim Magyarországon, de vannak barátaim Budapesten.", "exEn": "As far as I know, I don't have relatives in Hungary, but I have friends in Budapest."},
+    {"n": "75b", "a": "204", "hu": "Van magyar rokona?", "en": "Do you have Hungarian relatives?", "ex": "Nincs, de vannak barátaim Budapesten.", "exEn": "No, but I have friends in Budapest.", "v": 1},
+    {"n": "76", "a": "18", "hu": "Tartja a kapcsolatot magyar rokonaival?", "en": "Do you keep in touch with your Hungarian relatives?", "ex": "Mivel nincsenek rokonaim Magyarországon, velük nem, de a barátaimmal igen.", "exEn": "Since I don't have relatives in Hungary, I don't keep in touch with them, but I do with my friends."},
+    {"n": "77", "a": "20", "hu": "Őriz a családja magyar hagyományokat?", "en": "Does your family keep any Hungarian traditions?", "ex": "Igen, gyakran főzünk magyar ételeket, és beszélünk a család magyar gyökereiről.", "exEn": "Yes, we often cook Hungarian food and talk about our Hungarian roots."},
+    {"n": "78", "a": "205", "hu": "Hogy hívják a szüleit?", "en": "What are your parents' names?", "ex": "Doe Robert és Doe Susan.", "exEn": "Robert Doe and Susan Doe."},
+    {"n": "78b", "a": "206", "hu": "Hogy hívják az édesanyját?", "en": "What is your mother's name?", "ex": "Doe Susan.", "exEn": "Susan Doe.", "v": 1},
+    {"n": "78c", "a": "207", "hu": "Hogy hívják az édesapját?", "en": "What is your father's name?", "ex": "Doe Robert.", "exEn": "Robert Doe.", "v": 1},
+    {"n": "79", "a": "208", "hu": "Mi az édesanyja leánykori neve?", "en": "What is your mother's maiden name?", "ex": "Miller Susan.", "exEn": "Susan Miller."},
+    {"n": "80", "a": "209", "hu": "Hol és mikor született az édesanyja?", "en": "Where and when was your mother born?", "ex": "Clevelandben, 1958-ban.", "exEn": "In Cleveland, in 1958."},
+    {"n": "80b", "a": "210", "hu": "Hol és mikor született az édesapja?", "en": "Where and when was your father born?", "ex": "Ő is Clevelandben, 1956-ban.", "exEn": "Also in Cleveland, in 1956.", "v": 1},
+    {"n": "81", "a": "211", "hu": "Élnek a szülei?", "en": "Are your parents alive?", "ex": "Igen, élnek.", "exEn": "Yes, they are."},
+    {"n": "81b", "a": "212", "hu": "Hol élnek a szülei?", "en": "Where do your parents live?", "ex": "Clevelandben.", "exEn": "In Cleveland.", "v": 1},
+    {"n": "82", "a": "213", "hu": "Mi a szülei foglalkozása?", "en": "What are your parents' occupations?", "ex": "Mindketten nyugdíjasok. Az apám mérnök volt, az anyám tanár.", "exEn": "They are both retired. My father was an engineer, my mother was a teacher."},
+    {"n": "83", "a": "214", "hu": "Van testvére?", "en": "Do you have any siblings?", "ex": "Igen, van egy húgom, Kate.", "exEn": "Yes, I have a younger sister, Kate."},
+    {"n": "84", "a": "215", "hu": "Mi a testvére foglalkozása?", "en": "What is your sibling's occupation?", "ex": "Ápoló.", "exEn": "She is a nurse."},
+    {"n": "84b", "a": "216", "hu": "Hol él a testvére?", "en": "Where does your sibling live?", "ex": "New Yorkban.", "exEn": "In New York.", "v": 1},
+    {"n": "85", "a": "217", "hu": "A testvére is jelentkezik egyszerűsített honosításra?", "en": "Is your sibling also applying for simplified naturalization?", "ex": "Még nem, de szeretne.", "exEn": "Not yet, but she would like to."},
+    {"n": "86", "a": "218", "hu": "Meséljen a családjáról!", "en": "Tell me about your family!", "ex": "Négyen vagyunk: a feleségem, Mária, a lányom, Emma, a fiam, Daniel és én. Van egy macskánk is.", "exEn": "There are four of us: my wife Maria, my daughter Emma, my son Daniel and me. We also have a cat."}
+  ]},
+  {id:"p1-munka", tag:"D", hu:"Tanulmány és munka", en:"Education and Work", questions:[
+    {"n": "87", "a": "09", "hu": "Mivel foglalkozik?", "en": "What do you do for a living?", "ex": "Projektmenedzserként dolgozom egy nemzetközi technológiai cégnél Bostonban.", "exEn": "I work as a project manager at an international technology company in Boston."},
+    {"n": "87b", "a": "219", "hu": "Mi a munkája?", "en": "What is your job?", "ex": "Projektmenedzser vagyok.", "exEn": "I am a project manager.", "v": 1},
+    {"n": "87c", "a": "220", "hu": "Milyen pozícióban dolgozik?", "en": "What position do you work in?", "ex": "Projektmenedzser pozícióban.", "exEn": "As a project manager.", "v": 1},
+    {"n": "87d", "a": "221", "hu": "Tudna mesélni a munkájáról?", "en": "Could you tell me about your job?", "ex": "Projekteket vezetek. Sok megbeszélésem van, és csapatban dolgozom.", "exEn": "I lead projects. I have a lot of meetings, and I work in a team.", "v": 1},
+    {"n": "88", "a": "222", "hu": "Szereti a munkáját? Miért?", "en": "Do you like your job? Why?", "ex": "Igen, mert érdekes, és sok emberrel dolgozom.", "exEn": "Yes, because it is interesting and I work with many people."},
+    {"n": "89", "a": "223", "hu": "Mióta dolgozik projektmenedzserként?", "en": "How long have you worked as a project manager?", "ex": "2012 óta, tizennégy éve.", "exEn": "Since 2012, for fourteen years."},
+    {"n": "90", "a": "224", "hu": "Hol van a munkahelye?", "en": "Where is your workplace?", "ex": "Boston belvárosában.", "exEn": "In downtown Boston."},
+    {"n": "90b", "a": "225", "hu": "Hol található a cége?", "en": "Where is your company located?", "ex": "Bostonban, a belvárosban.", "exEn": "In Boston, downtown.", "v": 1},
+    {"n": "91", "a": "226", "hu": "Hol dolgozott korábban?", "en": "Where did you work before?", "ex": "Egy bankban, New Yorkban.", "exEn": "At a bank, in New York."},
+    {"n": "92", "a": "227", "hu": "Teljes vagy részmunkaidőben dolgozik?", "en": "Do you work full time or part time?", "ex": "Teljes munkaidőben.", "exEn": "Full time."},
+    {"n": "93", "a": "228", "hu": "Ön szerint nehéz lenne munkát találni Magyarországon?", "en": "Do you think it would be hard to find work in Hungary?", "ex": "Szerintem igen, mert jól kell tudni magyarul.", "exEn": "I think so, because you need to speak Hungarian well."},
+    {"n": "94", "a": "37", "hu": "Tud egy kicsit mesélni a napi rutinjáról?", "en": "Can you tell me a little about your daily routine?", "ex": "Napközben dolgozom, délután a családommal vagyok, este pedig tanulok.", "exEn": "During the day I work, in the afternoon I am with my family, and in the evening I study."},
+    {"n": "95", "a": "10", "hu": "Milyen iskolai végzettsége van?", "en": "What is your level of education?", "ex": "Közgazdaságtant tanultam az egyetemen, és mesterdiplomám van.", "exEn": "I studied economics at university, and I have a master's degree."},
+    {"n": "95b", "a": "229", "hu": "Milyen szakon tanult az egyetemen?", "en": "What did you study at university?", "ex": "Közgazdaságtant tanultam.", "exEn": "I studied economics.", "v": 1},
+    {"n": "95c", "a": "230", "hu": "Mi a legmagasabb iskolai végzettsége?", "en": "What is your highest level of education?", "ex": "Mesterdiplomám van.", "exEn": "I have a master's degree.", "v": 1},
+    {"n": "96", "a": "231", "hu": "Hol végezte a tanulmányait?", "en": "Where did you study?", "ex": "Bostonban, az egyetemen.", "exEn": "In Boston, at university."},
+    {"n": "96b", "a": "232", "hu": "Mikor fejezte be a tanulmányait?", "en": "When did you finish your studies?", "ex": "2009-ben.", "exEn": "In 2009.", "v": 1},
+    {"n": "97", "a": "233", "hu": "Hova járt középiskolába?", "en": "Where did you go to high school?", "ex": "New Yorkban jártam középiskolába.", "exEn": "I went to high school in New York."}
+  ]},
+  {id:"p1-nyelv", tag:"E", hu:"Magyar nyelv", en:"Hungarian Language", questions:[
+    {"n": "98", "a": "40", "hu": "Milyen nyelveken beszél?", "en": "What languages do you speak?", "ex": "Angolul beszélek, és minden nap tanulom a magyar nyelvet.", "exEn": "I speak English, and I study Hungarian every day."},
+    {"n": "98b", "a": "234", "hu": "Hány nyelven beszél?", "en": "How many languages do you speak?", "ex": "Angolul beszélek jól, és tanulok magyarul.", "exEn": "I speak English well, and I am learning Hungarian.", "v": 1},
+    {"n": "98c", "a": "235", "hu": "Mi az anyanyelve?", "en": "What is your native language?", "ex": "Az angol.", "exEn": "English.", "v": 1},
+    {"n": "99", "a": "236", "hu": "Mióta tanul magyarul?", "en": "How long have you been learning Hungarian?", "ex": "Kb. egy éve.", "exEn": "For about a year."},
+    {"n": "99b", "a": "237", "hu": "Mikor kezdett magyarul tanulni?", "en": "When did you start learning Hungarian?", "ex": "Tavaly ősszel.", "exEn": "Last autumn.", "v": 1},
+    {"n": "100", "a": "238", "hu": "Hol tanult magyarul?", "en": "Where did you learn Hungarian?", "ex": "Online, egy tanárral, és appokkal.", "exEn": "Online, with a teacher, and with apps."},
+    {"n": "101", "a": "239", "hu": "Milyen gyakran tanult magyarul az interjú előtt?", "en": "How often did you study Hungarian before the interview?", "ex": "Minden nap fél órát.", "exEn": "Half an hour every day."},
+    {"n": "102", "a": "240", "hu": "Milyen szinten beszél magyarul?", "en": "What level is your Hungarian?", "ex": "Kezdő vagyok, A2 szinten.", "exEn": "I am a beginner, at A2 level."},
+    {"n": "102b", "a": "241", "hu": "Milyen fokon beszél magyarul?", "en": "At what level do you speak Hungarian?", "ex": "Alapfokon.", "exEn": "At a basic level.", "v": 1},
+    {"n": "103", "a": "242", "hu": "Mit gondol a magyar nyelvről?", "en": "What do you think about the Hungarian language?", "ex": "Szép nyelv, de nehéz.", "exEn": "It is a beautiful language, but difficult."},
+    {"n": "103b", "a": "243", "hu": "Ön szerint nehéz a magyar nyelv?", "en": "Do you think Hungarian is difficult?", "ex": "Igen, nehéz, de szeretem.", "exEn": "Yes, it is difficult, but I like it.", "v": 1},
+    {"n": "104", "a": "244", "hu": "Mi a legnehezebb a magyar nyelvben?", "en": "What is the most difficult thing about Hungarian?", "ex": "A sok rag és a hosszú szavak.", "exEn": "The many suffixes and the long words."},
+    {"n": "105", "a": "245", "hu": "Melyik volt az első magyar szó, amit megtanult?", "en": "What was the first Hungarian word you learned?", "ex": "A „köszönöm”.", "exEn": "“Köszönöm” (thank you)."},
+    {"n": "106", "a": "246", "hu": "Van kedvenc magyar szava?", "en": "Do you have a favourite Hungarian word?", "ex": "Igen, a „pogácsa”. Szép szó, és finom is!", "exEn": "Yes, “pogácsa”. It is a nice word, and it is tasty too!"},
+    {"n": "107", "a": "247", "hu": "Beszél még valaki a családjában magyarul?", "en": "Does anyone else in your family speak Hungarian?", "ex": "A lányom, Emma tanul velem egy kicsit.", "exEn": "My daughter Emma learns a little with me."},
+    {"n": "108", "a": "248", "hu": "Hány betű van a magyar ábécében?", "en": "How many letters are there in the Hungarian alphabet?", "ex": "Negyvennégy.", "exEn": "Forty-four."}
+  ]},
+  {id:"p1-magyarorszag", tag:"F", hu:"Magyarország, utazás, kultúra", en:"Hungary, Travel and Culture", questions:[
+    {"n": "109", "a": "21", "hu": "Volt már Magyarországon?", "en": "Have you been to Hungary?", "ex": "Igen, már kétszer voltam Magyarországon, legutóbb a családommal utaztam ide.", "exEn": "Yes, I have already been to Hungary twice, and the last time I came with my family."},
+    {"n": "109b", "a": "249", "hu": "Járt már Magyarországon?", "en": "Have you been to Hungary?", "ex": "Igen, kétszer.", "exEn": "Yes, twice.", "v": 1},
+    {"n": "110", "a": "22", "hu": "Hányszor járt Magyarországon?", "en": "How many times have you visited Hungary?", "ex": "Eddig kétszer jártam Magyarországon, és szeretnék még sokszor visszajönni.", "exEn": "So far I have visited Hungary twice, and I would like to come back many more times."},
+    {"n": "111", "a": "23", "hu": "Mikor járt utoljára Magyarországon?", "en": "When was the last time you visited Hungary?", "ex": "Utoljára 2023 nyarán jártam itt, akkor több várost is meglátogattam.", "exEn": "The last time I was here was in the summer of 2023, and I visited several cities."},
+    {"n": "112", "a": "250", "hu": "Hány napot töltött Magyarországon?", "en": "How many days did you spend in Hungary?", "ex": "Legutóbb tíz napot.", "exEn": "Ten days, last time."},
+    {"n": "113", "a": "251", "hu": "Mit csinált, amikor Magyarországon járt?", "en": "What did you do when you were in Hungary?", "ex": "Budapesten és Szegeden voltunk. Múzeumba és fürdőbe mentünk.", "exEn": "We were in Budapest and Szeged. We went to museums and to a thermal bath."},
+    {"n": "114", "a": "252", "hu": "Hogy tetszett Önnek Budapest?", "en": "How did you like Budapest?", "ex": "Nagyon tetszett, főleg a Duna-part és a Lánchíd.", "exEn": "I liked it very much, especially the Danube bank and the Chain Bridge."},
+    {"n": "115", "a": "25", "hu": "Van kedvenc magyar városa?", "en": "Do you have a favorite Hungarian city?", "ex": "Igen, Budapest a kedvenc városom, mert gyönyörű, élénk, és nagyon sok dolgot lehet csinálni.", "exEn": "Yes, my favorite city is Budapest because it is beautiful, lively and there are lots of things to do."},
+    {"n": "116", "a": "253", "hu": "Van kedvenc helye Magyarországon?", "en": "Do you have a favourite place in Hungary?", "ex": "Igen, a Széchenyi fürdő.", "exEn": "Yes, the Széchenyi Baths."},
+    {"n": "117", "a": "254", "hu": "Mi volt érdekes vagy furcsa, amikor először ment Magyarországra?", "en": "What was interesting or strange when you first went to Hungary?", "ex": "Furcsa volt, hogy a vezetéknév van elöl.", "exEn": "It was strange that the last name comes first."},
+    {"n": "118", "a": "24", "hu": "Mit szeret Magyarországban?", "en": "What do you like about Hungary?", "ex": "Nagyon szeretem a magyar kultúrát, a történelmet és az emberek kedvességét.", "exEn": "I really like Hungarian culture, the history, and the kindness of the people."},
+    {"n": "118b", "a": "255", "hu": "Mit gondol Magyarországról és a magyar emberekről?", "en": "What do you think of Hungary and Hungarian people?", "ex": "Szép ország, és az emberek kedvesek.", "exEn": "It is a beautiful country, and the people are kind.", "v": 1},
+    {"n": "118c", "a": "256", "hu": "Miért találja érdekesnek a magyar kultúrát?", "en": "Why do you find Hungarian culture interesting?", "ex": "Mert régi és gazdag, és a családom része.", "exEn": "Because it is old and rich, and it is part of my family.", "v": 1},
+    {"n": "119", "a": "26", "hu": "Ismer magyar hagyományokat vagy ünnepeket?", "en": "Do you know any Hungarian traditions or holidays?", "ex": "Igen, ismerem a húsvéti locsolkodást, a karácsonyi szokásokat, és több nemzeti ünnepet is.", "exEn": "Yes, I know the Easter sprinkling, Christmas traditions, and several national holidays as well."},
+    {"n": "119b", "a": "257", "hu": "Milyen magyar ünnepeket ismer?", "en": "What Hungarian holidays do you know?", "ex": "A karácsonyt, a húsvétot és a nemzeti ünnepeket, például március 15-ét.", "exEn": "Christmas, Easter and the national holidays, for example March 15.", "v": 1},
+    {"n": "120", "a": "27", "hu": "Mit ünneplünk március 15-én, október 23-án és augusztus 20-án?", "en": "What do we celebrate on March 15, October 23, and August 20?", "ex": "Március 15-én az 1848-as szabadságharcra emlékezünk, október 23-án az 1956-os forradalmat ünnepeljük, augusztus 20-án pedig Szent István királyra és az államalapításra emlékezünk.", "exEn": "On March 15 we remember the 1848 War of Independence, on October 23 we commemorate the 1956 Revolution, and on August 20 we celebrate King Saint Stephen and the foundation of the state."},
+    {"n": "121", "a": "258", "hu": "Ünnepli a húsvétot?", "en": "Do you celebrate Easter?", "ex": "Igen. Tojást festünk, és sonkát eszünk.", "exEn": "Yes. We paint eggs and eat ham."},
+    {"n": "122", "a": "28", "hu": "Milyen magyar ételeket ismer vagy szeret?", "en": "What Hungarian foods do you know or like?", "ex": "Nagyon szeretem a gulyást, a lángost és a töltött káposztát, ezeket már többször kóstoltam.", "exEn": "I really like goulash, lángos, and stuffed cabbage, and I have tried them several times."},
+    {"n": "122b", "a": "259", "hu": "Van kedvenc magyar étele?", "en": "Do you have a favourite Hungarian dish?", "ex": "Igen, a gulyás.", "exEn": "Yes, goulash.", "v": 1},
+    {"n": "122c", "a": "260", "hu": "Kóstolt már magyar ételt?", "en": "Have you tasted Hungarian food?", "ex": "Igen, lángost és töltött káposztát.", "exEn": "Yes, lángos and stuffed cabbage.", "v": 1},
+    {"n": "123", "a": "261", "hu": "Tud készíteni magyar ételt?", "en": "Can you make Hungarian food?", "ex": "Igen, gulyást tudok főzni.", "exEn": "Yes, I can cook goulash."},
+    {"n": "123b", "a": "262", "hu": "Tud valamilyen magyar sütit sütni?", "en": "Can you bake any Hungarian pastry?", "ex": "Palacsintát tudok sütni.", "exEn": "I can make pancakes (palacsinta).", "v": 1},
+    {"n": "124", "a": "263", "hu": "Volt már magyar étteremben?", "en": "Have you been to a Hungarian restaurant?", "ex": "Igen, Bostonban van egy. Ott ettem lángost.", "exEn": "Yes, there is one in Boston. I ate lángos there."},
+    {"n": "125", "a": "29", "hu": "Tud magyar népdalokat vagy verseket?", "en": "Do you know any Hungarian folk songs or poems?", "ex": "Még nem ismerek sokat, de szeretnék néhányat megtanulni a jövőben.", "exEn": "I don't know many yet, but I would like to learn some in the future."},
+    {"n": "126", "a": "264", "hu": "Ismer magyar írót, költőt vagy zeneszerzőt?", "en": "Do you know a Hungarian writer, poet or composer?", "ex": "Igen: Petőfi Sándor költőt, Kölcsey Ferencet és Liszt Ferenc zeneszerzőt.", "exEn": "Yes: the poet Sándor Petőfi, Ferenc Kölcsey and the composer Franz Liszt."},
+    {"n": "127", "a": "30", "hu": "Követi a magyar híreket vagy politikát?", "en": "Do you follow Hungarian news or politics?", "ex": "Igen, néha olvasok magyar híreket az interneten.", "exEn": "Yes, I sometimes read Hungarian news online."},
+    {"n": "128", "a": "47", "hu": "Ismeri a magyar himnuszt?", "en": "Do you know the Hungarian national anthem?", "ex": "Igen, ismerem, és nagyon fontos számomra.", "exEn": "Yes, I know it, and it is very important to me."},
+    {"n": "129", "a": "49", "hu": "Tudja, milyen színű a magyar zászló?", "en": "Do you know what colors are in the Hungarian flag?", "ex": "Igen, piros, fehér és zöld.", "exEn": "Yes, red, white, and green."},
+    {"n": "130", "a": "48", "hu": "Tudja, ki Magyarország miniszterelnöke?", "en": "Do you know who the Prime Minister of Hungary is?", "ex": "Igen, Magyar Péter Magyarország miniszterelnöke. A Tisza Párt elnökeként a 2026. áprilisi országgyűlési választáson kétharmados győzelmet aratott, és 2026 májusában alakított kormányt. [2026. augusztusi állapot szerint.]", "exEn": "Yes, Péter Magyar is the Prime Minister of Hungary. As the leader of the Tisza Party, he won a two-thirds majority in the April 2026 parliamentary election and formed a government in May 2026. [As of August 2026.]"},
+    {"n": "131", "a": "265", "hu": "Miben más Amerika, mint Európa?", "en": "How is America different from Europe?", "ex": "Európában a városok régebbiek, és sokat lehet gyalogolni.", "exEn": "In Europe the cities are older, and you can walk a lot."}
+  ]},
+  {id:"p1-szabadido", tag:"G", hu:"Szabadidő és mindennapok", en:"Free Time and Everyday Life", questions:[
+    {"n": "132", "a": "33", "hu": "Hogyan telt a hétvégéje?", "en": "How was your weekend?", "ex": "A hétvégén pihentem, és időt töltöttem a családdal.", "exEn": "During the weekend I relaxed and spent time with my family."},
+    {"n": "133", "a": "34", "hu": "Mit csinált tegnap?", "en": "What did you do yesterday?", "ex": "Tegnap dolgoztam, este pedig magyarul tanultam.", "exEn": "Yesterday I worked, and in the evening I studied Hungarian."},
+    {"n": "134", "a": "266", "hu": "Mik a tervei a jövő hétvégére?", "en": "What are your plans for next weekend?", "ex": "A gyerekekkel kirándulunk.", "exEn": "We are going on a hike with the children."},
+    {"n": "135", "a": "35", "hu": "Mit szokott csinálni szabadidejében?", "en": "What do you usually do in your free time?", "ex": "Szabadidőmben szeretek olvasni, sportolni és a gyerekeimmel lenni.", "exEn": "In my free time I like reading, doing sports, and being with my children."},
+    {"n": "135b", "a": "267", "hu": "Mivel tölti a szabadidejét?", "en": "How do you spend your free time?", "ex": "Olvasok, sportolok, és a gyerekeimmel vagyok.", "exEn": "I read, do sports and spend time with my children.", "v": 1},
+    {"n": "136", "a": "36", "hu": "Van hobbija? Mi az?", "en": "Do you have a hobby? What is it?", "ex": "Igen, a hobbim az utazás és a családtörténet kutatása.", "exEn": "Yes, my hobby is traveling and researching my family history."},
+    {"n": "136b", "a": "268", "hu": "Mi a hobbija?", "en": "What is your hobby?", "ex": "Az utazás.", "exEn": "Travelling.", "v": 1},
+    {"n": "137", "a": "38", "hu": "Mi a kedvenc évszaka? Miért?", "en": "What is your favorite season? Why?", "ex": "A nyár a kedvencem, mert ilyenkor tudok a legtöbbet utazni.", "exEn": "Summer is my favorite because I can travel the most then."},
+    {"n": "138", "a": "39", "hu": "Mit szokott reggelizni?", "en": "What do you usually have for breakfast?", "ex": "Reggelire kávét iszom és pirítóst eszem.", "exEn": "For breakfast I drink coffee and eat toast."},
+    {"n": "139", "a": "41", "hu": "Szeret utazni? Melyik országokat látogatta meg?", "en": "Do you like to travel? Which countries have you visited?", "ex": "Igen, nagyon szeretek utazni, jártam már Németországban, Franciaországban és Olaszországban is.", "exEn": "Yes, I really like traveling; I have visited Germany, France, and Italy."},
+    {"n": "139b", "a": "269", "hu": "Hova szeret utazni?", "en": "Where do you like to travel?", "ex": "Európába, főleg Magyarországra és Olaszországba.", "exEn": "To Europe, especially to Hungary and Italy.", "v": 1},
+    {"n": "140", "a": "270", "hu": "Melyik a kedvenc városa, ahol járt?", "en": "What is your favourite city that you have visited?", "ex": "Róma. De Budapest is nagyon tetszik.", "exEn": "Rome. But I like Budapest a lot too."},
+    {"n": "141", "a": "271", "hu": "Hol nyaralt utoljára, és milyen volt?", "en": "Where did you last go on holiday, and how was it?", "ex": "Floridában, tavaly nyáron. Nagyon jó volt.", "exEn": "In Florida, last summer. It was very good."},
+    {"n": "142", "a": "272", "hu": "Szeret olvasni?", "en": "Do you like reading?", "ex": "Igen, főleg történelmi könyveket.", "exEn": "Yes, especially history books."},
+    {"n": "142b", "a": "273", "hu": "Mi a kedvenc könyve?", "en": "What is your favourite book?", "ex": "A Pál utcai fiúk. Angolul olvastam.", "exEn": "The Paul Street Boys. I read it in English.", "v": 1},
+    {"n": "142c", "a": "274", "hu": "Milyen könyvet olvasott utoljára?", "en": "What book did you read last?", "ex": "Egy könyvet Magyarország történetéről.", "exEn": "A book about the history of Hungary.", "v": 1},
+    {"n": "143", "a": "275", "hu": "Olvasott már magyar könyvet vagy újságot?", "en": "Have you read a Hungarian book or newspaper?", "ex": "Igen, magyar gyerekkönyveket, mert azok könnyűek.", "exEn": "Yes, Hungarian children's books, because they are easy."},
+    {"n": "144", "a": "276", "hu": "Látott már filmet magyarul?", "en": "Have you seen a film in Hungarian?", "ex": "Igen, egyet, angol felirattal.", "exEn": "Yes, one, with English subtitles."},
+    {"n": "145", "a": "277", "hu": "Szeret magyar zenét hallgatni?", "en": "Do you like listening to Hungarian music?", "ex": "Igen, néha magyar népzenét hallgatok.", "exEn": "Yes, sometimes I listen to Hungarian folk music."},
+    {"n": "146", "a": "278", "hu": "Van háziállata?", "en": "Do you have a pet?", "ex": "Igen, van egy macskánk. Cirmosnak hívják.", "exEn": "Yes, we have a cat. Her name is Cirmos."}
+  ]},
+  {id:"p1-motivacio", tag:"H", hu:"Motiváció és jövő", en:"Motivation and Future", questions:[
+    {"n": "147", "a": "42", "hu": "Miért szeretné megszerezni a magyar állampolgárságot?", "en": "Why do you want to obtain Hungarian citizenship?", "ex": "Mert magyar származású vagyok, és fontos nekem a családom múltja.", "exEn": "Because I am of Hungarian descent, and my family history is important to me."},
+    {"n": "147b", "a": "279", "hu": "Miért jelentkezik magyar állampolgárságra?", "en": "Why are you applying for Hungarian citizenship?", "ex": "Mert a dédszüleim magyarok voltak.", "exEn": "Because my great-grandparents were Hungarian.", "v": 1},
+    {"n": "147c", "a": "280", "hu": "Milyen célból akar magyar állampolgár lenni?", "en": "For what purpose do you want to become a Hungarian citizen?", "ex": "Szeretném megőrizni a családom magyar gyökereit.", "exEn": "I would like to keep my family's Hungarian roots.", "v": 1},
+    {"n": "148", "a": "43", "hu": "Miért fontos Önnek a magyar állampolgárság?", "en": "Why is Hungarian citizenship important to you?", "ex": "Így szeretnék tisztelegni az őseim előtt.", "exEn": "I would like to honor my ancestors this way."},
+    {"n": "148b", "a": "281", "hu": "Mit jelent Önnek a magyar állampolgárság?", "en": "What does Hungarian citizenship mean to you?", "ex": "Kapcsolatot a családom múltjával.", "exEn": "A connection to my family's past.", "v": 1},
+    {"n": "149", "a": "44", "hu": "Mit jelent Önnek Magyarország?", "en": "What does Hungary mean to you?", "ex": "Magyarország számomra az eredetemet és az identitásomat jelenti.", "exEn": "For me, Hungary represents my origin and identity."},
+    {"n": "150", "a": "45", "hu": "Elfogadja Magyarország törvényeit és kultúráját?", "en": "Do you accept Hungary's laws and culture?", "ex": "Igen, teljes mértékben elfogadom és tisztelem őket.", "exEn": "Yes, I fully accept and respect them."},
+    {"n": "151", "a": "46", "hu": "Készen áll arra, hogy magyar állampolgár legyen?", "en": "Are you ready to become a Hungarian citizen?", "ex": "Igen, büszke lennék rá.", "exEn": "Yes, I would be proud."},
+    {"n": "152", "a": "50", "hu": "Mit fog tenni, miután megkapja a magyar állampolgárságot?", "en": "What will you do after obtaining Hungarian citizenship?", "ex": "Szeretném átvenni a magyar útlevelet, és gyakrabban szeretnék ide utazni.", "exEn": "I would like to receive my Hungarian passport and visit more often."},
+    {"n": "152b", "a": "282", "hu": "Mi a terve, ha megkapja a magyar állampolgárságot?", "en": "What are your plans if you receive Hungarian citizenship?", "ex": "Gyakrabban szeretnék Magyarországra utazni.", "exEn": "I would like to travel to Hungary more often.", "v": 1},
+    {"n": "153", "a": "51", "hu": "Mikor szeretne Magyarországra utazni?", "en": "When would you like to visit Hungary?", "ex": "Amilyen hamar csak lehet, akár már jövő nyáron.", "exEn": "As soon as possible, maybe already next summer."},
+    {"n": "154", "a": "31", "hu": "Tervez Magyarországra költözni a jövőben?", "en": "Do you plan to move to Hungary in the future?", "ex": "Jelenleg nem tervezem a költözést, de szeretnék sok időt itt tölteni.", "exEn": "At the moment I am not planning to move, but I would like to spend a lot of time here."},
+    {"n": "155", "a": "283", "hu": "Mik a tervei a következő öt évre?", "en": "What are your plans for the next five years?", "ex": "Szeretnék jobban beszélni magyarul, és sokat utazni Magyarországra.", "exEn": "I would like to speak Hungarian better and travel to Hungary a lot."},
+    {"n": "155b", "a": "284", "hu": "Mik a jövőbeli tervei?", "en": "What are your future plans?", "ex": "Szeretném, hogy a gyerekeim is tanuljanak magyarul.", "exEn": "I would like my children to learn Hungarian too.", "v": 1}
+  ]}
 ];
 
 const part2Chapters = [
@@ -559,11 +807,11 @@ const part2Chapters = [
       ["töltött káposzta","stuffed cabbage"]
     ],
     questions:[
-      ["Mikor van farsang, és mi a busójárás?","When is carnival season, and what is the Busó festival?","Farsang januárban és februárban van. A busójárás Mohácson van: a busók ijesztő maszkot viselnek, és elűzik a telet.","Farsang is in January and February. The Busójárás is in Mohács: the busós wear scary masks and chase away winter."],
-      ["Mi a locsolkodás húsvétkor?","What is the Easter sprinkling tradition?","Húsvéthétfőn a fiúk meglocsolják a lányokat. A lányok festett tojást adnak.","On Easter Monday boys sprinkle the girls. The girls give painted eggs."],
-      ["Mit csinálnak az emberek Mindenszentekkor?","What do people do on All Saints' Day?","Kimennek a temetőbe, virágot visznek és gyertyát gyújtanak.","They go to the cemetery, bring flowers and light candles."],
-      ["Mi a különbség a Mikulás és a karácsony között?","What is the difference between Saint Nicholas Day and Christmas?","A Mikulás december 6-án van, ekkor édességet kapnak a gyerekek. A nagy ajándékokat karácsonykor kapják.","Mikulás is on December 6, children get sweets then. They get the main presents at Christmas."],
-      ["Milyen hagyományos ételeket esznek karácsonykor Magyarországon?","What traditional foods do people eat at Christmas in Hungary?","Halászlét, rántott halat és töltött káposztát. Desszertnek bejglit.","Fish soup, fried fish and stuffed cabbage. Bejgli for dessert."]
+      {"n": "156", "a": "52", "hu": "Mikor van farsang, és mi a busójárás?", "en": "When is carnival season, and what is the Busó festival?", "ex": "Farsang januárban és februárban van. A busójárás Mohácson van: a busók ijesztő maszkot viselnek, és elűzik a telet.", "exEn": "Farsang is in January and February. The Busójárás is in Mohács: the busós wear scary masks and chase away winter."},
+      {"n": "157", "a": "53", "hu": "Mi a locsolkodás húsvétkor?", "en": "What is the Easter sprinkling tradition?", "ex": "Húsvéthétfőn a fiúk meglocsolják a lányokat. A lányok festett tojást adnak.", "exEn": "On Easter Monday boys sprinkle the girls. The girls give painted eggs."},
+      {"n": "158", "a": "54", "hu": "Mit csinálnak az emberek Mindenszentekkor?", "en": "What do people do on All Saints' Day?", "ex": "Kimennek a temetőbe, virágot visznek és gyertyát gyújtanak.", "exEn": "They go to the cemetery, bring flowers and light candles."},
+      {"n": "159", "a": "55", "hu": "Mi a különbség a Mikulás és a karácsony között?", "en": "What is the difference between Saint Nicholas Day and Christmas?", "ex": "A Mikulás december 6-án van, ekkor édességet kapnak a gyerekek. A nagy ajándékokat karácsonykor kapják.", "exEn": "Mikulás is on December 6, children get sweets then. They get the main presents at Christmas."},
+      {"n": "160", "a": "56", "hu": "Milyen hagyományos ételeket esznek karácsonykor Magyarországon?", "en": "What traditional foods do people eat at Christmas in Hungary?", "ex": "Halászlét, rántott halat és töltött káposztát. Desszertnek bejglit.", "exEn": "Fish soup, fried fish and stuffed cabbage. Bejgli for dessert."}
     ]
   },
   {
@@ -586,11 +834,11 @@ const part2Chapters = [
       ["korona","crown"],["államiság","statehood"],["ünnepség","ceremony"],["zeneszerző","composer"],["költő","poet"]
     ],
     questions:[
-      ["Milyen színekből áll a magyar zászló?","What colors are in the Hungarian flag?","Piros, fehér és zöld.","Red, white and green."],
-      ["Mit jelképez a magyar címer?","What does the Hungarian coat of arms symbolize?","A magyar államot. A címer a magyar államiság jelképe.","The Hungarian state. The coat of arms is a symbol of Hungarian statehood."],
-      ["Ki írta a Himnusz szövegét?","Who wrote the text of the national anthem?","Kölcsey Ferenc írta, 1823-ban.","Ferenc Kölcsey wrote it, in 1823."],
-      ["Hol őrzik ma a Szent Koronát?","Where is the Holy Crown kept today?","Az Országházban, Budapesten.","In the Parliament building, in Budapest."],
-      ["Nevezzen meg egy állami jelképet!","Name one state symbol.","Például a magyar zászló vagy a Himnusz.","For example the Hungarian flag or the national anthem."]
+      {"n": "161", "a": "57", "hu": "Milyen színekből áll a magyar zászló?", "en": "What colors are in the Hungarian flag?", "ex": "Piros, fehér és zöld.", "exEn": "Red, white and green."},
+      {"n": "162", "a": "58", "hu": "Mit jelképez a magyar címer?", "en": "What does the Hungarian coat of arms symbolize?", "ex": "A magyar államot. A címer a magyar államiság jelképe.", "exEn": "The Hungarian state. The coat of arms is a symbol of Hungarian statehood."},
+      {"n": "163", "a": "59", "hu": "Ki írta a Himnusz szövegét?", "en": "Who wrote the text of the national anthem?", "ex": "Kölcsey Ferenc írta, 1823-ban.", "exEn": "Ferenc Kölcsey wrote it, in 1823."},
+      {"n": "164", "a": "60", "hu": "Hol őrzik ma a Szent Koronát?", "en": "Where is the Holy Crown kept today?", "ex": "Az Országházban, Budapesten.", "exEn": "In the Parliament building, in Budapest."},
+      {"n": "165", "a": "61", "hu": "Nevezzen meg egy állami jelképet!", "en": "Name one state symbol.", "ex": "Például a magyar zászló vagy a Himnusz.", "exEn": "For example the Hungarian flag or the national anthem."}
     ]
   },
   {
@@ -613,11 +861,12 @@ const part2Chapters = [
       ["termálforrás","thermal spring"],["kerület","district"],["lakosság","population"],["központ","center"],["múzeum","museum"]
     ],
     questions:[
-      ["Mi Budapest Magyarországon?","What is Budapest in Hungary?","Budapest Magyarország fővárosa.","Budapest is the capital of Hungary."],
-      ["Melyik folyó osztja ketté a várost?","Which river divides the city?","A Duna.","The Danube."],
-      ["Hol található a magyar Parlament?","Where is the Hungarian Parliament located?","Budapesten, a Duna pesti partján, a Kossuth téren.","In Budapest, on the Pest bank of the Danube, at Kossuth Square."],
-      ["Mit köt össze a Lánchíd?","What does the Chain Bridge connect?","Budát és Pestet.","Buda and Pest."],
-      ["Miért híres Budapest?","Why is Budapest famous?","A termálfürdőiről, például a Széchenyi fürdőről. És a Budai Várról.","For its thermal baths, for example the Széchenyi Baths. And for Buda Castle."]
+      {"n": "166", "a": "62", "hu": "Mi Budapest Magyarországon?", "en": "What is Budapest in Hungary?", "ex": "Budapest Magyarország fővárosa.", "exEn": "Budapest is the capital of Hungary."},
+      {"n": "166b", "a": "285", "hu": "Mi Magyarország fővárosa?", "en": "What is the capital of Hungary?", "ex": "Budapest.", "exEn": "Budapest.", "v": 1},
+      {"n": "167", "a": "63", "hu": "Melyik folyó osztja ketté a várost?", "en": "Which river divides the city?", "ex": "A Duna.", "exEn": "The Danube."},
+      {"n": "168", "a": "64", "hu": "Hol található a magyar Parlament?", "en": "Where is the Hungarian Parliament located?", "ex": "Budapesten, a Duna pesti partján, a Kossuth téren.", "exEn": "In Budapest, on the Pest bank of the Danube, at Kossuth Square."},
+      {"n": "169", "a": "65", "hu": "Mit köt össze a Lánchíd?", "en": "What does the Chain Bridge connect?", "ex": "Budát és Pestet.", "exEn": "Buda and Pest."},
+      {"n": "170", "a": "66", "hu": "Miért híres Budapest?", "en": "Why is Budapest famous?", "ex": "A termálfürdőiről, például a Széchenyi fürdőről. És a Budai Várról.", "exEn": "For its thermal baths, for example the Széchenyi Baths. And for Buda Castle."}
     ]
   },
   {
@@ -630,7 +879,9 @@ const part2Chapters = [
       ["A Balaton Közép-Európa legnagyobb tava. Sok magyar és külföldi turista jön ide. Nyáron sokan fürdenek és vitorláznak a tavon.",
        "Lake Balaton is the largest lake in Central Europe. Many Hungarian and foreign tourists come here. In summer many people swim and sail on the lake."],
       ["Magyarország legmagasabb hegye a Kékes, a Mátrában. Kb. 1014 méter magas.",
-       "Hungary's highest mountain is Kékes, in the Mátra mountains. It is about 1,014 meters high."]
+       "Hungary's highest mountain is Kékes, in the Mátra mountains. It is about 1,014 meters high."],
+      ["Magyarországon 19 megye van, és a főváros, Budapest. A Balatont „magyar tengernek” is hívják.",
+       "Hungary has 19 counties, plus the capital, Budapest. Lake Balaton is also called the “Hungarian sea”."]
     ],
     vocab:[
       ["földrajz","geography"],["folyó","river"],["Duna","Danube"],["Tisza","Tisza"],["tó","lake"],
@@ -638,11 +889,15 @@ const part2Chapters = [
       ["Kékes","Kékes"],["éghajlat","climate"],["szomszédos ország","neighboring country"],["térkép","map"]
     ],
     questions:[
-      ["Hol található Magyarország?","Where is Hungary located?","Közép-Európában.","In Central Europe."],
-      ["Melyek Magyarország szomszédos országai?","Which countries border Hungary?","Ausztria, Szlovákia, Ukrajna, Románia, Szerbia, Horvátország és Szlovénia.","Austria, Slovakia, Ukraine, Romania, Serbia, Croatia and Slovenia."],
-      ["Mi Magyarország két legfontosabb folyója?","What are Hungary's two most important rivers?","A Duna és a Tisza.","The Danube and the Tisza."],
-      ["Mi Közép-Európa legnagyobb tava?","What is the largest lake in Central Europe?","A Balaton.","Lake Balaton."],
-      ["Melyik Magyarország legmagasabb hegye?","What is the highest mountain in Hungary?","A Kékes, a Mátrában.","Kékes, in the Mátra mountains."]
+      {"n": "171", "a": "67", "hu": "Hol található Magyarország?", "en": "Where is Hungary located?", "ex": "Közép-Európában.", "exEn": "In Central Europe."},
+      {"n": "172", "a": "68", "hu": "Melyek Magyarország szomszédos országai?", "en": "Which countries border Hungary?", "ex": "Ausztria, Szlovákia, Ukrajna, Románia, Szerbia, Horvátország és Szlovénia.", "exEn": "Austria, Slovakia, Ukraine, Romania, Serbia, Croatia and Slovenia."},
+      {"n": "173", "a": "69", "hu": "Mi Magyarország két legfontosabb folyója?", "en": "What are Hungary's two most important rivers?", "ex": "A Duna és a Tisza.", "exEn": "The Danube and the Tisza."},
+      {"n": "173b", "a": "286", "hu": "Hány fő folyó van Magyarországon?", "en": "How many main rivers are there in Hungary?", "ex": "Kettő: a Duna és a Tisza.", "exEn": "Two: the Danube and the Tisza.", "v": 1},
+      {"n": "174", "a": "70", "hu": "Mi Közép-Európa legnagyobb tava?", "en": "What is the largest lake in Central Europe?", "ex": "A Balaton.", "exEn": "Lake Balaton."},
+      {"n": "174b", "a": "287", "hu": "Melyik a legnagyobb tó Magyarországon?", "en": "What is the largest lake in Hungary?", "ex": "A Balaton.", "exEn": "Lake Balaton.", "v": 1},
+      {"n": "175", "a": "71", "hu": "Melyik Magyarország legmagasabb hegye?", "en": "What is the highest mountain in Hungary?", "ex": "A Kékes, a Mátrában.", "exEn": "Kékes, in the Mátra mountains."},
+      {"n": "176", "a": "288", "hu": "Hány megye van Magyarországon?", "en": "How many counties are there in Hungary?", "ex": "19 megye, és a főváros, Budapest.", "exEn": "19 counties, and the capital, Budapest."},
+      {"n": "177", "a": "289", "hu": "Hogy hívják a „magyar tengert”?", "en": "What is the “Hungarian sea” called?", "ex": "A Balatont.", "exEn": "Lake Balaton."}
     ]
   },
   {
@@ -663,11 +918,11 @@ const part2Chapters = [
       ["bíróság","court"],["miniszterelnök","prime minister"],["állampolgár","citizen"],["szabadság","freedom"]
     ],
     questions:[
-      ["Mi az Alaptörvény?","What is the Constitution?","Magyarország alkotmánya, a legfontosabb törvény.","Hungary's constitution, the most important law."],
-      ["Mikor lépett hatályba az Alaptörvény?","When did the Constitution come into force?","2012. január 1-jén.","On January 1, 2012."],
-      ["Hány hatalmi ág van Magyarországon?","How many branches of power are there in Hungary?","Három: a Parlament, a kormány és a bíróságok.","Three: the Parliament, the government and the courts."],
-      ["Ki hozza a törvényeket?","Who makes the laws?","A Parlament, vagyis az Országgyűlés.","The Parliament, the Országgyűlés."],
-      ["Milyen jogai vannak az embereknek?","What rights do people have?","Például szólásszabadság és választójog.","For example freedom of speech and the right to vote."]
+      {"n": "178", "a": "72", "hu": "Mi az Alaptörvény?", "en": "What is the Constitution?", "ex": "Magyarország alkotmánya, a legfontosabb törvény.", "exEn": "Hungary's constitution, the most important law."},
+      {"n": "179", "a": "73", "hu": "Mikor lépett hatályba az Alaptörvény?", "en": "When did the Constitution come into force?", "ex": "2012. január 1-jén.", "exEn": "On January 1, 2012."},
+      {"n": "180", "a": "74", "hu": "Hány hatalmi ág van Magyarországon?", "en": "How many branches of power are there in Hungary?", "ex": "Három: a Parlament, a kormány és a bíróságok.", "exEn": "Three: the Parliament, the government and the courts."},
+      {"n": "181", "a": "75", "hu": "Ki hozza a törvényeket?", "en": "Who makes the laws?", "ex": "A Parlament, vagyis az Országgyűlés.", "exEn": "The Parliament, the Országgyűlés."},
+      {"n": "182", "a": "76", "hu": "Milyen jogai vannak az embereknek?", "en": "What rights do people have?", "ex": "Például szólásszabadság és választójog.", "exEn": "For example freedom of speech and the right to vote."}
     ]
   },
   {
@@ -688,11 +943,12 @@ const part2Chapters = [
       ["közösség","community"],["történelem","history"],["elveszít","to lose"],["határon túli","beyond the border"],["lakosság","population"]
     ],
     questions:[
-      ["Mikor írták alá a trianoni békeszerződést?","When was the Treaty of Trianon signed?","1920. június 4-én.","On June 4, 1920."],
-      ["Mit veszített el Magyarország a szerződés után?","What did Hungary lose after the treaty?","A területének kb. kétharmadát.","About two-thirds of its territory."],
-      ["Hol élnek magyar kisebbségek?","Where do Hungarian minorities live?","A szomszédos országokban, például Romániában és Szlovákiában.","In neighboring countries, for example Romania and Slovakia."],
-      ["Mit jelent a nemzeti összetartozás napja?","What does the Day of National Unity mean?","Azt, hogy a határon túli magyarok is a nemzet részei.","That Hungarians beyond the border are also part of the nation."],
-      ["Mikor van a nemzeti összetartozás napja?","When is the Day of National Unity?","Június 4-én.","On June 4."]
+      {"n": "183", "a": "77", "hu": "Mikor írták alá a trianoni békeszerződést?", "en": "When was the Treaty of Trianon signed?", "ex": "1920. június 4-én.", "exEn": "On June 4, 1920."},
+      {"n": "183b", "a": "290", "hu": "Mikor volt Trianon?", "en": "When was Trianon?", "ex": "1920-ban.", "exEn": "In 1920.", "v": 1},
+      {"n": "184", "a": "78", "hu": "Mit veszített el Magyarország a szerződés után?", "en": "What did Hungary lose after the treaty?", "ex": "A területének kb. kétharmadát.", "exEn": "About two-thirds of its territory."},
+      {"n": "185", "a": "79", "hu": "Hol élnek magyar kisebbségek?", "en": "Where do Hungarian minorities live?", "ex": "A szomszédos országokban, például Romániában és Szlovákiában.", "exEn": "In neighboring countries, for example Romania and Slovakia."},
+      {"n": "186", "a": "80", "hu": "Mit jelent a nemzeti összetartozás napja?", "en": "What does the Day of National Unity mean?", "ex": "Azt, hogy a határon túli magyarok is a nemzet részei.", "exEn": "That Hungarians beyond the border are also part of the nation."},
+      {"n": "187", "a": "81", "hu": "Mikor van a nemzeti összetartozás napja?", "en": "When is the Day of National Unity?", "ex": "Június 4-én.", "exEn": "On June 4."}
     ]
   },
   {
@@ -715,11 +971,12 @@ const part2Chapters = [
       ["matematikus","mathematician"],["számítógép","computer"],["felfedez","to discover"],["híres","famous"],["sportoló","athlete"]
     ],
     questions:[
-      ["Ki volt Szent István?","Who was Saint Stephen?","Magyarország első királya. Ő alapította a magyar államot.","Hungary's first king. He founded the Hungarian state."],
-      ["Ki találta fel a Rubik-kockát?","Who invented the Rubik's Cube?","Rubik Ernő.","Ernő Rubik."],
-      ["Ki fedezte fel a C-vitamint?","Who discovered vitamin C?","Szent-Györgyi Albert. 1937-ben Nobel-díjat kapott.","Albert Szent-Györgyi. He received the Nobel Prize in 1937."],
-      ["Ki volt híres magyar labdarúgó?","Who was a famous Hungarian football player?","Puskás Ferenc. Az Aranycsapatban és a Real Madridban játszott.","Ferenc Puskás. He played in the Golden Team and for Real Madrid."],
-      ["Kit nevezünk a \u201clegnagyobb magyar\u201d-nak?","Who do we call the \u201cgreatest Hungarian\u201d?","Széchenyi Istvánt.","István Széchenyi."]
+      {"n": "188", "a": "82", "hu": "Ki volt Szent István?", "en": "Who was Saint Stephen?", "ex": "Magyarország első királya. Ő alapította a magyar államot.", "exEn": "Hungary's first king. He founded the Hungarian state."},
+      {"n": "189", "a": "83", "hu": "Ki találta fel a Rubik-kockát?", "en": "Who invented the Rubik's Cube?", "ex": "Rubik Ernő.", "exEn": "Ernő Rubik."},
+      {"n": "190", "a": "84", "hu": "Ki fedezte fel a C-vitamint?", "en": "Who discovered vitamin C?", "ex": "Szent-Györgyi Albert. 1937-ben Nobel-díjat kapott.", "exEn": "Albert Szent-Györgyi. He received the Nobel Prize in 1937."},
+      {"n": "191", "a": "85", "hu": "Ki volt híres magyar labdarúgó?", "en": "Who was a famous Hungarian football player?", "ex": "Puskás Ferenc. Az Aranycsapatban és a Real Madridban játszott.", "exEn": "Ferenc Puskás. He played in the Golden Team and for Real Madrid."},
+      {"n": "192", "a": "86", "hu": "Kit nevezünk a “legnagyobb magyar”-nak?", "en": "Who do we call the “greatest Hungarian”?", "ex": "Széchenyi Istvánt.", "exEn": "István Széchenyi."},
+      {"n": "193", "a": "291", "hu": "Mondjon néhány híres magyar embert!", "en": "Name some famous Hungarians!", "ex": "Szent István, Széchenyi István, Puskás Ferenc és Rubik Ernő.", "exEn": "Saint Stephen, István Széchenyi, Ferenc Puskás and Ernő Rubik."}
     ]
   },
   {
@@ -734,7 +991,9 @@ const part2Chapters = [
       ["Két híres magyar bor a tokaji aszú és az egri bikavér. A tokaji aszú édes desszertbor Tokaj vidékéről. Az egri bikavér erős vörösbor Egerből, sokan húsételekhez isszák.",
        "Two famous Hungarian wines are Tokaji Aszú and Egri Bikavér. Tokaji Aszú is a sweet dessert wine from the Tokaj region. Egri Bikavér is a strong red wine from Eger, many people drink it with meat dishes."],
       ["Híres magyar desszertek a dobostorta és a rétes. A dobostorta piskótából és csokoládékrémből készül, a tetején kemény karamell van. A rétes vékony tésztából készül. Gyakori az almás, a túrós és a meggyes rétes.",
-       "Famous Hungarian desserts are Dobos cake and strudel (rétes). Dobos cake is made of sponge cake and chocolate cream, with a hard caramel layer on top. Strudel is made from thin dough. Apple, cottage cheese and sour cherry strudel are common."]
+       "Famous Hungarian desserts are Dobos cake and strudel (rétes). Dobos cake is made of sponge cake and chocolate cream, with a hard caramel layer on top. Strudel is made from thin dough. Apple, cottage cheese and sour cherry strudel are common."],
+      ["A hungarikumok különleges magyar értékek. Például: a tokaji aszú, a pálinka, a szegedi fűszerpaprika és a Rubik-kocka.",
+       "Hungarikums are special Hungarian treasures. For example: Tokaji Aszú, pálinka, Szeged paprika and the Rubik's Cube."]
     ],
     vocab:[
       ["gulyás","goulash"],["paprikás csirke","chicken paprikash"],["töltött káposzta","stuffed cabbage"],
@@ -742,11 +1001,12 @@ const part2Chapters = [
       ["rétes","strudel"],["paprika","paprika"],["tejföl","sour cream"],["bor","wine"],["desszert","dessert"],["hagyományos","traditional"]
     ],
     questions:[
-      ["Miből készül a gulyás?","What is goulash made from?","Marhahúsból, krumpliból, hagymából és paprikából.","From beef, potatoes, onions and paprika."],
-      ["Mivel eszik gyakran a paprikás csirkét?","What is chicken paprikash often eaten with?","Nokedlivel.","With nokedli."],
-      ["Mikor készítenek sok családban töltött káposztát?","When do many families make stuffed cabbage?","Karácsonykor.","At Christmas."],
-      ["Melyik két híres magyar bort említi a szöveg?","Which two famous Hungarian wines does the text mention?","A tokaji aszút és az egri bikavért.","Tokaji Aszú and Egri Bikavér."],
-      ["Milyen híres magyar desszerteket említ a fejezet?","Which famous Hungarian desserts does the chapter mention?","A dobostortát és a rétest.","Dobos cake and strudel."]
+      {"n": "194", "a": "87", "hu": "Miből készül a gulyás?", "en": "What is goulash made from?", "ex": "Marhahúsból, krumpliból, hagymából és paprikából.", "exEn": "From beef, potatoes, onions and paprika."},
+      {"n": "195", "a": "88", "hu": "Mivel eszik gyakran a paprikás csirkét?", "en": "What is chicken paprikash often eaten with?", "ex": "Nokedlivel.", "exEn": "With nokedli."},
+      {"n": "196", "a": "89", "hu": "Mikor készítenek sok családban töltött káposztát?", "en": "When do many families make stuffed cabbage?", "ex": "Karácsonykor.", "exEn": "At Christmas."},
+      {"n": "197", "a": "90", "hu": "Melyik két híres magyar bort említi a szöveg?", "en": "Which two famous Hungarian wines does the text mention?", "ex": "A tokaji aszút és az egri bikavért.", "exEn": "Tokaji Aszú and Egri Bikavér."},
+      {"n": "198", "a": "91", "hu": "Milyen híres magyar desszerteket említ a fejezet?", "en": "Which famous Hungarian desserts does the chapter mention?", "ex": "A dobostortát és a rétest.", "exEn": "Dobos cake and strudel."},
+      {"n": "199", "a": "292", "hu": "Milyen hungarikumokat ismer?", "en": "What hungarikums (special Hungarian products) do you know?", "ex": "A tokaji aszút, a pálinkát, a szegedi paprikát és a Rubik-kockát.", "exEn": "Tokaji Aszú, pálinka, Szeged paprika and the Rubik's Cube."}
     ]
   },
   {
@@ -754,8 +1014,8 @@ const part2Chapters = [
     intro:[
       ["Magyarországon kb. 9,5 millió ember él. A legtöbb ember városban él.",
        "About 9.5 million people live in Hungary. Most people live in cities."],
-      ["A legtöbb ember Budapesten és Budapest környékén él. Budapesten kb. 1,7 millió ember él. Fontos egyetemi városok: Szeged, Debrecen és Pécs. Itt sok magyar és külföldi diák tanul.",
-       "Most people live in Budapest and the area around Budapest. About 1.7 million people live in Budapest. Important university cities: Szeged, Debrecen and Pécs. Many Hungarian and foreign students study here."],
+      ["A legtöbb ember Budapesten és Budapest környékén él. Budapesten kb. 1,7 millió ember él. Más nagyvárosok: Debrecen, Szeged, Miskolc és Pécs. Fontos egyetemi városok: Szeged, Debrecen és Pécs. Itt sok magyar és külföldi diák tanul.",
+       "Most people live in Budapest and the area around Budapest. About 1.7 million people live in Budapest. Other big cities: Debrecen, Szeged, Miskolc and Pécs. Important university cities: Szeged, Debrecen and Pécs. Many Hungarian and foreign students study here."],
       ["Magyarország parlamentáris köztársaság. Az Országgyűlés hozza a törvényeket. A kormányt a miniszterelnök vezeti. Az államfő a köztársasági elnök. A választások fontosak a demokráciában.",
        "Hungary is a parliamentary republic. The Parliament (Országgyűlés) makes the laws. The government is led by the Prime Minister. The head of state is the President of the Republic. Elections are important in a democracy."],
       ["Magyarország 2004 óta tagja az Európai Uniónak. A schengeni övezet része, ezért könnyű Európában utazni.",
@@ -769,11 +1029,14 @@ const part2Chapters = [
       ["főváros","capital"],["legtöbb","most"],["ország","country"]
     ],
     questions:[
-      ["Hány ember él Magyarországon?","How many people live in Hungary?","Kb. 9,5 millió ember.","About 9.5 million people."],
-      ["Hol él a legtöbb ember Magyarországon?","Where do most people live in Hungary?","Budapesten és Budapest környékén.","In Budapest and the area around it."],
-      ["Melyik városban élnek a legtöbben?","Which city has the most people?","Budapesten.","In Budapest."],
-      ["Melyek fontos egyetemi városok Magyarországon?","Which are important university cities in Hungary?","Szeged, Debrecen és Pécs.","Szeged, Debrecen and Pécs."],
-      ["Ki vezeti a kormányt?","Who leads the government?","A miniszterelnök.","The Prime Minister."]
+      {"n": "200", "a": "92", "hu": "Hány ember él Magyarországon?", "en": "How many people live in Hungary?", "ex": "Kb. 9,5 millió ember.", "exEn": "About 9.5 million people."},
+      {"n": "201", "a": "93", "hu": "Hol él a legtöbb ember Magyarországon?", "en": "Where do most people live in Hungary?", "ex": "Budapesten és Budapest környékén.", "exEn": "In Budapest and the area around it."},
+      {"n": "202", "a": "94", "hu": "Melyik városban élnek a legtöbben?", "en": "Which city has the most people?", "ex": "Budapesten.", "exEn": "In Budapest."},
+      {"n": "203", "a": "95", "hu": "Melyek fontos egyetemi városok Magyarországon?", "en": "Which are important university cities in Hungary?", "ex": "Szeged, Debrecen és Pécs.", "exEn": "Szeged, Debrecen and Pécs."},
+      {"n": "204", "a": "96", "hu": "Ki vezeti a kormányt?", "en": "Who leads the government?", "ex": "A miniszterelnök.", "exEn": "The Prime Minister."},
+      {"n": "205", "a": "293", "hu": "Mióta tagja Magyarország az Európai Uniónak?", "en": "How long has Hungary been a member of the EU?", "ex": "2004 óta.", "exEn": "Since 2004."},
+      {"n": "206", "a": "294", "hu": "Mi a hivatalos pénznem Magyarországon?", "en": "What is the official currency of Hungary?", "ex": "A forint.", "exEn": "The forint."},
+      {"n": "207", "a": "295", "hu": "Milyen magyar nagyvárosokat ismer?", "en": "What big Hungarian cities do you know?", "ex": "Budapest, Debrecen, Szeged, Miskolc és Pécs.", "exEn": "Budapest, Debrecen, Szeged, Miskolc and Pécs."}
     ]
   }
 ];
@@ -881,6 +1144,43 @@ function el(tag, cls, html){
 let currentAudio = null;
 let currentAudioBtn = null;
 
+/* ---------- "Hamarosan · Soon" for audio files not uploaded yet ----------
+   Each question's audio file is checked when its card comes near the screen.
+   If the file is missing, the play button is disabled and a badge is shown.
+   As soon as the mp3 is uploaded to the audio/ folder, the badge disappears
+   by itself – nothing has to be edited on this page. */
+function probeAudio(src, cb){
+  const a = new Audio();
+  a.preload = "metadata";
+  let done = false;
+  const finish = ok => { if(done) return; done = true; a.removeAttribute("src"); a.load(); cb(ok); };
+  a.addEventListener("loadedmetadata", ()=>finish(true));
+  a.addEventListener("error", ()=>finish(false));
+  setTimeout(()=>finish(true), 15000); // slow network: don't mark as missing
+  a.src = src;
+}
+function markSoon(btn, host){
+  btn.classList.add("soon");
+  btn.disabled = true;
+  btn.title = "Hamarosan elérhető / Coming soon";
+  btn.setAttribute("aria-label","Hangfájl hamarosan / Audio coming soon");
+  if(!host.querySelector(".soon-badge")){
+    host.insertBefore(el("span","soon-badge","Hamarosan · Soon"), host.firstChild);
+  }
+}
+const audioObserver = ("IntersectionObserver" in window) ? new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    audioObserver.unobserve(e.target);
+    const t = e.target._audioCheck;
+    if(t) probeAudio(t.src, ok=>{ if(!ok) markSoon(t.btn, t.host); });
+  });
+}, {rootMargin:"800px 0px"}) : null;
+function watchAudio(btn, src, host){
+  if(audioObserver){ btn._audioCheck = {btn, src, host}; audioObserver.observe(btn); }
+  else probeAudio(src, ok=>{ if(!ok) markSoon(btn, host); });
+}
+
 function makeAudioBtn(num){
   const btn = document.createElement("button");
   btn.type = "button";
@@ -926,30 +1226,36 @@ function makeAudioBtn(num){
   return btn;
 }
 
-function renderQCard(num, hu, en, exHu, exEn){
+function renderQCard(q){
   answerCounter++;
-  const id = "p1-" + num;
-  const card = el("div","qcard");
+  const card = el("div", q.v ? "qcard variant" : "qcard");
   const head = el("div","qhead");
-  head.appendChild(el("div","qnum", String(num).padStart(2,"0")));
-  head.appendChild(makeAudioBtn(num));
+  head.appendChild(el("div","qnum", q.n));
+  const playBtn = makeAudioBtn(q.a);
+  head.appendChild(playBtn);
   const qtext = el("div","qtext");
-  qtext.appendChild(el("div","hu", hu));
-  qtext.appendChild(el("div","en", en));
+  const huLine = el("div","hu", q.hu);
+  qtext.appendChild(huLine);
+  qtext.appendChild(el("div","en", q.en));
   head.appendChild(qtext);
+  // Only the new questions (audio 101+) are checked; the original 96 questions
+  // and the vocabulary buttons are never marked "soon".
+  if(Number(q.a) >= 101) watchAudio(playBtn, "audio/" + String(q.a) + ".mp3", huLine);
   card.appendChild(head);
 
-  const ex = el("div","example");
-  ex.appendChild(el("div","lbl","Példa / Example"));
-  ex.appendChild(el("div","hu", exHu));
-  ex.appendChild(el("div","en", exEn));
-  card.appendChild(ex);
+  if(q.ex){
+    const ex = el("div","example");
+    ex.appendChild(el("div","lbl","Példa / Example"));
+    ex.appendChild(el("div","hu", q.ex));
+    ex.appendChild(el("div","en", q.exEn));
+    card.appendChild(ex);
+  }
 
   const aw = el("div","answer-wrap");
   aw.appendChild(el("div","lbl","Az Ön válasza / Your Answer"));
   const ta = document.createElement("textarea");
   ta.className = "answer";
-  ta.id = id;
+  ta.id = "q-" + q.a;
   ta.setAttribute("data-answer","1");
   ta.addEventListener("input", ()=>{autoGrow(ta); updateProgress();});
   aw.appendChild(ta);
@@ -965,8 +1271,17 @@ function autoGrow(ta){
 
 function renderPart1(){
   const wrap = document.getElementById("part1");
-  part1Questions.forEach((q, i)=>{
-    wrap.appendChild(renderQCard(i+1, q[0], q[1], q[2], q[3]));
+  part1Blocks.forEach(b=>{
+    const ct = el("div","chapter-title");
+    ct.id = b.id;
+    ct.appendChild(el("span","tag", b.tag));
+    const t = document.createElement("div");
+    t.innerHTML = `<h3>${b.hu}<span class="en">${b.en}</span></h3>`;
+    ct.appendChild(t);
+    wrap.appendChild(ct);
+    const g = el("div","qgrid");
+    b.questions.forEach(q=> g.appendChild(renderQCard(q)));
+    wrap.appendChild(g);
   });
 }
 
@@ -1051,12 +1366,12 @@ function renderVocabTable(pairs, audioNamer){
   return table;
 }
 
-let part2AudioNum = part1Questions.length; // continues the audio numbering after Part I (01-51 -> 52+)
 
 function renderPart2(){
   const wrap = document.getElementById("part2");
   part2Chapters.forEach((ch, idx)=>{
     const ct = el("div","chapter-title");
+    ct.id = "p2-" + ch.tag;
     ct.appendChild(el("span","tag", ch.tag));
     const titleWrap = document.createElement("div");
     titleWrap.innerHTML = `<h3>${ch.huTitle}<span class="en">${ch.enTitle}</span></h3>`;
@@ -1083,40 +1398,7 @@ function renderPart2(){
 
     if(ch.questions.length){
       const qwrap = el("div","qgrid");
-      ch.questions.forEach((q, qi)=>{
-        answerCounter++;
-        part2AudioNum++;
-        const id = "p2-" + idx + "-" + qi;
-        const card = el("div","qcard");
-        const head = el("div","qhead");
-        head.appendChild(el("div","qnum", String(part2AudioNum).padStart(2,"0")));
-        head.appendChild(makeAudioBtn(part2AudioNum));
-        const qtext = el("div","qtext");
-        qtext.appendChild(el("div","hu", q[0]));
-        qtext.appendChild(el("div","en", q[1]));
-        head.appendChild(qtext);
-        card.appendChild(head);
-
-        if(q[2]){
-          const ex = el("div","example");
-          ex.appendChild(el("div","lbl","Példa / Example"));
-          ex.appendChild(el("div","hu", q[2]));
-          ex.appendChild(el("div","en", q[3]));
-          card.appendChild(ex);
-        }
-
-        const aw = el("div","answer-wrap");
-        aw.appendChild(el("div","lbl","Az Ön válasza / Your Answer"));
-        const ta = document.createElement("textarea");
-        ta.className = "answer";
-        ta.id = id;
-        ta.setAttribute("data-answer","1");
-        ta.addEventListener("input", ()=>{autoGrow(ta); updateProgress();});
-        aw.appendChild(ta);
-        card.appendChild(aw);
-
-        qwrap.appendChild(card);
-      });
+      ch.questions.forEach(q=> qwrap.appendChild(renderQCard(q)));
       wrap.appendChild(qwrap);
     }
   });
@@ -1200,20 +1482,30 @@ function downloadTXT(){
   L.push('I. RÉSZ — SZEMÉLYES KÉRDÉSEK  /  PART I — PERSONAL QUESTIONS');
   rule();
   let p1Count = 0;
-  part1Questions.forEach((q, i)=>{
-    const n = i + 1;
-    const ansEl = document.getElementById('p1-' + n);
-    if(!(ansEl && ansEl.value.trim())) return;
-    p1Count++;
-    L.push('');
-    L.push(n + '. ' + q[0]);
-    L.push('   ' + q[1]);
-    L.push('   Példa / Example:');
-    L.push('     HU: ' + q[2]);
-    L.push('     EN: ' + q[3]);
-    const ans = document.getElementById('p1-' + n);
+  const answeredOf = qs => qs.filter(q=>{ const e = document.getElementById('q-' + q.a); return e && e.value.trim(); });
+  const pushQ = q=>{
+    L.push(q.n + '. ' + q.hu);
+    L.push('   ' + q.en);
+    if(q.ex){
+      L.push('   Példa / Example:');
+      L.push('     HU: ' + q.ex);
+      L.push('     EN: ' + q.exEn);
+    }
+    const ans = document.getElementById('q-' + q.a);
     L.push('   Az Ön válasza / Your Answer:');
-    L.push('     ' + (ans && ans.value.trim() ? ans.value.trim().replace(/\n/g, '\n     ') : '(még nincs kitöltve)'));
+    L.push('     ' + ans.value.trim().replace(/\n/g, '\n     '));
+    L.push('');
+  };
+  part1Blocks.forEach(b=>{
+    const qs = answeredOf(b.questions);
+    if(!qs.length) return;
+    p1Count += qs.length;
+    L.push('');
+    thin();
+    L.push(b.tag + '. ' + b.hu + '  /  ' + b.en);
+    thin();
+    L.push('');
+    qs.forEach(pushQ);
   });
   if(!p1Count){ L.push(''); L.push('(Ebben a részben még nincs megválaszolt kérdés / No answered questions yet)'); }
   L.push('');
@@ -1222,13 +1514,10 @@ function downloadTXT(){
   L.push('II. RÉSZ — TÖRTÉNELEM, KULTÚRA ÉS HAGYOMÁNY  /  PART II — HISTORY, CULTURE & TRADITION');
   rule();
   let p2Count = 0;
-  part2Chapters.forEach((ch, idx)=>{
-    const answered = ch.questions.map((q, qi)=>{
-      const el = document.getElementById('p2-' + idx + '-' + qi);
-      return el && el.value.trim() ? qi : -1;
-    }).filter(qi=>qi >= 0);
-    if(!answered.length) return;
-    p2Count += answered.length;
+  part2Chapters.forEach(ch=>{
+    const qs = answeredOf(ch.questions);
+    if(!qs.length) return;
+    p2Count += qs.length;
     L.push('');
     thin();
     L.push(ch.tag + '. ' + ch.huTitle + '  /  ' + ch.enTitle);
@@ -1246,20 +1535,7 @@ function downloadTXT(){
       ch.vocab.forEach(v=>{ L.push('  - ' + v[0] + '  =  ' + v[1]); });
       L.push('');
     }
-    ch.questions.forEach((q, qi)=>{
-      if(answered.indexOf(qi) < 0) return;
-      L.push((qi+1) + '. ' + q[0]);
-      L.push('   ' + q[1]);
-      if(q[2]){
-        L.push('   Példa / Example:');
-        L.push('     HU: ' + q[2]);
-        L.push('     EN: ' + q[3]);
-      }
-      const ans = document.getElementById('p2-' + idx + '-' + qi);
-      L.push('   Az Ön válasza / Your Answer:');
-      L.push('     ' + (ans && ans.value.trim() ? ans.value.trim().replace(/\n/g, '\n     ') : '(még nincs kitöltve)'));
-      L.push('');
-    });
+    qs.forEach(pushQ);
   });
   if(!p2Count){ L.push(''); L.push('(Ebben a részben még nincs megválaszolt kérdés / No answered questions yet)'); L.push(''); }
 
