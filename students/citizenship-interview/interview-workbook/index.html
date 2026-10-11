@@ -1458,6 +1458,7 @@ function clearAll(){
   document.querySelectorAll('textarea[data-answer="1"]').forEach(a=>{a.value=""; autoGrow(a);});
   document.getElementById("finalNotes").value = "";
   updateProgress();
+  saveAll();
 }
 
 function downloadTXT(){
@@ -1621,6 +1622,40 @@ renderMocks();
 renderBiometric();
 renderDocTable();
 updateProgress();
+
+/* ===================== AUTOSAVE (localStorage) =====================
+   Answers, notes, the name/date/consulate fields and the document
+   checklist are saved automatically in this browser while typing,
+   and restored when the page is opened again. Nothing is sent anywhere.
+   The "Letöltés TXT-ként" download works exactly as before. */
+const STORE_KEY = "h4y-interview-workbook-v1";
+function collectAll(){
+  const data = { fields:{}, answers:{}, docs:{}, notes:"" };
+  ["fld-name","fld-date","fld-consulate"].forEach(id=>{ const e = document.getElementById(id); if(e && e.value) data.fields[id] = e.value; });
+  document.querySelectorAll('textarea[data-answer="1"]').forEach(a=>{ if(a.value) data.answers[a.id] = a.value; });
+  document.querySelectorAll('.doc-check input[type="checkbox"]').forEach(c=>{ if(c.checked) data.docs[c.id] = true; });
+  const n = document.getElementById("finalNotes"); if(n) data.notes = n.value;
+  return data;
+}
+function saveAll(){
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(collectAll())); } catch(e) {}
+}
+function restoreAll(){
+  let data = null;
+  try { data = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch(e) { data = null; }
+  if(!data) return;
+  Object.entries(data.fields || {}).forEach(([id,v])=>{ const e = document.getElementById(id); if(e) e.value = v; });
+  Object.entries(data.answers || {}).forEach(([id,v])=>{ const e = document.getElementById(id); if(e){ e.value = v; autoGrow(e); } });
+  Object.keys(data.docs || {}).forEach(id=>{ const e = document.getElementById(id); if(e) e.checked = true; });
+  const n = document.getElementById("finalNotes"); if(n && data.notes) n.value = data.notes;
+  updateProgress();
+}
+let saveTimer = null;
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveAll, 400); }
+document.addEventListener("input", e=>{ if(e.target.matches("textarea, input")) scheduleSave(); });
+document.addEventListener("change", e=>{ if(e.target.matches("textarea, input")) scheduleSave(); });
+window.addEventListener("pagehide", saveAll);
+restoreAll();
 </script>
 
 </body>
