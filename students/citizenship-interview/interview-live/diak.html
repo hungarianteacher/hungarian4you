@@ -187,7 +187,7 @@ function receive(msg){
   seen.push(msg.id); if(seen.length > 60) seen.shift();
   lastContact = Date.now(); dotEl.classList.add("on");
   switch(msg.type){
-    case "ping": send({type:"pong", ready: unlocked, state: currentState}); break;
+    case "ping": send({type:"pong", ready: unlocked, state: currentState, version: STUDENT_VERSION}); break;
     case "play": play(msg); break;
     case "stop": stopAudio(true); break;
     case "subs": setSubs(msg.mode); break;
@@ -202,6 +202,10 @@ setInterval(()=>{ if(Date.now() - lastContact > 6000) dotEl.classList.remove("on
 let audioCtx = null, analyser = null, timeData = null, unlocked = false;
 let currentState = "idle", current = null, synthetic = false;
 
+const STUDENT_VERSION = "2026-10-30b";
+window.H4Y_STUDENT_VERSION = STUDENT_VERSION;
+const SILENT = "data:audio/wav;base64,UklGRtQEAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YbAEAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA=";
+
 function unlock(){
   try{
     if(!audioCtx){
@@ -215,16 +219,25 @@ function unlock(){
     }
     audioCtx.resume();
   }catch(e){ audioCtx = null; analyser = null; }
-  // play a silent moment so the media elements are allowed to play later
-  [playerLocal, playerRemote].forEach(p=>{ try{ p.muted = true; p.play().catch(()=>{}); p.pause(); p.muted = false; }catch(e){} });
+  // Play a short silent sound on both players inside this click,
+  // so every browser (also Safari) allows them to play later.
+  [playerLocal, playerRemote].forEach(p=>{
+    try{ p.src = SILENT; const pr = p.play(); if(pr && pr.catch) pr.catch(()=>{}); }catch(e){}
+  });
   unlocked = true;
   startEl.classList.add("hidden");
   send({type:"hello", ready:true});
 }
 startEl.addEventListener("click", unlock);
 
+// When the teacher page creates this screen itself (about:blank window),
+// the real origin is the teacher page's origin.
+function pageOrigin(){
+  if(location.protocol === "about:" && window.opener){ try{ return window.opener.location.origin; }catch(e){ return ""; } }
+  return location.origin;
+}
 function sameOrigin(url){
-  try{ const u = new URL(url, location.href); return u.origin === location.origin && location.protocol.startsWith("http"); }
+  try{ const o = pageOrigin(); const u = new URL(url, o.startsWith("http") ? o + "/" : location.href); return o.startsWith("http") && u.origin === o; }
   catch(e){ return false; }
 }
 function activePlayer(){ return synthetic ? playerRemote : playerLocal; }
@@ -234,29 +247,64 @@ function setState(s, extra){
   send(Object.assign({type:"state", state:s, n: current ? current.n : null, a: current ? current.a : null}, extra || {}));
 }
 
+let playToken = 0, watchdog = null;
+function routedOk(src){
+  return !!(analyser && audioCtx && audioCtx.state === "running" && sameOrigin(src));
+}
 function play(msg){
   stopAudio(false);
   current = msg;
   showSubsText(msg.hu, msg.en);
-  synthetic = !(analyser && sameOrigin(msg.src));
+  attempt(msg, routedOk(msg.src), ++playToken);
+}
+// try to play; if it fails with the analysed player, try once more with the plain one
+function attempt(msg, routed, token){
+  clearTimeout(watchdog);
+  synthetic = !routed;
   const p = activePlayer();
+  p.dataset.token = token;
   p.src = msg.src;
   p.playbackRate = msg.rate || 1;
   if("preservesPitch" in p) p.preservesPitch = true;
-  if(audioCtx) audioCtx.resume();
-  const pr = p.play();
-  if(pr && pr.catch) pr.catch(err=>{
-    if(err && err.name === "NotAllowedError"){ startEl.classList.remove("hidden"); unlocked = false; setState("blocked"); }
-  });
+  if(audioCtx && audioCtx.state !== "running") audioCtx.resume().catch(()=>{});
+  let pr;
+  try{ pr = p.play(); }catch(err){ return failed(msg, routed, token, err); }
+  if(pr && pr.catch) pr.catch(err => failed(msg, routed, token, err));
+  watchdog = setTimeout(()=>{
+    if(token !== playToken || currentState === "playing" || currentState === "ended") return;
+    if(routed) attempt(msg, false, token);
+    else setState("error", {detail:"időtúllépés (timeout)"});
+  }, 5000);
+}
+function failed(msg, routed, token, err){
+  if(token !== playToken) return;
+  const name = (err && err.name) || "Error";
+  if(name === "AbortError") return;               // replaced by a newer request
+  if(name === "NotAllowedError"){
+    clearTimeout(watchdog);
+    startEl.classList.remove("hidden"); unlocked = false;
+    setState("blocked"); return;
+  }
+  if(routed){ attempt(msg, false, token); return; }
+  clearTimeout(watchdog);
+  setState("error", {detail: name === "NotSupportedError" ? "a hangfájl nem található vagy nem lejátszható" : name + (err && err.message ? ": " + err.message : "")});
 }
 function stopAudio(report){
+  clearTimeout(watchdog);
   [playerLocal, playerRemote].forEach(p=>{ try{ p.pause(); p.currentTime = 0; }catch(e){} });
   if(report) setState("stopped");
 }
 [playerLocal, playerRemote].forEach(p=>{
-  p.addEventListener("playing", ()=>{ if(p === activePlayer()) setState("playing"); });
-  p.addEventListener("ended",   ()=>{ if(p === activePlayer()) setState("ended"); });
-  p.addEventListener("error",   ()=>{ if(p === activePlayer() && p.getAttribute("src")) setState("error"); });
+  const mine = () => p === activePlayer() && Number(p.dataset.token) === playToken;
+  p.addEventListener("playing", ()=>{ if(mine()){ clearTimeout(watchdog); setState("playing"); } });
+  p.addEventListener("ended",   ()=>{ if(mine()) setState("ended"); });
+  p.addEventListener("error",   ()=>{
+    if(!mine() || !p.getAttribute("src") || p.src.startsWith("data:")) return;
+    clearTimeout(watchdog);
+    const code = p.error ? p.error.code : 0;
+    if(code === 4 || code === 2) setState("error", {detail: code === 4 ? "a hangfájl nem található" : "hálózati hiba"});
+    else setState("error", {detail:"lejátszási hiba (" + code + ")"});
+  });
 });
 
 /* ---------- subtitles ---------- */
