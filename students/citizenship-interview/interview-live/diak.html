@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interjú gyakorlás – diák képernyő</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF4E6; --paper:#FFFDF8; --ink:#2B241D; --soft:#6B6155;
+    --red:#B6371F; --red-deep:#7E2513; --green:#2F6E4F; --line:#E4D9BF;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; height:100%; overflow:hidden;}
+  body{
+    background:radial-gradient(ellipse at 50% 38%, #FFFDF8 0%, #F6EEDB 55%, #EADFC4 100%);
+    color:var(--ink); font-family:'Work Sans',sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    user-select:none;
+  }
+  #stage{ width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }
+  #face{ height:min(96vh, 130vw); width:auto; max-width:100vw; display:block; }
+
+  /* subtitles */
+  #subs{
+    position:fixed; left:50%; bottom:5vh; transform:translateX(-50%);
+    width:min(1100px, 92vw); text-align:center;
+    background:rgba(255,253,248,.94); border:1px solid var(--line); border-radius:18px;
+    padding:18px 28px; box-shadow:0 16px 40px -24px rgba(40,25,10,.55);
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  #subs.show{ opacity:1; }
+  #subs .hu{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(22px, 3.4vw, 44px); line-height:1.2; color:var(--ink); }
+  #subs .en{ font-size:clamp(14px, 1.7vw, 22px); font-style:italic; color:var(--soft); margin-top:8px; }
+  #subs .en:empty{ display:none; }
+
+  /* start overlay (only the teacher sees this, before sharing) */
+  #start{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(250,244,230,.88); backdrop-filter:blur(4px); cursor:pointer; z-index:10;
+  }
+  #start .card{
+    background:var(--paper); border:1px solid var(--line); border-top:6px solid var(--red);
+    border-radius:14px; padding:34px 40px; max-width:560px; text-align:center;
+    box-shadow:0 20px 50px -30px rgba(40,25,10,.6);
+  }
+  #start h1{ font-family:'Fraunces',serif; font-weight:600; color:var(--red-deep); margin:0 0 10px; font-size:30px; }
+  #start p{ margin:8px 0; color:var(--soft); line-height:1.5; }
+  #start .go{ display:inline-block; margin-top:14px; background:var(--red-deep); color:#fff; font-weight:600; padding:12px 26px; border-radius:30px; }
+  #start.hidden{ display:none; }
+
+  /* tiny connection dot – fades out once connected */
+  #dot{ position:fixed; top:14px; right:16px; width:10px; height:10px; border-radius:50%; background:#C9BFA8; transition:opacity 1.5s ease, background .3s; }
+  #dot.on{ background:#2F6E4F; opacity:0; }
+
+  /* face parts */
+  .eyelid{ transform-box:fill-box; transform-origin:center; transition:transform .07s linear; }
+  .blink .eyelid{ transform:scaleY(.08); }
+</style>
+</head>
+<body>
+
+<div id="stage">
+<svg id="face" viewBox="0 0 800 820" xmlns="http://www.w3.org/2000/svg" aria-label="Beszélő arc">
+  <defs>
+    <radialGradient id="skin" cx="50%" cy="42%" r="62%">
+      <stop offset="0%" stop-color="#F0C4A2"/><stop offset="100%" stop-color="#DFA982"/>
+    </radialGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5A4031"/><stop offset="100%" stop-color="#3F2C21"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3D7A5C"/><stop offset="100%" stop-color="#2A5A42"/>
+    </linearGradient>
+    <clipPath id="mouthClip"><path id="mouthClipPath" d=""/></clipPath>
+  </defs>
+
+  <!-- shoulders & neck -->
+  <path d="M120,820 C140,650 280,606 400,606 C520,606 660,650 680,820 Z" fill="url(#top)"/>
+  <path d="M330,606 C350,650 450,650 470,606" fill="none" stroke="#24503A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M348,520 L348,612 C370,640 430,640 452,612 L452,520 Z" fill="#D49A74"/>
+
+  <g id="head">
+    <!-- ears (mostly covered by hair) -->
+    <ellipse cx="252" cy="392" rx="24" ry="40" fill="#DCA27C"/>
+    <ellipse cx="548" cy="392" rx="24" ry="40" fill="#DCA27C"/>
+    <!-- back hair: soft, ear-length, neutral -->
+    <path d="M228,456 C200,296 258,152 400,150 C542,152 600,296 572,456
+             C566,486 540,488 532,462 L268,462 C260,488 234,486 228,456 Z" fill="url(#hair)"/>
+    <!-- head -->
+    <ellipse cx="400" cy="384" rx="146" ry="176" fill="url(#skin)"/>
+    <!-- fringe -->
+    <path d="M254,366 C238,238 318,172 406,174 C494,172 570,236 550,350
+             C538,300 508,262 466,250 C436,284 378,298 328,286
+             C296,298 266,326 254,366 Z" fill="url(#hair)"/>
+    <path d="M306,214 C338,192 384,184 426,190" fill="none" stroke="#6B4C3A" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+
+    <!-- eyebrows -->
+    <g id="brows" stroke="#4A3426" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M312,322 Q344,304 376,316"/>
+      <path d="M424,316 Q456,304 488,322"/>
+    </g>
+
+    <!-- eyes -->
+    <g id="eyes">
+      <g class="eyelid">
+        <ellipse cx="345" cy="366" rx="25" ry="17" fill="#FFFFFF"/>
+        <g class="iris"><circle cx="345" cy="366" r="12" fill="#5B4636"/><circle cx="345" cy="366" r="6" fill="#1D1714"/><circle cx="349" cy="362" r="3.2" fill="#fff"/></g>
+        <path d="M320,362 Q345,344 370,362" fill="none" stroke="#3F2C21" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+      <g class="eyelid">
+        <ellipse cx="455" cy="366" rx="25" ry="17" fill="#FFFFFF"/>
+        <g class="iris"><circle cx="455" cy="366" r="12" fill="#5B4636"/><circle cx="455" cy="366" r="6" fill="#1D1714"/><circle cx="459" cy="362" r="3.2" fill="#fff"/></g>
+        <path d="M430,362 Q455,344 480,362" fill="none" stroke="#3F2C21" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- round glasses -->
+    <g fill="none" stroke="#6B4C3A" stroke-width="4.5">
+      <circle cx="345" cy="366" r="36"/><circle cx="455" cy="366" r="36"/>
+      <path d="M381,362 Q400,352 419,362"/><path d="M309,360 L262,350"/><path d="M491,360 L538,350"/>
+    </g>
+    <!-- nose -->
+    <path d="M402,384 Q390,420 398,430 Q406,436 416,428" fill="none" stroke="#C48662" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- cheeks -->
+    <circle cx="322" cy="432" r="26" fill="#E8907E" opacity=".28"/>
+    <circle cx="478" cy="432" r="26" fill="#E8907E" opacity=".28"/>
+
+    <!-- mouth -->
+    <g id="mouth" transform="translate(400,478)">
+      <path id="smile" d="M-40,0 Q0,14 40,0" fill="none" stroke="#B5544C" stroke-width="6" stroke-linecap="round"/>
+      <g id="open" opacity="0">
+        <path id="inner" d="" fill="#5E2121"/>
+        <g clip-path="url(#mouthClip)">
+          <rect id="teeth" x="-34" y="-12" width="68" height="10" rx="3" fill="#FBF7F0"/>
+          <ellipse id="tongue" cx="0" cy="30" rx="24" ry="10" fill="#C65A5C"/>
+        </g>
+        <path id="lips" d="" fill="none" stroke="#B5544C" stroke-width="6" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+</svg>
+</div>
+
+<div id="subs"><div class="hu"></div><div class="en"></div></div>
+<div id="dot" title="Kapcsolat a tanári vezérlővel"></div>
+
+<div id="start">
+  <div class="card">
+    <h1>Diák képernyő</h1>
+    <p>Kattintson ide egyszer, hogy a böngésző engedélyezze a hangot.</p>
+    <p>Utána ezt az ablakot ossza meg az online órán <b>hanggal együtt</b>, és a kérdéseket a tanári vezérlőből indítsa.</p>
+    <p style="font-size:14px">Teljes képernyő: <b>F</b> billentyű vagy dupla kattintás.</p>
+    <span class="go">Indítás</span>
+  </div>
+</div>
+
+<audio id="playerLocal" preload="auto"></audio>
+<audio id="playerRemote" preload="auto"></audio>
+
+<script>
+/* =========================================================================
+   Hungarian4You – live interview practice, STUDENT screen
+   Receives commands from the teacher page (tanar.html) in the same browser
+   (BroadcastChannel + window.postMessage) and plays the question audio.
+   The mouth follows the loudness of the audio.
+   ========================================================================= */
+const CHANNEL = "h4y-interview-live";
+
+const $ = id => document.getElementById(id);
+const startEl = $("start"), subsEl = $("subs"), dotEl = $("dot");
+const subsHu = subsEl.querySelector(".hu"), subsEn = subsEl.querySelector(".en");
+const playerLocal = $("playerLocal"), playerRemote = $("playerRemote");
+
+/* ---------- messaging ---------- */
+const bc = ("BroadcastChannel" in window) ? new BroadcastChannel(CHANNEL) : null;
+const seen = [];
+function send(msg){
+  msg.from = "student"; msg.id = Math.random().toString(36).slice(2);
+  if(bc) bc.postMessage(msg);
+  if(window.opener && !window.opener.closed){ try{ window.opener.postMessage(msg, "*"); }catch(e){} }
+}
+function receive(msg){
+  if(!msg || msg.from !== "teacher" || !msg.id) return;
+  if(seen.includes(msg.id)) return;
+  seen.push(msg.id); if(seen.length > 60) seen.shift();
+  lastContact = Date.now(); dotEl.classList.add("on");
+  switch(msg.type){
+    case "ping": send({type:"pong", ready: unlocked, state: currentState}); break;
+    case "play": play(msg); break;
+    case "stop": stopAudio(true); break;
+    case "subs": setSubs(msg.mode); break;
+  }
+}
+if(bc) bc.onmessage = e => receive(e.data);
+window.addEventListener("message", e => { if(e.source === window.opener) receive(e.data); });
+let lastContact = 0;
+setInterval(()=>{ if(Date.now() - lastContact > 6000) dotEl.classList.remove("on"); }, 2000);
+
+/* ---------- audio ---------- */
+let audioCtx = null, analyser = null, timeData = null, unlocked = false;
+let currentState = "idle", current = null, synthetic = false;
+
+function unlock(){
+  try{
+    if(!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
+      const src = audioCtx.createMediaElementSource(playerLocal);   // same-origin files only
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 1024; analyser.smoothingTimeConstant = 0.35;
+      src.connect(analyser); analyser.connect(audioCtx.destination);
+      timeData = new Uint8Array(analyser.fftSize);
+    }
+    audioCtx.resume();
+  }catch(e){ audioCtx = null; analyser = null; }
+  // play a silent moment so the media elements are allowed to play later
+  [playerLocal, playerRemote].forEach(p=>{ try{ p.muted = true; p.play().catch(()=>{}); p.pause(); p.muted = false; }catch(e){} });
+  unlocked = true;
+  startEl.classList.add("hidden");
+  send({type:"hello", ready:true});
+}
+startEl.addEventListener("click", unlock);
+
+function sameOrigin(url){
+  try{ const u = new URL(url, location.href); return u.origin === location.origin && location.protocol.startsWith("http"); }
+  catch(e){ return false; }
+}
+function activePlayer(){ return synthetic ? playerRemote : playerLocal; }
+
+function setState(s, extra){
+  currentState = s;
+  send(Object.assign({type:"state", state:s, n: current ? current.n : null, a: current ? current.a : null}, extra || {}));
+}
+
+function play(msg){
+  stopAudio(false);
+  current = msg;
+  showSubsText(msg.hu, msg.en);
+  synthetic = !(analyser && sameOrigin(msg.src));
+  const p = activePlayer();
+  p.src = msg.src;
+  p.playbackRate = msg.rate || 1;
+  if("preservesPitch" in p) p.preservesPitch = true;
+  if(audioCtx) audioCtx.resume();
+  const pr = p.play();
+  if(pr && pr.catch) pr.catch(err=>{
+    if(err && err.name === "NotAllowedError"){ startEl.classList.remove("hidden"); unlocked = false; setState("blocked"); }
+  });
+}
+function stopAudio(report){
+  [playerLocal, playerRemote].forEach(p=>{ try{ p.pause(); p.currentTime = 0; }catch(e){} });
+  if(report) setState("stopped");
+}
+[playerLocal, playerRemote].forEach(p=>{
+  p.addEventListener("playing", ()=>{ if(p === activePlayer()) setState("playing"); });
+  p.addEventListener("ended",   ()=>{ if(p === activePlayer()) setState("ended"); });
+  p.addEventListener("error",   ()=>{ if(p === activePlayer() && p.getAttribute("src")) setState("error"); });
+});
+
+/* ---------- subtitles ---------- */
+let subsMode = "off"; // off | hu | huen
+function setSubs(mode){ subsMode = mode || "off"; renderSubs(); }
+function showSubsText(hu, en){ subsHu.textContent = hu || ""; subsEn.dataset.text = en || ""; renderSubs(); }
+function renderSubs(){
+  subsEn.textContent = subsMode === "huen" ? (subsEn.dataset.text || "") : "";
+  subsEl.classList.toggle("show", subsMode !== "off" && !!subsHu.textContent);
+}
+
+/* ---------- face animation ---------- */
+const head = $("head"), eyes = $("eyes"), brows = $("brows");
+const smile = $("smile"), openG = $("open"), inner = $("inner"), lips = $("lips");
+const clipP = $("mouthClipPath"), teeth = $("teeth"), tongue = $("tongue");
+const irises = document.querySelectorAll(".iris");
+
+let level = 0;          // smoothed mouth opening 0..1
+let synthPhase = 0, synthTarget = 0, synthNext = 0;
+let gaze = {x:0, y:0, tx:0, ty:0, next:0};
+
+function loudness(){
+  const p = activePlayer();
+  const speaking = !p.paused && !p.ended && p.currentTime > 0;
+  if(!speaking) return 0;
+  if(!synthetic && analyser){
+    analyser.getByteTimeDomainData(timeData);
+    let sum = 0;
+    for(let i = 0; i < timeData.length; i++){ const v = (timeData[i] - 128) / 128; sum += v * v; }
+    const rms = Math.sqrt(sum / timeData.length);
+    return Math.min(1, Math.max(0, (rms - 0.012) * 7.5));
+  }
+  // cross-origin audio cannot be analysed: imitate syllables (~5 per second)
+  const now = performance.now();
+  if(now > synthNext){
+    synthTarget = Math.random() < 0.18 ? 0.05 : 0.35 + Math.random() * 0.65;
+    synthNext = now + 110 + Math.random() * 140;
+  }
+  return synthTarget;
+}
+
+function mouthPath(w, top, bottom){
+  return `M${-w},0 Q0,${-top} ${w},0 Q0,${bottom} ${-w},0 Z`;
+}
+
+function frame(t){
+  const target = loudness();
+  // fast opening, slower closing – looks like real speech
+  level += (target - level) * (target > level ? 0.55 : 0.22);
+  const o = level;
+
+  const w = 42 - 8 * o;                 // mouth gets a little narrower when wide open
+  const top = 3 + 9 * o;
+  const bottom = 8 + 64 * o;
+  const d = mouthPath(w, top, bottom);
+  inner.setAttribute("d", d); lips.setAttribute("d", d); clipP.setAttribute("d", d);
+  teeth.setAttribute("x", -w * 0.8); teeth.setAttribute("width", w * 1.6);
+  teeth.setAttribute("y", -top - 2); teeth.setAttribute("height", Math.min(12, 4 + bottom * 0.18));
+  tongue.setAttribute("cy", bottom * 0.78); tongue.setAttribute("rx", w * 0.6); tongue.setAttribute("ry", 6 + bottom * 0.16);
+  const vis = Math.min(1, o * 5);
+  openG.setAttribute("opacity", vis.toFixed(2));
+  smile.setAttribute("opacity", (1 - vis).toFixed(2));
+
+  // idle life: breathing, tiny nod while speaking, gaze
+  const s = t / 1000;
+  const breathe = Math.sin(s * 1.6) * 2.2;
+  const nod = Math.sin(s * 7.3) * 1.6 * o;
+  const tilt = Math.sin(s * 0.5) * 1.2 + Math.sin(s * 2.1) * 0.8 * o;
+  head.setAttribute("transform", `translate(0 ${(breathe + nod).toFixed(2)}) rotate(${tilt.toFixed(2)} 400 470)`);
+  brows.setAttribute("transform", `translate(0 ${(-4 * o).toFixed(2)})`);
+
+  if(t > gaze.next){
+    const r = Math.random();
+    gaze.tx = r < 0.6 ? 0 : (Math.random() * 8 - 4);
+    gaze.ty = r < 0.6 ? 0 : (Math.random() * 4 - 2);
+    gaze.next = t + 1500 + Math.random() * 3000;
+  }
+  gaze.x += (gaze.tx - gaze.x) * 0.12; gaze.y += (gaze.ty - gaze.y) * 0.12;
+  irises.forEach(i => i.setAttribute("transform", `translate(${gaze.x.toFixed(2)} ${gaze.y.toFixed(2)})`));
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// blinking
+(function blinkLoop(){
+  setTimeout(()=>{
+    eyes.classList.add("blink");
+    setTimeout(()=>{ eyes.classList.remove("blink"); blinkLoop(); }, 130);
+  }, 2400 + Math.random() * 3600);
+})();
+
+/* ---------- fullscreen ---------- */
+function toggleFs(){
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen && document.exitFullscreen();
+}
+document.addEventListener("keydown", e => { if(e.key === "f" || e.key === "F") toggleFs(); });
+document.addEventListener("dblclick", e => { if(!startEl.contains(e.target)) toggleFs(); });
+
+send({type:"hello", ready:false});
+</script>
+</body>
+</html>
