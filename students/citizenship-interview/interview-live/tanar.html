@@ -105,6 +105,17 @@
   .help .keys{ margin-top:10px; font-size:13px; color:var(--soft); }
   .help kbd{ font-family:'IBM Plex Mono',monospace; border:1px solid var(--line); border-radius:4px; padding:0 5px; background:#fff; color:var(--ink); }
 
+  /* student lists */
+  .lists{ background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:14px; }
+  .lists label{ display:block; font-size:11px; letter-spacing:1.4px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px; }
+  .lists select{ width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; }
+  .lists .row2{ display:flex; gap:6px; margin-top:8px; }
+  .lists .row2 .btn{ flex:1; justify-content:center; font-size:13px; padding:7px 8px; }
+  .lists .info{ font-size:12px; color:var(--soft); margin-top:8px; line-height:1.4; }
+  .tag-tts{ display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:#2F6EA5; background:#EAF2FA; border:1px solid #C9DCEF; border-radius:10px; padding:1px 7px; margin-left:8px; vertical-align:2px; }
+  .now .ex .alt{ display:block; margin-top:4px; }
+  body.dragging::after{ content:"Engedje el a PDF-et a betöltéshez"; position:fixed; inset:12px; border:3px dashed var(--red-deep); border-radius:16px;
+    background:rgba(250,244,230,.85); display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:28px; color:var(--red-deep); z-index:50; }
   @media (max-width:900px){ .wrap{ grid-template-columns:1fr; } aside{ position:static; max-height:none; } .now{ top:110px; } }
 </style>
 </head>
@@ -120,6 +131,16 @@
 
 <div class="wrap">
   <aside>
+    <div class="lists">
+      <label for="listSel">Kérdéslista</label>
+      <select id="listSel"><option value="wb">Teljes munkafüzet</option></select>
+      <div class="row2">
+        <button class="btn" id="pdfBtn">Diák PDF betöltése</button>
+        <button class="btn ghost" id="delList" title="A kiválasztott diák listájának törlése ebből a böngészőből">Törlés</button>
+      </div>
+      <input type="file" id="pdfInput" accept="application/pdf,.pdf" multiple hidden>
+      <div class="info" id="listInfo">A diák PDF-je csak ebben a böngészőben marad, nem kerül fel az internetre.</div>
+    </div>
     <input class="search" id="search" type="search" placeholder="Keresés a kérdések között…" aria-label="Keresés">
     <ul class="cats" id="cats"></ul>
     <div class="side-tools">
@@ -139,6 +160,7 @@
           <br>• <b>Microsoft Teams:</b> Megosztás → ablak kiválasztása → „Hang belefoglalása” (Include sound).</li>
         <li>Itt, a vezérlőben kattintson egy kérdésre – a diák képernyőn az arc kimondja. A feliratot és a tempót is innen állíthatja.</li>
         <li>Tipp: tartsa a két ablakot egymás mellett vagy két monitoron, hogy a diák ablak ne legyen eltakarva.</li>
+        <li><b>Diák saját listája:</b> a bal oldali „Diák PDF betöltése” gombbal (vagy a PDF-et az oldalra húzva) betöltheti a diák saját kérdéseit. A „Kérdéslista” menüben válthat a diákok és a teljes munkafüzet között. A hangfelvétellel rendelkező kérdéseket a felvétel mondja, a többit a böngésző magyar gépi hangja („gépi hang” jelölés). A PDF csak ebben a böngészőben marad. Frissített PDF-et ugyanígy töltsön be – a régit felülírja.</li>
       </ol>
       <div class="keys">Billentyűk: <kbd>Szóköz</kbd> lejátszás / újra · <kbd>→</kbd> következő · <kbd>←</kbd> előző · <kbd>R</kbd> véletlen · <kbd>S</kbd> felirat · <kbd>Esc</kbd> leállítás · <kbd>M</kbd> mintaválasz</div>
     </section>
@@ -229,8 +251,8 @@ function audioUrl(q){ return audioBase + String(q.a).padStart(2, "0") + ".mp3"; 
 
 /* ---------- messaging with the student screen ---------- */
 const bc = ("BroadcastChannel" in window) ? new BroadcastChannel(CHANNEL) : null;
-let studentWin = null, lastPong = 0, studentReady = false, studentVersion = null, noReply = null;
-const STUDENT_VERSION = "2026-10-30b";
+let studentWin = null, lastPong = 0, studentReady = false, studentVersion = null, noReply = null, studentTts = null;
+const STUDENT_VERSION = "2026-10-30c";
 const seen = [];
 function send(msg){
   msg.from = "teacher"; msg.id = Math.random().toString(36).slice(2);
@@ -243,9 +265,10 @@ function receive(msg){
   lastPong = Date.now();
   if("ready" in msg) studentReady = !!msg.ready;
   if("version" in msg) studentVersion = msg.version;
+  if("tts" in msg) studentTts = !!msg.tts;
   if(msg.type === "state") clearTimeout(noReply);
   if(msg.type === "state"){
-    if(msg.state === "playing"){ setStatus("A diák képernyőn szól…", "playing"); studentReady = true; }
+    if(msg.state === "playing"){ setStatus(msg.tts ? "A diák képernyőn szól (gépi hang)…" : "A diák képernyőn szól…", "playing"); studentReady = true; }
     if(msg.state === "ended"){ setStatus("Elhangzott", ""); }
     if(msg.state === "stopped"){ setStatus("Leállítva", ""); }
     if(msg.state === "error"){ setStatus("A hang nem indult el" + (msg.detail ? ": " + msg.detail : ""), "error"); }
@@ -268,7 +291,7 @@ function renderConn(){
 }
 /* The student screen is created by this page itself, so it also works when
    this page is embedded somewhere else (e.g. Google Sites) – no second file needed. */
-const STUDENT_HTML = "<!DOCTYPE html>\n<html lang=\"hu\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Interjú gyakorlás – diák képernyő<\/title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Work+Sans:wght@400;500;600&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --cream:#FAF4E6; --paper:#FFFDF8; --ink:#2B241D; --soft:#6B6155;\n    --red:#B6371F; --red-deep:#7E2513; --green:#2F6E4F; --line:#E4D9BF;\n  }\n  *{box-sizing:border-box;}\n  html,body{margin:0; height:100%; overflow:hidden;}\n  body{\n    background:radial-gradient(ellipse at 50% 38%, #FFFDF8 0%, #F6EEDB 55%, #EADFC4 100%);\n    color:var(--ink); font-family:'Work Sans',sans-serif;\n    display:flex; align-items:center; justify-content:center;\n    user-select:none;\n  }\n  #stage{ width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }\n  #face{ height:min(96vh, 130vw); width:auto; max-width:100vw; display:block; }\n\n  /* subtitles */\n  #subs{\n    position:fixed; left:50%; bottom:5vh; transform:translateX(-50%);\n    width:min(1100px, 92vw); text-align:center;\n    background:rgba(255,253,248,.94); border:1px solid var(--line); border-radius:18px;\n    padding:18px 28px; box-shadow:0 16px 40px -24px rgba(40,25,10,.55);\n    opacity:0; pointer-events:none; transition:opacity .25s ease;\n  }\n  #subs.show{ opacity:1; }\n  #subs .hu{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(22px, 3.4vw, 44px); line-height:1.2; color:var(--ink); }\n  #subs .en{ font-size:clamp(14px, 1.7vw, 22px); font-style:italic; color:var(--soft); margin-top:8px; }\n  #subs .en:empty{ display:none; }\n\n  /* start overlay (only the teacher sees this, before sharing) */\n  #start{\n    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;\n    background:rgba(250,244,230,.88); backdrop-filter:blur(4px); cursor:pointer; z-index:10;\n  }\n  #start .card{\n    background:var(--paper); border:1px solid var(--line); border-top:6px solid var(--red);\n    border-radius:14px; padding:34px 40px; max-width:560px; text-align:center;\n    box-shadow:0 20px 50px -30px rgba(40,25,10,.6);\n  }\n  #start h1{ font-family:'Fraunces',serif; font-weight:600; color:var(--red-deep); margin:0 0 10px; font-size:30px; }\n  #start p{ margin:8px 0; color:var(--soft); line-height:1.5; }\n  #start .go{ display:inline-block; margin-top:14px; background:var(--red-deep); color:#fff; font-weight:600; padding:12px 26px; border-radius:30px; }\n  #start.hidden{ display:none; }\n\n  /* tiny connection dot – fades out once connected */\n  #dot{ position:fixed; top:14px; right:16px; width:10px; height:10px; border-radius:50%; background:#C9BFA8; transition:opacity 1.5s ease, background .3s; }\n  #dot.on{ background:#2F6E4F; opacity:0; }\n\n  /* face parts */\n  .eyelid{ transform-box:fill-box; transform-origin:center; transition:transform .07s linear; }\n  .blink .eyelid{ transform:scaleY(.08); }\n<\/style>\n<\/head>\n<body>\n\n<div id=\"stage\">\n<svg id=\"face\" viewBox=\"0 0 800 820\" xmlns=\"http://www.w3.org/2000/svg\" aria-label=\"Beszélő arc\">\n  <defs>\n    <radialGradient id=\"skin\" cx=\"50%\" cy=\"42%\" r=\"62%\">\n      <stop offset=\"0%\" stop-color=\"#F0C4A2\"/><stop offset=\"100%\" stop-color=\"#DFA982\"/>\n    <\/radialGradient>\n    <linearGradient id=\"hair\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#5A4031\"/><stop offset=\"100%\" stop-color=\"#3F2C21\"/>\n    <\/linearGradient>\n    <linearGradient id=\"top\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#3D7A5C\"/><stop offset=\"100%\" stop-color=\"#2A5A42\"/>\n    <\/linearGradient>\n    <clipPath id=\"mouthClip\"><path id=\"mouthClipPath\" d=\"\"/><\/clipPath>\n  <\/defs>\n\n  <!-- shoulders & neck -->\n  <path d=\"M120,820 C140,650 280,606 400,606 C520,606 660,650 680,820 Z\" fill=\"url(#top)\"/>\n  <path d=\"M330,606 C350,650 450,650 470,606\" fill=\"none\" stroke=\"#24503A\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  <path d=\"M348,520 L348,612 C370,640 430,640 452,612 L452,520 Z\" fill=\"#D49A74\"/>\n\n  <g id=\"head\">\n    <!-- ears (mostly covered by hair) -->\n    <ellipse cx=\"252\" cy=\"392\" rx=\"24\" ry=\"40\" fill=\"#DCA27C\"/>\n    <ellipse cx=\"548\" cy=\"392\" rx=\"24\" ry=\"40\" fill=\"#DCA27C\"/>\n    <!-- back hair: soft, ear-length, neutral -->\n    <path d=\"M228,456 C200,296 258,152 400,150 C542,152 600,296 572,456\n             C566,486 540,488 532,462 L268,462 C260,488 234,486 228,456 Z\" fill=\"url(#hair)\"/>\n    <!-- head -->\n    <ellipse cx=\"400\" cy=\"384\" rx=\"146\" ry=\"176\" fill=\"url(#skin)\"/>\n    <!-- fringe -->\n    <path d=\"M254,366 C238,238 318,172 406,174 C494,172 570,236 550,350\n             C538,300 508,262 466,250 C436,284 378,298 328,286\n             C296,298 266,326 254,366 Z\" fill=\"url(#hair)\"/>\n    <path d=\"M306,214 C338,192 384,184 426,190\" fill=\"none\" stroke=\"#6B4C3A\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".5\"/>\n\n    <!-- eyebrows -->\n    <g id=\"brows\" stroke=\"#4A3426\" stroke-width=\"6\" stroke-linecap=\"round\" fill=\"none\">\n      <path d=\"M312,322 Q344,304 376,316\"/>\n      <path d=\"M424,316 Q456,304 488,322\"/>\n    <\/g>\n\n    <!-- eyes -->\n    <g id=\"eyes\">\n      <g class=\"eyelid\">\n        <ellipse cx=\"345\" cy=\"366\" rx=\"25\" ry=\"17\" fill=\"#FFFFFF\"/>\n        <g class=\"iris\"><circle cx=\"345\" cy=\"366\" r=\"12\" fill=\"#5B4636\"/><circle cx=\"345\" cy=\"366\" r=\"6\" fill=\"#1D1714\"/><circle cx=\"349\" cy=\"362\" r=\"3.2\" fill=\"#fff\"/><\/g>\n        <path d=\"M320,362 Q345,344 370,362\" fill=\"none\" stroke=\"#3F2C21\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <\/g>\n      <g class=\"eyelid\">\n        <ellipse cx=\"455\" cy=\"366\" rx=\"25\" ry=\"17\" fill=\"#FFFFFF\"/>\n        <g class=\"iris\"><circle cx=\"455\" cy=\"366\" r=\"12\" fill=\"#5B4636\"/><circle cx=\"455\" cy=\"366\" r=\"6\" fill=\"#1D1714\"/><circle cx=\"459\" cy=\"362\" r=\"3.2\" fill=\"#fff\"/><\/g>\n        <path d=\"M430,362 Q455,344 480,362\" fill=\"none\" stroke=\"#3F2C21\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <\/g>\n    <\/g>\n\n    <!-- round glasses -->\n    <g fill=\"none\" stroke=\"#6B4C3A\" stroke-width=\"4.5\">\n      <circle cx=\"345\" cy=\"366\" r=\"36\"/><circle cx=\"455\" cy=\"366\" r=\"36\"/>\n      <path d=\"M381,362 Q400,352 419,362\"/><path d=\"M309,360 L262,350\"/><path d=\"M491,360 L538,350\"/>\n    <\/g>\n    <!-- nose -->\n    <path d=\"M402,384 Q390,420 398,430 Q406,436 416,428\" fill=\"none\" stroke=\"#C48662\" stroke-width=\"4.5\" stroke-linecap=\"round\"/>\n    <!-- cheeks -->\n    <circle cx=\"322\" cy=\"432\" r=\"26\" fill=\"#E8907E\" opacity=\".28\"/>\n    <circle cx=\"478\" cy=\"432\" r=\"26\" fill=\"#E8907E\" opacity=\".28\"/>\n\n    <!-- mouth -->\n    <g id=\"mouth\" transform=\"translate(400,478)\">\n      <path id=\"smile\" d=\"M-40,0 Q0,14 40,0\" fill=\"none\" stroke=\"#B5544C\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n      <g id=\"open\" opacity=\"0\">\n        <path id=\"inner\" d=\"\" fill=\"#5E2121\"/>\n        <g clip-path=\"url(#mouthClip)\">\n          <rect id=\"teeth\" x=\"-34\" y=\"-12\" width=\"68\" height=\"10\" rx=\"3\" fill=\"#FBF7F0\"/>\n          <ellipse id=\"tongue\" cx=\"0\" cy=\"30\" rx=\"24\" ry=\"10\" fill=\"#C65A5C\"/>\n        <\/g>\n        <path id=\"lips\" d=\"\" fill=\"none\" stroke=\"#B5544C\" stroke-width=\"6\" stroke-linejoin=\"round\"/>\n      <\/g>\n    <\/g>\n  <\/g>\n<\/svg>\n<\/div>\n\n<div id=\"subs\"><div class=\"hu\"><\/div><div class=\"en\"><\/div><\/div>\n<div id=\"dot\" title=\"Kapcsolat a tanári vezérlővel\"><\/div>\n\n<div id=\"start\">\n  <div class=\"card\">\n    <h1>Diák képernyő<\/h1>\n    <p>Kattintson ide egyszer, hogy a böngésző engedélyezze a hangot.<\/p>\n    <p>Utána ezt az ablakot ossza meg az online órán <b>hanggal együtt<\/b>, és a kérdéseket a tanári vezérlőből indítsa.<\/p>\n    <p style=\"font-size:14px\">Teljes képernyő: <b>F<\/b> billentyű vagy dupla kattintás.<\/p>\n    <span class=\"go\">Indítás<\/span>\n  <\/div>\n<\/div>\n\n<audio id=\"playerLocal\" preload=\"auto\"><\/audio>\n<audio id=\"playerRemote\" preload=\"auto\"><\/audio>\n\n<script>\n/* =========================================================================\n   Hungarian4You – live interview practice, STUDENT screen\n   Receives commands from the teacher page (tanar.html) in the same browser\n   (BroadcastChannel + window.postMessage) and plays the question audio.\n   The mouth follows the loudness of the audio.\n   ========================================================================= */\nconst CHANNEL = \"h4y-interview-live\";\n\nconst $ = id => document.getElementById(id);\nconst startEl = $(\"start\"), subsEl = $(\"subs\"), dotEl = $(\"dot\");\nconst subsHu = subsEl.querySelector(\".hu\"), subsEn = subsEl.querySelector(\".en\");\nconst playerLocal = $(\"playerLocal\"), playerRemote = $(\"playerRemote\");\n\n/* ---------- messaging ---------- */\nconst bc = (\"BroadcastChannel\" in window) ? new BroadcastChannel(CHANNEL) : null;\nconst seen = [];\nfunction send(msg){\n  msg.from = \"student\"; msg.id = Math.random().toString(36).slice(2);\n  if(bc) bc.postMessage(msg);\n  if(window.opener && !window.opener.closed){ try{ window.opener.postMessage(msg, \"*\"); }catch(e){} }\n}\nfunction receive(msg){\n  if(!msg || msg.from !== \"teacher\" || !msg.id) return;\n  if(seen.includes(msg.id)) return;\n  seen.push(msg.id); if(seen.length > 60) seen.shift();\n  lastContact = Date.now(); dotEl.classList.add(\"on\");\n  switch(msg.type){\n    case \"ping\": send({type:\"pong\", ready: unlocked, state: currentState, version: STUDENT_VERSION}); break;\n    case \"play\": play(msg); break;\n    case \"stop\": stopAudio(true); break;\n    case \"subs\": setSubs(msg.mode); break;\n  }\n}\nif(bc) bc.onmessage = e => receive(e.data);\nwindow.addEventListener(\"message\", e => { if(e.source === window.opener) receive(e.data); });\nlet lastContact = 0;\nsetInterval(()=>{ if(Date.now() - lastContact > 6000) dotEl.classList.remove(\"on\"); }, 2000);\n\n/* ---------- audio ---------- */\nlet audioCtx = null, analyser = null, timeData = null, unlocked = false;\nlet currentState = \"idle\", current = null, synthetic = false;\n\nconst STUDENT_VERSION = \"2026-10-30b\";\nwindow.H4Y_STUDENT_VERSION = STUDENT_VERSION;\nconst SILENT = \"data:audio/wav;base64,UklGRtQEAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YbAEAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA=\";\n\nfunction unlock(){\n  try{\n    if(!audioCtx){\n      const AC = window.AudioContext || window.webkitAudioContext;\n      audioCtx = new AC();\n      const src = audioCtx.createMediaElementSource(playerLocal);   // same-origin files only\n      analyser = audioCtx.createAnalyser();\n      analyser.fftSize = 1024; analyser.smoothingTimeConstant = 0.35;\n      src.connect(analyser); analyser.connect(audioCtx.destination);\n      timeData = new Uint8Array(analyser.fftSize);\n    }\n    audioCtx.resume();\n  }catch(e){ audioCtx = null; analyser = null; }\n  // Play a short silent sound on both players inside this click,\n  // so every browser (also Safari) allows them to play later.\n  [playerLocal, playerRemote].forEach(p=>{\n    try{ p.src = SILENT; const pr = p.play(); if(pr && pr.catch) pr.catch(()=>{}); }catch(e){}\n  });\n  unlocked = true;\n  startEl.classList.add(\"hidden\");\n  send({type:\"hello\", ready:true});\n}\nstartEl.addEventListener(\"click\", unlock);\n\n// When the teacher page creates this screen itself (about:blank window),\n// the real origin is the teacher page's origin.\nfunction pageOrigin(){\n  if(location.protocol === \"about:\" && window.opener){ try{ return window.opener.location.origin; }catch(e){ return \"\"; } }\n  return location.origin;\n}\nfunction sameOrigin(url){\n  try{ const o = pageOrigin(); const u = new URL(url, o.startsWith(\"http\") ? o + \"/\" : location.href); return o.startsWith(\"http\") && u.origin === o; }\n  catch(e){ return false; }\n}\nfunction activePlayer(){ return synthetic ? playerRemote : playerLocal; }\n\nfunction setState(s, extra){\n  currentState = s;\n  send(Object.assign({type:\"state\", state:s, n: current ? current.n : null, a: current ? current.a : null}, extra || {}));\n}\n\nlet playToken = 0, watchdog = null;\nfunction routedOk(src){\n  return !!(analyser && audioCtx && audioCtx.state === \"running\" && sameOrigin(src));\n}\nfunction play(msg){\n  stopAudio(false);\n  current = msg;\n  showSubsText(msg.hu, msg.en);\n  attempt(msg, routedOk(msg.src), ++playToken);\n}\n// try to play; if it fails with the analysed player, try once more with the plain one\nfunction attempt(msg, routed, token){\n  clearTimeout(watchdog);\n  synthetic = !routed;\n  const p = activePlayer();\n  p.dataset.token = token;\n  p.src = msg.src;\n  p.playbackRate = msg.rate || 1;\n  if(\"preservesPitch\" in p) p.preservesPitch = true;\n  if(audioCtx && audioCtx.state !== \"running\") audioCtx.resume().catch(()=>{});\n  let pr;\n  try{ pr = p.play(); }catch(err){ return failed(msg, routed, token, err); }\n  if(pr && pr.catch) pr.catch(err => failed(msg, routed, token, err));\n  watchdog = setTimeout(()=>{\n    if(token !== playToken || currentState === \"playing\" || currentState === \"ended\") return;\n    if(routed) attempt(msg, false, token);\n    else setState(\"error\", {detail:\"időtúllépés (timeout)\"});\n  }, 5000);\n}\nfunction failed(msg, routed, token, err){\n  if(token !== playToken) return;\n  const name = (err && err.name) || \"Error\";\n  if(name === \"AbortError\") return;               // replaced by a newer request\n  if(name === \"NotAllowedError\"){\n    clearTimeout(watchdog);\n    startEl.classList.remove(\"hidden\"); unlocked = false;\n    setState(\"blocked\"); return;\n  }\n  if(routed){ attempt(msg, false, token); return; }\n  clearTimeout(watchdog);\n  setState(\"error\", {detail: name === \"NotSupportedError\" ? \"a hangfájl nem található vagy nem lejátszható\" : name + (err && err.message ? \": \" + err.message : \"\")});\n}\nfunction stopAudio(report){\n  clearTimeout(watchdog);\n  [playerLocal, playerRemote].forEach(p=>{ try{ p.pause(); p.currentTime = 0; }catch(e){} });\n  if(report) setState(\"stopped\");\n}\n[playerLocal, playerRemote].forEach(p=>{\n  const mine = () => p === activePlayer() && Number(p.dataset.token) === playToken;\n  p.addEventListener(\"playing\", ()=>{ if(mine()){ clearTimeout(watchdog); setState(\"playing\"); } });\n  p.addEventListener(\"ended\",   ()=>{ if(mine()) setState(\"ended\"); });\n  p.addEventListener(\"error\",   ()=>{\n    if(!mine() || !p.getAttribute(\"src\") || p.src.startsWith(\"data:\")) return;\n    clearTimeout(watchdog);\n    const code = p.error ? p.error.code : 0;\n    if(code === 4 || code === 2) setState(\"error\", {detail: code === 4 ? \"a hangfájl nem található\" : \"hálózati hiba\"});\n    else setState(\"error\", {detail:\"lejátszási hiba (\" + code + \")\"});\n  });\n});\n\n/* ---------- subtitles ---------- */\nlet subsMode = \"off\"; // off | hu | huen\nfunction setSubs(mode){ subsMode = mode || \"off\"; renderSubs(); }\nfunction showSubsText(hu, en){ subsHu.textContent = hu || \"\"; subsEn.dataset.text = en || \"\"; renderSubs(); }\nfunction renderSubs(){\n  subsEn.textContent = subsMode === \"huen\" ? (subsEn.dataset.text || \"\") : \"\";\n  subsEl.classList.toggle(\"show\", subsMode !== \"off\" && !!subsHu.textContent);\n}\n\n/* ---------- face animation ---------- */\nconst head = $(\"head\"), eyes = $(\"eyes\"), brows = $(\"brows\");\nconst smile = $(\"smile\"), openG = $(\"open\"), inner = $(\"inner\"), lips = $(\"lips\");\nconst clipP = $(\"mouthClipPath\"), teeth = $(\"teeth\"), tongue = $(\"tongue\");\nconst irises = document.querySelectorAll(\".iris\");\n\nlet level = 0;          // smoothed mouth opening 0..1\nlet synthPhase = 0, synthTarget = 0, synthNext = 0;\nlet gaze = {x:0, y:0, tx:0, ty:0, next:0};\n\nfunction loudness(){\n  const p = activePlayer();\n  const speaking = !p.paused && !p.ended && p.currentTime > 0;\n  if(!speaking) return 0;\n  if(!synthetic && analyser){\n    analyser.getByteTimeDomainData(timeData);\n    let sum = 0;\n    for(let i = 0; i < timeData.length; i++){ const v = (timeData[i] - 128) / 128; sum += v * v; }\n    const rms = Math.sqrt(sum / timeData.length);\n    return Math.min(1, Math.max(0, (rms - 0.012) * 7.5));\n  }\n  // cross-origin audio cannot be analysed: imitate syllables (~5 per second)\n  const now = performance.now();\n  if(now > synthNext){\n    synthTarget = Math.random() < 0.18 ? 0.05 : 0.35 + Math.random() * 0.65;\n    synthNext = now + 110 + Math.random() * 140;\n  }\n  return synthTarget;\n}\n\nfunction mouthPath(w, top, bottom){\n  return `M${-w},0 Q0,${-top} ${w},0 Q0,${bottom} ${-w},0 Z`;\n}\n\nfunction frame(t){\n  const target = loudness();\n  // fast opening, slower closing – looks like real speech\n  level += (target - level) * (target > level ? 0.55 : 0.22);\n  const o = level;\n\n  const w = 42 - 8 * o;                 // mouth gets a little narrower when wide open\n  const top = 3 + 9 * o;\n  const bottom = 8 + 64 * o;\n  const d = mouthPath(w, top, bottom);\n  inner.setAttribute(\"d\", d); lips.setAttribute(\"d\", d); clipP.setAttribute(\"d\", d);\n  teeth.setAttribute(\"x\", -w * 0.8); teeth.setAttribute(\"width\", w * 1.6);\n  teeth.setAttribute(\"y\", -top - 2); teeth.setAttribute(\"height\", Math.min(12, 4 + bottom * 0.18));\n  tongue.setAttribute(\"cy\", bottom * 0.78); tongue.setAttribute(\"rx\", w * 0.6); tongue.setAttribute(\"ry\", 6 + bottom * 0.16);\n  const vis = Math.min(1, o * 5);\n  openG.setAttribute(\"opacity\", vis.toFixed(2));\n  smile.setAttribute(\"opacity\", (1 - vis).toFixed(2));\n\n  // idle life: breathing, tiny nod while speaking, gaze\n  const s = t / 1000;\n  const breathe = Math.sin(s * 1.6) * 2.2;\n  const nod = Math.sin(s * 7.3) * 1.6 * o;\n  const tilt = Math.sin(s * 0.5) * 1.2 + Math.sin(s * 2.1) * 0.8 * o;\n  head.setAttribute(\"transform\", `translate(0 ${(breathe + nod).toFixed(2)}) rotate(${tilt.toFixed(2)} 400 470)`);\n  brows.setAttribute(\"transform\", `translate(0 ${(-4 * o).toFixed(2)})`);\n\n  if(t > gaze.next){\n    const r = Math.random();\n    gaze.tx = r < 0.6 ? 0 : (Math.random() * 8 - 4);\n    gaze.ty = r < 0.6 ? 0 : (Math.random() * 4 - 2);\n    gaze.next = t + 1500 + Math.random() * 3000;\n  }\n  gaze.x += (gaze.tx - gaze.x) * 0.12; gaze.y += (gaze.ty - gaze.y) * 0.12;\n  irises.forEach(i => i.setAttribute(\"transform\", `translate(${gaze.x.toFixed(2)} ${gaze.y.toFixed(2)})`));\n\n  requestAnimationFrame(frame);\n}\nrequestAnimationFrame(frame);\n\n// blinking\n(function blinkLoop(){\n  setTimeout(()=>{\n    eyes.classList.add(\"blink\");\n    setTimeout(()=>{ eyes.classList.remove(\"blink\"); blinkLoop(); }, 130);\n  }, 2400 + Math.random() * 3600);\n})();\n\n/* ---------- fullscreen ---------- */\nfunction toggleFs(){\n  if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{});\n  else document.exitFullscreen && document.exitFullscreen();\n}\ndocument.addEventListener(\"keydown\", e => { if(e.key === \"f\" || e.key === \"F\") toggleFs(); });\ndocument.addEventListener(\"dblclick\", e => { if(!startEl.contains(e.target)) toggleFs(); });\n\nsend({type:\"hello\", ready:false});\n<\/script>\n<\/body>\n<\/html>\n";
+const STUDENT_HTML = "<!DOCTYPE html>\n<html lang=\"hu\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Interjú gyakorlás – diák képernyő<\/title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Work+Sans:wght@400;500;600&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --cream:#FAF4E6; --paper:#FFFDF8; --ink:#2B241D; --soft:#6B6155;\n    --red:#B6371F; --red-deep:#7E2513; --green:#2F6E4F; --line:#E4D9BF;\n  }\n  *{box-sizing:border-box;}\n  html,body{margin:0; height:100%; overflow:hidden;}\n  body{\n    background:radial-gradient(ellipse at 50% 38%, #FFFDF8 0%, #F6EEDB 55%, #EADFC4 100%);\n    color:var(--ink); font-family:'Work Sans',sans-serif;\n    display:flex; align-items:center; justify-content:center;\n    user-select:none;\n  }\n  #stage{ width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; }\n  #face{ height:min(96vh, 130vw); width:auto; max-width:100vw; display:block; }\n\n  /* subtitles */\n  #subs{\n    position:fixed; left:50%; bottom:5vh; transform:translateX(-50%);\n    width:min(1100px, 92vw); text-align:center;\n    background:rgba(255,253,248,.94); border:1px solid var(--line); border-radius:18px;\n    padding:18px 28px; box-shadow:0 16px 40px -24px rgba(40,25,10,.55);\n    opacity:0; pointer-events:none; transition:opacity .25s ease;\n  }\n  #subs.show{ opacity:1; }\n  #subs .hu{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(22px, 3.4vw, 44px); line-height:1.2; color:var(--ink); }\n  #subs .en{ font-size:clamp(14px, 1.7vw, 22px); font-style:italic; color:var(--soft); margin-top:8px; }\n  #subs .en:empty{ display:none; }\n\n  /* start overlay (only the teacher sees this, before sharing) */\n  #start{\n    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;\n    background:rgba(250,244,230,.88); backdrop-filter:blur(4px); cursor:pointer; z-index:10;\n  }\n  #start .card{\n    background:var(--paper); border:1px solid var(--line); border-top:6px solid var(--red);\n    border-radius:14px; padding:34px 40px; max-width:560px; text-align:center;\n    box-shadow:0 20px 50px -30px rgba(40,25,10,.6);\n  }\n  #start h1{ font-family:'Fraunces',serif; font-weight:600; color:var(--red-deep); margin:0 0 10px; font-size:30px; }\n  #start p{ margin:8px 0; color:var(--soft); line-height:1.5; }\n  #start .go{ display:inline-block; margin-top:14px; background:var(--red-deep); color:#fff; font-weight:600; padding:12px 26px; border-radius:30px; }\n  #start.hidden{ display:none; }\n\n  /* tiny connection dot – fades out once connected */\n  #dot{ position:fixed; top:14px; right:16px; width:10px; height:10px; border-radius:50%; background:#C9BFA8; transition:opacity 1.5s ease, background .3s; }\n  #dot.on{ background:#2F6E4F; opacity:0; }\n\n  /* face parts */\n  .eyelid{ transform-box:fill-box; transform-origin:center; transition:transform .07s linear; }\n  .blink .eyelid{ transform:scaleY(.08); }\n<\/style>\n<\/head>\n<body>\n\n<div id=\"stage\">\n<svg id=\"face\" viewBox=\"0 0 800 820\" xmlns=\"http://www.w3.org/2000/svg\" aria-label=\"Beszélő arc\">\n  <defs>\n    <radialGradient id=\"skin\" cx=\"50%\" cy=\"42%\" r=\"62%\">\n      <stop offset=\"0%\" stop-color=\"#F0C4A2\"/><stop offset=\"100%\" stop-color=\"#DFA982\"/>\n    <\/radialGradient>\n    <linearGradient id=\"hair\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#5A4031\"/><stop offset=\"100%\" stop-color=\"#3F2C21\"/>\n    <\/linearGradient>\n    <linearGradient id=\"top\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#3D7A5C\"/><stop offset=\"100%\" stop-color=\"#2A5A42\"/>\n    <\/linearGradient>\n    <clipPath id=\"mouthClip\"><path id=\"mouthClipPath\" d=\"\"/><\/clipPath>\n  <\/defs>\n\n  <!-- shoulders & neck -->\n  <path d=\"M120,820 C140,650 280,606 400,606 C520,606 660,650 680,820 Z\" fill=\"url(#top)\"/>\n  <path d=\"M330,606 C350,650 450,650 470,606\" fill=\"none\" stroke=\"#24503A\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  <path d=\"M348,520 L348,612 C370,640 430,640 452,612 L452,520 Z\" fill=\"#D49A74\"/>\n\n  <g id=\"head\">\n    <!-- ears (mostly covered by hair) -->\n    <ellipse cx=\"252\" cy=\"392\" rx=\"24\" ry=\"40\" fill=\"#DCA27C\"/>\n    <ellipse cx=\"548\" cy=\"392\" rx=\"24\" ry=\"40\" fill=\"#DCA27C\"/>\n    <!-- back hair: soft, ear-length, neutral -->\n    <path d=\"M228,456 C200,296 258,152 400,150 C542,152 600,296 572,456\n             C566,486 540,488 532,462 L268,462 C260,488 234,486 228,456 Z\" fill=\"url(#hair)\"/>\n    <!-- head -->\n    <ellipse cx=\"400\" cy=\"384\" rx=\"146\" ry=\"176\" fill=\"url(#skin)\"/>\n    <!-- fringe -->\n    <path d=\"M254,366 C238,238 318,172 406,174 C494,172 570,236 550,350\n             C538,300 508,262 466,250 C436,284 378,298 328,286\n             C296,298 266,326 254,366 Z\" fill=\"url(#hair)\"/>\n    <path d=\"M306,214 C338,192 384,184 426,190\" fill=\"none\" stroke=\"#6B4C3A\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".5\"/>\n\n    <!-- eyebrows -->\n    <g id=\"brows\" stroke=\"#4A3426\" stroke-width=\"6\" stroke-linecap=\"round\" fill=\"none\">\n      <path d=\"M312,322 Q344,304 376,316\"/>\n      <path d=\"M424,316 Q456,304 488,322\"/>\n    <\/g>\n\n    <!-- eyes -->\n    <g id=\"eyes\">\n      <g class=\"eyelid\">\n        <ellipse cx=\"345\" cy=\"366\" rx=\"25\" ry=\"17\" fill=\"#FFFFFF\"/>\n        <g class=\"iris\"><circle cx=\"345\" cy=\"366\" r=\"12\" fill=\"#5B4636\"/><circle cx=\"345\" cy=\"366\" r=\"6\" fill=\"#1D1714\"/><circle cx=\"349\" cy=\"362\" r=\"3.2\" fill=\"#fff\"/><\/g>\n        <path d=\"M320,362 Q345,344 370,362\" fill=\"none\" stroke=\"#3F2C21\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <\/g>\n      <g class=\"eyelid\">\n        <ellipse cx=\"455\" cy=\"366\" rx=\"25\" ry=\"17\" fill=\"#FFFFFF\"/>\n        <g class=\"iris\"><circle cx=\"455\" cy=\"366\" r=\"12\" fill=\"#5B4636\"/><circle cx=\"455\" cy=\"366\" r=\"6\" fill=\"#1D1714\"/><circle cx=\"459\" cy=\"362\" r=\"3.2\" fill=\"#fff\"/><\/g>\n        <path d=\"M430,362 Q455,344 480,362\" fill=\"none\" stroke=\"#3F2C21\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <\/g>\n    <\/g>\n\n    <!-- round glasses -->\n    <g fill=\"none\" stroke=\"#6B4C3A\" stroke-width=\"4.5\">\n      <circle cx=\"345\" cy=\"366\" r=\"36\"/><circle cx=\"455\" cy=\"366\" r=\"36\"/>\n      <path d=\"M381,362 Q400,352 419,362\"/><path d=\"M309,360 L262,350\"/><path d=\"M491,360 L538,350\"/>\n    <\/g>\n    <!-- nose -->\n    <path d=\"M402,384 Q390,420 398,430 Q406,436 416,428\" fill=\"none\" stroke=\"#C48662\" stroke-width=\"4.5\" stroke-linecap=\"round\"/>\n    <!-- cheeks -->\n    <circle cx=\"322\" cy=\"432\" r=\"26\" fill=\"#E8907E\" opacity=\".28\"/>\n    <circle cx=\"478\" cy=\"432\" r=\"26\" fill=\"#E8907E\" opacity=\".28\"/>\n\n    <!-- mouth -->\n    <g id=\"mouth\" transform=\"translate(400,478)\">\n      <path id=\"smile\" d=\"M-40,0 Q0,14 40,0\" fill=\"none\" stroke=\"#B5544C\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n      <g id=\"open\" opacity=\"0\">\n        <path id=\"inner\" d=\"\" fill=\"#5E2121\"/>\n        <g clip-path=\"url(#mouthClip)\">\n          <rect id=\"teeth\" x=\"-34\" y=\"-12\" width=\"68\" height=\"10\" rx=\"3\" fill=\"#FBF7F0\"/>\n          <ellipse id=\"tongue\" cx=\"0\" cy=\"30\" rx=\"24\" ry=\"10\" fill=\"#C65A5C\"/>\n        <\/g>\n        <path id=\"lips\" d=\"\" fill=\"none\" stroke=\"#B5544C\" stroke-width=\"6\" stroke-linejoin=\"round\"/>\n      <\/g>\n    <\/g>\n  <\/g>\n<\/svg>\n<\/div>\n\n<div id=\"subs\"><div class=\"hu\"><\/div><div class=\"en\"><\/div><\/div>\n<div id=\"dot\" title=\"Kapcsolat a tanári vezérlővel\"><\/div>\n\n<div id=\"start\">\n  <div class=\"card\">\n    <h1>Diák képernyő<\/h1>\n    <p>Kattintson ide egyszer, hogy a böngésző engedélyezze a hangot.<\/p>\n    <p>Utána ezt az ablakot ossza meg az online órán <b>hanggal együtt<\/b>, és a kérdéseket a tanári vezérlőből indítsa.<\/p>\n    <p style=\"font-size:14px\">Teljes képernyő: <b>F<\/b> billentyű vagy dupla kattintás.<\/p>\n    <span class=\"go\">Indítás<\/span>\n  <\/div>\n<\/div>\n\n<audio id=\"playerLocal\" preload=\"auto\"><\/audio>\n<audio id=\"playerRemote\" preload=\"auto\"><\/audio>\n\n<script>\n/* =========================================================================\n   Hungarian4You – live interview practice, STUDENT screen\n   Receives commands from the teacher page (tanar.html) in the same browser\n   (BroadcastChannel + window.postMessage) and plays the question audio.\n   The mouth follows the loudness of the audio.\n   ========================================================================= */\nconst CHANNEL = \"h4y-interview-live\";\n\nconst $ = id => document.getElementById(id);\nconst startEl = $(\"start\"), subsEl = $(\"subs\"), dotEl = $(\"dot\");\nconst subsHu = subsEl.querySelector(\".hu\"), subsEn = subsEl.querySelector(\".en\");\nconst playerLocal = $(\"playerLocal\"), playerRemote = $(\"playerRemote\");\n\n/* ---------- messaging ---------- */\nconst bc = (\"BroadcastChannel\" in window) ? new BroadcastChannel(CHANNEL) : null;\nconst seen = [];\nfunction send(msg){\n  msg.from = \"student\"; msg.id = Math.random().toString(36).slice(2);\n  if(bc) bc.postMessage(msg);\n  if(window.opener && !window.opener.closed){ try{ window.opener.postMessage(msg, \"*\"); }catch(e){} }\n}\nfunction receive(msg){\n  if(!msg || msg.from !== \"teacher\" || !msg.id) return;\n  if(seen.includes(msg.id)) return;\n  seen.push(msg.id); if(seen.length > 60) seen.shift();\n  lastContact = Date.now(); dotEl.classList.add(\"on\");\n  switch(msg.type){\n    case \"ping\": send({type:\"pong\", ready: unlocked, state: currentState, version: STUDENT_VERSION, tts: !!(ttsVoice || pickVoice())}); break;\n    case \"play\": play(msg); break;\n    case \"stop\": stopAudio(true); break;\n    case \"speak\": speak(msg); break;\n    case \"subs\": setSubs(msg.mode); break;\n  }\n}\nif(bc) bc.onmessage = e => receive(e.data);\nwindow.addEventListener(\"message\", e => { if(e.source === window.opener) receive(e.data); });\nlet lastContact = 0;\nsetInterval(()=>{ if(Date.now() - lastContact > 6000) dotEl.classList.remove(\"on\"); }, 2000);\n\n/* ---------- audio ---------- */\nlet audioCtx = null, analyser = null, timeData = null, unlocked = false;\nlet currentState = \"idle\", current = null, synthetic = false;\n\nconst STUDENT_VERSION = \"2026-10-30c\";\nwindow.H4Y_STUDENT_VERSION = STUDENT_VERSION;\nconst SILENT = \"data:audio/wav;base64,UklGRtQEAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YbAEAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA=\";\n\nfunction unlock(){\n  try{\n    if(!audioCtx){\n      const AC = window.AudioContext || window.webkitAudioContext;\n      audioCtx = new AC();\n      const src = audioCtx.createMediaElementSource(playerLocal);   // same-origin files only\n      analyser = audioCtx.createAnalyser();\n      analyser.fftSize = 1024; analyser.smoothingTimeConstant = 0.35;\n      src.connect(analyser); analyser.connect(audioCtx.destination);\n      timeData = new Uint8Array(analyser.fftSize);\n    }\n    audioCtx.resume();\n  }catch(e){ audioCtx = null; analyser = null; }\n  // Play a short silent sound on both players inside this click,\n  // so every browser (also Safari) allows them to play later.\n  [playerLocal, playerRemote].forEach(p=>{\n    try{ p.src = SILENT; const pr = p.play(); if(pr && pr.catch) pr.catch(()=>{}); }catch(e){}\n  });\n  unlocked = true;\n  startEl.classList.add(\"hidden\");\n  send({type:\"hello\", ready:true});\n}\nstartEl.addEventListener(\"click\", unlock);\n\n// When the teacher page creates this screen itself (about:blank window),\n// the real origin is the teacher page's origin.\nfunction pageOrigin(){\n  if(location.protocol === \"about:\" && window.opener){ try{ return window.opener.location.origin; }catch(e){ return \"\"; } }\n  return location.origin;\n}\nfunction sameOrigin(url){\n  try{ const o = pageOrigin(); const u = new URL(url, o.startsWith(\"http\") ? o + \"/\" : location.href); return o.startsWith(\"http\") && u.origin === o; }\n  catch(e){ return false; }\n}\nfunction activePlayer(){ return synthetic ? playerRemote : playerLocal; }\n\nfunction setState(s, extra){\n  currentState = s;\n  send(Object.assign({type:\"state\", state:s, n: current ? current.n : null, a: current ? current.a : null}, extra || {}));\n}\n\nlet playToken = 0, watchdog = null;\nfunction routedOk(src){\n  return !!(analyser && audioCtx && audioCtx.state === \"running\" && sameOrigin(src));\n}\nfunction play(msg){\n  stopAudio(false);\n  current = msg;\n  showSubsText(msg.hu, msg.en);\n  attempt(msg, routedOk(msg.src), ++playToken);\n}\n// try to play; if it fails with the analysed player, try once more with the plain one\nfunction attempt(msg, routed, token){\n  clearTimeout(watchdog);\n  synthetic = !routed;\n  const p = activePlayer();\n  p.dataset.token = token;\n  p.src = msg.src;\n  p.playbackRate = msg.rate || 1;\n  if(\"preservesPitch\" in p) p.preservesPitch = true;\n  if(audioCtx && audioCtx.state !== \"running\") audioCtx.resume().catch(()=>{});\n  let pr;\n  try{ pr = p.play(); }catch(err){ return failed(msg, routed, token, err); }\n  if(pr && pr.catch) pr.catch(err => failed(msg, routed, token, err));\n  watchdog = setTimeout(()=>{\n    if(token !== playToken || currentState === \"playing\" || currentState === \"ended\") return;\n    if(routed) attempt(msg, false, token);\n    else setState(\"error\", {detail:\"időtúllépés (timeout)\"});\n  }, 5000);\n}\nfunction failed(msg, routed, token, err){\n  if(token !== playToken) return;\n  const name = (err && err.name) || \"Error\";\n  if(name === \"AbortError\") return;               // replaced by a newer request\n  if(name === \"NotAllowedError\"){\n    clearTimeout(watchdog);\n    startEl.classList.remove(\"hidden\"); unlocked = false;\n    setState(\"blocked\"); return;\n  }\n  if(routed){ attempt(msg, false, token); return; }\n  clearTimeout(watchdog);\n  setState(\"error\", {detail: name === \"NotSupportedError\" ? \"a hangfájl nem található vagy nem lejátszható\" : name + (err && err.message ? \": \" + err.message : \"\")});\n}\n/* ---------- machine voice for questions without a recording ---------- */\nlet ttsActive = false, ttsVoice = null;\nfunction pickVoice(){\n  if(!(\"speechSynthesis\" in window)) return null;\n  const vs = speechSynthesis.getVoices().filter(v => /^hu(-|_|$)/i.test(v.lang));\n  return vs.find(v => /google/i.test(v.name)) || vs[0] || null;\n}\nif(\"speechSynthesis\" in window){ ttsVoice = pickVoice(); speechSynthesis.onvoiceschanged = () => { ttsVoice = pickVoice(); }; }\nfunction speak(msg){\n  stopAudio(false);\n  current = msg; ++playToken;\n  showSubsText(msg.hu, msg.en);\n  if(!(\"speechSynthesis\" in window)){ setState(\"error\", {detail:\"ez a böngésző nem tud gépi hangon beszélni\"}); return; }\n  ttsVoice = ttsVoice || pickVoice();\n  if(!ttsVoice){ setState(\"error\", {detail:\"nincs magyar gépi hang ezen a gépen\"}); return; }\n  const u = new SpeechSynthesisUtterance(msg.hu);\n  u.voice = ttsVoice; u.lang = ttsVoice.lang || \"hu-HU\"; u.rate = (msg.rate || 1) * 0.95;\n  const token = playToken;\n  u.onstart = () => { if(token === playToken){ ttsActive = true; setState(\"playing\", {tts:true}); } };\n  u.onend = () => { if(token === playToken){ ttsActive = false; setState(\"ended\"); } };\n  u.onerror = e => { if(token === playToken){ ttsActive = false; if(e.error !== \"interrupted\" && e.error !== \"canceled\") setState(\"error\", {detail:\"gépi hang hiba: \" + e.error}); } };\n  speechSynthesis.cancel();\n  speechSynthesis.speak(u);\n}\nfunction stopAudio(report){\n  clearTimeout(watchdog);\n  if(ttsActive || (\"speechSynthesis\" in window && speechSynthesis.speaking)){ ttsActive = false; try{ speechSynthesis.cancel(); }catch(e){} }\n  [playerLocal, playerRemote].forEach(p=>{ try{ p.pause(); p.currentTime = 0; }catch(e){} });\n  if(report) setState(\"stopped\");\n}\n[playerLocal, playerRemote].forEach(p=>{\n  const mine = () => p === activePlayer() && Number(p.dataset.token) === playToken;\n  p.addEventListener(\"playing\", ()=>{ if(mine()){ clearTimeout(watchdog); setState(\"playing\"); } });\n  p.addEventListener(\"ended\",   ()=>{ if(mine()) setState(\"ended\"); });\n  p.addEventListener(\"error\",   ()=>{\n    if(!mine() || !p.getAttribute(\"src\") || p.src.startsWith(\"data:\")) return;\n    clearTimeout(watchdog);\n    const code = p.error ? p.error.code : 0;\n    if(code === 4 || code === 2) setState(\"error\", {detail: code === 4 ? \"a hangfájl nem található\" : \"hálózati hiba\"});\n    else setState(\"error\", {detail:\"lejátszási hiba (\" + code + \")\"});\n  });\n});\n\n/* ---------- subtitles ---------- */\nlet subsMode = \"off\"; // off | hu | huen\nfunction setSubs(mode){ subsMode = mode || \"off\"; renderSubs(); }\nfunction showSubsText(hu, en){ subsHu.textContent = hu || \"\"; subsEn.dataset.text = en || \"\"; renderSubs(); }\nfunction renderSubs(){\n  subsEn.textContent = subsMode === \"huen\" ? (subsEn.dataset.text || \"\") : \"\";\n  subsEl.classList.toggle(\"show\", subsMode !== \"off\" && !!subsHu.textContent);\n}\n\n/* ---------- face animation ---------- */\nconst head = $(\"head\"), eyes = $(\"eyes\"), brows = $(\"brows\");\nconst smile = $(\"smile\"), openG = $(\"open\"), inner = $(\"inner\"), lips = $(\"lips\");\nconst clipP = $(\"mouthClipPath\"), teeth = $(\"teeth\"), tongue = $(\"tongue\");\nconst irises = document.querySelectorAll(\".iris\");\n\nlet level = 0;          // smoothed mouth opening 0..1\nlet synthPhase = 0, synthTarget = 0, synthNext = 0;\nlet gaze = {x:0, y:0, tx:0, ty:0, next:0};\n\nfunction loudness(){\n  if(ttsActive){\n    const now = performance.now();\n    if(now > synthNext){ synthTarget = Math.random() < 0.18 ? 0.05 : 0.35 + Math.random() * 0.65; synthNext = now + 110 + Math.random() * 140; }\n    return synthTarget;\n  }\n  const p = activePlayer();\n  const speaking = !p.paused && !p.ended && p.currentTime > 0;\n  if(!speaking) return 0;\n  if(!synthetic && analyser){\n    analyser.getByteTimeDomainData(timeData);\n    let sum = 0;\n    for(let i = 0; i < timeData.length; i++){ const v = (timeData[i] - 128) / 128; sum += v * v; }\n    const rms = Math.sqrt(sum / timeData.length);\n    return Math.min(1, Math.max(0, (rms - 0.012) * 7.5));\n  }\n  // cross-origin audio cannot be analysed: imitate syllables (~5 per second)\n  const now = performance.now();\n  if(now > synthNext){\n    synthTarget = Math.random() < 0.18 ? 0.05 : 0.35 + Math.random() * 0.65;\n    synthNext = now + 110 + Math.random() * 140;\n  }\n  return synthTarget;\n}\n\nfunction mouthPath(w, top, bottom){\n  return `M${-w},0 Q0,${-top} ${w},0 Q0,${bottom} ${-w},0 Z`;\n}\n\nfunction frame(t){\n  const target = loudness();\n  // fast opening, slower closing – looks like real speech\n  level += (target - level) * (target > level ? 0.55 : 0.22);\n  const o = level;\n\n  const w = 42 - 8 * o;                 // mouth gets a little narrower when wide open\n  const top = 3 + 9 * o;\n  const bottom = 8 + 64 * o;\n  const d = mouthPath(w, top, bottom);\n  inner.setAttribute(\"d\", d); lips.setAttribute(\"d\", d); clipP.setAttribute(\"d\", d);\n  teeth.setAttribute(\"x\", -w * 0.8); teeth.setAttribute(\"width\", w * 1.6);\n  teeth.setAttribute(\"y\", -top - 2); teeth.setAttribute(\"height\", Math.min(12, 4 + bottom * 0.18));\n  tongue.setAttribute(\"cy\", bottom * 0.78); tongue.setAttribute(\"rx\", w * 0.6); tongue.setAttribute(\"ry\", 6 + bottom * 0.16);\n  const vis = Math.min(1, o * 5);\n  openG.setAttribute(\"opacity\", vis.toFixed(2));\n  smile.setAttribute(\"opacity\", (1 - vis).toFixed(2));\n\n  // idle life: breathing, tiny nod while speaking, gaze\n  const s = t / 1000;\n  const breathe = Math.sin(s * 1.6) * 2.2;\n  const nod = Math.sin(s * 7.3) * 1.6 * o;\n  const tilt = Math.sin(s * 0.5) * 1.2 + Math.sin(s * 2.1) * 0.8 * o;\n  head.setAttribute(\"transform\", `translate(0 ${(breathe + nod).toFixed(2)}) rotate(${tilt.toFixed(2)} 400 470)`);\n  brows.setAttribute(\"transform\", `translate(0 ${(-4 * o).toFixed(2)})`);\n\n  if(t > gaze.next){\n    const r = Math.random();\n    gaze.tx = r < 0.6 ? 0 : (Math.random() * 8 - 4);\n    gaze.ty = r < 0.6 ? 0 : (Math.random() * 4 - 2);\n    gaze.next = t + 1500 + Math.random() * 3000;\n  }\n  gaze.x += (gaze.tx - gaze.x) * 0.12; gaze.y += (gaze.ty - gaze.y) * 0.12;\n  irises.forEach(i => i.setAttribute(\"transform\", `translate(${gaze.x.toFixed(2)} ${gaze.y.toFixed(2)})`));\n\n  requestAnimationFrame(frame);\n}\nrequestAnimationFrame(frame);\n\n// blinking\n(function blinkLoop(){\n  setTimeout(()=>{\n    eyes.classList.add(\"blink\");\n    setTimeout(()=>{ eyes.classList.remove(\"blink\"); blinkLoop(); }, 130);\n  }, 2400 + Math.random() * 3600);\n})();\n\n/* ---------- fullscreen ---------- */\nfunction toggleFs(){\n  if(!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{});\n  else document.exitFullscreen && document.exitFullscreen();\n}\ndocument.addEventListener(\"keydown\", e => { if(e.key === \"f\" || e.key === \"F\") toggleFs(); });\ndocument.addEventListener(\"dblclick\", e => { if(!startEl.contains(e.target)) toggleFs(); });\n\nsend({type:\"hello\", ready:false});\n<\/script>\n<\/body>\n<\/html>\n";
 function openStudent(asTab){
   const w = asTab ? window.open("", "_blank") : window.open("", "h4y-diak", "width=1100,height=760");
   if(!w){ showPopupHelp(); return; }
@@ -291,8 +314,8 @@ function renderCats(){
   let h = `<li><button data-c="all" class="${filterCat === "all" ? "on" : ""}"><span class="tg">★</span>Összes kérdés<span class="ct">${flat.length}</span></button></li>`;
   let lastPart = "";
   cats.forEach(c=>{
-    if(c.part !== lastPart){ h += `<li class="part">${c.part === "I" ? "I. Személyes kérdések" : "II. Kultúra és történelem"}</li>`; lastPart = c.part; }
-    h += `<li><button data-c="${c.id}" class="${filterCat === c.id ? "on" : ""}"><span class="tg">${c.tag}</span>${c.hu}<span class="ct">${c.questions.length}</span></button></li>`;
+    if(c.part !== lastPart){ h += `<li class="part">${c.part === "I" ? "I. Személyes kérdések" : c.part === "II" ? "II. Kultúra és történelem" : esc(c.part)}</li>`; lastPart = c.part; }
+    h += `<li><button data-c="${c.id}" class="${filterCat === c.id ? "on" : ""}"><span class="tg">${esc(c.tag)}</span>${esc(c.hu)}<span class="ct">${c.questions.length}</span></button></li>`;
   });
   ul.innerHTML = h;
   ul.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=>{ filterCat = b.dataset.c; renderCats(); renderList(); }));
@@ -306,11 +329,11 @@ function renderList(){
     if(filterCat !== "all" && filterCat !== c.id) return;
     const qs = c.questions.filter(q => !term || (q.hu + " " + q.en).toLowerCase().includes(term));
     if(!qs.length) return;
-    h += `<div class="group"><h3>${esc(c.tag)}. ${esc(c.hu)}<span>${esc(c.en)}</span></h3>`;
+    h += `<div class="group"><h3>${c.own ? "" : esc(c.tag) + ". "}${esc(c.hu)}<span>${esc(c.en)}</span></h3>`;
     qs.forEach(q=>{
       const fi = flat.indexOf(q); visible.push(fi);
-      h += `<div class="row${q.v ? " v" : ""}${fi === curIdx ? " cur" : ""}${played.has(q.a) ? " played" : ""}" data-i="${fi}">
-        <div class="n">${esc(q.n)}</div><div><div class="hu">${esc(q.hu)}</div><div class="en">${esc(q.en)}</div></div><div class="done">✓</div></div>`;
+      h += `<div class="row${q.v ? " v" : ""}${fi === curIdx ? " cur" : ""}${played.has(keyOf(q)) ? " played" : ""}" data-i="${fi}">
+        <div class="n">${esc(q.n)}</div><div><div class="hu">${esc(q.hu)}${q.a ? "" : '<span class="tag-tts" title="Ehhez a kérdéshez nincs hangfelvétel – a böngésző magyar gépi hangja mondja ki">gépi hang</span>'}</div><div class="en">${esc(q.en)}</div></div><div class="done">✓</div></div>`;
     });
     h += `</div>`;
   });
@@ -325,10 +348,12 @@ function select(i, autoplay){
   curIdx = i;
   const q = flat[i], c = catOf(q);
   $("nowNum").textContent = q.n;
-  $("nowCat").textContent = c ? `${c.tag}. ${c.hu}` : "";
+  $("nowCat").textContent = c ? (c.own ? c.hu : `${c.tag}. ${c.hu}`) : "";
   $("nowQ").textContent = q.hu;
   $("nowEn").textContent = q.en;
-  $("nowEx").innerHTML = q.ex ? `<b>Mintaválasz:</b> ${esc(q.ex)}<i>${esc(q.exEn)}</i>` : "";
+  const lbl = q.own ? "Saját válasz:" : "Mintaválasz:";
+  const alts = (q.alts || []).map(a => `<span class="alt"><b>vagy:</b> ${esc(a.ans)}<i>${esc(a.ansEn)}</i></span>`).join("");
+  $("nowEx").innerHTML = q.ex ? `<b>${lbl}</b> ${esc(q.ex)}<i>${esc(q.exEn)}</i>${alts}` : "";
   document.querySelectorAll(".row.cur").forEach(r => r.classList.remove("cur"));
   const row = document.querySelector(`.row[data-i="${i}"]`);
   if(row){ row.classList.add("cur"); row.scrollIntoView({block:"nearest", behavior:"smooth"}); }
@@ -339,10 +364,11 @@ function playCurrent(){
   const q = flat[curIdx];
   if(Date.now() - lastPong > 5500) setStatus("A diák képernyő nincs megnyitva", "error");
   else setStatus("Indítás…", "");
-  send({type:"play", src: audioUrl(q), n:q.n, a:q.a, hu:q.hu, en:q.en, rate});
+  if(q.a) send({type:"play", src: audioUrl(q), n:q.n, a:q.a, hu:q.hu, en:q.en, rate});
+  else send({type:"speak", n:q.n, hu:q.hu, en:q.en, rate});
   clearTimeout(noReply);
   noReply = setTimeout(()=> setStatus("Nincs válasz a diák ablaktól – zárja be, és nyissa meg újra a „Diák képernyő megnyitása” gombbal", "error"), 9000);
-  played.add(q.a);
+  played.add(keyOf(q));
   const row = document.querySelector(`.row[data-i="${curIdx}"]`); if(row) row.classList.add("played");
 }
 function step(d){
@@ -353,7 +379,7 @@ function step(d){
 }
 function randomQ(){
   if(!visible.length) return;
-  const fresh = visible.filter(i => !played.has(flat[i].a) && i !== curIdx);
+  const fresh = visible.filter(i => !played.has(keyOf(flat[i])) && i !== curIdx);
   const pool = fresh.length ? fresh : visible;
   select(pool[Math.floor(Math.random() * pool.length)], true);
 }
@@ -394,11 +420,278 @@ document.addEventListener("keydown", e=>{
 // keep subtitle setting in sync when the student screen (re)connects
 setInterval(()=>{ if(Date.now() - lastPong < 5500) send({type:"subs", mode:subsMode}); }, 4000);
 
+/* ===================== STUDENT LISTS (from the students' PDFs) =====================
+   The PDF is read here, in this browser. The questions are matched to the
+   workbook by their text, so recorded questions use the real audio file and
+   the others are read by the browser's Hungarian machine voice.
+   Lists are kept only in this browser (localStorage). */
+/* Parser for the "Bio és interjúkérdések" student PDFs (ReportLab, DejaVu fonts).
+   Bold = Hungarian, Oblique = English, Regular = syllables / notes.
+   Works in the browser and in Node (pdfjsLib passed in). */
+async function parseStudentPdf(pdfjsLib, data){
+  const doc = await pdfjsLib.getDocument({data, isEvalSupported:false}).promise;
+  let title = "";
+  try{ const m = await doc.getMetadata(); title = (m && m.info && m.info.Title) || ""; }catch(e){}
+  const lines = [];
+  for(let pn = 1; pn <= doc.numPages; pn++){
+    const page = await doc.getPage(pn);
+    await page.getOperatorList();                      // makes font names available
+    const tc = await page.getTextContent();
+    const fontStyle = {};
+    const styleOf = fn => {
+      if(fn in fontStyle) return fontStyle[fn];
+      let name = "";
+      try{ const f = page.commonObjs.get(fn); name = (f && f.name) || ""; }catch(e){}
+      if(!name && tc.styles && tc.styles[fn]) name = tc.styles[fn].fontFamily || "";
+      const s = /bold/i.test(name) ? "b" : /(oblique|italic)/i.test(name) ? "i" : "r";
+      return (fontStyle[fn] = s);
+    };
+    const rows = [];
+    for(const it of tc.items){
+      if(!it.str || !it.transform) continue;
+      const y = it.transform[5], x = it.transform[4], size = Math.abs(it.transform[0]) || Math.abs(it.transform[3]);
+      let row = rows.find(r => Math.abs(r.y - y) < 2.5);
+      if(!row){ row = {y, items:[]}; rows.push(row); }
+      row.items.push({x, w: it.width || 0, str: it.str, size, st: styleOf(it.fontName)});
+    }
+    rows.sort((a, b) => b.y - a.y);
+    for(const r of rows){
+      r.items.sort((a, b) => a.x - b.x);
+      let text = "", end = null, st = null, size = 0;
+      for(const it of r.items){
+        if(end !== null && it.x - end > 1.2 && !/\s$/.test(text) && !/^\s/.test(it.str)) text += " ";
+        text += it.str; end = it.x + it.w;
+        if(!st && it.str.trim()) st = it.st;
+        size = Math.max(size, it.size);
+      }
+      text = text.replace(/\s+/g, " ").trim();
+      if(!text) continue;
+      if(r.y < 50 && size <= 9.5) continue;              // footer
+      lines.push({text, st: st || "r", size, x: r.items[0].x});
+    }
+  }
+
+  // ---- state machine ----
+  const sections = [];
+  let part = "", section = null, main = null, target = null, field = null, lastStyle = null, lastField = null;
+  const huPart = s => s.split(" / ")[0].trim();
+  const newSection = t => { section = {title: t, questions: []}; sections.push(section); main = target = null; field = null; };
+  const ensureSection = () => { if(!section) newSection(part || "Kérdések"); };
+  let bulletN = 0, prevWasPart = false;
+
+  for(const L of lines){
+    const t = L.text;
+    if(/^Másképp is kérdezhetik/i.test(t)) { lastStyle = "skip"; continue; }
+    if(L.st === "b" && L.size >= 13.5){
+      if(prevWasPart){ continue; }                       // wrapped part title
+      part = huPart(t.replace(/^\d+\.\s*rész\s*[–-]\s*/i, "")); prevWasPart = true;
+      section = null; main = target = null; field = null; lastStyle = "part"; continue;
+    }
+    prevWasPart = false;
+    if(L.st === "b" && L.size < 11 && !/^(→|↳|[•·]|(?:[A-Z]-)?\d{1,3}[a-z]?\.\s)/.test(t)){
+      lastStyle = "note"; continue;                      // small bold note, e.g. "Válassz egyet! / Choose one:"
+    }
+    if(L.st === "b"){
+      let m;
+      if((m = t.match(/^(?:([A-Z])-)?(\d{1,3}[a-z]?)\.\s+(.+)$/))){
+        ensureSection();
+        main = {label: m[1] ? m[1] + "-" + m[2] : m[2], hu: m[3], en: "", ans: "", ansEn: "", variants: []};
+        section.questions.push(main); target = main; field = "hu";
+      }else if((m = t.match(/^[•·]\s*(.+)$/))){
+        ensureSection();
+        main = {label: String(++bulletN), hu: m[1], en: "", ans: "", ansEn: "", variants: [], bullet: true};
+        section.questions.push(main); target = main; field = "hu";
+      }else if((m = t.match(/^↳\s*(.+)$/)) && main){
+        target = {hu: m[1], en: "", ans: "", ansEn: ""}; main.variants.push(target); field = "hu";
+      }else if((m = t.match(/^→\s*(.+)$/)) && target){
+        if(target.ans && field !== "ans"){               // another possible answer ("Choose one")
+          target.alts = (target.alts || []).concat([{ans: target.ans, ansEn: target.ansEn}]);
+          target.ans = m[1]; target.ansEn = "";
+        }else target.ans = target.ans ? target.ans + " " + m[1] : m[1];
+        field = "ans";
+      }else if(lastStyle === "b" && (field === "hu" || field === "ans") && target){
+        target[field] += " " + t;                        // wrapped bold line
+      }else if(lastStyle === "h"){
+        // wrapped heading line – ignore
+        lastStyle = "h"; continue;
+      }else{
+        newSection(huPart(t)); bulletN = 0;              // a heading
+        lastStyle = "h"; continue;
+      }
+      lastStyle = "b"; lastField = field; continue;
+    }
+    if(L.st === "i" && target){
+      const f = (field === "ans" || field === "ansEn") ? "ansEn" : "en";
+      if(lastStyle === "i" && lastField === f) target[f] += " " + t;
+      else if(!target[f]) target[f] = t;
+      lastStyle = "i"; lastField = f; field = f === "ansEn" ? "ansEn" : "enq"; continue;
+    }
+    lastStyle = L.st;                                    // regular: syllables / notes
+  }
+
+  // keep only real questions
+  const isQ = q => /[?!…]$/.test(q.hu.trim());
+  const out = sections.map(s => ({
+    title: s.title,
+    questions: s.questions.filter(q => isQ(q) || q.ans).map(q => ({...q, variants: q.variants.filter(v => isQ(v) || v.ans)}))
+  })).filter(s => s.questions.length);
+
+  let name = (title.split(/\s+[–-]\s+/)[0] || "").trim();
+  if(!name && lines.length) name = lines[0].text;
+  const dm = (lines.slice(0, 6).map(l => l.text).join(" ").match(/(\d{4}\.\s*\S+\s*\d{1,2}\.)/) || [])[1] || "";
+  return {name, date: dm, sections: out};
+}
+
+/* Match a student's question text to a workbook question (for the audio file). */
+function normQ(s){
+  return String(s || "").normalize("NFC").toLowerCase()
+    .replace(/[„”"'’‘`´«»]/g, "").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+}
+function lev(a, b){
+  if(a === b) return 0;
+  const m = a.length, n = b.length; if(!m || !n) return Math.max(m, n);
+  let prev = Array.from({length:n + 1}, (_, j) => j), cur = new Array(n + 1);
+  for(let i = 1; i <= m; i++){
+    cur[0] = i;
+    for(let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    [prev, cur] = [cur, prev];
+  }
+  return prev[n];
+}
+function buildIndex(cats){
+  const exact = new Map(), all = [];
+  cats.forEach(c => c.questions.forEach(q => { const k = normQ(q.hu); if(!exact.has(k)) exact.set(k, q); all.push([k, q]); }));
+  return {exact, all};
+}
+function matchQ(index, hu){
+  const k = normQ(hu); if(!k) return null;
+  if(index.exact.has(k)) return index.exact.get(k);
+  let best = null, bestScore = 0;
+  for(const [k2, q] of index.all){
+    if(Math.abs(k2.length - k.length) > Math.max(4, k.length * 0.12)) continue;
+    const score = 1 - lev(k, k2) / Math.max(k.length, k2.length);
+    if(score > bestScore){ bestScore = score; best = q; }
+  }
+  return bestScore >= 0.9 ? best : null;
+}
+
+
+const LISTS_KEY = "h4y-live-student-lists-v1";
+let wbCats = [], wbIndex = null, currentList = "wb";
+function keyOf(q){ return q.a ? "a:" + q.a : "t:" + q.hu; }
+function loadLists(){ try{ return JSON.parse(localStorage.getItem(LISTS_KEY) || "{}"); }catch(e){ return {}; } }
+function saveLists(l){ try{ localStorage.setItem(LISTS_KEY, JSON.stringify(l)); return true; }catch(e){ return false; } }
+
+function studentCats(rec){
+  const out = [];
+  rec.sections.forEach((s, si)=>{
+    const qs = [];
+    s.questions.forEach(q=>{
+      const variantsWithAns = q.variants.filter(v => v.ans);
+      const mk = (x, label, isV, fallbackAns) => {
+        const m = matchQ(wbIndex, x.hu);
+        const ans = x.ans || (fallbackAns && fallbackAns.ans) || "";
+        const ansEn = x.ans ? x.ansEn : (fallbackAns && fallbackAns.ansEn) || "";
+        return {n: label, a: m ? m.a : null, hu: x.hu, en: x.en || (m ? m.en : ""), ex: ans, exEn: ansEn, alts: x.alts || [], v: isV ? 1 : 0, own: true};
+      };
+      qs.push(mk(q, q.bullet ? q.label + "." : q.label, false, variantsWithAns[0]));
+      q.variants.forEach((v, vi) => qs.push(mk(v, (q.bullet ? q.label : q.label) + "bcdefgh"[vi], true, null)));
+    });
+    out.push({id: "s-" + si, tag: String(si + 1), hu: s.title, en: "", part: rec.name + " saját kérdései", own: true, questions: qs});
+  });
+  return out;
+}
+function refreshListSelect(){
+  const lists = loadLists(), sel = $("listSel");
+  const names = Object.keys(lists).sort((a, b) => a.localeCompare(b, "hu"));
+  sel.innerHTML = `<option value="wb">Teljes munkafüzet (${wbCats.reduce((n, c) => n + c.questions.length, 0)})</option>` +
+    names.map(n => `<option value="${esc(n)}">${esc(n)} – saját lista</option>`).join("");
+  if(currentList !== "wb" && !lists[currentList]) currentList = "wb";
+  sel.value = currentList;
+  $("delList").disabled = currentList === "wb";
+}
+function useList(name){
+  const lists = loadLists();
+  currentList = (name !== "wb" && lists[name]) ? name : "wb";
+  try{ localStorage.setItem(LISTS_KEY + "-current", currentList); }catch(e){}
+  if(currentList === "wb"){
+    cats = wbCats;
+    $("listInfo").textContent = "A diák PDF-je csak ebben a böngészőben marad, nem kerül fel az internetre.";
+  }else{
+    const rec = lists[currentList];
+    cats = studentCats(rec);
+    const all = cats.flatMap(c => c.questions), tts = all.filter(q => !q.a).length;
+    $("listInfo").innerHTML = `<b>${esc(rec.name)}</b> · ${esc(rec.date || "")}<br>${all.length} kérdés, ebből ${all.length - tts} hangfelvétellel` +
+      (tts ? `, ${tts} gépi hanggal` : "") + `.<br>Betöltve: ${esc(rec.loadedAt || "")}`;
+  }
+  flat = cats.flatMap(c => c.questions);
+  filterCat = "all"; curIdx = -1;
+  $("nowNum").textContent = "–"; $("nowCat").textContent = "Válasszon kérdést a listából";
+  $("nowQ").textContent = "Kattintson egy kérdésre, vagy nyomja meg az R betűt egy véletlen kérdésért.";
+  $("nowEn").textContent = ""; $("nowEx").innerHTML = "";
+  refreshListSelect(); renderCats(); renderList();
+}
+
+let pdfjsReady = null;
+function loadPdfJs(){
+  if(pdfjsReady) return pdfjsReady;
+  const tryLoad = (base) => new Promise((res, rej)=>{
+    const sc = document.createElement("script");
+    sc.src = base + "pdf.min.js";
+    sc.onload = () => { if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js"; res(window.pdfjsLib); } else rej(); };
+    sc.onerror = () => { sc.remove(); rej(); };
+    document.head.appendChild(sc);
+  });
+  pdfjsReady = tryLoad("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/")
+    .catch(() => tryLoad(new URL("pdfjs/", location.href).href))
+    .catch(() => { pdfjsReady = null; throw new Error("A PDF-olvasó nem töltődött be (nincs internet?)"); });
+  return pdfjsReady;
+}
+async function importPdfs(files){
+  files = [...files].filter(f => /\.pdf$/i.test(f.name) || f.type === "application/pdf");
+  if(!files.length) return;
+  $("listInfo").textContent = "PDF beolvasása…";
+  let lib;
+  try{ lib = await loadPdfJs(); }catch(e){ $("listInfo").textContent = e.message; return; }
+  const lists = loadLists(); let last = null; const problems = [];
+  for(const f of files){
+    try{
+      const rec = await parseStudentPdf(lib, new Uint8Array(await f.arrayBuffer()));
+      const n = rec.sections.reduce((k, s) => k + s.questions.length, 0);
+      if(!n){ problems.push(`${f.name}: nem találtam benne kérdést`); continue; }
+      rec.name = rec.name || f.name.replace(/\.pdf$/i, "");
+      rec.fileName = f.name;
+      rec.loadedAt = new Date().toLocaleString("hu-HU");
+      lists[rec.name] = rec; last = rec.name;
+    }catch(e){ problems.push(`${f.name}: nem sikerült beolvasni`); }
+  }
+  if(!saveLists(lists)) problems.push("a böngésző nem engedte elmenteni a listát");
+  refreshListSelect();
+  if(last) useList(last);
+  if(problems.length) $("listInfo").innerHTML += `<br><span style="color:var(--red)">${problems.map(esc).join("<br>")}</span>`;
+}
+$("pdfBtn").addEventListener("click", ()=> $("pdfInput").click());
+$("pdfInput").addEventListener("change", e=>{ importPdfs(e.target.files); e.target.value = ""; });
+$("listSel").addEventListener("change", e=> useList(e.target.value));
+$("delList").addEventListener("click", ()=>{
+  if(currentList === "wb") return;
+  if(!confirm(`Biztosan törli ${currentList} listáját ebből a böngészőből?`)) return;
+  const l = loadLists(); delete l[currentList]; saveLists(l); useList("wb");
+});
+let dragDepth = 0;
+document.addEventListener("dragenter", e=>{ if(e.dataTransfer && [...e.dataTransfer.types].includes("Files")){ dragDepth++; document.body.classList.add("dragging"); } });
+document.addEventListener("dragleave", ()=>{ if(--dragDepth <= 0){ dragDepth = 0; document.body.classList.remove("dragging"); } });
+document.addEventListener("dragover", e=> e.preventDefault());
+document.addEventListener("drop", e=>{ e.preventDefault(); dragDepth = 0; document.body.classList.remove("dragging"); if(e.dataTransfer) importPdfs(e.dataTransfer.files); });
+
 /* ---------- start ---------- */
 (async ()=>{
-  cats = await loadData();
-  flat = cats.flatMap(c => c.questions);
-  renderCats(); renderList(); renderConn();
+  wbCats = await loadData();
+  wbIndex = buildIndex(wbCats);
+  let saved = "wb"; try{ saved = localStorage.getItem(LISTS_KEY + "-current") || "wb"; }catch(e){}
+  refreshListSelect();
+  useList(saved);
+  renderConn();
 })();
 </script>
 </body>

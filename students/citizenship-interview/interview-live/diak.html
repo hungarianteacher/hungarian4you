@@ -187,9 +187,10 @@ function receive(msg){
   seen.push(msg.id); if(seen.length > 60) seen.shift();
   lastContact = Date.now(); dotEl.classList.add("on");
   switch(msg.type){
-    case "ping": send({type:"pong", ready: unlocked, state: currentState, version: STUDENT_VERSION}); break;
+    case "ping": send({type:"pong", ready: unlocked, state: currentState, version: STUDENT_VERSION, tts: !!(ttsVoice || pickVoice())}); break;
     case "play": play(msg); break;
     case "stop": stopAudio(true); break;
+    case "speak": speak(msg); break;
     case "subs": setSubs(msg.mode); break;
   }
 }
@@ -202,7 +203,7 @@ setInterval(()=>{ if(Date.now() - lastContact > 6000) dotEl.classList.remove("on
 let audioCtx = null, analyser = null, timeData = null, unlocked = false;
 let currentState = "idle", current = null, synthetic = false;
 
-const STUDENT_VERSION = "2026-10-30b";
+const STUDENT_VERSION = "2026-10-30c";
 window.H4Y_STUDENT_VERSION = STUDENT_VERSION;
 const SILENT = "data:audio/wav;base64,UklGRtQEAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YbAEAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA=";
 
@@ -289,8 +290,33 @@ function failed(msg, routed, token, err){
   clearTimeout(watchdog);
   setState("error", {detail: name === "NotSupportedError" ? "a hangfájl nem található vagy nem lejátszható" : name + (err && err.message ? ": " + err.message : "")});
 }
+/* ---------- machine voice for questions without a recording ---------- */
+let ttsActive = false, ttsVoice = null;
+function pickVoice(){
+  if(!("speechSynthesis" in window)) return null;
+  const vs = speechSynthesis.getVoices().filter(v => /^hu(-|_|$)/i.test(v.lang));
+  return vs.find(v => /google/i.test(v.name)) || vs[0] || null;
+}
+if("speechSynthesis" in window){ ttsVoice = pickVoice(); speechSynthesis.onvoiceschanged = () => { ttsVoice = pickVoice(); }; }
+function speak(msg){
+  stopAudio(false);
+  current = msg; ++playToken;
+  showSubsText(msg.hu, msg.en);
+  if(!("speechSynthesis" in window)){ setState("error", {detail:"ez a böngésző nem tud gépi hangon beszélni"}); return; }
+  ttsVoice = ttsVoice || pickVoice();
+  if(!ttsVoice){ setState("error", {detail:"nincs magyar gépi hang ezen a gépen"}); return; }
+  const u = new SpeechSynthesisUtterance(msg.hu);
+  u.voice = ttsVoice; u.lang = ttsVoice.lang || "hu-HU"; u.rate = (msg.rate || 1) * 0.95;
+  const token = playToken;
+  u.onstart = () => { if(token === playToken){ ttsActive = true; setState("playing", {tts:true}); } };
+  u.onend = () => { if(token === playToken){ ttsActive = false; setState("ended"); } };
+  u.onerror = e => { if(token === playToken){ ttsActive = false; if(e.error !== "interrupted" && e.error !== "canceled") setState("error", {detail:"gépi hang hiba: " + e.error}); } };
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
 function stopAudio(report){
   clearTimeout(watchdog);
+  if(ttsActive || ("speechSynthesis" in window && speechSynthesis.speaking)){ ttsActive = false; try{ speechSynthesis.cancel(); }catch(e){} }
   [playerLocal, playerRemote].forEach(p=>{ try{ p.pause(); p.currentTime = 0; }catch(e){} });
   if(report) setState("stopped");
 }
@@ -327,6 +353,11 @@ let synthPhase = 0, synthTarget = 0, synthNext = 0;
 let gaze = {x:0, y:0, tx:0, ty:0, next:0};
 
 function loudness(){
+  if(ttsActive){
+    const now = performance.now();
+    if(now > synthNext){ synthTarget = Math.random() < 0.18 ? 0.05 : 0.35 + Math.random() * 0.65; synthNext = now + 110 + Math.random() * 140; }
+    return synthTarget;
+  }
   const p = activePlayer();
   const speaking = !p.paused && !p.ended && p.currentTime > 0;
   if(!speaking) return 0;
